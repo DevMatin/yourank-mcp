@@ -137,8 +137,8 @@ console.log('   2. Wait for Vercel to deploy');
 console.log('   3. Test the API endpoints');
 console.log('   4. Verify all 43 tools are accessible');
 
-console.log('\n🔗 Vercel URL: https://mcp-server-typescript-six.vercel.app/');
-console.log('📝 Test URL: https://mcp-server-typescript-six.vercel.app/http');
+console.log('\n🔗 Vercel URL: https://yourank-mcp.vercel.app/');
+console.log('📝 Test URL: https://yourank-mcp.vercel.app/http');
 
 console.log('\n🎉 Merchant API Deployment Process Complete!');
 console.log('🚀 All 43 Merchant API Tools are ready for production use!');

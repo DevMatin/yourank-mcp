@@ -1,44 +1,55 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '/Users/matinfaal/Documents/yourank-mcp/.env.local' });
 import { SerpApiModule } from './build/core/modules/serp/serp-api.module.js';
 import { DataForSEOClient } from './build/core/client/dataforseo.client.js';
 
+// Direkte Credentials als Fallback
+const DATAFORSEO_USERNAME = process.env.DATAFORSEO_USERNAME || 'marcos.gonzalez@you-rank.de';
+const DATAFORSEO_PASSWORD = process.env.DATAFORSEO_PASSWORD || '23778ba164190549';
+
 async function analyzeSerpAutofolierung() {
     console.log('🔍 SERP Analyse für "autofolierung"...\n');
+    console.log('🔑 Credentials:', {
+        username: process.env.DATAFORSEO_USERNAME ? '✅ Loaded' : '❌ Missing',
+        password: process.env.DATAFORSEO_PASSWORD ? '✅ Loaded' : '❌ Missing'
+    });
     
     try {
         const client = new DataForSEOClient({
-            login: process.env.DATAFORSEO_LOGIN,
-            password: process.env.DATAFORSEO_PASSWORD
+            username: DATAFORSEO_USERNAME,
+            password: DATAFORSEO_PASSWORD
         });
 
         const serpModule = new SerpApiModule(client);
         
         // SERP Analyse für "autofolierung"
         console.log('📊 Analysiere SERP für "autofolierung"...');
-        const serpResult = await serpModule.serpOrganicLiveAdvanced({
+        const tools = serpModule.getTools();
+        const serpResult = await tools.serp_organic_live_advanced.handler({
             keyword: "autofolierung",
-            location_code: 2276, // Germany
+            location_name: "Germany",
             language_code: "de",
             depth: 100,
-            calculate_serp_features: true,
-            include_serp_info: true
+            search_engine: "google",
+            device: "desktop",
+            max_crawl_pages: 1
         });
 
-        if (!serpResult || !serpResult.items || serpResult.items.length === 0) {
+        if (!serpResult || !serpResult.tasks || serpResult.tasks.length === 0) {
             console.log('❌ Keine SERP-Daten erhalten');
+            console.log('Response:', JSON.stringify(serpResult, null, 2));
             return;
         }
 
-        const serpData = serpResult.items[0];
+        const serpData = serpResult.tasks[0];
         
         console.log('\n═══════ SERP ANALYSE FÜR "AUTOFOLIERUNG" ═══════\n');
         
         // 1. Top Rankings
         console.log('🏆 TOP 10 RANKINGS:');
         console.log('─'.repeat(50));
-        if (serpData.items) {
-            serpData.items.slice(0, 10).forEach((item, index) => {
+        if (serpData.result && serpData.result[0] && serpData.result[0].items) {
+            serpData.result[0].items.slice(0, 10).forEach((item, index) => {
                 if (item.type === 'organic') {
                     console.log(`${index + 1}. ${item.domain} - ${item.title}`);
                     console.log(`   URL: ${item.url}`);
@@ -59,7 +70,7 @@ async function analyzeSerpAutofolierung() {
             'printtech.de'
         ];
 
-        const organicResults = serpData.items?.filter(item => item.type === 'organic') || [];
+        const organicResults = serpData.result?.[0]?.items?.filter(item => item.type === 'organic') || [];
         
         targetDomains.forEach(domain => {
             const found = organicResults.find(item => item.domain === domain);
@@ -77,10 +88,10 @@ async function analyzeSerpAutofolierung() {
         // 3. SERP Features
         console.log('\n📋 SERP FEATURES:');
         console.log('─'.repeat(50));
-        if (serpData.serp_features) {
-            Object.keys(serpData.serp_features).forEach(feature => {
-                if (serpData.serp_features[feature] > 0) {
-                    console.log(`✅ ${feature}: ${serpData.serp_features[feature]} Elemente`);
+        if (serpData.result?.[0]?.serp_features) {
+            Object.keys(serpData.result[0].serp_features).forEach(feature => {
+                if (serpData.result[0].serp_features[feature] > 0) {
+                    console.log(`✅ ${feature}: ${serpData.result[0].serp_features[feature]} Elemente`);
                 }
             });
         }
@@ -88,8 +99,8 @@ async function analyzeSerpAutofolierung() {
         // 4. Spezifische SERP-Elemente
         console.log('\n🔍 WEITERE SERP ELEMENTE:');
         console.log('─'.repeat(50));
-        if (serpData.items) {
-            const specialElements = serpData.items.filter(item => item.type !== 'organic');
+        if (serpData.result?.[0]?.items) {
+            const specialElements = serpData.result[0].items.filter(item => item.type !== 'organic');
             specialElements.forEach((item, index) => {
                 console.log(`${item.type.toUpperCase()}: ${item.title || 'N/A'}`);
                 if (item.items) {
@@ -104,8 +115,8 @@ async function analyzeSerpAutofolierung() {
         // 5. Keyword-Metriken
         console.log('\n📈 KEYWORD-METRIKEN:');
         console.log('─'.repeat(50));
-        console.log(`Total Results: ${serpData.total_count || 'N/A'}`);
-        console.log(`Items on page: ${serpData.items?.length || 0}`);
+        console.log(`Total Results: ${serpData.result?.[0]?.total_count || 'N/A'}`);
+        console.log(`Items on page: ${serpData.result?.[0]?.items?.length || 0}`);
         
         console.log('\n🎉 SERP-Analyse abgeschlossen!');
 

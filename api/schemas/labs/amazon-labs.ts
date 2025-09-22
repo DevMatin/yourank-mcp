@@ -19,7 +19,7 @@ export const AmazonLabsApis: ToolApi[] = [
       "Spezialisierte Amazon-Analyse mit 5 verschiedenen APIs für Amazon Marketplace, Produkt-Keywords und Konkurrenz-Analysen. Optimiert für Amazon SEO.",
     category: "Amazon Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const AmazonLabsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

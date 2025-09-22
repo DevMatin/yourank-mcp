@@ -6,12 +6,12 @@
     "version": "v1.0.0",
     "contact": {
       "name": "DataForSEO MCP Server",
-      "url": "https://mcp-server-typescript-six.vercel.app"
+      "url": "https://yourank-mcp.vercel.app"
     }
   },
   "servers": [
     {
-      "url": "https://mcp-server-typescript-six.vercel.app",
+      "url": "https://yourank-mcp.vercel.app",
       "description": "Vercel MCP Server"
     }
   ],

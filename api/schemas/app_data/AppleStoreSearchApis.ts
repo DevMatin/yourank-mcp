@@ -19,7 +19,7 @@ export const AppleStoreSearchApis: ToolApi[] = [
       "Spezialisierte Apple App Store Suche mit 8 verschiedenen APIs: App Searches, App Listings, Kategorien, Locations und Languages. Optimiert für iOS App-Recherche und Marktanalyse.",
     category: "App Data - Apple Search",
     icon: "🍎",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const AppleStoreSearchApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -75,7 +75,7 @@ Diese Sammlung enthält umfassende Custom GPT Prompts für alle verfügbaren Dat
 ## 🔧 **Technische Details**
 
 ### **MCP Server**
-- **URL**: `https://mcp-server-typescript-six.vercel.app`
+- **URL**: `https://yourank-mcp.vercel.app`
 - **Authentifizierung**: DataForSEO Basic Auth (automatisch konfiguriert)
 - **API-Version**: Alle aktuellen DataForSEO API-Versionen
 

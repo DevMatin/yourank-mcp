@@ -19,7 +19,7 @@ export const ContentAnalysisTrendsApis: ToolApi[] = [
       "Spezialisierte Content Analysis APIs mit 2 verschiedenen Endpunkten für Phrase-Trends und Kategorie-Trends. Optimiert für zeitbasierte Trend-Analysen.",
     category: "Content Analysis Trends",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const ContentAnalysisTrendsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -2,7 +2,7 @@
 
 ## MCP Schema URL
 ```
-https://mcp-server-typescript-six.vercel.app
+https://yourank-mcp.vercel.app
 ```
 
 ## 1. Schema Integration Test Prompts
@@ -12,7 +12,7 @@ https://mcp-server-typescript-six.vercel.app
 **Basis Schema Test:**
 ```
 Verbinde dich mit der Business Data API über das Schema:
-https://mcp-server-typescript-six.vercel.app
+https://yourank-mcp.vercel.app
 
 Zeige mir alle verfügbaren Business Data Tools an.
 ```

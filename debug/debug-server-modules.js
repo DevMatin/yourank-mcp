@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Debug-Skript für Server-Module
-const BASE_URL = 'https://mcp-server-typescript-six.vercel.app';
+const BASE_URL = 'https://yourank-mcp.vercel.app';
 
 async function debugServerModules() {
   console.log('🔍 Debugging Server Modules...\n');

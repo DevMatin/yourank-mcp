@@ -19,7 +19,7 @@ export const OnPageLighthouseApi: ToolApi[] = [
     description: "OnPage API für Lighthouse-Performance-Tests: Core Web Vitals, Performance-Scores, Accessibility und Best Practices.",
     category: "OnPage - Lighthouse",
     icon: "🚀📊⚡",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const OnPageLighthouseApi: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -22,7 +22,7 @@ export const MerchantAmazonProductsApis: ToolApi[] = [
       "Amazon Produkte & ASIN APIs: Products und ASIN Management. Vollständige Amazon Produktanalyse und ASIN-Verwaltung.",
     category: "Merchant Amazon Products",
     icon: "📦",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -40,7 +40,7 @@ export const MerchantAmazonProductsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

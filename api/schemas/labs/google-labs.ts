@@ -19,7 +19,7 @@ export const GoogleLabsApis: ToolApi[] = [
       "Umfassende Google-Analyse mit 22 verschiedenen APIs für Keywords, Domains, SEO-Metriken und historische Daten. Optimiert für Google-spezifische Analysen.",
     category: "Google Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const GoogleLabsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

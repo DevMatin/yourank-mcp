@@ -22,7 +22,7 @@ export const MerchantGoogleProductsApis: ToolApi[] = [
       "Spezialisierte Google Shopping-Produktanalyse mit umfassenden APIs für Google Products, Spec und Info. Optimiert für detaillierte Produktdatengewinnung und Marktanalysen.",
     category: "Merchant Google Products",
     icon: "🛍️",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -40,7 +40,7 @@ export const MerchantGoogleProductsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

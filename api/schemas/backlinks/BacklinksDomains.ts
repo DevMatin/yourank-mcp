@@ -17,7 +17,7 @@ export const BacklinksDomainsApi: ToolApi = {
   description: "Domain-fokussierte Backlink-Analysen mit Domain Pages und Referring Domains",
   category: "Backlinks",
   icon: "",
-  url: "https://mcp-server-typescript-six.vercel.app",
+  url: "https://yourank-mcp.vercel.app",
   customHeaders: {
     Authorization: getDataForSEOAuthHeader(),
     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export const BacklinksDomainsApi: ToolApi = {
     },
     servers: [
       {
-        url: "https://mcp-server-typescript-six.vercel.app",
+        url: "https://yourank-mcp.vercel.app",
         description: "Vercel MCP Server"
       }
     ],

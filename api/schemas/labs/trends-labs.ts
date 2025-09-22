@@ -19,7 +19,7 @@ export const TrendsLabsApis: ToolApi[] = [
       "Spezialisierte Trends-Analyse mit 5 verschiedenen APIs für historische Daten, Trend-Analysen und zeitbezogene SEO-Metriken. Optimiert für Trend-Analysen.",
     category: "Trends Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const TrendsLabsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

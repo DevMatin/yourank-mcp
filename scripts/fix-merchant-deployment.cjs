@@ -178,8 +178,8 @@ console.log('   7. 🔄 Vercel deployment in progress...');
 
 console.log('\n⏳ Waiting for Vercel deployment...');
 console.log('📋 Vercel will automatically deploy the changes');
-console.log('🔗 URL: https://mcp-server-typescript-six.vercel.app/');
-console.log('📝 Test URL: https://mcp-server-typescript-six.vercel.app/http');
+console.log('🔗 URL: https://yourank-mcp.vercel.app/');
+console.log('📝 Test URL: https://yourank-mcp.vercel.app/http');
 
 console.log('\n💡 Next steps:');
 console.log('   1. Wait 3-5 minutes for Vercel deployment');

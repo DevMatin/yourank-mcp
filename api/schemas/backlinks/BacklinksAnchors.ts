@@ -17,7 +17,7 @@ export const BacklinksAnchorsApi: ToolApi = {
   description: "Ankertexte und zugehörige Statistiken für detaillierte Anchor-Text-Analysen",
   category: "Backlinks",
   icon: "",
-  url: "https://mcp-server-typescript-six.vercel.app",
+  url: "https://yourank-mcp.vercel.app",
   customHeaders: {
     Authorization: getDataForSEOAuthHeader(),
     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export const BacklinksAnchorsApi: ToolApi = {
     },
     servers: [
       {
-        url: "https://mcp-server-typescript-six.vercel.app",
+        url: "https://yourank-mcp.vercel.app",
         description: "Vercel MCP Server"
       }
     ],

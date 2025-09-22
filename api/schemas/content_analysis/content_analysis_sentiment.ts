@@ -19,7 +19,7 @@ export const ContentAnalysisSentimentApis: ToolApi[] = [
       "Spezialisierte Content Analysis APIs mit 2 verschiedenen Endpunkten für Sentiment-Analyse und Bewertungsverteilung. Optimiert für emotionale Reaktionsanalyse.",
     category: "Content Analysis Sentiment",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const ContentAnalysisSentimentApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

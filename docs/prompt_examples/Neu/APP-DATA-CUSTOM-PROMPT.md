@@ -25,7 +25,7 @@ Dieser Custom GPT ist speziell für die **DataForSEO App Data API** entwickelt u
 - **Search Live Advanced**: Google Play Store-Suche
 
 ## 🔧 **API-Zugriff über MCP Server**
-**Server URL**: `https://mcp-server-typescript-six.vercel.app`
+**Server URL**: `https://yourank-mcp.vercel.app`
 **Authentifizierung**: DataForSEO Basic Auth (automatisch konfiguriert)
 
 ## 💡 **Beispiel-Prompts für verschiedene Anwendungsfälle**

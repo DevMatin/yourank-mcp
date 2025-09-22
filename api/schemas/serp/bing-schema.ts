@@ -20,7 +20,7 @@ export const SerpBingApis: ToolApi[] = [
       "Spezialisierte Bing-Analyse mit 2 verschiedenen APIs für Bing Organic Search und Local Pack. Optimiert für bessere Performance durch Trennung von der Haupt-SERP API.",
     category: "SERP Bing",
     icon: "🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const SerpBingApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

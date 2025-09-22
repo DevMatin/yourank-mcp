@@ -19,7 +19,7 @@ export const GooglePlaySearchApis: ToolApi[] = [
       "Spezialisierte Google Play App-Suche mit 10 verschiedenen APIs: App-Searches, App-Listings, Kategorien, Locations und Languages. Optimiert für mobile App-Recherche und Marktanalyse.",
     category: "App Data - Google Search",
     icon: "🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const GooglePlaySearchApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

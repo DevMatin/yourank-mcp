@@ -20,7 +20,7 @@ export const SerpYoutubeApis: ToolApi[] = [
       "Spezialisierte YouTube-Analyse mit 3 verschiedenen APIs: Video Info, Video Subtitles und Video Comments. Optimiert für bessere Performance durch Trennung von der Haupt-SERP API.",
     category: "SERP YouTube", 
     icon: "🎥",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const SerpYoutubeApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

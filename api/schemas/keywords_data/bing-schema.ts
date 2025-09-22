@@ -19,7 +19,7 @@ export const KeywordsBingApis: ToolApi[] = [
     description: "Bing Keywords Data API mit Search Volume, Keywords for Site/Keywords, Keyword Performance, Search Volume History und Audience Estimation. Optimiert für bessere Performance durch Trennung von der Haupt-Keywords API.",
     category: "Keywords Bing",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app", 
+    url: "https://yourank-mcp.vercel.app", 
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const KeywordsBingApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]

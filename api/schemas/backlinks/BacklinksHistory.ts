@@ -17,7 +17,7 @@ export const BacklinksHistoryApi: ToolApi = {
   description: "Historische Backlink-Daten und Linkbuilding-Performance über die Zeit",
   category: "Backlinks",
   icon: "",
-  url: "https://mcp-server-typescript-six.vercel.app",
+  url: "https://yourank-mcp.vercel.app",
   customHeaders: {
     Authorization: getDataForSEOAuthHeader(),
     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export const BacklinksHistoryApi: ToolApi = {
     },
     servers: [
       {
-        url: "https://mcp-server-typescript-six.vercel.app",
+        url: "https://yourank-mcp.vercel.app",
         description: "Vercel MCP Server"
       }
     ],

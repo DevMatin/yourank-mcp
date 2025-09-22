@@ -28,7 +28,7 @@ Dieser Custom GPT ist speziell für die **DataForSEO Domain Analytics API** entw
 - **WHOIS Overview Live**: WHOIS-Daten angereichert mit Backlink-Statistiken, Ranking- und Traffic-Informationen
 
 ## 🔧 **API-Zugriff über MCP Server**
-**Server URL**: `https://mcp-server-typescript-six.vercel.app`
+**Server URL**: `https://yourank-mcp.vercel.app`
 **Authentifizierung**: DataForSEO Basic Auth (automatisch konfiguriert)
 
 ## 💡 **Beispiel-Prompts für verschiedene Anwendungsfälle**

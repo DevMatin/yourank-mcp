@@ -19,7 +19,7 @@ export const DomainAnalyticsGeneralSchema: ToolApi[] = [
       "Vereinheitlichte Domain Analytics API mit allen Funktionen: Core APIs, Technologies APIs, WHOIS APIs und erweiterten Domain-Analyse-Funktionen. Umfassende Domain-Intelligence und Technologie-Analyse.",
     category: "Domain Analytics - General",
     icon: "🌐🔧🚀📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const DomainAnalyticsGeneralSchema: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -19,7 +19,7 @@ export const KeywordsGoogleAdsApis: ToolApi[] = [
     description: "Google Ads Keywords Data API mit Search Volume, Keywords for Site, Keywords for Keywords und Ad Traffic Funktionen. Optimiert für bessere Performance durch Trennung von der Haupt-Keywords API.",
     category: "Keywords Google Ads",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const KeywordsGoogleAdsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]

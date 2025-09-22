@@ -20,7 +20,7 @@ export const SerpGoogleApis: ToolApi[] = [
       "Spezialisierte Google-Analyse mit 8 verschiedenen APIs: Organic Search, AI Mode, Images, Search by Image, Jobs, Autocomplete, Dataset Search und Dataset Info. Optimiert für bessere Performance durch Trennung von der Haupt-SERP API.",
     category: "SERP Google",
     icon: "🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const SerpGoogleApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

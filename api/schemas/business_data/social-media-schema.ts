@@ -20,7 +20,7 @@ export const SocialMediaApis: ToolApi[] = [
       "Social Media Analytics mit 3 APIs für Pinterest, Facebook und Reddit. Analysiert Social Shares, Likes und Community-Engagement für Content-Performance.",
     category: "Social Media",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const SocialMediaApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

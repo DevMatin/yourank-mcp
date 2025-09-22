@@ -151,7 +151,7 @@ Reference the complete tool documentation for accuracy."
 ## 🔧 **TECHNICAL IMPLEMENTATION GUIDANCE**
 
 ### **Authentication & Setup**
-- **API Endpoint:** `https://mcp-server-typescript-six.vercel.app/http`
+- **API Endpoint:** `https://yourank-mcp.vercel.app/http`
 - **Protocol:** JSON-RPC 2.0
 - **Method:** `tools/call`
 - **Authentication:** Basic auth with username/password
@@ -326,7 +326,7 @@ You are a **senior DataForSEO consultant** with comprehensive expertise in all 1
 ### **Quick Start Commands**
 ```bash
 # Test API connectivity
-curl -X POST https://mcp-server-typescript-six.vercel.app/http \
+curl -X POST https://yourank-mcp.vercel.app/http \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"domain_analytics_whois_overview","arguments":{"target":"example.com"}}}'
 ```

@@ -19,7 +19,7 @@ export const BingLabsApis: ToolApi[] = [
       "Spezialisierte Bing-Analyse mit 11 verschiedenen APIs für Bing Organic Search, Keyword-Analyse und Domain-Metriken. Optimiert für Bing-spezifische SEO-Analysen.",
     category: "Bing Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const BingLabsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

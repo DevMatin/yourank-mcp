@@ -19,7 +19,7 @@ export const CompleteBusinessDataSchema: ToolApi = {
   description: "Vollständige Business Data API mit allen 24 implementierten Tools für lokale SEO, Reviews, Social Media Analytics und Business Intelligence.",
   category: "Business Data",
   icon: "",
-  url: "https://mcp-server-typescript-six.vercel.app",
+  url: "https://yourank-mcp.vercel.app",
   customHeaders: {
     Authorization: getDataForSEOAuthHeader(),
     "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const CompleteBusinessDataSchema: ToolApi = {
     },
     servers: [
       {
-        url: "https://mcp-server-typescript-six.vercel.app",
+        url: "https://yourank-mcp.vercel.app",
         description: "Vercel MCP Server"
       }
     ],
@@ -574,7 +574,7 @@ export const BusinessDataCompleteOverview = {
   corrections: [
     "Korrigierte API-Pfade: Verwendung der Tool-Namen statt DataForSEO API-Pfade",
     "Vollständige Abdeckung aller 24 implementierten Tools",
-    "Korrekte URL: https://mcp-server-typescript-six.vercel.app",
+    "Korrekte URL: https://yourank-mcp.vercel.app",
     "Korrekte Auth-Header mit getDataForSEOAuthHeader()",
     "Logische Tag-Gruppierung nach Funktionsbereichen",
     "Vollständige OpenAPI 3.1.0 Struktur mit Components und Security"

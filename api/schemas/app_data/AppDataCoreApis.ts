@@ -19,7 +19,7 @@ export const AppDataCoreApis: ToolApi[] = [
       "Zentrale App Data API für Task Management, Error Handling und allgemeine App Data Funktionen. Ermöglicht das Abrufen von Task IDs, Fehlern und bereiten Tasks.",
     category: "App Data - Core",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const AppDataCoreApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

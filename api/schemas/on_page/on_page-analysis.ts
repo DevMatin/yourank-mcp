@@ -19,7 +19,7 @@ export const OnPageAnalysisApi: ToolApi[] = [
     description: "Zusammenfassung der Seitenanalyse und Metriken für einen Überblick.",
     category: "OnPage - Summary",
     icon: "📊📋",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -75,7 +75,7 @@ export const OnPageAnalysisApi: ToolApi[] = [
     description: "Zusammenfassung nach Task-ID für spezifische Analysen.",
     category: "OnPage - Summary by ID",
     icon: "🆔📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -123,7 +123,7 @@ export const OnPageAnalysisApi: ToolApi[] = [
     description: "Alle Seiten eines Crawling-Tasks für umfassende Website-Analyse.",
     category: "OnPage - Pages",
     icon: "📄🌐",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -180,7 +180,7 @@ export const OnPageAnalysisApi: ToolApi[] = [
     description: "Identifikation von dupliziertem Content über verschiedene Seiten hinweg.",
     category: "OnPage - Duplicate Content",
     icon: "📋🔄",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -237,7 +237,7 @@ export const OnPageAnalysisApi: ToolApi[] = [
     description: "Identifikation von duplizierten HTML-Tags und Elementen für Code-Optimierung.",
     category: "OnPage - Duplicate Tags",
     icon: "🏷️🔄",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"

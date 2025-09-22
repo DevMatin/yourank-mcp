@@ -19,7 +19,7 @@ export const DomainAnalyticsWhoisApis: ToolApi[] = [
       "Spezialisierte WHOIS-Analyse mit 2 verschiedenen APIs für Domain-Registrierungsdaten und Filter-Informationen. Optimiert für bessere Performance durch Trennung von der Haupt-Domain Analytics API.",
     category: "Domain Analytics WHOIS",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const DomainAnalyticsWhoisApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

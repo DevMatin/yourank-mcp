@@ -22,7 +22,7 @@ export const MerchantGoogleSellersApis: ToolApi[] = [
       "Google Shopping Verkäufer & Reviews APIs: Sellers, Reviews und Ad URL. Detaillierte Verkäufer- und Bewertungsanalysen für Google Shopping.",
     category: "Merchant Google Sellers",
     icon: "🏪",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -40,7 +40,7 @@ export const MerchantGoogleSellersApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

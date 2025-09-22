@@ -19,7 +19,7 @@ export const KeywordsClickstreamApis: ToolApi[] = [
     description: "Clickstream Keywords Data API mit DataForSEO Search Volume, Global Search Volume und Bulk Search Volume. Optimiert für bessere Performance durch Trennung von der Haupt-Keywords API.",
     category: "Keywords Clickstream",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const KeywordsClickstreamApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]

@@ -20,7 +20,7 @@ export const TrustpilotApis: ToolApi[] = [
       "Trustpilot Reviews & Search mit 2 APIs für Geschäftsprofile und Bewertungen. Spezialisiert für Trustpilot-Datenanalyse und Reputation-Management.",
     category: "Trustpilot",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const TrustpilotApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

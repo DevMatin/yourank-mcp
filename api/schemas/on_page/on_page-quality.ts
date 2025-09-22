@@ -19,7 +19,7 @@ export const OnPageQualityApi: ToolApi[] = [
     description: "Sofortige Seitenanalyse und Qualitätsmetriken ohne Task-Erstellung.",
     category: "OnPage - Instant Analysis",
     icon: "⚡📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -77,7 +77,7 @@ export const OnPageQualityApi: ToolApi[] = [
     description: "Detaillierte Seitenanalyse und Content-Qualitätsprüfung.",
     category: "OnPage - Page Content",
     icon: "📄🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -133,7 +133,7 @@ export const OnPageQualityApi: ToolApi[] = [
     description: "Keyword-Dichte-Analyse und Verteilung auf Webseiten.",
     category: "OnPage - Keyword Analysis",
     icon: "🔑📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -189,7 +189,7 @@ export const OnPageQualityApi: ToolApi[] = [
     description: "Seitenlade-Waterfall und Performance-Metriken für Performance-Optimierung.",
     category: "OnPage - Performance",
     icon: "📈⚡",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -245,7 +245,7 @@ export const OnPageQualityApi: ToolApi[] = [
     description: "Identifikation nicht-indexierbarer Seiten und deren Gründe.",
     category: "OnPage - Indexability",
     icon: "🚫🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"

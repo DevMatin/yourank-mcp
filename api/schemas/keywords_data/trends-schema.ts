@@ -19,7 +19,7 @@ export const KeywordsTrendsApis: ToolApi[] = [
     description: "Google Trends und DataForSEO Trends API mit Explore, Subregion Interests, Demography und Merged Data Funktionen. Optimiert für bessere Performance durch Trennung von der Haupt-Keywords API.",
     category: "Keywords Trends",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const KeywordsTrendsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]

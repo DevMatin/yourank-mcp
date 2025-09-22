@@ -20,7 +20,7 @@ export const SerpAllgemeinApis: ToolApi[] = [
       "Grundlegende SERP-Funktionen: ID-Listen, Fehlerbehandlung, Screenshots und AI-Zusammenfassungen. Suchmaschinenübergreifende Utilities.",
     category: "SERP General",
     icon: "🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const SerpAllgemeinApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

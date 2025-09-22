@@ -4,7 +4,7 @@
  * SERP API Komplett-Test
  * Testet alle verfügbaren SERP-APIs mit echten DataForSEO-Zugangsdaten
  * 
- * Verwendet den Vercel-Server: https://mcp-server-typescript-six.vercel.app
+ * Verwendet den Vercel-Server: https://yourank-mcp.vercel.app
  */
 
 const https = require('https');
@@ -17,7 +17,7 @@ const CREDENTIALS = {
 };
 
 // Vercel-Server URL
-const BASE_URL = 'https://mcp-server-typescript-six.vercel.app';
+const BASE_URL = 'https://yourank-mcp.vercel.app';
 
 // Test-Ergebnisse speichern
 const testResults = {
@@ -37,7 +37,7 @@ function makeRequest(endpoint, method = 'POST', data = null) {
     const credentials = Buffer.from(`${CREDENTIALS.username}:${CREDENTIALS.password}`).toString('base64');
     
     const options = {
-      hostname: 'mcp-server-typescript-six.vercel.app',
+      hostname: 'yourank-mcp.vercel.app',
       port: 443,
       path: endpoint,
       method: method,

@@ -19,7 +19,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       "Vollständige Amazon-Analyse mit 8 verschiedenen APIs für Amazon Marketplace, Produkt-Keywords, Ranking-Analysen und Konkurrenz-Analysen. Optimiert für Amazon SEO.",
     category: "Amazon Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -374,7 +374,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       "Vollständige Bing-Analyse mit 6 verschiedenen APIs für Bing Organic Search, Keyword-Analyse und Domain-Metriken. Optimiert für Bing-spezifische SEO-Analysen.",
     category: "Bing Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -392,7 +392,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -645,7 +645,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       "Vollständige Google-Analyse mit 30+ verschiedenen APIs für Keywords, Domains, SEO-Metriken, historische Daten und Wettbewerbsanalyse. Optimiert für Google-spezifische Analysen.",
     category: "Google Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -663,7 +663,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -1659,7 +1659,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       "Allgemeine Labs-Funktionen mit 6 Verwaltungs-APIs für Tasks, Status, Fehler und Konfiguration. Optimiert für Meta-Operationen.",
     category: "General Labs",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -1677,7 +1677,7 @@ export const AlleLabsApisComplete: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

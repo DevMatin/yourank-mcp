@@ -19,7 +19,7 @@ export const ContentAnalysisGeneralSchema: ToolApi[] = [
       "Vereinheitlichte Content Analysis API mit allen Funktionen: Base APIs, Search APIs, Sentiment APIs und Trends APIs. Umfassende Content-Analyse für Zitationsdaten, Sentiment und Trends.",
     category: "Content Analysis - General",
     icon: "📊🔍😊📈",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const ContentAnalysisGeneralSchema: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

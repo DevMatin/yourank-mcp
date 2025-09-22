@@ -19,7 +19,7 @@ export const OnPageContentApi: ToolApi[] = [
     description: "Content-Parsing für Webseiten mit JavaScript-Unterstützung und Browser-Rendering.",
     category: "OnPage - Content Parsing",
     icon: "📝🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -78,7 +78,7 @@ export const OnPageContentApi: ToolApi[] = [
     description: "Batch-Content-Parsing für mehrere URLs mit Task-Management.",
     category: "OnPage - Content Tasks",
     icon: "📋📝",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -136,7 +136,7 @@ export const OnPageContentApi: ToolApi[] = [
     description: "Live Content-Parsing für sofortige Ergebnisse ohne Task-Erstellung.",
     category: "OnPage - Content Live",
     icon: "⚡📝",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -194,7 +194,7 @@ export const OnPageContentApi: ToolApi[] = [
     description: "Screenshot-Erstellung von Webseiten für visuelle Analyse.",
     category: "OnPage - Screenshots",
     icon: "📸🖼️",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -250,7 +250,7 @@ export const OnPageContentApi: ToolApi[] = [
     description: "Extraktion von strukturierten Daten und Microdata von Webseiten.",
     category: "OnPage - Microdata",
     icon: "🏷️📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -306,7 +306,7 @@ export const OnPageContentApi: ToolApi[] = [
     description: "Rohes HTML-Content für detaillierte Analyse und Verarbeitung.",
     category: "OnPage - Raw HTML",
     icon: "📄🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"

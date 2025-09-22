@@ -14,7 +14,7 @@ const CREDENTIALS = {
 };
 
 // Vercel-Server URL
-const BASE_URL = 'https://mcp-server-typescript-six.vercel.app';
+const BASE_URL = 'https://yourank-mcp.vercel.app';
 
 /**
  * HTTP Request Helper
@@ -24,7 +24,7 @@ function makeRequest(endpoint, method = 'POST', data = null) {
     const credentials = Buffer.from(`${CREDENTIALS.username}:${CREDENTIALS.password}`).toString('base64');
     
     const options = {
-      hostname: 'mcp-server-typescript-six.vercel.app',
+      hostname: 'yourank-mcp.vercel.app',
       port: 443,
       path: endpoint,
       method: method,

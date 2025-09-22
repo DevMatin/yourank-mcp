@@ -19,7 +19,7 @@ export const TextProcessingApis: ToolApi[] = [
       "Spezialisierte Text-Verarbeitungs-APIs für Paraphrasierung und Grammatik-Prüfung",
     category: "Content Generation - Processing",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const TextProcessingApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

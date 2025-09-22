@@ -19,7 +19,7 @@ export const DomainAnalyticsCoreApis: ToolApi[] = [
       "Core Domain Analytics API mit 2 essentiellen Endpunkten für Task-Management: ID List für abgeschlossene Tasks und Error Handling für fehlerhafte Anfragen.",
     category: "Domain Analytics Core",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const DomainAnalyticsCoreApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

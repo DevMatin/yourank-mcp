@@ -19,7 +19,7 @@ export const AppDataGeneralSchemaComplete: ToolApi[] = [
       "Vollständige App Data API mit allen 13 Endpunkten: Core APIs (3), Apple Store Data & Search (5), Google Play Data & Search (5). Professionelle mobile App-Marktanalyse und App-Intelligence für iOS und Android Ökosystem mit korrekten DataForSEO API-Pfaden.",
     category: "App Data - Complete",
     icon: "📱🔍📊🍎🤖",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const AppDataGeneralSchemaComplete: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -1,7 +1,7 @@
 // H1-Tag Analyse aus DataForSEO Daten
 import https from 'https';
 
-const VERCEL_URL = 'https://mcp-server-typescript-six.vercel.app/http';
+const VERCEL_URL = 'https://yourank-mcp.vercel.app/http';
 
 function makeHttpRequest(data) {
   return new Promise((resolve, reject) => {

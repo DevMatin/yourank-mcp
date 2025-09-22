@@ -19,7 +19,7 @@ export const BacklinksGeneralCompleteApi: ToolApi[] = [
     description: "Vollständige Backlinks API mit allen 25 Funktionen: Core Analysis, Bulk Operations, Domain Analysis, Timeseries und Utilities. Umfassende Backlink-Analyse und -Überwachung.",
     category: "Backlinks - General Complete",
     icon: "🔗📊📈🔍",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const BacklinksGeneralCompleteApi: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -22,7 +22,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       "Kern-APIs für Business Data mit Task-Management, Error-Handling und allgemeinen Business-Informationen.",
     category: "Business Data Core",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -41,7 +41,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -124,7 +124,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       "Business Listings APIs für lokale Business-Suche, Kategorien und Standorte.",
     category: "Business Listings",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -143,7 +143,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -241,7 +241,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       "Google Business Data mit APIs für Locations, Languages, My Business Info, Updates, Hotel-Suche und Reviews.",
     category: "Google Business",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -260,7 +260,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -502,7 +502,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       "Social Media Analytics mit APIs für Pinterest, Facebook und Reddit. Analysiert Social Shares, Likes und Community-Engagement.",
     category: "Social Media",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -521,7 +521,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -634,7 +634,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       "TripAdvisor Business Data mit APIs für Locations, Languages, Search und Reviews. Hotel- und Restaurant-Bewertungen.",
     category: "TripAdvisor",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -653,7 +653,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -762,7 +762,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       "Trustpilot Business Data mit APIs für Search und Reviews. Kundenbewertungen und Vertrauens-Scores.",
     category: "Trustpilot",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -781,7 +781,7 @@ export const AllBusinessDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

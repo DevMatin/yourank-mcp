@@ -19,7 +19,7 @@ export const DomainAnalyticsTechnologiesApis: ToolApi[] = [
       "Spezialisierte Technologies-Analyse mit 10 verschiedenen APIs für Technologie-Erkennung, Domain-Analyse und Aggregation. Optimiert für bessere Performance durch Trennung von der Haupt-Domain Analytics API.",
     category: "Domain Analytics Technologies",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const DomainAnalyticsTechnologiesApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

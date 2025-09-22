@@ -21,7 +21,7 @@ export const MerchantGeneralCompleteSchema: ToolApi[] = [
       "Vollständige Merchant API mit ALLEN 48 implementierten Tools: 3 Core APIs, 22 Google Shopping Tools (Products, Sellers, Product Spec, Product Info), 23 Amazon Tools (Products, ASIN, Sellers, Reviews) inkl. Locations/Languages. Umfassende E-Commerce-Analyse für Google Shopping und Amazon Marketplace.",
     category: "Merchant - General Complete",
     icon: "🛍️🏪📦⭐",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -40,7 +40,7 @@ export const MerchantGeneralCompleteSchema: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

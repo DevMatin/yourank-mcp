@@ -19,7 +19,7 @@ export const SerpGeneralCompleteApi: ToolApi[] = [
     description: "Vollständige SERP API mit allen 29 Funktionen: Google (17 APIs), Bing (2 APIs), YouTube (5 APIs), Yahoo (1 API) und General Tools (4 APIs). Umfassende Suchmaschinen-Analyse für alle Plattformen.",
     category: "SERP - General Complete",
     icon: "🔍📊🌐🎥",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const SerpGeneralCompleteApi: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

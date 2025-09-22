@@ -19,7 +19,7 @@ export const OnPageCompleteApi: ToolApi[] = [
     description: "Vollständige OnPage API mit allen 30+ implementierten Funktionen: General, Content Analysis, SEO Performance, Lighthouse, Pages & Resources.",
     category: "OnPage - Complete",
     icon: "🌐🔍📊📈🔗",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const OnPageCompleteApi: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

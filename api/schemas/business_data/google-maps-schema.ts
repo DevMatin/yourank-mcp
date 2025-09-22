@@ -20,7 +20,7 @@ export const GoogleMapsApis: ToolApi[] = [
       "Google Maps Business Listings mit 5 APIs für lokale Geschäftssuche, Kategorien, Filter und Standorte. Optimiert für lokale SEO und Business-Discovery.",
     category: "Google Maps",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const GoogleMapsApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

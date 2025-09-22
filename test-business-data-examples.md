@@ -2,36 +2,36 @@
 
 ## Base URL
 ```
-https://mcp-server-typescript-six.vercel.app
+https://yourank-mcp.vercel.app
 ```
 
 ## 1. GET Endpoints (Einfache Tests)
 
 ### Google Business Locations
 ```bash
-curl -X GET "https://mcp-server-typescript-six.vercel.app/v3/business_data/google/locations"
+curl -X GET "https://yourank-mcp.vercel.app/v3/business_data/google/locations"
 ```
 
 ### Google Business Languages  
 ```bash
-curl -X GET "https://mcp-server-typescript-six.vercel.app/v3/business_data/google/languages"
+curl -X GET "https://yourank-mcp.vercel.app/v3/business_data/google/languages"
 ```
 
 ### Business Listings Locations
 ```bash
-curl -X GET "https://mcp-server-typescript-six.vercel.app/v3/business_data/business_listings/locations"
+curl -X GET "https://yourank-mcp.vercel.app/v3/business_data/business_listings/locations"
 ```
 
 ### TripAdvisor Locations
 ```bash
-curl -X GET "https://mcp-server-typescript-six.vercel.app/v3/business_data/tripadvisor/locations"
+curl -X GET "https://yourank-mcp.vercel.app/v3/business_data/tripadvisor/locations"
 ```
 
 ## 2. POST Endpoints (Mit Daten)
 
 ### Google My Business Info Live
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/google/my_business_info/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/google/my_business_info/live" \
   -H "Content-Type: application/json" \
   -d '[{
     "business_name": "McDonald",
@@ -43,7 +43,7 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/goog
 
 ### Business Listings Search
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/business_listings/search/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/business_listings/search/live" \
   -H "Content-Type: application/json" \
   -d '[{
     "keyword": "restaurant",
@@ -55,7 +55,7 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/busi
 
 ### Google Hotel Searches Live
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/google/hotel_searches/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/google/hotel_searches/live" \
   -H "Content-Type: application/json" \
   -d '[{
     "keyword": "Hotel Berlin",
@@ -69,7 +69,7 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/goog
 
 ### Social Media Pinterest Live
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/social_media/pinterest/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/social_media/pinterest/live" \
   -H "Content-Type: application/json" \
   -d '[{
     "targets": [
@@ -81,7 +81,7 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/soci
 
 ### TripAdvisor Search Live
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/tripadvisor/search/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/tripadvisor/search/live" \
   -H "Content-Type: application/json" \
   -d '[{
     "keyword": "Hotel",
@@ -93,7 +93,7 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/trip
 
 ### Trustpilot Search Live
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/trustpilot/search/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/trustpilot/search/live" \
   -H "Content-Type: application/json" \
   -d '[{
     "keyword": "Amazon",
@@ -105,12 +105,12 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/trus
 
 ### Business Data Errors
 ```bash
-curl -X GET "https://mcp-server-typescript-six.vercel.app/v3/business_data/errors"
+curl -X GET "https://yourank-mcp.vercel.app/v3/business_data/errors"
 ```
 
 ### Business Data ID List
 ```bash
-curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/id_list" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/id_list" \
   -H "Content-Type: application/json" \
   -d '[{
     "date_from": "2024-08-20",
@@ -123,13 +123,13 @@ curl -X POST "https://mcp-server-typescript-six.vercel.app/v3/business_data/id_l
 
 ```javascript
 // Test Google Locations
-fetch('https://mcp-server-typescript-six.vercel.app/v3/business_data/google/locations')
+fetch('https://yourank-mcp.vercel.app/v3/business_data/google/locations')
   .then(response => response.json())
   .then(data => console.log('Google Locations:', data))
   .catch(error => console.error('Error:', error));
 
 // Test Business Search
-fetch('https://mcp-server-typescript-six.vercel.app/v3/business_data/business_listings/search/live', {
+fetch('https://yourank-mcp.vercel.app/v3/business_data/business_listings/search/live', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

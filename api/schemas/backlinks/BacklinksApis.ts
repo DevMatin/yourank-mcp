@@ -20,7 +20,7 @@ export const BacklinksApis: ToolApi[] = [
       "Grundlegende Backlink-Analysen mit 4 Core-APIs: Summary, Backlinks, Anchors und History. Optimiert für die wichtigsten Backlink-Funktionen.",
     category: "Backlinks Core",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const BacklinksApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],
@@ -481,7 +481,7 @@ export const BacklinksApis: ToolApi[] = [
       "Domain-fokussierte Backlink-Analysen mit 4 APIs: Domain Pages, Referring Domains, und Network-Analysen. Spezialisiert auf Domain-Level Insights.",
     category: "Backlinks Domains",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -499,7 +499,7 @@ export const BacklinksApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]
@@ -512,7 +512,7 @@ export const BacklinksApis: ToolApi[] = [
       "Erweiterte Backlink-Analysen mit 3 spezialisierten APIs: Competitors, Domain Intersection und Page Intersection. Ideal für Konkurrenz-Analysen.",
     category: "Backlinks Analysis",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -530,7 +530,7 @@ export const BacklinksApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]
@@ -543,7 +543,7 @@ export const BacklinksApis: ToolApi[] = [
       "Zeitbasierte Backlink-Analysen mit 2 APIs: Timeseries Summary und New/Lost Summary. Perfekt für historische Trend-Analysen.",
     category: "Backlinks Timeseries",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -561,7 +561,7 @@ export const BacklinksApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]
@@ -574,7 +574,7 @@ export const BacklinksApis: ToolApi[] = [
       "Bulk-Operationen für Backlinks mit 7 APIs: Bulk Ranks, Backlinks, Spam Score, Referring Domains und mehr. Optimiert für Masse-Analysen.",
     category: "Backlinks Bulk",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -592,7 +592,7 @@ export const BacklinksApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]
@@ -605,7 +605,7 @@ export const BacklinksApis: ToolApi[] = [
       "Utility-Funktionen für Backlinks mit 5 APIs: Filters, ID List, Errors, Index und Available Filters. Essential für Backlink-Management.",
     category: "Backlinks Utils",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -623,7 +623,7 @@ export const BacklinksApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]

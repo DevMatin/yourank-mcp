@@ -19,7 +19,7 @@ export const GooglePlayDataApis: ToolApi[] = [
       "Detaillierte Google Play App-Daten mit 12 verschiedenen APIs: App Info, App Reviews, App Lists und Top Charts. Umfassende Analyse von App-Details, Bewertungen und Rankings.",
     category: "App Data - Google Data",
     icon: "📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const GooglePlayDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

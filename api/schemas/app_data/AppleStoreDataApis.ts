@@ -19,7 +19,7 @@ export const AppleStoreDataApis: ToolApi[] = [
       "Detaillierte Apple App Store Daten mit 9 verschiedenen APIs: App Info, App Reviews und App Lists. Umfassende Analyse von iOS App-Details, Bewertungen und Rankings.",
     category: "App Data - Apple Data",
     icon: "📱",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const AppleStoreDataApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

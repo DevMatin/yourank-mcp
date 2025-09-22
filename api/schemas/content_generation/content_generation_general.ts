@@ -19,7 +19,7 @@ export const ContentGenerationGeneralApis: ToolApi[] = [
       "Umfassende Content-Generation-APIs für Text-Generierung, -Analyse, -Optimierung und -Verarbeitung. Kombiniert alle Content-Generation-Funktionalitäten in einer einheitlichen API.",
     category: "Content Generation - General",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const ContentGenerationGeneralApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -20,7 +20,7 @@ export const BusinessUtilitiesApis: ToolApi[] = [
       "Business Data Utilities mit 5 APIs für Task-Management, Error-Handling, Hotel-Suchen und Google Reviews. Unterstützende Tools für Business Data Analyse.",
     category: "Business Utilities",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const BusinessUtilitiesApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

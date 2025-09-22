@@ -19,7 +19,7 @@ export const ContentOptimizationApis: ToolApi[] = [
       "Spezialisierte Content-Optimierungs-APIs für SEO Meta Tags und Subtopic-Generierung",
     category: "Content Generation - Optimization",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const ContentOptimizationApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

@@ -19,7 +19,7 @@ export const OnPageResourcesApi: ToolApi[] = [
     description: "Alle Ressourcen von einer spezifischen Seite: Bilder, CSS, JavaScript, Fonts und andere Assets.",
     category: "OnPage - Resources",
     icon: "🖼️📁",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -77,7 +77,7 @@ export const OnPageResourcesApi: ToolApi[] = [
     description: "Ressourcen nach Seiten gruppiert für bessere Übersicht und Asset-Management.",
     category: "OnPage - Resources by Page",
     icon: "📄🖼️",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -134,7 +134,7 @@ export const OnPageResourcesApi: ToolApi[] = [
     description: "Ressourcen nach Domains gruppiert für Cross-Domain-Asset-Analyse.",
     category: "OnPage - Resources by Domain",
     icon: "🌐🖼️",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -191,7 +191,7 @@ export const OnPageResourcesApi: ToolApi[] = [
     description: "Seiten, die spezifische Ressourcen verwenden, für Asset-Abhängigkeitsanalyse.",
     category: "OnPage - Pages by Resource",
     icon: "🔗📄",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"

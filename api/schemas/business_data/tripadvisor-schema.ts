@@ -20,7 +20,7 @@ export const TripadvisorApis: ToolApi[] = [
       "TripAdvisor Business Data mit 5 APIs für Standorte, Sprachen, Suche und Reviews. Spezialisiert für Tourismus- und Hospitality-Branche mit umfassenden Bewertungsdaten.",
     category: "TripAdvisor",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const TripadvisorApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

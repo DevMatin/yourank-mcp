@@ -2,7 +2,7 @@
 
 ## 📊 Test-Übersicht
 - **Datum:** 24. August 2025
-- **Server:** https://mcp-server-typescript-six.vercel.app
+- **Server:** https://yourank-mcp.vercel.app
 - **Benutzer:** marcos.gonzalez@you-rank.de
 - **Test-Methode:** Vollständiger API-Test mit echten DataForSEO-Zugangsdaten
 - **Gesamte Tests:** 29
@@ -16,7 +16,7 @@
 - **Entwicklungsumgebung:** Node.js mit CommonJS-Modulen
 - **HTTP-Client:** Native Node.js `https` Modul
 - **Authentifizierung:** Basic Auth mit echten DataForSEO-Credentials
-- **Server:** Vercel-Deployment (https://mcp-server-typescript-six.vercel.app)
+- **Server:** Vercel-Deployment (https://yourank-mcp.vercel.app)
 
 ### **Test-Szenarien:**
 - **Vollständiger API-Coverage:** Alle 29 verfügbaren SERP-Endpunkte

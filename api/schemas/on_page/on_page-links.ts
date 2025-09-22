@@ -19,7 +19,7 @@ export const OnPageLinksApi: ToolApi[] = [
     description: "Alle Links von einer spezifischen Seite mit detaillierter Analyse.",
     category: "OnPage - Links",
     icon: "🔗📊",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -77,7 +77,7 @@ export const OnPageLinksApi: ToolApi[] = [
     description: "Links nach Seiten gruppiert für bessere Übersicht und Analyse.",
     category: "OnPage - Links by Page",
     icon: "📄🔗",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -134,7 +134,7 @@ export const OnPageLinksApi: ToolApi[] = [
     description: "Links nach Domains gruppiert für Cross-Domain-Link-Analyse.",
     category: "OnPage - Links by Domain",
     icon: "🌐🔗",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -191,7 +191,7 @@ export const OnPageLinksApi: ToolApi[] = [
     description: "Analyse von Weiterleitungsketten und Redirect-Pfaden für SEO-Optimierung.",
     category: "OnPage - Redirect Chains",
     icon: "🔄🔗",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"

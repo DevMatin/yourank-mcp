@@ -19,7 +19,7 @@ export const ContentAnalysisBaseApis: ToolApi[] = [
       "Grundlegende Content Analysis APIs mit 5 verschiedenen Endpunkten für ID-Listen, Filter, Standorte, Sprachen und Kategorien. Optimiert für Basiskonfiguration und Metadaten.",
     category: "Content Analysis Base",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const ContentAnalysisBaseApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

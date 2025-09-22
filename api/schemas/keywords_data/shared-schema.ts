@@ -19,7 +19,7 @@ export const KeywordsSharedApis: ToolApi[] = [
     description: "Gemeinsame Keywords Data API Funktionen wie ID List und Errors. Optimiert für bessere Performance durch Trennung von der Haupt-Keywords API.",
     category: "Keywords Shared",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const KeywordsSharedApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ]

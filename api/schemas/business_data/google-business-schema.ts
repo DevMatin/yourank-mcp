@@ -20,7 +20,7 @@ export const GoogleBusinessApis: ToolApi[] = [
       "Google Business Data mit 4 APIs für Locations, Languages und My Business Info. Spezialisiert für Google Business Profile und Standort-bezogene Geschäftsdaten.",
     category: "Google Business",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export const GoogleBusinessApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

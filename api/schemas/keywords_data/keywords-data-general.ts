@@ -19,7 +19,7 @@ export const KeywordsDataGeneralCompleteApi: ToolApi[] = [
     description: "Vollständige Keywords Data API mit allen Funktionen: Google Ads, Google Trends, DataForSEO Trends, Bing und Core APIs. Umfassende Keyword-Recherche und -Analyse für alle 27 implementierten Endpoints.",
     category: "Keywords Data - General Complete",
     icon: "🔍📊🚀📈",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -37,7 +37,7 @@ export const KeywordsDataGeneralCompleteApi: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

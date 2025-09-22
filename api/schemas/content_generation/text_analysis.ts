@@ -19,7 +19,7 @@ export const TextAnalysisApis: ToolApi[] = [
       "Spezialisierte Text-Analyse-APIs für statistische Auswertung und Lesbarkeits-Analyse mit 2 verschiedenen Endpoints für Live-Analyse und Sprachen-Support.",
     category: "Content Generation - Analysis",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const TextAnalysisApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

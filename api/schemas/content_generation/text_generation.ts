@@ -19,7 +19,7 @@ export const TextGenerationApis: ToolApi[] = [
       "Spezialisierte Text-Generierungs-APIs mit 2 verschiedenen Endpoints für text-basierte und topic-basierte Content-Erstellung. Optimiert für bessere Performance durch Trennung von der Haupt-Content-Generation API.",
     category: "Content Generation - Text",
     icon: "",
-    url: "https://mcp-server-typescript-six.vercel.app",
+    url: "https://yourank-mcp.vercel.app",
     customHeaders: {
       Authorization: getDataForSEOAuthHeader(),
       "Content-Type": "application/json"
@@ -38,7 +38,7 @@ export const TextGenerationApis: ToolApi[] = [
       },
       servers: [
         {
-          url: "https://mcp-server-typescript-six.vercel.app",
+          url: "https://yourank-mcp.vercel.app",
           description: "Vercel MCP Server"
         }
       ],

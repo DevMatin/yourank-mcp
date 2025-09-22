@@ -1,7 +1,7 @@
 // Test OnPage Analysis via Vercel
 import https from 'https';
 
-const VERCEL_URL = 'https://mcp-server-typescript-six.vercel.app/http';
+const VERCEL_URL = 'https://yourank-mcp.vercel.app/http';
 
 // Domains für die Analyse
 const domains = [
