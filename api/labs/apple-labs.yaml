@@ -1,0 +1,28 @@
+  /v3/dataforseo_labs/apple/bulk_app_metrics/live:
+    post:
+      tags:
+        - AppleLabs
+      description: "‌\nThis endpoint will provide you with ranking metrics for up to 1000 App Store applications.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/apple/bulk_app_metrics/live/?bash'"
+      operationId: AppleBulkAppMetricsLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsAppleBulkAppMetricsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsAppleBulkAppMetricsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

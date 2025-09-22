@@ -1,0 +1,165 @@
+components:
+  schemas:
+    
+    ContentGenerationTextSummaryLiveRequestInfo:
+      type: object
+      properties:
+        text:
+          type: string
+          description: "target text\nrequired field\ncan contain from 1 to 10000 tokens\nlearn more about tokens on our help center"
+          example: 'Removing [RequireHttps] does nothing but break the https redirection, and doesn''t enforce an https url on my route. I''ve got one method which i want to expose over http and a different one over https. If i accidentally enter http in my url for the https-only method, it should redirect. It currently works as is, the problem is that there is an undocument (seemingly unrelated) setting I have to add to get it all working. And that is the SslPort thing'
+        language_name:
+          type: string
+          description: "name of the text language\nrequired field if you do not specify language_code\nsee the List of Languages for Content Generation Text Summary API"
+          nullable: true
+          example: English (United States)
+        language_code:
+          type: string
+          description: "code of the text language\nrequired field if you do not specify language_name\nsee the List of Languages for Content Generation Text Summary API"
+          nullable: true
+        internal_list_limit:
+          type: integer
+          description: "maximum number of elements within internal arrays\noptional field\nyou can use this field to limit the number of elements within the keyword_density array\ndefault value: 10"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    ContentGenerationTextSummaryLiveResultInfo:
+      type: object
+      properties:
+        sentences:
+          type: integer
+          description: number of sentences found in the target text
+          nullable: true
+        paragraphs:
+          type: integer
+          description: number of paragraphs found in the target text
+          nullable: true
+        words:
+          type: integer
+          description: number of words found in the target text
+          nullable: true
+        characters_without_spaces:
+          type: integer
+          description: number of characters without spaces found in the target text
+          nullable: true
+        characters_with_spaces:
+          type: integer
+          description: number of characters with spaces found in the target text
+          nullable: true
+        words_per_sentence:
+          type: integer
+          description: average number of words per sentence in the target text
+          nullable: true
+        characters_per_word:
+          type: integer
+          description: average number of characters per word in the target text
+          nullable: true
+        vocabulary_density:
+          type: integer
+          description: vocabulary density of the target text
+          nullable: true
+        keyword_density:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+            nullable: true
+          description: "keyword density of the target text\ncontains most common words and their count"
+          nullable: true
+        automated_readability_index:
+          type: integer
+          description: Automated Readability Index
+          nullable: true
+        coleman_liau_index:
+          type: integer
+          description: Coleman–Liau Index
+          nullable: true
+        flesch_kincaid_grade_level:
+          type: integer
+          description: Flesch–Kincaid Readability Index
+          nullable: true
+        smog_readability_index:
+          type: integer
+          description: SMOG Readability Index
+          nullable: true
+        spelling_errors:
+          type: integer
+          description: number of spelling errors found in the target text
+          nullable: true
+        grammar_errors:
+          type: integer
+          description: number of grammar errors found in the target text
+          nullable: true
+    ContentGenerationTextSummaryLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationTextSummaryLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationTextSummaryLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationTextSummaryLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    ContentGenerationTextSummaryLanguagesResultInfo:
+      type: object
+      properties:
+        language_name:
+          type: string
+          description: language name
+          nullable: true
+        language_code:
+          type: string
+          description: language code according to ISO 639-1
+          nullable: true
+    ContentGenerationTextSummaryLanguagesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationTextSummaryLanguagesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationTextSummaryLanguagesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationTextSummaryLanguagesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true

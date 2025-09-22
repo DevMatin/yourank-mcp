@@ -1,0 +1,234 @@
+/v3/app_data/google/app_searches/task_post:
+  post:
+    tags:
+      - App Data - Google Search
+    description: "‌‌\nThis endpoint will provide you with a list of apps ranking on Google Play for the specified keyword. The returned results are specific to the indicated keyword, as well as the language and location parameters.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/app_searches/task_post/?bash'"
+    operationId: GoogleAppSearchesTaskPost
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppSearchesTaskPostRequestInfo'
+              nullable: true
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppSearchesTaskPostResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/google/app_searches/tasks_ready:
+  get:
+    tags:
+      - App Data - Google Search
+    description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with a list of completed tasks that haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoints.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/app_searches/tasks_ready/?bash'"
+    operationId: GoogleAppSearchesTasksReady
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppSearchesTasksReadyResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+'/v3/app_data/google/app_searches/task_get/advanced/{id}':
+  get:
+    tags:
+      - App Data - Google Search
+    description: "This endpoint will provide you with a list of apps ranking on Google Play for the keyword specified in a POST request. You will also receive additional information about each application: its ID, icon, reviews count, rating, price, and other data. The results are specific to the keyword as well as location and language parameters specified in the POST request.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/app_searches/task_get/advanced/?bash'"
+    operationId: GoogleAppSearchesTaskGetAdvanced
+    parameters:
+      - name: id
+        in: path
+        description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+        required: true
+        schema:
+          type: string
+        example: 10da8d1e-a104-4c65-94a4-d8aa26564f35
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppSearchesTaskGetAdvancedResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+'/v3/app_data/google/app_searches/task_get/html/{id}':
+  get:
+    tags:
+      - App Data - Google Search
+    description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/app_searches/task_get/html/?bash'"
+    operationId: GoogleAppSearchesTaskGetHtml
+    parameters:
+      - name: id
+        in: path
+        description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+        required: true
+        schema:
+          type: string
+        example: f2f87d44-c7f2-4e58-b24a-86625d0542c0
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppSearchesTaskGetHtmlResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/google/app_listings/categories:
+  get:
+    tags:
+      - App Data - Google Search
+    description: "This endpoint will provide you with a full list of app categories available on Google Play.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/app_listings/categories/?bash'"
+    operationId: GoogleAppListingsCategories
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppListingsCategoriesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/google/app_listings/search/live:
+  post:
+    tags:
+      - App Data - Google Search
+    description: "This endpoint will provide you with a list of apps published on Google Play along with additional information: its ID, icon, reviews count, rating, price, and other data. The results are specific to the title, description, and categories parameters specified in the API request.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/app_listings/search/live/?bash'"
+    operationId: GoogleAppListingsSearchLive
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppListingsSearchLiveRequestInfo'
+              nullable: true
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleAppListingsSearchLiveResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/google/categories:
+  get:
+    tags:
+      - App Data - Google Search
+    description: "This endpoint will provide you with a full list of app categories available on Google Play.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/categories/?bash'"
+    operationId: GoogleCategories
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleCategoriesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/google/locations:
+  get:
+    tags:
+      - App Data - Google Search
+    description: "By calling this endpoint you will receive the list of Google locations supported in App Data API.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/locations/?bash'"
+    operationId: AppDataGoogleLocations
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleLocationsResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+'/v3/app_data/google/locations/{country}':
+  get:
+    tags:
+      - App Data - Google Search
+    description: "By calling this endpoint you will receive the list of Google locations supported in App Data API.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/locations/?bash'"
+    operationId: AppDataGoogleLocationsCountry
+    parameters:
+      - name: country
+        in: path
+        description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+        required: true
+        schema:
+          type: string
+          nullable: true
+        example: us
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleLocationsCountryResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/google/languages:
+  get:
+    tags:
+      - App Data - Google Search
+    description: "By calling this endpoint you will receive the list of Google languages supported in App Data API.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/google/languages/?bash'"
+    operationId: AppDataGoogleLanguages
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: './app_data_components.yaml#/components/schemas/AppDataGoogleLanguagesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]

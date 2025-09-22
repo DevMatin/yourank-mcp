@@ -1,0 +1,131 @@
+  # Allgemeine SERP API Endpoints
+  /v3/serp/id_list:
+    post:
+      tags:
+        - SERP General
+      description: "This endpoint is designed to provide you with the list of IDs and metadata of the completed SERP tasks during the specified period. You will get all task IDs that were made including successful, uncompleted, and tasks that responded as errors.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/id_list/?bash'"
+      operationId: SerpIdList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpIdListRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpIdListResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/errors:
+    post:
+      tags:
+        - SERP General
+      description: "By calling this endpoint you will receive information about the SERP API tasks that returned an error within the past 7 days.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/errors/?bash'"
+      operationId: SerpErrors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpErrorsRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpErrorsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/screenshot:
+    post:
+      tags:
+        - SERP General
+      description: "‌‌\nUsing the Live Page Screenshot endpoint, you can capture a screenshot of any SERP page.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/screenshot/?bash'"
+      operationId: Screenshot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpScreenshotRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpScreenshotResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/ai_summary:
+    post:
+      tags:
+        - SERP General
+      description: "‌‌\nThe purpose of the Live SERP API AI Summary endpoint is to provide a summary of the content found on any SERP and generate a response based on the user's specified prompt.\nTo obtain results, you have to specify task_id, which you can find in the response to the POST request.\nLearn more in our Help Center.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/ai_summary/?bash'"
+      operationId: AiSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpAiSummaryRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpAiSummaryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/tasks_ready:
+    get:
+      tags:
+        - SERP General
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with the list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/tasks_ready/?bash'"
+      operationId: TasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

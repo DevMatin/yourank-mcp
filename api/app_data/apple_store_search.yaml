@@ -1,0 +1,181 @@
+# Apple Store Search API - App Data - Apple Search
+
+/v3/app_data/apple/app_searches/task_post:
+  post:
+    tags:
+      - App Data - Apple Search
+    description: "‌‌\nThis endpoint will provide you with a list of apps ranking on the App Store for the specified keyword. The returned results are specific to the indicated keyword, as well as the location and language parameters.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/app_searches/task_post/?bash'"
+    operationId: AppleAppSearchesTaskPost
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppSearchesTaskPostRequestInfo'
+              nullable: true
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppSearchesTaskPostResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/apple/app_searches/tasks_ready:
+  get:
+    tags:
+      - App Data - Apple Search
+    description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with a list of completed tasks that haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoints.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/app_searches/tasks_ready/?bash'"
+    operationId: AppleAppSearchesTasksReady
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppSearchesTasksReadyResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+'/v3/app_data/apple/app_searches/task_get/advanced/{id}':
+  get:
+    tags:
+      - App Data - Apple Search
+    description: "This endpoint will provide you with a list of apps ranking on the App Store for the keyword specified in a POST request. You will also receive additional information about each application: its ID, icon, reviews count, rating, price, and other data. The results are specific to the keyword as well as location and language parameters specified in the POST request.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/app_searches/task_get/advanced/?bash'"
+    operationId: AppleAppSearchesTaskGetAdvanced
+    parameters:
+      - name: id
+        in: path
+        description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+        required: true
+        schema:
+          type: string
+        example: 62e22449-af01-40d2-9ee4-a1b152c692e7
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppSearchesTaskGetAdvancedResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/apple/app_listings/categories:
+  get:
+    tags:
+      - App Data - Apple Search
+    description: "This endpoint will provide you with a full list of app categories available on Apple App Store.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/app_listings/categories/?bash'"
+    operationId: AppleAppListingsCategories
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppListingsCategoriesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/apple/app_listings/search/live:
+  post:
+    tags:
+      - App Data - Apple Search
+    description: "This endpoint will provide you with a list of apps published on App Store along with additional information: its ID, icon, reviews count, rating, price, and other data. The results are specific to the title, description, and categories parameters specified in the API request.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/app_listings/search/live/?bash'"
+    operationId: AppleAppListingsSearchLive
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppListingsSearchLiveRequestInfo'
+              nullable: true
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleAppListingsSearchLiveResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/apple/categories:
+  get:
+    tags:
+      - App Data - Apple Search
+    description: "This endpoint will provide you with a full list of app categories available on App Store.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/categories/?bash'"
+    operationId: AppleCategories
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleCategoriesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/apple/locations:
+  get:
+    tags:
+      - App Data - Apple Search
+    description: "By calling this endpoint you will receive the list of Apple locations supported in App Data API.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/locations/?bash'"
+    operationId: AppDataAppleLocations
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleLocationsResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+
+/v3/app_data/apple/languages:
+  get:
+    tags:
+      - App Data - Apple Search
+    description: "By calling this endpoint you will receive the list of Apple languages supported in App Data API.\nfor more info please visit 'https://docs.dataforseo.com/v3/app_data/apple/languages/?bash'"
+    operationId: AppDataAppleLanguages
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/AppDataAppleLanguagesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]

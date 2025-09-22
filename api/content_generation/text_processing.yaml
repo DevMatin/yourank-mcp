@@ -1,0 +1,98 @@
+# Text Processing APIs - DataForSEO Content Generation  
+# APIs für Textbearbeitung und -verbesserung
+
+/v3/content_generation/paraphrase/live:
+    post:
+      tags:
+        - TextProcessing
+      description: "‌\nThis endpoint will provide you with a paraphrased version of the text you specify.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_generation/paraphrase/live/?bash'"
+      operationId: ParaphraseLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationParaphraseLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationParaphraseLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+
+/v3/content_generation/check_grammar/live:
+    post:
+      tags:
+        - TextProcessing
+      description: "‌\nThis endpoint will provide you with grammar and spelling corrections for the text you specify.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_generation/check_grammar/live/?bash'"
+      operationId: CheckGrammarLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+
+/v3/content_generation/check_grammar/languages:
+    get:
+      tags:
+        - TextProcessing
+      description: "You will receive the list of languages by calling this API.\n \nAs a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_generation/check_grammar/languages/?bash'"
+      operationId: ContentGenerationCheckGrammarLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+
+/v3/content_generation/grammar_rules:
+    get:
+      tags:
+        - TextProcessing
+      description: "You will receive the list of grammar rules by calling this API.\n \nAs a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_generation/grammar_rules/?bash'"
+      operationId: GrammarRules
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGrammarRulesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

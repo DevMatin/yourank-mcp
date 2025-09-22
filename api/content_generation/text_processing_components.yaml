@@ -1,0 +1,285 @@
+components:
+  schemas:
+    
+    ContentGenerationParaphraseLiveRequestInfo:
+      type: object
+      properties:
+        text:
+          type: string
+          description: "target text\nrequired field\ncan contain from 1 to 500 tokens\nlearn more about tokens on our help center"
+          example: 'The idea to develop an instrument for local SEO didn't come to the GMB Crush CEO, Matteo Barletta, out of the blue. Having a huge interest in search engine optimization, Matteo has come a long way from being an SEO freelancer to launching his own agency, SEO Heroes. At some point, he and his team noticed that it was quite challenging to work with local SEO projects, especially those related to Google My Business listings.'
+        creativity_index:
+          type: number
+          description: "creativity of content generation\nrequired field\nthe randomness of the selection of equally probable subsequent tokens;\ncan take values from 0 to 1;\ndefault value: 0.8\nlearn more about this parameter on our help center"
+          example: 0.8
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    ContentGenerationParaphraseLiveResultInfo:
+      type: object
+      properties:
+        input_tokens:
+          type: integer
+          description: number of input tokens in the POST request
+          nullable: true
+        output_tokens:
+          type: integer
+          description: number of output tokens in the response
+          nullable: true
+        new_tokens:
+          type: integer
+          description: number of new tokens in the response
+          nullable: true
+        generated_text:
+          type: string
+          description: paraphrased version of the given text
+          nullable: true
+    ContentGenerationParaphraseLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationParaphraseLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationParaphraseLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationParaphraseLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    ContentGenerationCheckGrammarLiveRequestInfo:
+      type: object
+      properties:
+        text:
+          type: string
+          description: "target text\nrequired field\ncan contain from 1 to 10000 tokens\nlearn more about tokens on our help center"
+          example: 'Hello, my name is John! And I''m very glad to work with you toda'
+        language_code:
+          type: string
+          description: "code of the text language\nrequired field if you do not specify language_name\nsee the List of Languages for Content Generation Check Grammar API"
+          nullable: true
+          example: en-US
+        language_name:
+          type: string
+          description: "name of the text language\nrequired field if you do not specify language_code\nsee the List of Languages for Content Generation Check Grammar API"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    ContentGenerationCheckGrammarLiveItem:
+      type: object
+      properties:
+        message:
+          type: string
+          description: message of the grammar or spelling error
+          nullable: true
+        description:
+          type: string
+          description: description of the grammar or spelling error
+          nullable: true
+        suggestions:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: suggested corrections
+          nullable: true
+        offset:
+          type: integer
+          description: offset token for subsequent requests
+          nullable: true
+        length:
+          type: integer
+          description: offset token for subsequent requests
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        rule_id:
+          type: string
+          description: "id of the grammar or spelling rule\nsee the List of Grammar Rules for Content Generation API"
+          nullable: true
+        rule_description:
+          type: string
+          description: description of the grammar or spelling rule
+          nullable: true
+        rule_issue_type:
+          type: string
+          description: type of the issue found by the relevant rule
+          nullable: true
+        rule_category_id:
+          type: string
+          description: id of the rule category
+          nullable: true
+        rule_category_name:
+          type: string
+          description: name of the rule category
+          nullable: true
+    ContentGenerationCheckGrammarLiveResultInfo:
+      type: object
+      properties:
+        input_tokens:
+          type: integer
+          description: number of input tokens in the POST request
+          nullable: true
+        output_tokens:
+          type: integer
+          description: number of output tokens in the response
+          nullable: true
+        new_tokens:
+          type: integer
+          description: number of new tokens in the response
+          nullable: true
+        initial_text:
+          type: string
+          description: initial text in the POST request
+          nullable: true
+        language_code:
+          type: string
+          description: language code in the POST request
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/ContentGenerationCheckGrammarLiveItem'
+            nullable: true
+          description: contains grammar or spelling errors and related data
+          nullable: true
+    ContentGenerationCheckGrammarLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationCheckGrammarLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    ContentGenerationCheckGrammarLanguagesResultInfo:
+      type: object
+      properties:
+        language_name:
+          type: string
+          description: language name
+          nullable: true
+        language_code:
+          type: string
+          description: language code according to ISO 639-1
+          nullable: true
+    ContentGenerationCheckGrammarLanguagesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLanguagesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationCheckGrammarLanguagesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationCheckGrammarLanguagesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    ContentGenerationGrammarRulesResultInfo:
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: array of rules
+          nullable: true
+    ContentGenerationGrammarRulesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGrammarRulesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationGrammarRulesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGrammarRulesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true

@@ -1,0 +1,286 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Keywords Data API - MCP Compatible",
+    "description": "MCP-kompatible Keywords Data API mit korrekten Method Names für Chatbots",
+    "version": "v1.0.0",
+    "contact": {
+      "name": "DataForSEO MCP Server",
+      "url": "https://mcp-server-typescript-six.vercel.app"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://mcp-server-typescript-six.vercel.app",
+      "description": "Vercel MCP Server"
+    }
+  ],
+  "paths": {
+    "/mcp": {
+      "post": {
+        "tags": ["MCP API"],
+        "summary": "MCP JSON-RPC Endpoint",
+        "description": "Zentraler MCP Endpoint für alle Keywords Data API Aufrufe",
+        "operationId": "McpCall",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "enum": ["2.0"],
+                    "description": "JSON-RPC Version"
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "keywords_data_google_ads_keywords_for_keywords",
+                      "keywords_data_google_ads_keywords_for_site", 
+                      "keywords_data_google_ads_search_volume"
+                    ],
+                    "description": "MCP Method Name"
+                  },
+                  "params": {
+                    "type": "object",
+                    "description": "Method Parameters",
+                    "anyOf": [
+                      {
+                        "title": "Keywords for Keywords Request",
+                        "type": "object",
+                        "properties": {
+                          "keywords": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": "Keywords für Related Keywords Analyse",
+                            "example": ["autofolierung", "lackschutzfolierung"]
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standort für die Analyse",
+                            "example": "Germany"
+                          },
+                          "language_code": {
+                            "type": "string", 
+                            "description": "Sprach-Code",
+                            "example": "de"
+                          },
+                          "limit": {
+                            "type": "integer",
+                            "description": "Anzahl Ergebnisse",
+                            "example": 100
+                          }
+                        },
+                        "required": ["keywords"]
+                      },
+                      {
+                        "title": "Keywords for Site Request", 
+                        "type": "object",
+                        "properties": {
+                          "target": {
+                            "type": "string",
+                            "description": "Ziel-Website für Keyword-Analyse",
+                            "example": "signal-design.de"
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standort für die Analyse",
+                            "example": "Germany"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "description": "Sprach-Code",
+                            "example": "de"
+                          },
+                          "limit": {
+                            "type": "integer",
+                            "description": "Anzahl Ergebnisse",
+                            "example": 100
+                          }
+                        },
+                        "required": ["target"]
+                      },
+                      {
+                        "title": "Search Volume Request",
+                        "type": "object",
+                        "properties": {
+                          "keywords": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": "Keywords für Suchvolumen-Analyse",
+                            "example": ["autofolierung stuttgart", "car wrapping"]
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standort für die Analyse",
+                            "example": "Germany"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "description": "Sprach-Code",
+                            "example": "de"
+                          }
+                        },
+                        "required": ["keywords"]
+                      }
+                    ]
+                  },
+                  "id": {
+                    "type": "integer",
+                    "description": "Request ID"
+                  }
+                },
+                "required": ["jsonrpc", "method", "params", "id"]
+              },
+              "examples": {
+                "keywords_for_keywords": {
+                  "summary": "Keywords für Keywords Anfrage",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "method": "keywords_data_google_ads_keywords_for_keywords",
+                    "params": {
+                      "keywords": ["autofolierung", "lackschutzfolierung"],
+                      "location_name": "Germany",
+                      "language_code": "de",
+                      "limit": 50
+                    },
+                    "id": 1
+                  }
+                },
+                "keywords_for_site": {
+                  "summary": "Competitor Keywords Anfrage",
+                  "value": {
+                    "jsonrpc": "2.0", 
+                    "method": "keywords_data_google_ads_keywords_for_site",
+                    "params": {
+                      "target": "wrapsign.de",
+                      "location_name": "Germany",
+                      "language_code": "de",
+                      "limit": 100
+                    },
+                    "id": 2
+                  }
+                },
+                "search_volume": {
+                  "summary": "Search Volume Anfrage",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "method": "keywords_data_google_ads_search_volume", 
+                    "params": {
+                      "keywords": ["steinschlagschutz", "carwrapping münchen"],
+                      "location_name": "Germany",
+                      "language_code": "de"
+                    },
+                    "id": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche MCP Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {"type": "string", "enum": ["2.0"]},
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {"type": "integer"},
+                        "status_message": {"type": "string"},
+                        "tasks": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "result": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "keyword": {"type": "string"},
+                                    "search_volume": {"type": "integer"},
+                                    "cpc": {"type": "number"},
+                                    "competition": {"type": "string"},
+                                    "competition_index": {"type": "integer"},
+                                    "monthly_searches": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "year": {"type": "integer"},
+                                          "month": {"type": "integer"},
+                                          "search_volume": {"type": "integer"}
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "id": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "MCP Error Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {"type": "string", "enum": ["2.0"]},
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {"type": "integer"},
+                        "message": {"type": "string"}
+                      }
+                    },
+                    "id": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "KeywordResult": {
+        "type": "object",
+        "properties": {
+          "keyword": {"type": "string", "description": "Haupt-Keyword"},
+          "search_volume": {"type": "integer", "description": "Suchvolumen DE"},
+          "cpc": {"type": "number", "description": "CPC €"},
+          "competition": {"type": "string", "description": "Wettbewerb (LOW/MEDIUM/HIGH)"},
+          "competition_index": {"type": "integer", "description": "Wettbewerb (%)"},
+          "keyword_intent": {
+            "type": "string", 
+            "enum": ["informational", "transactional", "navigational"],
+            "description": "Keyword-Intent"
+          },
+          "suggested_page_type": {
+            "type": "string",
+            "enum": ["kategorie", "landingpage", "blog", "produktseite"],
+            "description": "Passender Seitentyp"
+          }
+        }
+      }
+    }
+  }
+}

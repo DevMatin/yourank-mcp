@@ -1,0 +1,716 @@
+components:
+  schemas:
+    # BacklinksBulkRanks schemas
+    BacklinksBulkRanksLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get rank for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        rank_scale:
+          type: string
+          description: "defines the scale used for calculating and displaying the rank, domain_from_rank, and page_from_rank values\noptional field\nyou can use this parameter to choose whether rank values are presented on a 0–100 or 0–1000 scale\npossible values:\none_hundred — rank values are displayed on a 0–100 scale\none_thousand — rank values are displayed on a 0–1000 scale\ndefault value: one_thousand\nlearn more about how this parameter works and how ranking metrics are calculated in this Help Center article"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkRanksLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        rank:
+          type: integer
+          description: "rank of the target\nvalues represent real-time data for the date of the request\nrank is calculated based on the method for node ranking in a linked database – a principle used in the original Google PageRank algorithm\nlearn more about the metric and how it is calculated in this help center article"
+          nullable: true
+
+    BacklinksBulkRanksLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkRanksLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkRanksLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkRanksLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkRanksLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkRanksLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+
+    # BacklinksBulkBacklinks schemas
+    BacklinksBulkBacklinksLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get backlinks for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkBacklinksLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        backlinks:
+          type: integer
+          description: "indicates the number of backlinks\nindicates the total number of backlinks pointing to the specified target"
+          nullable: true
+
+    BacklinksBulkBacklinksLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkBacklinksLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkBacklinksLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkBacklinksLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkBacklinksLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkBacklinksLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+
+    # BacklinksBulkSpamScore schemas
+    BacklinksBulkSpamScoreLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get spam score for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkSpamScoreLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        spam_score:
+          type: integer
+          description: "DataForSEO's proprietary metric\nspam score is calculated based on the backlink profile, domain age, SSL certificate, Google indexing status, social signals, etc.\nspam score is measured on a scale from 0 to 100\nthe closer the spam score to 100, the higher the chance that the target is spammy or low-quality"
+          nullable: true
+
+    BacklinksBulkSpamScoreLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkSpamScoreLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkSpamScoreLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkSpamScoreLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkSpamScoreLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkSpamScoreLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+
+    # BacklinksBulkReferringDomains schemas
+    BacklinksBulkReferringDomainsLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get referring domains for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkReferringDomainsLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        referring_domains:
+          type: integer
+          description: "number of referring domains\nnumber of domains pointing to the target"
+          nullable: true
+
+    BacklinksBulkReferringDomainsLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkReferringDomainsLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkReferringDomainsLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkReferringDomainsLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkReferringDomainsLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkReferringDomainsLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+
+    # BacklinksBulkNewLostBacklinks schemas
+    BacklinksBulkNewLostBacklinksLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get new/lost backlinks for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        date_from:
+          type: string
+          description: "starting date of the period for new/lost backlinks\noptional field\nyou can specify the date in the following format: \"yyyy-mm-dd\"\nexample:\n\"date_from\": \"2023-01-01\"\nif you specify date_from and date_to, you will get the number of backlinks new and lost between the two dates\nif you specify date_from without date_to, you will get new and lost backlinks between the specified date and the current date\nNote: in order to use this endpoint without specifying these parameters, you need to specify the date range using the following format:\n\"date_from\": \"2024-08-01\",\n\"date_to\": \"2024-08-31\""
+          nullable: true
+        date_to:
+          type: string
+          description: "ending date of the period for new/lost backlinks\noptional field\nyou can specify the date in the following format: \"yyyy-mm-dd\"\nexample:\n\"date_to\": \"2023-01-31\"\nif you specify date_from and date_to, you will get the number of backlinks new and lost between the two dates\nif you specify date_to without date_from, you will get new and lost backlinks between the beginning of 2019 and the specified date\nNote: in order to use this endpoint without specifying these parameters, you need to specify the date range using the following format:\n\"date_from\": \"2024-08-01\",\n\"date_to\": \"2024-08-31\""
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkNewLostBacklinksLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        new_backlinks:
+          type: integer
+          description: "number of new backlinks\nnumber of new backlinks pointing to the target"
+          nullable: true
+        lost_backlinks:
+          type: integer
+          description: "number of lost backlinks\nnumber of lost backlinks that pointed to the target"
+          nullable: true
+
+    BacklinksBulkNewLostBacklinksLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkNewLostBacklinksLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkNewLostBacklinksLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkNewLostBacklinksLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkNewLostBacklinksLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkNewLostBacklinksLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+
+    # BacklinksBulkNewLostReferringDomains schemas
+    BacklinksBulkNewLostReferringDomainsLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get new/lost referring domains for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        date_from:
+          type: string
+          description: "starting date of the period for new/lost referring domains\noptional field\nyou can specify the date in the following format: \"yyyy-mm-dd\"\nexample:\n\"date_from\": \"2023-01-01\"\nif you specify date_from and date_to, you will get the number of referring domains new and lost between the two dates\nif you specify date_from without date_to, you will get new and lost referring domains between the specified date and the current date\nNote: in order to use this endpoint without specifying these parameters, you need to specify the date range using the following format:\n\"date_from\": \"2024-08-01\",\n\"date_to\": \"2024-08-31\""
+          nullable: true
+        date_to:
+          type: string
+          description: "ending date of the period for new/lost referring domains\noptional field\nyou can specify the date in the following format: \"yyyy-mm-dd\"\nexample:\n\"date_to\": \"2023-01-31\"\nif you specify date_from and date_to, you will get the number of referring domains new and lost between the two dates\nif you specify date_to without date_from, you will get new and lost referring domains between the beginning of 2019 and the specified date\nNote: in order to use this endpoint without specifying these parameters, you need to specify the date range using the following format:\n\"date_from\": \"2024-08-01\",\n\"date_to\": \"2024-08-31\""
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkNewLostReferringDomainsLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        new_referring_domains:
+          type: integer
+          description: "number of new referring domains\nnumber of new referring domains pointing to the target"
+          nullable: true
+        lost_referring_domains:
+          type: integer
+          description: "number of lost referring domains\nnumber of lost referring domains that pointed to the target"
+          nullable: true
+
+    BacklinksBulkNewLostReferringDomainsLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkNewLostReferringDomainsLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkNewLostReferringDomainsLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkNewLostReferringDomainsLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkNewLostReferringDomainsLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkNewLostReferringDomainsLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+
+    # BacklinksBulkPagesSummary schemas
+    BacklinksBulkPagesSummaryLiveRequestInfo:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: "domains, subdomains or webpages to get pages summary for\nrequired field\nyou can set up to 1000 domains, subdomains or webpages\nthe domain or subdomain should be specified without https:// and www.\nthe page should be specified with absolute URL (including http:// or https://)\nexample:\n\"targets\": [\n  \"forbes.com\",\n  \"cnn.com\",\n  \"bbc.com\",\n  \"yelp.com\",\n  \"https://www.apple.com/iphone/\",\n  \"https://ahrefs.com/blog/\",\n  \"ibm.com\",\n  \"https://variety.com/\",\n  \"https://stackoverflow.com/\",\n  \"www.trustpilot.com\"\n]"
+          example:
+            - forbes.com
+            - cnn.com
+            - bbc.com
+            - yelp.com
+            - https://www.apple.com/iphone/
+            - https://ahrefs.com/blog/
+            - ibm.com
+            - https://variety.com/
+            - https://stackoverflow.com/
+            - www.trustpilot.com
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+
+    BacklinksBulkPagesSummaryLiveItem:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'domain, subdomain or webpage from a POST array'
+          nullable: true
+        rank:
+          type: integer
+          description: "rank of the target\nvalues represent real-time data for the date of the request\nrank is calculated based on the method for node ranking in a linked database – a principle used in the original Google PageRank algorithm\nlearn more about the metric and how it is calculated in this help center article"
+          nullable: true
+        backlinks:
+          type: integer
+          description: "indicates the number of backlinks\nindicates the total number of backlinks pointing to the specified target"
+          nullable: true
+        first_seen:
+          type: string
+          description: "date when the backlink was first seen\nin the UTC format: \"yyyy-mm-dd hh-mm-ss +00:00\"\nexample:\n2022-11-15 12:57:46 +00:00"
+          nullable: true
+        lost_date:
+          type: string
+          description: "date when the backlink was lost\nin the UTC format: \"yyyy-mm-dd hh-mm-ss +00:00\"\nif the backlink is not lost, this field will be null"
+          nullable: true
+        broken_backlinks:
+          type: integer
+          description: "number of broken backlinks\nindicates the number of broken backlinks pointing to the target"
+          nullable: true
+        broken_pages:
+          type: integer
+          description: "number of broken pages\nindicates the number of pages where backlinks to the target are placed, but the pages return 4xx or 5xx status codes"
+          nullable: true
+        referring_domains:
+          type: integer
+          description: "number of referring domains\nnumber of domains pointing to the target"
+          nullable: true
+        referring_domains_nofollow:
+          type: integer
+          description: "number of domains pointing at the target with nofollow links"
+          nullable: true
+        referring_main_domains:
+          type: integer
+          description: "number of referring main domains\nnumber of main domains pointing to the target"
+          nullable: true
+        referring_main_domains_nofollow:
+          type: integer
+          description: "number of main domains pointing at the target with nofollow links"
+          nullable: true
+        referring_ips:
+          type: integer
+          description: "number of referring IP addresses\nnumber of IP addresses pointing to the target"
+          nullable: true
+        referring_subnets:
+          type: integer
+          description: "number of referring subnetworks"
+          nullable: true
+        referring_pages:
+          type: integer
+          description: "number of pages pointing to the target"
+          nullable: true
+        referring_links_tld:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "top-level domains of the referring links\nindicates top-level domains and referring link count per each"
+          nullable: true
+        referring_links_types:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "types of referring links\nindicates link types and link count per each type"
+          nullable: true
+        referring_links_attributes:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "link attributes of the referring links\nindicates link attributes and link count per each attribute"
+          nullable: true
+        referring_links_platform_types:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "types of referring platforms\nindicates referring platform types and link count per each platform"
+          nullable: true
+        referring_links_semantic_locations:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "semantic locations of the referring links on the pages\nindicates semantic elements and referring link count per each semantic element"
+          nullable: true
+
+    BacklinksBulkPagesSummaryLiveResultInfo:
+      type: object
+      properties:
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/BacklinksBulkPagesSummaryLiveItem'
+            nullable: true
+          description: contains relevant backlinks and referring domains data
+          nullable: true
+
+    BacklinksBulkPagesSummaryLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkPagesSummaryLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+
+    BacklinksBulkPagesSummaryLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksBulkPagesSummaryLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true

@@ -1,0 +1,2498 @@
+# SERP APIs wurden in separate Dateien aufgeteilt für bessere Organisation:
+# - serp-allgemein.yaml: Allgemeine SERP APIs (id_list, errors, screenshot, ai_summary, tasks_ready)
+# - serp-google.yaml: Google SERP APIs (organic, ai_mode, images, search_by_image, jobs, autocomplete, dataset_search, dataset_info)
+# - serp-bing.yaml: Bing SERP APIs (organic, local_pack)
+# - serp-youtube.yaml: YouTube SERP APIs (video_info, video_subtitles, video_comments)
+# - serp-komponenten.yaml: Alle Schema-Definitionen für SERP APIs
+
+# Allgemeine SERP APIs
+$ref: './serp-allgemein.yaml'
+
+# Google SERP APIs  
+$ref: './serp-google.yaml'
+
+# Bing SERP APIs
+$ref: './serp-bing.yaml'
+
+# YouTube SERP APIs
+$ref: './serp-youtube.yaml'
+  /v3/serp/errors:
+    post:
+      tags:
+        - Serp
+      description: "By calling this endpoint you will receive information about the SERP API tasks that returned an error within the past 7 days.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/errors/?bash'"
+      operationId: SerpErrors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpErrorsRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpErrorsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/screenshot:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nUsing the Live Page Screenshot endpoint, you can capture a screenshot of any SERP page.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/screenshot/?bash'"
+      operationId: Screenshot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpScreenshotRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpScreenshotResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/ai_summary:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nThe purpose of the Live SERP API AI Summary endpoint is to provide a summary of the content found on any SERP and generate a response based on the user’s specified prompt.\nTo obtain results, you have to specify task_id, which you can find in the response to the POST request.\nLearn more in our Help Center.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/ai_summary/?bash'"
+      operationId: AiSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpAiSummaryRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpAiSummaryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/locations:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/locations/?bash'"
+      operationId: SerpGoogleLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/locations/{country}':
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/locations/?bash'"
+      operationId: SerpGoogleLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/languages:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of languages by calling this API.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/languages/?bash'"
+      operationId: SerpGoogleLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/organic/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/task_post/?bash'"
+      operationId: GoogleOrganicTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/organic/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/tasks_ready/?bash'"
+      operationId: GoogleOrganicTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/tasks_ready/?bash'"
+      operationId: TasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/organic/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/tasks_fixed/?bash'"
+      operationId: GoogleOrganicTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/organic/task_get/regular/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/task_get/regular/?bash'"
+      operationId: GoogleOrganicTaskGetRegular
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTaskGetRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/organic/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/task_get/advanced/?bash'"
+      operationId: GoogleOrganicTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/organic/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/task_get/html/?bash'"
+      operationId: GoogleOrganicTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/organic/live/regular:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nLive SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/live/regular/?bash'"
+      operationId: GoogleOrganicLiveRegular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicLiveRegularRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicLiveRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/organic/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location. This endpoint will supply a complete overview of featured snippets and other extra elements of SERPs.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/live/advanced/?bash'"
+      operationId: GoogleOrganicLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/organic/live/html:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/organic/live/html/?bash'"
+      operationId: GoogleOrganicLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleOrganicLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/ai_mode/languages:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of languages by calling this API.\n \nAs a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/languages/?bash'"
+      operationId: SerpGoogleAiModeLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/ai_mode/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/task_post/?bash'"
+      operationId: GoogleAiModeTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/ai_mode/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/tasks_ready/?bash'"
+      operationId: GoogleAiModeTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/ai_mode/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/tasks_fixed/?bash'"
+      operationId: GoogleAiModeTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/ai_mode/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/task_get/advanced/?bash'"
+      operationId: GoogleAiModeTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\na universally unique identifier (UUID)\nunique task identifier in our system\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/ai_mode/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/task_get/html/?bash'"
+      operationId: GoogleAiModeTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/ai_mode/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle AI Mode SERP API provides search results from the AI Mode feature of Google Search.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/live/advanced/?bash'"
+      operationId: GoogleAiModeLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/ai_mode/live/html:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/ai_mode/live/html/?bash'"
+      operationId: GoogleAiModeLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAiModeLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/maps/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/maps/task_post/?bash'"
+      operationId: GoogleMapsTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/maps/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/maps/tasks_ready/?bash'"
+      operationId: GoogleMapsTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/maps/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/maps/tasks_fixed/?bash'"
+      operationId: GoogleMapsTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/maps/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/maps/task_get/advanced/?bash'"
+      operationId: GoogleMapsTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\na universally unique identifier (UUID)\nunique task identifier in our system\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/maps/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nLive Google Maps SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/maps/live/advanced/?bash'"
+      operationId: GoogleMapsLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleMapsLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/local_finder/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle Local Finder SERP API provides top search engine results specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/task_post/?bash'"
+      operationId: GoogleLocalFinderTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/local_finder/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/tasks_ready/?bash'"
+      operationId: GoogleLocalFinderTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/local_finder/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/tasks_fixed/?bash'"
+      operationId: GoogleLocalFinderTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/local_finder/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/task_get/advanced/?bash'"
+      operationId: GoogleLocalFinderTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\na universally unique identifier (UUID)\nunique task identifier in our system\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/local_finder/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/task_get/html/?bash'"
+      operationId: GoogleLocalFinderTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/local_finder/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nLive Google Local_finder SERP provides real-time search engine results for the specified keyword and location. By default, you can get up to 20 results for desktop and up to 10 results for mobile.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/live/advanced/?bash'"
+      operationId: GoogleLocalFinderLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/local_finder/live/html:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive Google Local Finder SERP HTML provides a raw HTML page of the search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/local_finder/live/html/?bash'"
+      operationId: GoogleLocalFinderLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleLocalFinderLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  
+  /v3/serp/google/images/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/task_post/?bash'"
+      operationId: GoogleImagesTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/images/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/tasks_ready/?bash'"
+      operationId: GoogleImagesTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/images/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/tasks_fixed/?bash'"
+      operationId: GoogleImagesTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/images/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/task_get/advanced/?bash'"
+      operationId: GoogleImagesTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/images/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/task_get/html/?bash'"
+      operationId: GoogleImagesTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/images/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive Google Images SERP provides real-time data on top 100 images results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/live/advanced/?bash'"
+      operationId: GoogleImagesLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/images/live/html:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/images/live/html/?bash'"
+      operationId: GoogleImagesLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleImagesLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/search_by_image/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle Search By Image SERP API provides up to top 100 search engine results based on the image you specified. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/search_by_image/task_post/?bash'"
+      operationId: GoogleSearchByImageTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleSearchByImageTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleSearchByImageTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/search_by_image/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/search_by_image/tasks_ready/?bash'"
+      operationId: GoogleSearchByImageTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleSearchByImageTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/search_by_image/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/search_by_image/tasks_fixed/?bash'"
+      operationId: GoogleSearchByImageTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleSearchByImageTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/search_by_image/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/search_by_image/task_get/advanced/?bash'"
+      operationId: GoogleSearchByImageTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleSearchByImageTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/jobs/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nThis endpoint will provide you with SERP data from the Google Jobs search engine. The returned results are specific to the keyword as well as the language and location parameters of the POST request.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/jobs/task_post/?bash'"
+      operationId: GoogleJobsTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleJobsTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleJobsTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/jobs/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/jobs/tasks_ready/?bash'"
+      operationId: GoogleJobsTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleJobsTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/jobs/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/jobs/tasks_fixed/?bash'"
+      operationId: GoogleJobsTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleJobsTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/jobs/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/jobs/task_get/advanced/?bash'"
+      operationId: GoogleJobsTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleJobsTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/jobs/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/jobs/task_get/html/?bash'"
+      operationId: GoogleJobsTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleJobsTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/autocomplete/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle Autocomplete is a feature within Google Search that improves the search experience by allowing users to complete searches they started to type. DataForSEO SERP API will provide you with all the suggestions Google Autocomplete offers for a particular keyword, the position of the cursor pointer, and the search client.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/autocomplete/task_post/?bash'"
+      operationId: GoogleAutocompleteTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/autocomplete/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/autocomplete/tasks_ready/?bash'"
+      operationId: GoogleAutocompleteTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/autocomplete/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/autocomplete/tasks_fixed/?bash'"
+      operationId: GoogleAutocompleteTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/autocomplete/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/autocomplete/task_get/advanced/?bash'"
+      operationId: GoogleAutocompleteTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/autocomplete/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle Autocomplete is a feature within Google Search that improves the search experience by allowing users to complete searches they started to type. DataForSEO SERP API will provide you with all the suggestions Google Autocomplete offers for a particular keyword, the position of the cursor pointer, and the search client.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/autocomplete/live/advanced/?bash'"
+      operationId: GoogleAutocompleteLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleAutocompleteLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_search/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle Dataset Search API provides top 20 Google Dataset search engine results. These results are specific to the indicated keyword. You can specify other parameters optionally.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_search/task_post/?bash'"
+      operationId: GoogleDatasetSearchTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_search/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_search/tasks_ready/?bash'"
+      operationId: GoogleDatasetSearchTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_search/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_search/tasks_fixed/?bash'"
+      operationId: GoogleDatasetSearchTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/dataset_search/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_search/task_get/advanced/?bash'"
+      operationId: GoogleDatasetSearchTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_search/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive Google Dataset Search provides real-time data on the top 20 Google Dataset search engine results. These results are specific to the indicated keyword. You can specify other parameters optionally.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_search/live/advanced/?bash'"
+      operationId: GoogleDatasetSearchLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetSearchLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_info/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nGoogle Dataset Info API provides detailed information about the dataset you specify in the POST request. You will get data from a page of the dataset displayed separately from the SERP. It contains information about dataset content, authors, licenses, and description on the SERP.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_info/task_post/?bash'"
+      operationId: GoogleDatasetInfoTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_info/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_info/tasks_ready/?bash'"
+      operationId: GoogleDatasetInfoTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_info/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_info/tasks_fixed/?bash'"
+      operationId: GoogleDatasetInfoTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/google/dataset_info/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_info/task_get/advanced/?bash'"
+      operationId: GoogleDatasetInfoTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/google/dataset_info/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive Google Dataset Info provides real-time data on the dataset you specify in the request. You will get data from a page of the dataset displayed separately from the SERP. It contains information about dataset content, authors, licenses, and description on the SERP.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/google/dataset_info/live/advanced/?bash'"
+      operationId: GoogleDatasetInfoLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpGoogleDatasetInfoLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  
+  /v3/serp/bing/locations:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/locations/?bash'"
+      operationId: SerpBingLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/locations/{country}':
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/locations/?bash'"
+      operationId: SerpBingLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/languages:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of languages by calling this API.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/languages/?bash'"
+      operationId: SerpBingLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_post/?bash'"
+      operationId: BingOrganicTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/tasks_ready/?bash'"
+      operationId: BingOrganicTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/tasks_fixed/?bash'"
+      operationId: BingOrganicTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/organic/task_get/regular/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_get/regular/?bash'"
+      operationId: BingOrganicTaskGetRegular
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskGetRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/organic/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_get/advanced/?bash'"
+      operationId: BingOrganicTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/organic/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_get/html/?bash'"
+      operationId: BingOrganicTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/live/regular:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nLive SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/live/regular/?bash'"
+      operationId: BingOrganicLiveRegular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveRegularRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nLive SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location. This endpoint will supply a complete overview of featured snippets and other extra elements of SERPs.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/live/advanced/?bash'"
+      operationId: BingOrganicLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/live/html:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/live/html/?bash'"
+      operationId: BingOrganicLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/task_post/?bash'"
+      operationId: BingLocalPackTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/tasks_ready/?bash'"
+      operationId: BingLocalPackTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/tasks_fixed/?bash'"
+      operationId: BingLocalPackTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/local_pack/task_get/regular/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/task_get/regular/?bash'"
+      operationId: BingLocalPackTaskGetRegular
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskGetRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/local_pack/task_get/html/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/task_get/html/?bash'"
+      operationId: BingLocalPackTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/live/regular:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nLive Bing Local Pack SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/live/regular/?bash'"
+      operationId: BingLocalPackLiveRegular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveRegularRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/live/html:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/live/html/?bash'"
+      operationId: BingLocalPackLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/locations:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/locations/?bash'"
+      operationId: SerpYoutubeLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/locations/{country}':
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/locations/?bash'"
+      operationId: SerpYoutubeLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/languages:
+    get:
+      tags:
+        - Serp
+      description: "You will receive the list of languages by calling this API.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/languages/?bash'"
+      operationId: SerpYoutubeLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nYouTube Video Info API provides detailed information about the video you specify in the POST request. You will get data from the watching page containing key video and content metrics as well as the channel where the video is published.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/task_post/?bash'"
+      operationId: YoutubeVideoInfoTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/tasks_ready/?bash'"
+      operationId: YoutubeVideoInfoTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/tasks_fixed/?bash'"
+      operationId: YoutubeVideoInfoTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/video_info/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/task_get/advanced/?bash'"
+      operationId: YoutubeVideoInfoTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive YouTube Video Info provides real-time data on the video you specify in the request. You will get data from the watching page containing key video and content metrics as well as the channel where the video is published.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/live/advanced/?bash'"
+      operationId: YoutubeVideoInfoLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nYouTube Subtitles API provides data on all subtitles in the video you specify in the POST request. You will get data from the watching page containing subtitled text, its language, and duration in the video.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/task_post/?bash'"
+      operationId: YoutubeVideoSubtitlesTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/tasks_ready/?bash'"
+      operationId: YoutubeVideoSubtitlesTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/tasks_fixed/?bash'"
+      operationId: YoutubeVideoSubtitlesTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/video_subtitles/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/task_get/advanced/?bash'"
+      operationId: YoutubeVideoSubtitlesTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive YouTube Subtitles provides real-time data on subtitles in the video you specify in the request. You will get data from the watching page containing subtitled text, its language, and duration in the video.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/live/advanced/?bash'"
+      operationId: YoutubeVideoSubtitlesLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/task_post:
+    post:
+      tags:
+        - Serp
+      description: "‌‌\nYouTube Comments API provides data on comments on the video you specify in the request. You will get the top 20 comments on the video as well as information about the author, and key comment metrics.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/task_post/?bash'"
+      operationId: YoutubeVideoCommentsTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/tasks_ready:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/tasks_ready/?bash'"
+      operationId: YoutubeVideoCommentsTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/tasks_fixed:
+    get:
+      tags:
+        - Serp
+      description: "‌\nThe ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/tasks_fixed/?bash'"
+      operationId: YoutubeVideoCommentsTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/video_comments/task_get/advanced/{id}':
+    get:
+      tags:
+        - Serp
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/task_get/advanced/?bash'"
+      operationId: YoutubeVideoCommentsTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/live/advanced:
+    post:
+      tags:
+        - Serp
+      description: "‌\nLive YouTube Comments provides real-time data on comments on the video you specify in the request. You will get the top 20 comments on the video as well as information about the author, and key comment metrics.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/live/advanced/?bash'"
+      operationId: YoutubeVideoCommentsLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

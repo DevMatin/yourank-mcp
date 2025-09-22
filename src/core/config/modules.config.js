@@ -1,0 +1,35 @@
+import { z } from 'zod';
+// Define available module names - Erweitert um alle 11 APIs
+export const AVAILABLE_MODULES = [
+    'SERP',
+    'KEYWORDS_DATA',
+    'ONPAGE',
+    'DATAFORSEO_LABS',
+    'BACKLINKS',
+    'BUSINESS_DATA',
+    'DOMAIN_ANALYTICS',
+    'CONTENT_ANALYSIS',
+    'CONTENT_GENERATION', // Neue API
+    'MERCHANT', // Neue API
+    'GOOGLE_SHOPPING', // Neue API
+    'AI_OPTIMIZATION', // Neue API
+    'APP_DATA' // App Data APIs
+];
+// Schema for validating the ENABLED_MODULES environment variable
+export const EnabledModulesSchema = z.any()
+    .transform((val) => {
+    if (!val)
+        return AVAILABLE_MODULES; // If not set, enable all modules
+    return val.toString().split(',').map(name => name.trim().toUpperCase());
+})
+    .refine((modules) => {
+    return modules.every(module => AVAILABLE_MODULES.includes(module));
+}, {
+    message: `Invalid module name. Available modules are: ${AVAILABLE_MODULES.join(', ')}`
+});
+// Helper function to check if a module is enabled
+export function isModuleEnabled(moduleName, enabledModules) {
+    return enabledModules.includes(moduleName);
+}
+// Default configuration (all modules enabled)
+export const defaultEnabledModules = AVAILABLE_MODULES;

@@ -1,0 +1,148 @@
+/v3/on_page/id_list:
+    post:
+      tags:
+        - OnPage Core
+      description: "This endpoint is designed to provide you with the list of IDs and metadata of the completed On Page tasks during the specified period. You will get all task IDs that were made including successful, uncompleted, and tasks that responded as errors.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/id_list/?bash'"
+      operationId: OnPageIdList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageIdListRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageIdListResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/errors:
+    post:
+      tags:
+        - OnPage Core
+      description: "By calling this endpoint you will receive information about the OnPage API tasks that returned an error within the past 7 days.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/errors/?bash'"
+      operationId: OnPageErrors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageErrorsRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageErrorsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/force_stop:
+    post:
+      tags:
+        - OnPage Core
+      description: "‌‌\nThis endpoint is designed to force stop the crawl process of websites you specified in a task. The execution of all the tasks associated with the IDs indicated in your request to this endpoint will be stopped. You will still be able to obtain the data on pages that have been scanned until the crawling process was stopped.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/force_stop/?bash'"
+      operationId: ForceStop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageForceStopRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageForceStopResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/available_filters:
+    get:
+      tags:
+        - OnPage Core
+      description: "OnPage API supports plenty of customizable crawling parameters that allow you to adapt the extraction of website data to your requirements and modify the thresholds for various performance indicators.\n‌‌\nHere you will find all the necessary information about filters and thresholds that can be used with DataForSEO OnPage API endpoints.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/filters_and_thresholds/?bash'"
+      operationId: OnPageAvailableFilters
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageAvailableFiltersResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/task_post:
+    post:
+      tags:
+        - OnPage Core
+      description: "‌\nOnPage API checks websites for 60+ customizable on-page parameters defines and displays all found flaws and opportunities for optimization so that you can easily fix them. It checks meta tags, duplicate content, image tags, response codes, and other parameters on every page. You can find the full list of OnPage API check-up parameters in the Pages section.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/task_post/?bash'"
+      operationId: TaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/tasks_ready:
+    get:
+      tags:
+        - OnPage Core
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with a list of completed tasks, which results haven't been collected yet.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page-tasks_ready/?bash'"
+      operationId: OnPageTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

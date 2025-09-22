@@ -1,0 +1,234 @@
+components:
+  schemas:
+    
+    ContentGenerationGenerateLiveRequestInfo:
+      type: object
+      properties:
+        text:
+          type: string
+          description: "initial target text\nrequired field\ntext input for content generation;\ncan contain from 1 to 500 tokens\nlearn more about tokens on our help center"
+          example: SEO is
+        max_new_tokens:
+          type: integer
+          description: "generation limit for new tokens\nrequired field if max_tokens is not specified\nthe maximum number of new tokens for generated content;\nmaximum value: 300;\nNote: the number does not include tokens specified in the text field;\nlearn more about this parameter on our help center"
+          nullable: true
+          example: 100
+        max_tokens:
+          type: integer
+          description: "generation limit for all tokens\nrequired field if max_new_tokens is not specified\nthe maximum total number of tokens for generated content;\nmaximum value: 1024;\nNote: the number includes tokens specified in the text field\nlearn more about this parameter on our help center"
+          nullable: true
+        creativity_index:
+          type: number
+          description: "creativity of content generation\noptional field\nif you use this field, you don't need to use top_k / top_p / temperature\nthe randomness of the selection of equally probable subsequent tokens;\ncan take values from 0 to 1\ndefault value: 0.8\nlearn more about this parameter on our help center"
+          nullable: true
+          example: 1
+        token_repetition_penalty:
+          type: number
+          description: "token repetition\noptional field\nlimits the repetition of the same tokens in the generated content;\ncan take values from 0.5 to 2;\ndefault value: 1"
+          nullable: true
+        top_k:
+          type: integer
+          description: "the number of initial tokens in each iteration for choosing a subsequent word\noptional field\nif you use creativity_index, this field will be ignored\nthe higher the number, the more high-probability tokens will be shortlisted for generation;\ncan take values from 1 to 100;\ndefault value: 40\nlearn more about this parameter on our help center"
+          nullable: true
+        top_p:
+          type: number
+          description: "excludes initial tokens with probability lower than one\noptional field\nif you use creativity_index, this field will be ignored\nthe higher the value, the less low-probability tokens may be shortlisted for generation;\ncan take values from 0 to 1\ndefault value: 0.9\nNote:if both top_k and top_p are used, top_k acts first;\nlearn more about this parameter on our help center"
+          nullable: true
+        temperature:
+          type: number
+          description: "controls the randomness in the output\noptional field\nif you use creativity_index, this field will be ignored\nthe lower the temperature, the more likely the model will choose words with a higher probability of occurrence;\ncan take values from 0 to 1;\ndefault value: 0.7\nlearn more about this parameter on our help center"
+          nullable: true
+        avoid_words:
+          type: array
+          items:
+            type: string
+          description: "words or phrases to avoid when generating a text\noptional field\nyou can specify up to 50 terms;\nexample:\n[\"term\", \"optimization\"]"
+          nullable: true
+        avoid_starting_words:
+          type: array
+          items:
+            type: string
+          description: "words or phrases to avoid in the beginning of the generated text\noptional field\nyou can specify up to 50 terms;\nexample:\n[\"SEO\", \"search engine optimization\"]"
+          nullable: true
+          example:
+            - SEO
+            - search engine optimization
+            - SEO is
+        stop_words:
+          type: array
+          items:
+            type: string
+          description: "words or phrases to end the text\noptional field\nyou can specify up to 50 terms;\nexample:\n[\"now\",\"subscribe\"]"
+          nullable: true
+          example:
+            - '123'
+            - "\n"
+        supplement_token:
+          type: string
+          description: "token for generating subsequent results\noptional field\nprovided in the identical filed of the response to each request;\nyou can use this parameter to continue the generation of text from the initial response\nsupplement_token values are unique for each subsequent task"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    ContentGenerationGenerateLiveResultInfo:
+      type: object
+      properties:
+        input_tokens:
+          type: integer
+          description: number of input tokens
+          nullable: true
+        output_tokens:
+          type: integer
+          description: number of output tokens
+          nullable: true
+        new_tokens:
+          type: integer
+          description: number of new tokens
+          nullable: true
+        generated_text:
+          type: string
+          description: resulting text
+          nullable: true
+        supplement_token:
+          type: string
+          description: "token for generating subsequent results\nyou can use this parameter to continue the generation from the end of the current result;\nsupplement_token values are unique for each subsequent task"
+          nullable: true
+    ContentGenerationGenerateLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGenerateLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationGenerateLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGenerateLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    ContentGenerationGenerateTextLiveRequestInfo:
+      type: object
+      properties:
+        topic:
+          type: string
+          description: "main topic of the content to generate\nrequired field\nmain topic for generating content;\ncan contain from 1 to 50 tokens"
+          example: Steve Jobs
+        word_count:
+          type: integer
+          description: "number of words in content\nrequired field\nthe number of tokens in the generated text;\ncan take values from 1 to 1000"
+          format: int64
+          example: 50
+        sub_topics:
+          type: array
+          items:
+            type: string
+          description: "secondary topics of the content to generate\noptional field\nsecondary topics for generating content;\ncan contain up to 10 terms;\nexample: \"sub_topics\": [\"Apple\",\"Pixar\",\"Amazing Products\"]"
+          nullable: true
+          example:
+            - Apple
+            - Pixar
+            - Amazing Products
+        description:
+          type: string
+          description: "meta description of the content to generate\noptional field\ncan contain from 1 to 1000 tokens\nlearn more about this parameter on our help center"
+          nullable: true
+          example: 'Take a closer look at Steve Jobs'' life and his incredible impact on the tech industry, with a special focus on the development of the iPhone.'
+        meta_keywords:
+          type: array
+          items:
+            type: string
+          description: "keywords for the content to generate\noptional field\ncan contain up to 10 terms;\nlearn more about this parameter on our help center\nexample: \"meta_keywords\": [\"iPhone\",\"sell\",\"CEO\"]"
+          nullable: true
+          example:
+            - iPhone
+            - sell
+            - CEO
+        creativity_index:
+          type: number
+          description: "creativity of content generation\noptional field\nthe randomness of the selection of equally probable subsequent tokens;\ncan take values from 0 to 1\ndefault value: 0.8\nlearn more about this parameter on our help center"
+          nullable: true
+          example: 0.8
+        include_conclusion:
+          type: boolean
+          description: "include conclusion in generated text\noptional field\nif set to true, generated content will include a logical conclusion"
+          nullable: true
+          example: true
+        supplement_token:
+          type: string
+          description: "token for generating subsequent results\noptional field\nprovided in the identical filed of the response to each request;\nyou can use this parameter to continue the generation of text from the initial response\nsupplement_token values are unique for each subsequent task"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    ContentGenerationGenerateTextLiveResultInfo:
+      type: object
+      properties:
+        input_tokens:
+          type: integer
+          description: number of input tokens
+          nullable: true
+        output_tokens:
+          type: integer
+          description: number of output tokens
+          nullable: true
+        new_tokens:
+          type: integer
+          description: number of new tokens
+          nullable: true
+        generated_text:
+          type: string
+          description: resulting text
+          nullable: true
+        supplement_token:
+          type: string
+          description: "token for generating subsequent results\nyou can use this parameter to continue the generation from the end of the current result;\nsupplement_token values are unique for each subsequent task"
+          nullable: true
+    ContentGenerationGenerateTextLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGenerateTextLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    ContentGenerationGenerateTextLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/ContentGenerationGenerateTextLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true

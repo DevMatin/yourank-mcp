@@ -1,0 +1,3446 @@
+components:
+  schemas:
+    
+    AppDataIdListRequestInfo:
+      type: object
+      properties:
+        datetime_from:
+          type: string
+          description: "start time for filtering results\nrequired field\nif include_metadata is set to true, maximum value: a month from current datetime;\nif include_metadata is set to false, maximum value: six months from current datetime;\nmust be specified in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2023-01-15 12:57:46 +00:00"
+          example: '2025-04-17 06:10:25 +00:00'
+        datetime_to:
+          type: string
+          description: "finish time for filtering results\nrequired field\nmaximum value: current datetime;\nmust be specified in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2023-01-31 13:57:46 +00:00"
+          example: '2025-06-17 06:10:25 +00:00'
+        limit:
+          type: integer
+          description: "the maximum number of returned task IDs\noptional field\ndefault value: 1000\nmaximum value: 1000"
+          nullable: true
+          example: 100
+        offset:
+          type: integer
+          description: "offset in the results array of returned task IDs\noptional field\ndefault value: 0\nif you specify the 10 value, the first ten tasks in the results array will be omitted"
+          nullable: true
+          example: 0
+        sort:
+          type: string
+          description: "sorting by task execution time\noptional field\npossible values: \"asc\", \"desc\"\ndefault value: \"asc\""
+          nullable: true
+          example: desc
+        include_metadata:
+          type: boolean
+          description: "include task metadata in the respond\noptional field\ndefault value: false"
+          nullable: true
+    AppDataIdListResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the task
+          nullable: true
+        url:
+          type: string
+          description: "URL of the task\nURL you used for making an API call"
+          nullable: true
+        datetime_posted:
+          type: string
+          description: "date and time when the task was made\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2023-01-15 12:57:46 +00:00"
+          nullable: true
+        datetime_done:
+          type: string
+          description: "date and time when the task was completed\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2023-01-15 12:57:46 +00:00"
+          nullable: true
+        status:
+          type: string
+          description: "informational message of the task\nyou can find the full list of general informational messages here"
+          nullable: true
+        cost:
+          type: number
+          description: 'cost of the task, USD'
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: object
+            nullable: true
+          description: contains parameters you specified in the POST request
+          nullable: true
+    AppDataIdListTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataIdListResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataIdListResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataIdListTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataErrorsRequestInfo:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: "the maximum number of returned tasks that responded with an error\noptional field\ndefault value: 1000\nmaximum value: 1000"
+          nullable: true
+          example: 10
+        offset:
+          type: integer
+          description: "offset in the results array of returned tasks\noptional field\ndefault value: 0\nif you specify the 10 value, the first ten tasks in the results array will be omitted and the data will be provided for the successive tasks"
+          nullable: true
+          example: 0
+        filtered_function:
+          type: string
+          description: "return tasks with a certain function\nuse this field to obtain a list of tasks that returned an error filtered by a certain function\nyou can filter the results by the values you receive in the function fields of the API response\ni.e., once you receive unfiltered results, you can call this API again to filter them by function\nexample: app_data/task_get/advanced, postback_url, pingback_url"
+          nullable: true
+          example: pingback_url
+        datetime_from:
+          type: string
+          description: "start time for filtering results\noptional field\nallows filtering results by the datetime parameter within the range of the last 7 days;\nmust be specified in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2021-11-15 12:57:46 +00:00"
+          nullable: true
+        datetime_to:
+          type: string
+          description: "finish time for filtering results\noptional field\nallows filtering results by the datetime parameter within the range of the last 7 days;\nmust be specified in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2021-11-15 13:57:46 +00:00"
+          nullable: true
+    AppDataErrorsResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the task
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when an error occurred\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        function:
+          type: string
+          description: corresponding API function
+          nullable: true
+        error_code:
+          type: integer
+          description: error code
+          nullable: true
+        error_message:
+          type: string
+          description: "error message or error URL\nerror message (see full list) or URL that caused an error"
+          nullable: true
+        http_url:
+          type: string
+          description: "URL that caused an error\nURL you used for making an API call or pingback/postback URL"
+          nullable: true
+        http_method:
+          type: string
+          description: HTTP method
+          nullable: true
+        http_code:
+          type: integer
+          description: HTTP status code
+          nullable: true
+        http_time:
+          type: number
+          description: "time taken by HTTP request\nfor tasks set with a pingback/postback, this field will show the time it took your server to respond"
+          nullable: true
+        http_response:
+          type: string
+          description: "HTTP response\nserver response"
+          nullable: true
+    AppDataErrorsTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataErrorsResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataErrorsResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataErrorsTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleCategoriesResultInfo:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: contains full list of supported app categories
+          nullable: true
+    AppDataGoogleCategoriesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleCategoriesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleCategoriesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleCategoriesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleLocationsResultInfo:
+      type: object
+      properties:
+        location_code:
+          type: integer
+          description: location code
+          nullable: true
+        location_name:
+          type: string
+          description: full name of the location
+          nullable: true
+        location_code_parent:
+          type: integer
+          nullable: true
+        country_iso_code:
+          type: string
+          description: ISO country code of the location
+          nullable: true
+        location_type:
+          type: string
+          description: location type
+          nullable: true
+    AppDataGoogleLocationsTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleLocationsResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleLocationsResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleLocationsTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleLocationsCountryResultInfo:
+      type: object
+      properties:
+        location_code:
+          type: integer
+          description: location code
+          nullable: true
+        location_name:
+          type: string
+          description: full name of the location
+          nullable: true
+        location_code_parent:
+          type: integer
+          nullable: true
+        country_iso_code:
+          type: string
+          description: ISO country code of the location
+          nullable: true
+        location_type:
+          type: string
+          description: location type
+          nullable: true
+    AppDataGoogleLocationsCountryTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleLocationsCountryResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleLocationsCountryResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleLocationsCountryTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleLanguagesResultInfo:
+      type: object
+      properties:
+        language_name:
+          type: string
+          description: language name
+          nullable: true
+        language_code:
+          type: string
+          description: language code according to ISO 639-1
+          nullable: true
+    AppDataGoogleLanguagesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleLanguagesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleLanguagesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleLanguagesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppSearchesTaskPostRequestInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: "keyword\nrequired field\nyou can specify up to 700 characters in the keyword field;\nall %## will be decoded (plus character ‘+’ will be decoded to a space character);\nif you need to use the “%” character for your keyword, please specify it as “%25”;\nif you need to use the “+” character for your keyword, please specify it as “%2B”\nlearn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article"
+          example: vpn
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\noptional field\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\noptional field\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        depth:
+          type: integer
+          description: "parsing depth\noptional field\nnumber of results to be returned to be returned from the Google Play SERP;\nwe strongly recommend setting the parsing depth in the multiples of 30, because our system processes 30 results in a row;\nNote: your account will be billed per each SERP containing up to 30 results;\nthus, setting a depth above 30 may result in additional charges if the search engine returns more than 30 results;\nif the specified depth is higher than the number of results in the response, the difference will be refunded to your account balance automatically\ndefault value: 30;\nmaximum value: 200"
+          nullable: true
+          example: 30
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced, html"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+    AppDataGoogleAppSearchesTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataGoogleAppSearchesTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppSearchesTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Google App Searches task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Google App Searches HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataGoogleAppSearchesTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppSearchesTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Apple App Reviews task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Apple App Reviews HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppSearchesTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: keyword received in a POST request
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        se_results_count:
+          type: integer
+          description: the total number of results
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of items in the results array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/GooglePlaySearchOrganic'
+            nullable: true
+          description: found apps
+          nullable: true
+    AppDataGoogleAppSearchesTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppSearchesTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppSearchesTaskGetHtmlResultInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: keyword received in a POST request
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/SerpHtmlItemInfo'
+            nullable: true
+          description: HTML pages and related data
+          nullable: true
+    AppDataGoogleAppSearchesTaskGetHtmlTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTaskGetHtmlResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppSearchesTaskGetHtmlResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppSearchesTaskGetHtmlTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppListTaskPostRequestInfo:
+      type: object
+      properties:
+        app_collection:
+          type: string
+          description: "app collection\nrequired field\napp collection on Google Play from which apps will be collected;\nyou can specify the following values:\nfeatured, topselling_paid, topselling_free, topselling_new_free, topselling_new_paid, topgrossing, movers_shakers\nNote: if featured is selected, the app_category parameter cannot be used"
+          example: topselling_free
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if language_code is not specified\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if language_name is not specified\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        depth:
+          type: integer
+          description: "parsing depth\noptional field\nnumber of apps to be returned in the API response;\nwe strongly recommend setting the parsing depth in the multiples of 100, because our system processes 100 results in a row;\ndefault value: 100;\nmaximum value: 200"
+          nullable: true
+          example: 100
+        app_category:
+          type: string
+          description: "application category on Google Play\noptional field\nyou can filter the results by app category;\nexample:\nfamily;\nyou can receive the full list of available categories by making a separate request to https://api.dataforseo.com/v3/app_data/google/categories\nNote: app_category cannot be used if app_collection parameter is set to featured"
+          nullable: true
+        age_rating:
+          type: string
+          description: "filter results by age rating\noptional field\nyou can use this field to filter the results by age rating;\npossible types of filtering:\nages_up_to_5 — return apps approved for children up to 5 years old;\nages_6_8 — return apps approved for children from 6 to 8 years old;\nages_9_12 — return apps approved for children from 9 to 12 years old;\nby default, the API returns apps for all ages;\nNote: this filter works only in conjunction with the \"category\": \"family\" parameter"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced, html"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+    AppDataGoogleAppListTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataGoogleAppListTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppListTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Google App List task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Google App List HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataGoogleAppListTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppListTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppListTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: app collection received in a POST array
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        se_results_count:
+          type: integer
+          description: the total number of results
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: "the number of app items in the results array\nyou can get more results by using the depth parameter when setting a task"
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/GooglePlaySearchOrganic'
+            nullable: true
+          description: found apps
+          nullable: true
+    AppDataGoogleAppListTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppListTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppListTaskGetHtmlResultInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: app collection received in a POST array
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/SerpHtmlItemInfo'
+            nullable: true
+          description: HTML pages and related data
+          nullable: true
+    AppDataGoogleAppListTaskGetHtmlTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTaskGetHtmlResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppListTaskGetHtmlResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListTaskGetHtmlTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppInfoTaskPostRequestInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: "id of the app\nrequired field\nID of the mobile application on Google Play;\nyou can find the ID in the URL of every app listed on Google Play;\nexample:\nin the URL https://play.google.com/store/apps/details?id=org.telegram.messenger\nthe id is org.telegram.messenger"
+          example: org.telegram.messenger
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if language_code is not specified\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if language_name is not specified\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced, html"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+    AppDataGoogleAppInfoTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataGoogleAppInfoTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppInfoTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Google App Info task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Google App Info HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataGoogleAppInfoTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppInfoTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppsInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: ID of the app
+          nullable: true
+        title:
+          type: string
+          description: title of the app
+          nullable: true
+        url:
+          type: string
+          description: URL to the app page on Google Play
+          nullable: true
+    GooglePlayInfoOrganic:
+      type: object
+      properties:
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        rank_group:
+          type: integer
+          description: "position within a group of elements with identical type values\npositions of elements with different type values are omitted from rank_group"
+          nullable: true
+        rank_absolute:
+          type: integer
+          description: "absolute rank among all the listed apps\nabsolute position among all apps on the list"
+          nullable: true
+        position:
+          type: string
+          description: "the alignment of the element in SERP\ncan take the following values: left"
+          nullable: true
+        app_id:
+          type: string
+          description: ID of the app
+          nullable: true
+        title:
+          type: string
+          description: title of the app
+          nullable: true
+        url:
+          type: string
+          description: URL to the app page on Google Play
+          nullable: true
+        icon:
+          type: string
+          description: URL to the app icon
+          nullable: true
+        description:
+          type: string
+          description: description of the app
+          nullable: true
+        reviews_count:
+          type: integer
+          description: the total number of reviews the app has
+          format: int64
+          nullable: true
+        rating:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/RatingElement'
+          description: average rating of the app
+          nullable: true
+        price:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/PriceInfo'
+          description: price of the app
+          nullable: true
+        is_free:
+          type: boolean
+          description: indicates whether the app is free
+          nullable: true
+        main_category:
+          type: string
+          description: main category of the app
+          nullable: true
+        installs:
+          type: string
+          description: "number of installs of the app\napproximate number of installs as displayed on the app page"
+          nullable: true
+        installs_count:
+          type: integer
+          description: "number of installs of the app\nthe exact number of installs of the app"
+          format: int64
+          nullable: true
+        developer:
+          type: string
+          description: name of the app developer
+          nullable: true
+        developer_id:
+          type: string
+          description: ID of the app developer
+          nullable: true
+        developer_url:
+          type: string
+          description: URL to the developer page on Google Play
+          nullable: true
+        developer_email:
+          type: string
+          description: email address of the developer
+          nullable: true
+        developer_address:
+          type: string
+          description: physical address of the developer
+          nullable: true
+        developer_website:
+          type: string
+          description: official website of the developer
+          nullable: true
+        version:
+          type: string
+          description: current version of the app
+          nullable: true
+        minimum_os_version:
+          type: string
+          description: minimum OS version required to install the app
+          nullable: true
+        size:
+          type: string
+          description: size of the app
+          nullable: true
+        released_date:
+          type: string
+          description: "date and time when the app was released\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”;\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        last_update_date:
+          type: string
+          description: "date and time when the app was last updated\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”;\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        update_notes:
+          type: string
+          description: "update notes\ncontains the latest update notes from the developer"
+          nullable: true
+        images:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: "app images\ncontains URLs to the images published on the app page on Google Play"
+          nullable: true
+        videos:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: "app videos\ncontains URLs to the video published on the app page on Google Play"
+          nullable: true
+        similar_apps:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppsInfo'
+            nullable: true
+          description: "similar apps\ndisplays apps similar to the app in a POST request"
+          nullable: true
+        more_apps_by_developer:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppsInfo'
+            nullable: true
+          description: "similar apps\ninformation about apps built by the same developer"
+          nullable: true
+        genres:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: "app genres\ncontains relevant app categories"
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: "app tags\ncontains relevant app tags"
+          nullable: true
+    AppDataGoogleAppInfoTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: application id received in a POST request
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        se_results_count:
+          type: integer
+          description: the total number of results
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of items in the results array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/GooglePlayInfoOrganic'
+            nullable: true
+          description: found app info
+          nullable: true
+    AppDataGoogleAppInfoTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppInfoTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppInfoTaskGetHtmlResultInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: application ID received in a POST request
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/SerpHtmlItemInfo'
+            nullable: true
+          description: HTML pages and related data
+          nullable: true
+    AppDataGoogleAppInfoTaskGetHtmlTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTaskGetHtmlResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppInfoTaskGetHtmlResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppInfoTaskGetHtmlTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppReviewsTaskPostRequestInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: "id of the app\nrequired field\nID of the mobile application on Google Play;\nyou can find the ID in the URL of every app listed on Google Play;\nexample:\nhttps://play.google.com/store/apps/details?id=org.telegram.messenger"
+          example: org.telegram.messenger
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if you don’t specify language_code\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if you don’t specify language_name\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/google/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        depth:
+          type: integer
+          description: "parsing depth\noptional field\nnumber of reviews to be returned in the API response;\nwe strongly recommend setting the parsing depth in the multiples of 150, because our system processes 150 reviews in a row;\ndefault value: 150;\nmaximum value: 100000"
+          nullable: true
+          example: 150
+        rating:
+          type: integer
+          description: "filter reviews by rating\noptional field\nyou can use this field to filter the results;\npossible types of filtering:\n5 — return reviews with five-star rating only;\n4 — return reviews with four-star rating only;\n3 — return reviews with three-star rating only;\n2 — return reviews with two-star rating only;\n1 — return reviews with one-star rating only;\nby default, the API returns all reviews regardless of the number of stars"
+          nullable: true
+        sort_by:
+          type: string
+          description: "results sorting parameters\noptional field\nyou can use this field to sort the results;\npossible types of sorting:\nnewest — sort by the most recent reviews;\nmost_relevant — sort by the most relevant reviews;\ndefault rule: most_relevant"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced, html"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23"
+          nullable: true
+    AppDataGoogleAppReviewsTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataGoogleAppReviewsTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppReviewsTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Google App Reviews task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Google App Reviews HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataGoogleAppReviewsTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppReviewsTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppUserProfileInfo:
+      type: object
+      properties:
+        profile_name:
+          type: string
+          description: profile name of the reviewer
+          nullable: true
+        profile_image_url:
+          type: string
+          description: URL to the reviewer’s profile image
+          nullable: true
+    GooglePlayReviewsSearch:
+      type: object
+      properties:
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        rank_group:
+          type: integer
+          description: "position within a group of elements with identical type values\npositions of elements with different type values are omitted from rank_group"
+          nullable: true
+        rank_absolute:
+          type: integer
+          description: "absolute rank among all the listed reviews\nabsolute position among all reviews on the list"
+          nullable: true
+        position:
+          type: string
+          description: "the alignment of the review in SERP\ncan take the following values: left"
+          nullable: true
+        version:
+          type: string
+          description: "version of the app\nversion of the app for which the review is submitted"
+          nullable: true
+        rating:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/RatingElement'
+          description: the rating score submitted by the reviewer
+          nullable: true
+        timestamp:
+          type: string
+          description: "date and time when the review was published\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”;\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        id:
+          type: string
+          description: id of the review
+          nullable: true
+        helpful_count:
+          type: integer
+          description: "number of helpful votes\nindicates how many users considered the review helpful and voted with the thumbs up icon"
+          format: int64
+          nullable: true
+        title:
+          type: string
+          description: "title of the review\nGoogle Play doesn’t provide an option to title reviews, so this parameter will always equal null"
+          nullable: true
+        review_text:
+          type: string
+          description: content of the review
+          nullable: true
+        user_profile:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/AppUserProfileInfo'
+          description: user profile of the reviewer
+          nullable: true
+        responses:
+          type: object
+          description: response from the developer
+          nullable: true
+    AppDataGoogleAppReviewsTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: application id received in a POST array
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        title:
+          type: string
+          description: "title of the app\ntitle of the application for which the reviews are collected"
+          nullable: true
+        rating:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/RatingElement'
+          description: "rating of the app\nrating of the application for which the reviews are collected"
+          nullable: true
+        reviews_count:
+          type: integer
+          description: the total number of reviews
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: "the number of reviews items in the results array\nyou can get more results by using the depth parameter when setting a task"
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/GooglePlayReviewsSearch'
+            nullable: true
+          description: "found reviews\nyou can get more results by using the depth parameter when setting a task"
+          nullable: true
+    AppDataGoogleAppReviewsTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppReviewsTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppReviewsTaskGetHtmlResultInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: app id received in a POST array
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of results returned in the items array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/SerpHtmlItemInfo'
+            nullable: true
+          description: HTML pages and related data
+          nullable: true
+    AppDataGoogleAppReviewsTaskGetHtmlTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTaskGetHtmlResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppReviewsTaskGetHtmlResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppReviewsTaskGetHtmlTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppListingsCategoriesResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          nullable: true
+        se_type:
+          type: string
+          nullable: true
+        date_posted:
+          type: string
+          nullable: true
+        tag:
+          type: string
+          nullable: true
+        endpoint_advanced:
+          type: string
+          nullable: true
+        endpoint_html:
+          type: string
+          nullable: true
+    AppDataGoogleAppListingsCategoriesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListingsCategoriesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppListingsCategoriesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListingsCategoriesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataGoogleAppListingsSearchLiveRequestInfo:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+          description: "app categories\noptional field\nthe categories you specify are used to search for app listings;\nyou can get the full list of available app listing categories by this link\nyou can specify up to 10 categories"
+          nullable: true
+          example:
+            - Tools
+        description:
+          type: string
+          description: "keyword in the app’s description\noptional field\nkeywords that occur in the description of the app;\ncan contain up to 200 characters"
+          nullable: true
+          example: vpn
+        title:
+          type: string
+          description: "keyword in the app’s title\noptional field\nkeywords that occur in the title of the app;\ncan contain up to 200 characters"
+          nullable: true
+          example: vpn
+        filters:
+          type: array
+          items:
+            type: object
+            nullable: true
+          description: "array of results filtering parameters\noptional field\nyou can add several filters at once (8 filters maximum)\nyou should set a logical operator and, or between the conditions\nthe following operators are supported:\nregex, not_regex, <, <=, >, >=, =, <>, in, not_in, like, not_like\nyou can use the % operator with like and not_like to match any string of zero or more characters\nexample:\n[\"item.rating.value\",\">\",3]\nyou can receive the list of available filters by making a separate request to https://api.dataforseo.com/v3/app_data/google/app_listings/available_filters"
+          nullable: true
+        order_by:
+          type: array
+          items:
+            type: string
+          description: "results sorting rules\noptional field\nyou can use the same values as in the filters array to sort the results\npossible sorting types:\nasc – results will be sorted in the ascending order\ndesc – results will be sorted in the descending order\nyou should use a comma to set up a sorting parameter\nexample:\n[\"item.installs_count,asc\"]\nnote that you can set no more than three sorting rules in a single request\nyou should use a comma to separate several sorting rules\nexample:\n[\"item.rating.value,desc\",\"item.installs_count,asc\"]"
+          nullable: true
+        limit:
+          type: integer
+          description: "the maximum number of returned apps\noptional field\ndefault value: 100\nmaximum value: 1000"
+          nullable: true
+          example: 10
+        offset:
+          type: integer
+          description: "offset in the results array of returned apps\noptional field\ndefault value: 0\nif you specify the 10 value, the first ten entities in the results array will be omitted and the data will be provided for the successive entities"
+          nullable: true
+        offset_token:
+          type: string
+          description: "token for subsequent requests\noptional field\nprovided in the identical filed of the response to each request;\nuse this parameter to avoid timeouts while trying to obtain over 100,000 results in a single request;\nby specifying the unique offset_token value from the response array, you will get the subsequent results of the initial task;\noffset_token values are unique for each subsequent task\nNote: if the offset_token is specified in the request, all other parameters should be identical to the previous request"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    AppDataGoogleAppListingsSearchLiveItem:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: ID of the returned app
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        time_update:
+          type: string
+          description: "date and time when SERP data was last updated\nin the ISO 8601 format: “YYYY-MM-DDThh:mm:ss.sssssssZ”\nexample:\n2023-05-23 10:16:19 +00:00"
+          nullable: true
+        item:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/GooglePlayInfoOrganic'
+          description: detailed information about the app
+          nullable: true
+    AppDataGoogleAppListingsSearchLiveResultInfo:
+      type: object
+      properties:
+        total_count:
+          type: integer
+          description: the total number of relevant results in the database
+          format: int64
+          nullable: true
+        count:
+          type: integer
+          description: the number of items in the results array
+          format: int64
+          nullable: true
+        offset:
+          type: integer
+          description: offset in the results array of returned apps
+          nullable: true
+        offset_token:
+          type: string
+          description: "token for subsequent requests\nyou can use this parameter in the POST request to avoid timeouts while trying to obtain over 100,000 results in a single request"
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppDataGoogleAppListingsSearchLiveItem'
+            nullable: true
+          description: array of apps and related data
+          nullable: true
+    AppDataGoogleAppListingsSearchLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListingsSearchLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataGoogleAppListingsSearchLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataGoogleAppListingsSearchLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleCategoriesResultInfo:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: contains full list of supported app categories
+          nullable: true
+    AppDataAppleCategoriesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleCategoriesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleCategoriesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleCategoriesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleLocationsResultInfo:
+      type: object
+      properties:
+        location_code:
+          type: integer
+          description: location code
+          nullable: true
+        location_name:
+          type: string
+          description: full name of the location
+          nullable: true
+        location_code_parent:
+          type: integer
+          nullable: true
+        country_iso_code:
+          type: string
+          description: ISO country code of the location
+          nullable: true
+        location_type:
+          type: string
+          description: location type
+          nullable: true
+    AppDataAppleLocationsTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleLocationsResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleLocationsResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleLocationsTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleLanguagesResultInfo:
+      type: object
+      properties:
+        language_name:
+          type: string
+          description: language name
+          nullable: true
+        language_code:
+          type: string
+          description: language code according to ISO 639-1
+          nullable: true
+    AppDataAppleLanguagesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleLanguagesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleLanguagesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleLanguagesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppSearchesTaskPostRequestInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: "keyword\nrequired field\nyou can specify up to 700 characters in the keyword field;\nall %## will be decoded (plus character ‘+’ will be decoded to a space character);\nif you need to use the “%” character for your keyword, please specify it as “%25”;\nif you need to use the “+” character for your keyword, please specify it as “%2B”\nlearn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article"
+          example: vpn
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if language_code is not specified\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if language_name is not specified\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        depth:
+          type: integer
+          description: "parsing depth\noptional field\nnumber of results to be returned from the App Store SERP;\nwe strongly recommend setting the parsing depth in the multiples of 100, because our system processes 100 results in a row;\nNote: your account will be billed per each SERP containing up to 100 results;\nthus, setting a depth above 100 may result in additional charges if the search engine returns more than 100 results;\nif the specified depth is higher than the number of results in the response, the difference will be refunded to your account balance automatically\ndefault value: 100\nmaximum value: 700"
+          nullable: true
+          example: 200
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+    AppDataAppleAppSearchesTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataAppleAppSearchesTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppSearchesTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppSearchesTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Apple App Searches task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Apple App Searches HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataAppleAppSearchesTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppSearchesTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppSearchesTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppSearchesTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppSearchesTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: keyword received in a POST request
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nin this case, the value will be null"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        se_results_count:
+          type: integer
+          description: the total number of results
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of items in the results array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppStoreSearchOrganic'
+            nullable: true
+          description: found apps
+          nullable: true
+    AppDataAppleAppSearchesTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppSearchesTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppSearchesTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppSearchesTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppInfoTaskPostRequestInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: "id of the app\nrequired field\nID of the mobile application on App Store;\nyou can find the ID in the URL of every app listed on App Store;\nexample:\nin the URL https://apps.apple.com/us/app/id835599320\nthe id is 835599320"
+          example: '835599320'
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if you don’t specify language_code\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if you don’t specify language_name\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority \nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+    AppDataAppleAppInfoTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataAppleAppInfoTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppInfoTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppInfoTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Apple App Info task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Apple App Info HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataAppleAppInfoTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppInfoTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppInfoTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppInfoTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppStoreInfoOrganic:
+      type: object
+      properties:
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        rank_group:
+          type: integer
+          description: "position within a group of elements with identical type values\npositions of elements with different type values are omitted from rank_group"
+          nullable: true
+        rank_absolute:
+          type: integer
+          description: "absolute rank among all the listed apps\nabsolute position among all apps on the list"
+          nullable: true
+        position:
+          type: string
+          description: "the alignment of the element in SERP\ncan take the following values: left"
+          nullable: true
+        app_id:
+          type: string
+          description: ID of the app
+          nullable: true
+        title:
+          type: string
+          description: title of the app
+          nullable: true
+        url:
+          type: string
+          description: URL to the app page on App Store
+          nullable: true
+        icon:
+          type: string
+          description: URL to the app icon
+          nullable: true
+        description:
+          type: string
+          description: description of the app
+          nullable: true
+        reviews_count:
+          type: integer
+          description: the total number of reviews of the app
+          format: int64
+          nullable: true
+        rating:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/RatingElement'
+          description: average rating of the app
+          nullable: true
+        price:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/PriceInfo'
+          description: price of the app
+          nullable: true
+        is_free:
+          type: boolean
+          description: indicates whether the app is free
+          nullable: true
+        main_category:
+          type: string
+          description: main category/genre of the app
+          nullable: true
+        categories:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: all relevant categories/genres of the app
+          nullable: true
+        languages:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: languages supported in the app
+          nullable: true
+        advisories:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: age rating and age-based content advisories
+          nullable: true
+        developer:
+          type: string
+          description: name of the app developer
+          nullable: true
+        developer_id:
+          type: string
+          description: ID of the app developer
+          nullable: true
+        developer_url:
+          type: string
+          description: URL to the developer page on App Store
+          nullable: true
+        version:
+          type: string
+          description: current version of the app
+          nullable: true
+        minimum_os_version:
+          type: string
+          description: minimum OS version required to install the app
+          nullable: true
+        size:
+          type: string
+          description: size of the app
+          nullable: true
+        released_date:
+          type: string
+          description: "date and time when the app was released\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”;\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        last_update_date:
+          type: string
+          description: "date and time when the app was last updated\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”;\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        update_notes:
+          type: string
+          description: "update notes\ncontains the latest update notes from the developer"
+          nullable: true
+        images:
+          type: array
+          items:
+            type: string
+            nullable: true
+          description: "app images\ncontains URLs to the images used on the app page on App Store"
+          nullable: true
+        similar_apps:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppsInfo'
+            nullable: true
+          description: "similar apps\ndisplays apps similar to the app in a POST request"
+          nullable: true
+        more_apps_by_developer:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppsInfo'
+            nullable: true
+          description: "similar apps\ninformation about apps built by the same developer"
+          nullable: true
+    AppDataAppleAppInfoTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: application id received in a POST request
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        se_results_count:
+          type: integer
+          description: the total number of results
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: the number of items in the results array
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppStoreInfoOrganic'
+            nullable: true
+          description: found app info
+          nullable: true
+    AppDataAppleAppInfoTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppInfoTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppInfoTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppInfoTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppListTaskPostRequestInfo:
+      type: object
+      properties:
+        app_collection:
+          type: string
+          description: "app collection\nrequired field\napp collection on App Store from which apps will be collected;\nyou can specify the following values:\ntop_free_ios, top_paid_ios, top_grossing_ios, new_ios, new_free_ios, new_paid_ios"
+          example: top_free_ios
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if you don’t specify language_code\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if you don’t specify language_name\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        depth:
+          type: integer
+          description: "parsing depth\noptional field\nnumber of apps to be returned from the App Store SERP;\nwe strongly recommend setting the parsing depth in the multiples of 100, because our system processes 100 results in a row;\nNote: your account will be billed per each SERP containing up to 100 results;\nthus, setting a depth above 100 may result in additional charges if the search engine returns more than 100 results;\nif the specified depth is higher than the number of results in the response, the difference will be refunded to your account balance automatically\ndefault value: 100\nmaximum value: 1000"
+          nullable: true
+          example: 200
+        app_category:
+          type: string
+          description: "application category on the App Store\noptional field\nyou can filter the results by app category;\nexample:\nlifestyle;\nyou can review the full list of available categories here or by making a separate request to https://api.dataforseo.com/v3/app_data/apple/categories"
+          nullable: true
+          example: games
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+    AppDataAppleAppListTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataAppleAppListTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppListTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Apple App List task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Apple App List HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataAppleAppListTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppListTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppListTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: app collection received in a POST array
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nin this case, the value will be null"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        se_results_count:
+          type: integer
+          description: the total number of results
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: "the number of app items in the results array\nyou can get more results by using the depth parameter when setting a task"
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppStoreSearchOrganic'
+            nullable: true
+          description: "found apps\nyou can get more results by using the depth parameter when setting a task"
+          nullable: true
+    AppDataAppleAppListTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppListTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppReviewsTaskPostRequestInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: "id of the app\nrequired field\nID of the mobile application on App Store;\nyou can find the ID in the URL of every app listed on App Store;\nexample:\nin the URL https://apps.apple.com/us/app/id835599320\nthe id is 835599320"
+          example: '835599320'
+        location_name:
+          type: string
+          description: "full name of search engine location\nrequired field if you don’t specify location_code\nif you use this field, you don’t need to specify location_code\nyou can receive the list of available locations of the search engine with their location_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\nWest Los Angeles,California,United States"
+          nullable: true
+        location_code:
+          type: integer
+          description: "search engine location code\nrequired field if you don’t specify location_name\nif you use this field, you don’t need to specify location_name\nyou can receive the list of available locations of the search engine with their location_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/locations\nexample:\n9061121"
+          nullable: true
+          example: 2840
+        language_name:
+          type: string
+          description: "full name of search engine language\nrequired field if you don’t specify language_code\nif you use this field, you don’t need to specify language_code\nyou can receive the list of available languages with language_name by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nEnglish"
+          nullable: true
+        language_code:
+          type: string
+          description: "search engine language code\nrequired field if you don’t specify language_name\nif you use this field, you don’t need to specify language_name\nyou can receive the list of available languages with their language_code by making a separate request to https://api.dataforseo.com/v3/app_data/apple/languages\nexample:\nen"
+          nullable: true
+          example: en
+        priority:
+          type: integer
+          description: "task priority\noptional field\ncan take the following values:\n1 – normal execution priority (set by default)\n2 – high execution priority\nYou will be additionally charged for the tasks with high execution priority.\nThe cost can be calculated on the Pricing page."
+          nullable: true
+        depth:
+          type: integer
+          description: "parsing depth\noptional field\nnumber of reviews to be returned in the API response;\nwe strongly recommend setting the parsing depth in the multiples of 50, because our system processes 50 reviews in a row;\ndefault value: 50;\nmaximum value: 500"
+          nullable: true
+          example: 200
+        sort_by:
+          type: string
+          description: "results sorting parameters\noptional field\nyou can use this field to sort the results;\npossible types of sorting:\nmost_recent — sort by the most recent reviews;\nmost_helpful — sort by the most relevant reviews;\ndefault rule: most_helpful"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+        postback_url:
+          type: string
+          description: "return URL for sending task results\noptional field\nonce the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/postbackscript?id=$id\nhttp://your-server.com/postbackscript?id=$id&tag=$tag\nNote: special characters in postback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+        postback_data:
+          type: string
+          description: "postback_url datatype\nrequired field if you specify postback_url\ncorresponds to the datatype that will be sent to your server\npossible values:\nadvanced"
+          nullable: true
+        pingback_url:
+          type: string
+          description: "notification URL of a completed task\noptional field\nwhen a task is completed we will notify you by GET request sent to the URL you have specified\nyou can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.\nexample:\nhttp://your-server.com/pingscript?id=$id\nhttp://your-server.com/pingscript?id=$id&tag=$tag\nNote: special characters in pingback_url will be urlencoded;\ni.a., the # character will be encoded into %23\nlearn more on our Help Center"
+          nullable: true
+    AppDataAppleAppReviewsTaskPostTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: object
+              description: "array of results\nin this case, the value will be null"
+              nullable: true
+    AppDataAppleAppReviewsTaskPostResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppReviewsTaskPostTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppReviewsTasksReadyResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier of the completed task\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          description: search engine specified when setting the task
+          nullable: true
+        se_type:
+          type: string
+          description: search engine type
+          nullable: true
+        date_posted:
+          type: string
+          description: date when the task was posted (in the UTC format)
+          nullable: true
+        tag:
+          type: string
+          description: user-defined task identifier
+          nullable: true
+        endpoint_advanced:
+          type: string
+          description: URL for collecting the results of the Apple App Reviews task
+          nullable: true
+        endpoint_html:
+          type: string
+          description: "URL for collecting the results of the Apple App Reviews HTML task\nif HTML tasks are not supported in the specified endpoint, the value will be null"
+          nullable: true
+    AppDataAppleAppReviewsTasksReadyTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppReviewsTasksReadyResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppReviewsTasksReadyResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppReviewsTasksReadyTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppStoreReviewsSearch:
+      type: object
+      properties:
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        rank_group:
+          type: integer
+          description: "position within a group of elements with identical type values\npositions of elements with different type values are omitted from rank_group"
+          nullable: true
+        rank_absolute:
+          type: integer
+          description: "absolute rank among all the listed reviews\nabsolute position among all reviews on the list"
+          nullable: true
+        position:
+          type: string
+          description: "the alignment of the review in SERP\ncan take the following values: left"
+          nullable: true
+        version:
+          type: string
+          description: "version of the app\nversion of the app for which the review is submitted"
+          nullable: true
+        rating:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/RatingElement'
+          description: the rating score submitted by the reviewer
+          nullable: true
+        timestamp:
+          type: string
+          description: "date and time when the review was published\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”;\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        id:
+          type: string
+          description: id of the review
+          nullable: true
+        title:
+          type: string
+          description: title of the review
+          nullable: true
+        review_text:
+          type: string
+          description: content of the review
+          nullable: true
+        user_profile:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/AppUserProfileInfo'
+          description: user profile of the reviewer
+          nullable: true
+    AppDataAppleAppReviewsTaskGetAdvancedResultInfo:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: application id received in a POST array
+          nullable: true
+        type:
+          type: string
+          description: type of element
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        datetime:
+          type: string
+          description: "date and time when the result was received\nin the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”\nexample:\n2019-11-15 12:57:46 +00:00"
+          nullable: true
+        title:
+          type: string
+          description: "title of the app\ntitle of the application for which the reviews are collected"
+          nullable: true
+        rating:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/RatingElement'
+          description: "rating of the app\nrating of the application for which the reviews are collected"
+          nullable: true
+        reviews_count:
+          type: integer
+          description: "the total number of reviews\nin this case, the value will be null as App Store does not indicate the total number of app reviews"
+          format: int64
+          nullable: true
+        items_count:
+          type: integer
+          description: "the number of reviews items in the results array\nyou can get more results by using the depth parameter when setting a task"
+          format: int64
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppStoreReviewsSearch'
+            nullable: true
+          description: found reviews
+          nullable: true
+    AppDataAppleAppReviewsTaskGetAdvancedTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppReviewsTaskGetAdvancedResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppReviewsTaskGetAdvancedResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppReviewsTaskGetAdvancedTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppListingsCategoriesResultInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "task identifier\nunique task identifier in our system in the UUID format"
+          nullable: true
+        se:
+          type: string
+          nullable: true
+        se_type:
+          type: string
+          nullable: true
+        date_posted:
+          type: string
+          nullable: true
+        tag:
+          type: string
+          nullable: true
+        endpoint_advanced:
+          type: string
+          nullable: true
+        endpoint_html:
+          type: string
+          nullable: true
+    AppDataAppleAppListingsCategoriesTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListingsCategoriesResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppListingsCategoriesResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListingsCategoriesTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true
+    AppDataAppleAppListingsSearchLiveRequestInfo:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+          description: "app categories\noptional field\nthe categories you specify are used to search for app listings;\nyou can get the full list of available app listing categories by this link\nyou can specify up to 10 categories"
+          nullable: true
+          example:
+            - Tools
+        description:
+          type: string
+          description: "keyword in the app’s description\noptional field\nkeywords that occur in the description of the app;\ncan contain up to 200 characters"
+          nullable: true
+          example: vpn
+        title:
+          type: string
+          description: "keyword in the app’s title\noptional field\nkeywords that occur in the title of the app;\ncan contain up to 200 characters"
+          nullable: true
+          example: vpn
+        filters:
+          type: array
+          items:
+            type: object
+            nullable: true
+          description: "array of results filtering parameters\noptional field\nyou can add several filters at once (8 filters maximum)\nyou should set a logical operator and, or between the conditions\nthe following operators are supported:\nregex, not_regex, <, <=, >, >=, =, <>, in, not_in, like, not_like\nyou can use the % operator with like and not_like to match any string of zero or more characters\nexample:\n[\"rating.value\",\">\",3]\nyou can receive the list of available filters by making a separate request to https://api.dataforseo.com/v3/app_data/apple/app_listings/available_filters"
+          nullable: true
+        order_by:
+          type: array
+          items:
+            type: string
+          description: "results sorting rules\noptional field\nyou can use the same values as in the filters array to sort the results\npossible sorting types:\nasc – results will be sorted in the ascending order\ndesc – results will be sorted in the descending order\nyou should use a comma to set up a sorting parameter\nexample:\n[\"item.rating.value,desc\"]\nnote that you can set no more than three sorting rules in a single request\nyou should use a comma to separate several sorting rules\nexample:\n[\"item.rating.value,desc\",\"item.rating.value,desc\"]"
+          nullable: true
+        limit:
+          type: integer
+          description: "the maximum number of returned apps\noptional field\ndefault value: 100\nmaximum value: 1000"
+          nullable: true
+          example: 10
+        offset:
+          type: integer
+          description: "offset in the results array of returned apps\noptional field\ndefault value: 0\nif you specify the 10 value, the first ten entities in the results array will be omitted and the data will be provided for the successive entities"
+          nullable: true
+        offset_token:
+          type: string
+          description: "token for subsequent requests\noptional field\nprovided in the identical filed of the response to each request;\nuse this parameter to avoid timeouts while trying to obtain over 100,000 results in a single request;\nby specifying the unique offset_token value from the response array, you will get the subsequent results of the initial task;\noffset_token values are unique for each subsequent task\nNote: if the offset_token is specified in the request, all other parameters should be identical to the previous request"
+          nullable: true
+        tag:
+          type: string
+          description: "user-defined task identifier\noptional field\nthe character limit is 255\nyou can use this parameter to identify the task and match it with the result\nyou will find the specified tag value in the data object of the response"
+          nullable: true
+    AppDataAppleAppListingsSearchLiveItem:
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: ID of the returned app
+          nullable: true
+        se_domain:
+          type: string
+          description: search engine domain in a POST array
+          nullable: true
+        location_code:
+          type: integer
+          description: location code in a POST array
+          nullable: true
+        language_code:
+          type: string
+          description: language code in a POST array
+          nullable: true
+        check_url:
+          type: string
+          description: "direct URL to search engine results\nyou can use it to make sure that we provided accurate results"
+          nullable: true
+        time_update:
+          type: string
+          description: "date and time when SERP data was last updated\nin the ISO 8601 format: “YYYY-MM-DDThh:mm:ss.sssssssZ”\nexample:\n2023-05-23 10:16:19 +00:00"
+          nullable: true
+        item:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/AppStoreInfoOrganic'
+          description: detailed information about the app
+          nullable: true
+    AppDataAppleAppListingsSearchLiveResultInfo:
+      type: object
+      properties:
+        total_count:
+          type: integer
+          description: the total number of relevant results in the database
+          format: int64
+          nullable: true
+        count:
+          type: integer
+          description: the number of items in the results array
+          format: int64
+          nullable: true
+        offset:
+          type: integer
+          description: offset in the results array of returned apps
+          nullable: true
+        offset_token:
+          type: string
+          description: "token for subsequent requests\nyou can use this parameter in the POST request to avoid timeouts while trying to obtain over 100,000 results in a single request"
+          nullable: true
+        items:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/AppDataAppleAppListingsSearchLiveItem'
+            nullable: true
+          description: array of apps and related data
+          nullable: true
+    AppDataAppleAppListingsSearchLiveTaskInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseTaskInfo'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListingsSearchLiveResultInfo'
+                nullable: true
+              description: array of results
+              nullable: true
+    AppDataAppleAppListingsSearchLiveResponseInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseInfo'
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/AppDataAppleAppListingsSearchLiveTaskInfo'
+                nullable: true
+              description: array of tasks
+              nullable: true

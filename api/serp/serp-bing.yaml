@@ -1,0 +1,461 @@
+  # Bing SERP API Endpoints
+  /v3/serp/bing/locations:
+    get:
+      tags:
+        - Bing SERP
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/locations/?bash'"
+      operationId: SerpBingLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/locations/{country}':
+    get:
+      tags:
+        - Bing SERP
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/locations/?bash'"
+      operationId: SerpBingLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/languages:
+    get:
+      tags:
+        - Bing SERP
+      description: "You will receive the list of languages by calling this API.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/languages/?bash'"
+      operationId: SerpBingLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/task_post:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_post/?bash'"
+      operationId: BingOrganicTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/tasks_ready:
+    get:
+      tags:
+        - Bing SERP
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with the list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/tasks_ready/?bash'"
+      operationId: BingOrganicTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/tasks_fixed:
+    get:
+      tags:
+        - Bing SERP
+      description: "‌\nThe 'Tasks Fixed' endpoint is designed to provide you with the list of re-parsed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the 'Task GET' endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/tasks_fixed/?bash'"
+      operationId: BingOrganicTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/organic/task_get/regular/{id}':
+    get:
+      tags:
+        - Bing SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_get/regular/?bash'"
+      operationId: BingOrganicTaskGetRegular
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskGetRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/organic/task_get/advanced/{id}':
+    get:
+      tags:
+        - Bing SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_get/advanced/?bash'"
+      operationId: BingOrganicTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/organic/task_get/html/{id}':
+    get:
+      tags:
+        - Bing SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/task_get/html/?bash'"
+      operationId: BingOrganicTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/live/regular:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌‌\nLive SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/live/regular/?bash'"
+      operationId: BingOrganicLiveRegular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveRegularRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/live/advanced:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌‌\nLive SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location. This endpoint will supply a complete overview of featured snippets and other extra elements of SERPs.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/live/advanced/?bash'"
+      operationId: BingOrganicLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/organic/live/html:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/organic/live/html/?bash'"
+      operationId: BingOrganicLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingOrganicLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/task_post:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌‌\nSERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/task_post/?bash'"
+      operationId: BingLocalPackTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/tasks_ready:
+    get:
+      tags:
+        - Bing SERP
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with the list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/tasks_ready/?bash'"
+      operationId: BingLocalPackTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/tasks_fixed:
+    get:
+      tags:
+        - Bing SERP
+      description: "‌\nThe 'Tasks Fixed' endpoint is designed to provide you with the list of re-parsed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the 'Task GET' endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/tasks_fixed/?bash'"
+      operationId: BingLocalPackTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/local_pack/task_get/regular/{id}':
+    get:
+      tags:
+        - Bing SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/task_get/regular/?bash'"
+      operationId: BingLocalPackTaskGetRegular
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskGetRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/bing/local_pack/task_get/html/{id}':
+    get:
+      tags:
+        - Bing SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/task_get/html/?bash'"
+      operationId: BingLocalPackTaskGetHtml
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 7 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackTaskGetHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/live/regular:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌‌\nLive Bing Local Pack SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/live/regular/?bash'"
+      operationId: BingLocalPackLiveRegular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveRegularRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveRegularResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/bing/local_pack/live/html:
+    post:
+      tags:
+        - Bing SERP
+      description: "‌\nLive SERP HTML provides a raw HTML page of 100 search engine results for the specified keyword, search engine, and location.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/bing/local_pack/live/html/?bash'"
+      operationId: BingLocalPackLiveHtml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveHtmlRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpBingLocalPackLiveHtmlResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

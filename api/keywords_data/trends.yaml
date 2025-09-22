@@ -1,0 +1,336 @@
+/v3/keywords_data/google_trends/locations:
+    get:
+      tags:
+        - Trends
+      description: "‌\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/locations/?bash'"
+      operationId: KeywordsDataGoogleTrendsLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/keywords_data/google_trends/locations/{country}':
+    get:
+      tags:
+        - Trends
+      description: "‌\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/locations/?bash'"
+      operationId: KeywordsDataGoogleTrendsLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/google_trends/languages:
+    get:
+      tags:
+        - Trends
+      description: "By calling this API you will receive the list of languages supported by Google Trends API.\n‌\n‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information about available languages.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/languages/?bash'"
+      operationId: KeywordsDataGoogleTrendsLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/google_trends/categories:
+    get:
+      tags:
+        - Trends
+      description: "By calling this API you will receive the list of categories supported by Google Trends API.\n‌\n‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information about available categories.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/categories/?bash'"
+      operationId: GoogleTrendsCategories
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsCategoriesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/google_trends/explore/task_post:
+    post:
+      tags:
+        - Trends
+      description: "‌\nThis endpoint will provide you with the keyword popularity data from the 'Explore' feature of Google Trends. You can check keyword trends for Google Search, Google News, Google Images, Google Shopping, and YouTube.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/explore/task_post/?bash'"
+      operationId: GoogleTrendsExploreTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsExploreTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsExploreTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/google_trends/explore/tasks_ready:
+    get:
+      tags:
+        - Trends
+      description: "‌\nThis endpoint is designed to provide you with a list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/explore/tasks_ready/?bash'"
+      operationId: GoogleTrendsExploreTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsExploreTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/keywords_data/google_trends/explore/task_get/{id}':
+    get:
+      tags:
+        - Trends
+      description: "‌\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/explore/task_get/?bash'"
+      operationId: GoogleTrendsExploreTaskGet
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsExploreTaskGetResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/google_trends/explore/live:
+    post:
+      tags:
+        - Trends
+      description: "This endpoint will provide you with the keyword popularity data from the 'Explore' feature of Google Trends. You can check keyword trends for Google Search, Google News, Google Images, Google Shopping, and YouTube.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/google_trends/explore/live/?bash'"
+      operationId: GoogleTrendsExploreLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsExploreLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataGoogleTrendsExploreLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/dataforseo_trends/locations:
+    get:
+      tags:
+        - Trends
+      description: "You will receive the list of DataForSEO Trends locations by calling this API. You can filter the list of locations by country when setting a task. Please note that the minimum geographic scope supported for the DataForSEO Trends API is country level.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/locations/?bash'"
+      operationId: KeywordsDataDataforseoTrendsLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/keywords_data/dataforseo_trends/locations/{country}':
+    get:
+      tags:
+        - Trends
+      description: "You will receive the list of DataForSEO Trends locations by calling this API. You can filter the list of locations by country when setting a task. Please note that the minimum geographic scope supported for the DataForSEO Trends API is country level.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/locations/?bash'"
+      operationId: KeywordsDataDataforseoTrendsLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/dataforseo_trends/explore/live:
+    post:
+      tags:
+        - Trends
+      description: "This endpoint will provide you with the keyword popularity data from DataForSEO Trends. You can check keyword trends for Google Search, Google News, and Google Shopping.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/explore/live/?bash'"
+      operationId: DataforseoTrendsExploreLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsExploreLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsExploreLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/dataforseo_trends/subregion_interests/live:
+    post:
+      tags:
+        - Trends
+      description: "This endpoint will provide you with location-specific keyword popularity data from DataForSEO Trends. You can check keyword trends for Google Search, Google News, and Google Shopping.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/subregion_interests/live/?bash'"
+      operationId: DataforseoTrendsSubregionInterestsLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsSubregionInterestsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsSubregionInterestsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/dataforseo_trends/demography/live:
+    post:
+      tags:
+        - Trends
+      description: "This endpoint will provide you with the demographic breakdown (by age and gender) of keyword popularity per each specified term based on DataForSEO Trends data. You can check keyword trends for Google Search, Google News, and Google Shopping.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/demography/live/?bash'"
+      operationId: DataforseoTrendsDemographyLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsDemographyLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsDemographyLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/dataforseo_trends/merged_data/live:
+    post:
+      tags:
+        - Trends
+      description: "This endpoint will provide you with the keyword popularity data from DataForSEO Trends. In addition to keyword popularity rate over the given time range, you will get location-specific keyword popularity data, and a demographic breakdown of keyword popularity per each specified term along with comparative values.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/merged_data/live/?bash'"
+      operationId: DataforseoTrendsMergedDataLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsMergedDataLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataDataforseoTrendsMergedDataLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

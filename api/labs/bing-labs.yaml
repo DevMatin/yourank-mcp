@@ -1,0 +1,308 @@
+  /v3/dataforseo_labs/bing/bulk_keyword_difficulty/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with the Keyword Difficulty metric for a maximum of 1,000 keywords in one API request. Keyword Difficulty stands for the relative difficulty of ranking in the first top-10 organic results for the related keyword. Keyword Difficulty in DataForSEO API responses indicates the chance of getting in top-10 organic results for a keyword on a logarithmic scale from 0 to 100.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/bulk_keyword_difficulty/live/?bash'"
+      operationId: BingBulkKeywordDifficultyLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingBulkKeywordDifficultyLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingBulkKeywordDifficultyLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/bulk_traffic_estimation/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with estimated monthly traffic volumes for up to 1,000 domains, subdomains, and pages. Along with organic search traffic estimations, you will also get separate values for paid search, featured snippet, and local pack results.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/bulk_traffic_estimation/live/?bash'"
+      operationId: BingBulkTrafficEstimationLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingBulkTrafficEstimationLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingBulkTrafficEstimationLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/competitors_domain/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with a full overview of ranking and traffic data of the competitor domains from organic and paid search. In addition to that, you will get the metrics specific to the keywords both competitor domains and your domain rank for within the same SERP.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/competitors_domain/live/?bash'"
+      operationId: BingCompetitorsDomainLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingCompetitorsDomainLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingCompetitorsDomainLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/domain_intersection/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with the keywords for which both specified domains rank within the same SERP. You will get data on each intersecting keyword. Along with that, you will get data on the first and second domain's SERP element discovered for this keyword, as well as the estimated traffic volume and cost of ad traffic. Domain Intersection endpoint supports organic, paid, local pack, and featured snippet results.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/domain_intersection/live/?bash'"
+      operationId: BingDomainIntersectionLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingDomainIntersectionLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingDomainIntersectionLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/domain_rank_overview/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with ranking and traffic data from Bing's organic and paid search for the specified domain. You will be able to review the domain ranking distribution in SERPs as well as estimated monthly traffic volume for both organic and paid results.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/domain_rank_overview/live/?bash'"
+      operationId: BingDomainRankOverviewLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingDomainRankOverviewLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingDomainRankOverviewLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/page_intersection/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with the keywords for which specified pages rank within the same Bing SERP.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/page_intersection/live/?bash'"
+      operationId: BingPageIntersectionLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingPageIntersectionLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingPageIntersectionLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/ranked_keywords/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with the list of keywords that any domain or webpage is ranking for. You will also get SERP elements related to the keyword position, as well as monthly searches and other data relevant to the returned keywords.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/ranked_keywords/live/?bash'"
+      operationId: BingRankedKeywordsLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingRankedKeywordsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingRankedKeywordsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/related_keywords/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌‌\nThe Related Keywords endpoint provides keywords appearing in the "searches related to" SERP element.\nYou can get up to 4680 keyword ideas by specifying the search depth. Each related keyword comes with search volume rate for the last month, search volume trend for the previous 12 months, as well as current cost-per-click and competition values.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/related_keywords/live/?bash'"
+      operationId: BingRelatedKeywordsLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingRelatedKeywordsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingRelatedKeywordsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/relevant_pages/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with ranking and traffic data for the web pages of the specified domain. You will be able to review each page's ranking distribution and estimated monthly traffic volume from both organic and paid searches.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/relevant_pages/live/?bash'"
+      operationId: BingRelevantPagesLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingRelevantPagesLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingRelevantPagesLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/serp_competitors/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌\nThis endpoint will provide you with a list of domain rankings for the keywords you specify. You will also get SERP rankings, rating, estimated traffic volume, and visibility values the provided domains gain from the specified keywords.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/serp_competitors/live/?bash'"
+      operationId: BingSerpCompetitorsLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingSerpCompetitorsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingSerpCompetitorsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/dataforseo_labs/bing/subdomains/live:
+    post:
+      tags:
+        - BingLabs
+      description: "‌‌\nThis endpoint will provide you with a list of subdomains of the specified domain, along with the ranking distribution across organic and paid search. In addition to that, you will also get the estimated traffic volume of subdomains based on search volume.\nfor more info please visit 'https://docs.dataforseo.com/v3/dataforseo_labs/bing/subdomains/live/?bash'"
+      operationId: BingSubdomainsLive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingSubdomainsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/DataforseoLabsBingSubdomainsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

@@ -1,0 +1,100 @@
+/v3/content_analysis/id_list:
+  post:
+    tags:
+      - ContentAnalysisBase
+    description: "This endpoint is designed to provide you with the list of IDs and metadata of the completed Content Analysis tasks during the specified period. You will get all task IDs that were made including successful, uncompleted, and tasks that responded as errors.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_analysis/id_list/?bash'"
+    operationId: ContentAnalysisIdList
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ContentAnalysisIdListRequestInfo'
+              nullable: true
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ContentAnalysisIdListResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+/v3/content_analysis/available_filters:
+  get:
+    tags:
+      - ContentAnalysisBase
+    description: "‌‌\nHere you will find all the necessary information about filters that can be used with Content Analysis API endpoints.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_analysis/filters/?bash'"
+    operationId: ContentAnalysisAvailableFilters
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ContentAnalysisAvailableFiltersResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+/v3/content_analysis/locations:
+  get:
+    tags:
+      - ContentAnalysisBase
+    description: "You will receive the list of locations by this API call.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_analysis/locations/?bash'"
+    operationId: ContentAnalysisLocations
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ContentAnalysisLocationsResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+/v3/content_analysis/languages:
+  get:
+    tags:
+      - ContentAnalysisBase
+    description: "You will receive the list of languages by calling this API.\n \nAs a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_analysis/languages/?bash'"
+    operationId: ContentAnalysisLanguages
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ContentAnalysisLanguagesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]
+/v3/content_analysis/categories:
+  get:
+    tags:
+      - ContentAnalysisBase
+    description: "We use Google product and service categories. This endpoint will provide you with the full list of available categories.\nYou can also download the CSV file by this link.\nfor more info please visit 'https://docs.dataforseo.com/v3/content_analysis/categories/?bash'"
+    operationId: ContentAnalysisCategories
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ContentAnalysisCategoriesResponseInfo'
+              nullable: true
+    security:
+      - basicAuth: [ ]

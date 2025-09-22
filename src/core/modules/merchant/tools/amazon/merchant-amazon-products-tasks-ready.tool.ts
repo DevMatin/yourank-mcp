@@ -1,0 +1,34 @@
+import { z } from 'zod';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
+
+export class MerchantAmazonProductsTasksReadyTool extends BaseTool {
+  constructor(dataForSEOClient: DataForSEOClient) {
+    super(dataForSEOClient);
+  }
+
+  getName(): string {
+    return 'merchant_amazon_products_tasks_ready';
+  }
+
+  getDescription(): string {
+    return 'Get the list of completed Amazon products tasks that are ready for collection';
+  }
+
+  getParams(): z.ZodRawShape {
+    return {};
+  }
+
+  async handle(params: any): Promise<any> {
+    try {
+      const response = await this.dataForSEOClient.makeRequest(
+        '/v3/merchant/amazon/products/tasks_ready',
+        'GET'
+      );
+      
+      return this.validateAndFormatResponse(response);
+    } catch (error) {
+      return this.formatErrorResponse(error);
+    }
+  }
+}

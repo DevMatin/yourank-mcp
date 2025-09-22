@@ -1,0 +1,84 @@
+/v3/on_page/links:
+    post:
+      tags:
+        - OnPage Links
+      description: "‌‌\nThis endpoint will provide you with a list of internal and external links detected on a target website.\nThe following link types are supported: anchor, image, link, canonical, meta, alternate, redirect.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/links/?bash'"
+      operationId: Links
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageLinksRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageLinksResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/redirect_chains:
+    post:
+      tags:
+        - OnPage Links
+      description: "‌‌\nRedirect chains occur when there are at least two redirects between the initial URL and the destination URL. For example, if page A redirects to page B which redirects to page C, such a series of redirects is considered a redirect chain. Sometimes, if page B redirects back to page A, the redirect chain becomes closed and is considered a redirect loop.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/redirect_chains/?bash'"
+      operationId: RedirectChains
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageRedirectChainsRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPageRedirectChainsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/on_page/pages_by_resource:
+    post:
+      tags:
+        - OnPage Links
+      description: "‌‌\nThis endpoint will return the list of pages where a specific resource is located. Using this function you will also get the data related to the pages that contain a specified resource.\nYou can get the URL of a resource using the Resources endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/on_page/page_by_resource/?bash'"
+      operationId: PagesByResource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPagePagesByResourceRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/OnPagePagesByResourceResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

@@ -1,0 +1,84 @@
+/v3/backlinks/competitors/live:
+    post:
+      tags:
+        - Backlinks Analysis
+      description: "This endpoint will provide you with a list of competitors that share some part of the backlink profile with a target website, along with a number of backlink intersections and the rank of every competing website. This is essential for competitive backlink analysis and identifying potential link building opportunities.\nfor more info please visit 'https://docs.dataforseo.com/v3/backlinks/competitors/live/?bash'"
+      operationId: BacklinksCompetitorsAnalysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksCompetitorsLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksCompetitorsLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/backlinks/domain_intersection/live:
+    post:
+      tags:
+        - Backlinks Analysis
+      description: "This endpoint will provide you with the list of domains pointing to the specified websites. This endpoint is especially useful for creating a Link Gap feature that shows what domains link to your competitors but do not link out to your website. Perfect for competitive analysis and link building opportunities identification.\nfor more info please visit 'https://docs.dataforseo.com/v3/backlinks/domain_intersection/live/?bash'"
+      operationId: BacklinksDomainIntersectionAnalysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksDomainIntersectionLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksDomainIntersectionLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/backlinks/page_intersection/live:
+    post:
+      tags:
+        - Backlinks Analysis
+      description: "This endpoint will provide you with the list of referring pages pointing to the specified targets. It is especially useful for finding the backlinks that point to your competitors but don't point to your website. Essential for page-level competitive analysis and identifying specific linking opportunities.\nfor more info please visit 'https://docs.dataforseo.com/v3/backlinks/page_intersection/live/?bash'"
+      operationId: BacklinksPageIntersectionAnalysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksPageIntersectionLiveRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/BacklinksPageIntersectionLiveResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

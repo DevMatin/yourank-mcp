@@ -1,0 +1,56 @@
+/v3/keywords_data/id_list:
+    post:
+      tags:
+        - Shared
+      description: "This endpoint is designed to provide you with the list of IDs and metadata of the completed Keywords Data tasks during the specified period. You will get all task IDs that were made including successful, uncompleted, and tasks that responded as errors.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/id_list/?bash'"
+      operationId: KeywordsDataIdList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataIdListRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataIdListResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/keywords_data/errors:
+    post:
+      tags:
+        - Shared
+      description: "By calling this endpoint you will receive information about the Keywords Data API tasks that returned an error within the past 7 days.\nfor more info please visit 'https://docs.dataforseo.com/v3/keywords_data/errors/?bash'"
+      operationId: KeywordsDataErrors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataErrorsRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/KeywordsDataErrorsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

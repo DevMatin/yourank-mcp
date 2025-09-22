@@ -1,0 +1,14 @@
+
+.DS_Store
+
+node_modules/
+dist/
+build/
+.out/
+.next/
+.vercel/
+coverage/
+npm-debug.log*
+pnpm-lock.yaml
+yarn-error.log
+.env*

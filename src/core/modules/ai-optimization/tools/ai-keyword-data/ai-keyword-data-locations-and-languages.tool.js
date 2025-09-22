@@ -1,0 +1,31 @@
+
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
+
+export class AiKeywordDataLocationsAndLanguagesTool extends BaseTool {
+  constructor(client) {
+    super(client);
+    this.client = client;
+  }
+
+  getName() {
+    return 'ai_optimization_ai_keyword_data_locations_and_languages';
+  }
+
+  getDescription() {
+    return 'Get the full list of locations and languages supported in AI Keyword Data API';
+  }
+
+  getParams() {
+    return {};
+  }
+
+  async handle(params) {
+    try {
+      const response = await this.client.makeRequest('/v3/ai_optimization/ai_keyword_data/locations_and_languages', 'GET');
+      return this.validateAndFormatResponse(response);
+    } catch (error) {
+      return this.formatErrorResponse(error);
+    }
+  }
+}

@@ -1,0 +1,417 @@
+  # YouTube SERP API Endpoints
+  /v3/serp/youtube/locations:
+    get:
+      tags:
+        - YouTube SERP
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/locations/?bash'"
+      operationId: SerpYoutubeLocations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeLocationsResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/locations/{country}':
+    get:
+      tags:
+        - YouTube SERP
+      description: "You will receive the list of locations by this API call. You can filter the list of locations by country when setting a task.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/locations/?bash'"
+      operationId: SerpYoutubeLocationsCountry
+      parameters:
+        - name: country
+          in: path
+          description: "country ISO code\noptional field\nspecify the ISO code if you want to filter the list of locations by country\nexample:\nus"
+          required: true
+          schema:
+            type: string
+          example: us
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeLocationsCountryResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/languages:
+    get:
+      tags:
+        - YouTube SERP
+      description: "You will receive the list of languages by calling this API.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/languages/?bash'"
+      operationId: SerpYoutubeLanguages
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeLanguagesResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/task_post:
+    post:
+      tags:
+        - YouTube SERP
+      description: "‌‌\nYouTube Video Info API provides detailed information about the video you specify in the POST request. You will get data from the watching page containing key video and content metrics as well as the channel where the video is published.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/task_post/?bash'"
+      operationId: YoutubeVideoInfoTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/tasks_ready:
+    get:
+      tags:
+        - YouTube SERP
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with the list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/tasks_ready/?bash'"
+      operationId: YoutubeVideoInfoTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/tasks_fixed:
+    get:
+      tags:
+        - YouTube SERP
+      description: "‌\nThe 'Tasks Fixed' endpoint is designed to provide you with the list of re-parsed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the 'Task GET' endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/tasks_fixed/?bash'"
+      operationId: YoutubeVideoInfoTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/video_info/task_get/advanced/{id}':
+    get:
+      tags:
+        - YouTube SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/task_get/advanced/?bash'"
+      operationId: YoutubeVideoInfoTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_info/live/advanced:
+    post:
+      tags:
+        - YouTube SERP
+      description: "‌\nLive YouTube Video Info provides real-time data on the video you specify in the request. You will get data from the watching page containing key video and content metrics as well as the channel where the video is published.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_info/live/advanced/?bash'"
+      operationId: YoutubeVideoInfoLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoInfoLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/task_post:
+    post:
+      tags:
+        - YouTube SERP
+      description: "‌‌\nYouTube Subtitles API provides data on all subtitles in the video you specify in the POST request. You will get data from the watching page containing subtitled text, its language, and duration in the video.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/task_post/?bash'"
+      operationId: YoutubeVideoSubtitlesTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/tasks_ready:
+    get:
+      tags:
+        - YouTube SERP
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with the list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/tasks_ready/?bash'"
+      operationId: YoutubeVideoSubtitlesTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/tasks_fixed:
+    get:
+      tags:
+        - YouTube SERP
+      description: "‌\nThe 'Tasks Fixed' endpoint is designed to provide you with the list of re-parsed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the 'Task GET' endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/tasks_fixed/?bash'"
+      operationId: YoutubeVideoSubtitlesTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/video_subtitles/task_get/advanced/{id}':
+    get:
+      tags:
+        - YouTube SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/task_get/advanced/?bash'"
+      operationId: YoutubeVideoSubtitlesTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_subtitles/live/advanced:
+    post:
+      tags:
+        - YouTube SERP
+      description: "‌\nLive YouTube Subtitles provides real-time data on subtitles in the video you specify in the request. You will get data from the watching page containing subtitled text, its language, and duration in the video.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_subtitles/live/advanced/?bash'"
+      operationId: YoutubeVideoSubtitlesLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoSubtitlesLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/task_post:
+    post:
+      tags:
+        - YouTube SERP
+      description: "‌‌\nYouTube Comments API provides data on comments on the video you specify in the request. You will get the top 20 comments on the video as well as information about the author, and key comment metrics.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/task_post/?bash'"
+      operationId: YoutubeVideoCommentsTaskPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTaskPostRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTaskPostResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/tasks_ready:
+    get:
+      tags:
+        - YouTube SERP
+      description: "‌\nThe 'Tasks Ready' endpoint is designed to provide you with the list of completed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the 'Task GET' endpoint.\nLearn more about task completion and obtaining a list of completed tasks in this help center article.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/tasks_ready/?bash'"
+      operationId: YoutubeVideoCommentsTasksReady
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTasksReadyResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/tasks_fixed:
+    get:
+      tags:
+        - YouTube SERP
+      description: "‌\nThe 'Tasks Fixed' endpoint is designed to provide you with the list of re-parsed tasks, which haven't been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the 'Task GET' endpoint.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/tasks_fixed/?bash'"
+      operationId: YoutubeVideoCommentsTasksFixed
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTasksFixedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  '/v3/serp/youtube/video_comments/task_get/advanced/{id}':
+    get:
+      tags:
+        - YouTube SERP
+      description: "Description of the fields for sending a request:\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/task_get/advanced/?bash'"
+      operationId: YoutubeVideoCommentsTaskGetAdvanced
+      parameters:
+        - name: id
+          in: path
+          description: "task identifier\nunique task identifier in our system in the UUID format\nyou will be able to use it within 30 days to request the results of the task at any time"
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsTaskGetAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]
+  /v3/serp/youtube/video_comments/live/advanced:
+    post:
+      tags:
+        - YouTube SERP
+      description: "‌\nLive YouTube Comments provides real-time data on comments on the video you specify in the request. You will get the top 20 comments on the video as well as information about the author, and key comment metrics.\nfor more info please visit 'https://docs.dataforseo.com/v3/serp/youtube/video_comments/live/advanced/?bash'"
+      operationId: YoutubeVideoCommentsLiveAdvanced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsLiveAdvancedRequestInfo'
+                nullable: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/SerpYoutubeVideoCommentsLiveAdvancedResponseInfo'
+                nullable: true
+      security:
+        - basicAuth: [ ]

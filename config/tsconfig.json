@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "../build",
+    "rootDir": "../src",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "node"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "noEmit": false
+  },
+  "include": [
+    "../src/**/*.ts"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../src/worker/**/*"
+  ]
+}
