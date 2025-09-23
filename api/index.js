@@ -1815,7 +1815,8 @@ app.post('/v3/onpage_core', async (req, res) => {
           target: params.target,
           language_code: params.language_code || 'en',
           location_name: params.location_name || 'United States',
-          device: params.device || 'desktop'
+          device: params.device || 'desktop',
+          max_crawl_pages: params.max_crawl_pages || 1
         }];
         break;
         

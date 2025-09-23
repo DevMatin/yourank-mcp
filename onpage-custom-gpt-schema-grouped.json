@@ -57,6 +57,11 @@
                     "enum": ["desktop", "mobile"],
                     "description": "Gerätetyp",
                     "default": "desktop"
+                  },
+                  "max_crawl_pages": {
+                    "type": "integer",
+                    "description": "Maximale Anzahl der zu crawlenden Seiten",
+                    "default": 1
                   }
                 },
                 "required": ["type"]
