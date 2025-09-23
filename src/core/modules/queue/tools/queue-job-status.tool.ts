@@ -1,8 +1,12 @@
 import { z } from 'zod';
 import { BaseTool } from '../../base.tool.js';
+import { DataForSEOClient } from '../../../client/dataforseo.client.js';
 import { queueService } from '../../../services/queue.service.js';
 
 export class QueueJobStatusTool extends BaseTool {
+  constructor(client: DataForSEOClient) {
+    super(client);
+  }
   getName(): string {
     return 'queue_job_status';
   }

@@ -19,7 +19,8 @@ export const AVAILABLE_MODULES = [
   'MERCHANT',            // Neue API
   'GOOGLE_SHOPPING',     // Neue API
   'AI_OPTIMIZATION',     // Neue API
-  'APP_DATA'             // App Data APIs
+  'APP_DATA',            // App Data APIs
+  'QUEUE'                // Queue Management System
 ] as const;
 export type ModuleName = typeof AVAILABLE_MODULES[number];
 

@@ -93,9 +93,22 @@ export class GoogleAdsSearchVolumeQueueTool extends BaseTool {
 
       const validatedResponse = this.validateAndFormatResponse(response);
 
-      // If we have a task_id from DataForSEO, we could optionally still track it
-      if (validatedResponse.success && validatedResponse.data?.tasks?.[0]?.id) {
-        const dataforSeoTaskId = validatedResponse.data.tasks[0].id;
+      // Extract task_id from DataForSEO response structure
+      let dataforSeoTaskId: string | undefined;
+      try {
+        const responseText = validatedResponse.content[0]?.text;
+        if (responseText) {
+          const responseData = JSON.parse(responseText);
+          if (responseData?.tasks?.[0]?.id) {
+            dataforSeoTaskId = responseData.tasks[0].id;
+          }
+        }
+      } catch (error) {
+        console.warn('Could not extract DataForSEO task ID:', error);
+      }
+
+      // If we have a task_id from DataForSEO, track it
+      if (dataforSeoTaskId) {
         
         // Create a tracking job for this immediate execution
         await queueService.createJob({

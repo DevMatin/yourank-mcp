@@ -233,15 +233,28 @@ export class QueueService {
    */
   async incrementRetryCount(jobId: string): Promise<boolean> {
     try {
-      const { error } = await this.client
+      // First get current retry count
+      const { data: currentJob, error: selectError } = await this.client
+        .from('api_jobs')
+        .select('retry_count')
+        .eq('id', jobId)
+        .single();
+
+      if (selectError || !currentJob) {
+        console.error('Failed to get current retry count:', selectError);
+        return false;
+      }
+
+      // Then increment it
+      const { error: updateError } = await this.client
         .from('api_jobs')
         .update({ 
-          retry_count: this.client.from('api_jobs').select('retry_count').eq('id', jobId) + 1 
+          retry_count: currentJob.retry_count + 1 
         })
         .eq('id', jobId);
 
-      if (error) {
-        console.error('Failed to increment retry count:', error);
+      if (updateError) {
+        console.error('Failed to increment retry count:', updateError);
         return false;
       }
 

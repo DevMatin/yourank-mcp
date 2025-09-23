@@ -1,8 +1,12 @@
 import { z } from 'zod';
 import { BaseTool } from '../../base.tool.js';
+import { DataForSEOClient } from '../../../client/dataforseo.client.js';
 import { supabaseManager } from '../../../config/supabase.config.js';
 
 export class QueueStatsToolTool extends BaseTool {
+  constructor(client: DataForSEOClient) {
+    super(client);
+  }
   getName(): string {
     return 'queue_stats';
   }
