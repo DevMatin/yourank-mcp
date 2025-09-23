@@ -769,7 +769,9 @@ async function handleMcpRequest(req, res) {
 
         // Debug: Log request data for AI Mode endpoints
         if (apiName.includes('ai_mode')) {
+          console.log('🤖 AI Mode Arguments:', JSON.stringify(arguments_, null, 2));
           console.log('🤖 AI Mode Request Data:', JSON.stringify(requestData, null, 2));
+          console.log('🤖 AI Mode API Name:', apiName);
         }
 
         // Determine HTTP method based on endpoint pattern
