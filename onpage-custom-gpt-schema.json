@@ -1,0 +1,849 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO OnPage APIs - Funktionsfähig",
+    "description": "DataForSEO OnPage API mit funktionierenden kostenlosen Endpoints und korrekt dokumentierten kostenpflichtigen APIs",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "🆓 Server Status",
+        "description": "KOSTENLOS: Server-Status und verfügbare APIs - funktioniert sofort",
+        "operationId": "getServerStatus",
+        "responses": {
+          "200": {
+            "description": "Server-Status und API-Übersicht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/task_post": {
+      "post": {
+        "summary": "💰 OnPage Task erstellen",
+        "description": "⚠️ KOSTENPFLICHTIG: Startet einen OnPage-Crawl für eine Website. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageTaskPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "Website URL oder Domain"
+                  },
+                  "max_crawl_pages": {
+                    "type": "integer",
+                    "description": "Maximale Anzahl zu crawlender Seiten",
+                    "default": 100
+                  },
+                  "enable_javascript": {
+                    "type": "boolean",
+                    "description": "JavaScript aktivieren",
+                    "default": false
+                  },
+                  "load_resources": {
+                    "type": "boolean",
+                    "description": "Ressourcen laden",
+                    "default": false
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "Task-Tag für Identifikation"
+                  }
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task erfolgreich erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "status_message": {"type": "string"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/summary/{id}": {
+      "get": {
+        "summary": "💰 OnPage Zusammenfassung",
+        "description": "⚠️ KOSTENPFLICHTIG: Liefert eine Zusammenfassung der OnPage-Analyse. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageSummary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Task ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Zusammenfassung erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "status_message": {"type": "string"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "crawl_progress": {"type": "string"},
+                                "total_pages": {"type": "integer"},
+                                "pages_with_errors": {"type": "integer"},
+                                "pages_with_warnings": {"type": "integer"},
+                                "checks": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/pages": {
+      "post": {
+        "summary": "💰 OnPage Seitenanalyse",
+        "description": "⚠️ KOSTENPFLICHTIG: Detaillierte Analyse einzelner Seiten. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPagePages",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "default": 100},
+                  "offset": {"type": "integer", "default": 0},
+                  "filters": {"type": "array", "items": {"type": "object"}}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Seitenanalyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "page_url": {"type": "string"},
+                                "status_code": {"type": "integer"},
+                                "title": {"type": "string"},
+                                "meta_description": {"type": "string"},
+                                "h1": {"type": "array"},
+                                "checks": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/instant_pages": {
+      "post": {
+        "summary": "💰 Sofortige Seitenanalyse",
+        "description": "⚠️ KOSTENPFLICHTIG: Schnelle Live-Analyse einer einzelnen Seite. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageInstantPages",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {"type": "string", "description": "URL der zu analysierenden Seite"},
+                  "enable_javascript": {"type": "boolean", "default": false},
+                  "load_resources": {"type": "boolean", "default": false}
+                },
+                "required": ["url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sofortanalyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "url": {"type": "string"},
+                                "title": {"type": "string"},
+                                "meta_description": {"type": "string"},
+                                "checks": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/resources": {
+      "post": {
+        "summary": "💰 Website Ressourcen",
+        "description": "⚠️ KOSTENPFLICHTIG: Analyse aller Ressourcen (Bilder, Scripts, CSS). Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageResources",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "default": 100},
+                  "filters": {"type": "array", "items": {"type": "object"}}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ressourcenanalyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "resource_type": {"type": "string"},
+                                "url": {"type": "string"},
+                                "status_code": {"type": "integer"},
+                                "size": {"type": "integer"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/links": {
+      "post": {
+        "summary": "💰 Link-Analyse",
+        "description": "⚠️ KOSTENPFLICHTIG: Interne und externe Links der Website. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLinks",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "default": 100},
+                  "filters": {"type": "array", "items": {"type": "object"}}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Link-Analyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "link_from": {"type": "string"},
+                                "link_to": {"type": "string"},
+                                "link_type": {"type": "string"},
+                                "anchor": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/duplicate_tags": {
+      "post": {
+        "summary": "💰 Doppelte Meta-Tags",
+        "description": "⚠️ KOSTENPFLICHTIG: Findet Seiten mit doppelten Title/Description Tags. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageDuplicateTags",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "default": 100}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Doppelte Tags gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "duplicate_title": {"type": "array"},
+                                "duplicate_description": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/duplicate_content": {
+      "post": {
+        "summary": "💰 Doppelter Content",
+        "description": "⚠️ KOSTENPFLICHTIG: Findet ähnlichen/doppelten Content. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageDuplicateContent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "url": {"type": "string", "description": "Referenz-URL"},
+                  "limit": {"type": "integer", "default": 100}
+                },
+                "required": ["id", "url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ähnlicher Content gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "url": {"type": "string"},
+                                "similarity": {"type": "number"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/waterfall": {
+      "post": {
+        "summary": "💰 Performance Waterfall",
+        "description": "⚠️ KOSTENPFLICHTIG: Detaillierte Ladezeit-Analyse. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageWaterfall",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "url": {"type": "string", "description": "Seiten-URL"},
+                  "limit": {"type": "integer", "default": 100}
+                },
+                "required": ["id", "url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Performance-Daten erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "page_timing": {"type": "object"},
+                                "resources": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/keyword_density": {
+      "post": {
+        "summary": "💰 Keyword-Dichte",
+        "description": "⚠️ KOSTENPFLICHTIG: Analyse der Keyword-Verteilung. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageKeywordDensity",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "url": {"type": "string", "description": "Seiten-URL"},
+                  "keyword_length": {"type": "integer", "default": 1}
+                },
+                "required": ["id", "url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keyword-Dichte erfolgreich analysiert",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {"type": "string"},
+                                "frequency": {"type": "integer"},
+                                "density": {"type": "number"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/raw_html": {
+      "post": {
+        "summary": "💰 Roher HTML Code",
+        "description": "⚠️ KOSTENPFLICHTIG: HTML-Quellcode einer Seite abrufen. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageRawHtml",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "url": {"type": "string", "description": "Seiten-URL"}
+                },
+                "required": ["id", "url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "HTML erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "html": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/page_screenshot": {
+      "post": {
+        "summary": "💰 Seiten-Screenshot",
+        "description": "⚠️ KOSTENPFLICHTIG: Screenshot einer Webseite erstellen. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPagePageScreenshot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {"type": "string", "description": "URL der Seite"},
+                  "viewport_width": {"type": "integer", "default": 1920},
+                  "viewport_height": {"type": "integer", "default": 1080}
+                },
+                "required": ["url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Screenshot erfolgreich erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "screenshot": {"type": "string", "description": "Base64 encoded image"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/tasks_ready": {
+      "get": {
+        "summary": "💰 Fertige Tasks",
+        "description": "⚠️ KOSTENPFLICHTIG: Liste aller abgeschlossenen Tasks. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageTasksReady",
+        "responses": {
+          "200": {
+            "description": "Liste fertiger Tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "result": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "healthy"
+          },
+          "server": {
+            "type": "string", 
+            "example": "dataforseo-mcp-server"
+          },
+          "version": {
+            "type": "string",
+            "example": "2.7.2"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-23T10:20:30.123Z"
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {"type": "string"},
+            "example": ["/http", "/mcp"]
+          },
+          "message": {
+            "type": "string",
+            "example": "DataForSEO MCP Server is running on Vercel! 🚀"
+          },
+          "deployment": {
+            "type": "string",
+            "example": "successful"
+          },
+          "features": {
+            "type": "array",
+            "items": {"type": "string"},
+            "example": [
+              "on_page_instant_pages", 
+              "real_dataforseo_integration", 
+              "all_30_onpage_apis",
+              "all_25_backlinks_apis",
+              "serp_google_organic_live",
+              "serp_google_locations"
+            ]
+          },
+          "available_apis": {
+            "type": "object",
+            "properties": {
+              "serp": {
+                "type": "integer",
+                "description": "Anzahl SERP APIs",
+                "example": 45
+              },
+              "onpage": {
+                "type": "integer",
+                "description": "Anzahl OnPage APIs",
+                "example": 30
+              },
+              "backlinks": {
+                "type": "integer",
+                "description": "Anzahl Backlinks APIs",
+                "example": 25
+              },
+              "total": {
+                "type": "integer",
+                "description": "Gesamtanzahl APIs",
+                "example": 200
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
