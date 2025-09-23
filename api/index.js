@@ -1968,7 +1968,7 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
     console.log('🚀 OnPage Lighthouse Route called!');
     console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
     
-    const { type, target, id, language_code = 'en', category = [], version } = req.body;
+    const { type, url, id, language_code = 'en', category = [], version } = req.body;
     
     let endpoint;
     let requestData;
@@ -1992,10 +1992,10 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
       case 'task_post':
         endpoint = '/v3/on_page/lighthouse/task_post';
         requestData = [{
-          target,
-          language_code,
-          category,
-          version
+          url: url,
+          language_code: language_code,
+          category: category,
+          version: version
         }];
         break;
         
@@ -2012,10 +2012,10 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
       case 'live':
         endpoint = '/v3/on_page/lighthouse/live/json';
         requestData = [{
-          target,
-          language_code,
-          category,
-          version
+          url: url,
+          language_code: language_code,
+          category: category,
+          version: version
         }];
         break;
         

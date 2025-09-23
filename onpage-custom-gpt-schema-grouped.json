@@ -287,7 +287,7 @@
                     "enum": ["languages", "audits", "versions", "task_post", "tasks_ready", "task_get", "live"],
                     "description": "Art der Lighthouse-Operation"
                   },
-                  "target": {
+                  "url": {
                     "type": "string",
                     "description": "URL der zu analysierenden Seite (für task_post, live)"
                   },
