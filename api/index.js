@@ -1488,6 +1488,315 @@ app.get('/v3/on_page/tasks_ready', async (req, res) => {
   }
 });
 
+// OnPage Lighthouse API endpoints - direct HTTP access for Custom GPT
+app.get('/v3/on_page/lighthouse/languages', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/lighthouse/languages';
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse languages route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.get('/v3/on_page/lighthouse/audits', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/lighthouse/audits';
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse audits route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.get('/v3/on_page/lighthouse/versions', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/lighthouse/versions';
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse versions route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/lighthouse/task_post', async (req, res) => {
+  try {
+    console.log('🚀 Lighthouse Task Post Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const endpoint = '/v3/on_page/lighthouse/task_post';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse task post route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.get('/v3/on_page/lighthouse/tasks_ready', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/lighthouse/tasks_ready';
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse tasks ready route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.get('/v3/on_page/lighthouse/task_get/json/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const endpoint = `/v3/on_page/lighthouse/task_get/json/${id}`;
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse task get route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/lighthouse/live/json', async (req, res) => {
+  try {
+    console.log('🚀 Lighthouse Live JSON Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const endpoint = '/v3/on_page/lighthouse/live/json';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Lighthouse live json route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+// Additional OnPage API endpoints - direct HTTP access for Custom GPT
+app.post('/v3/on_page/id_list', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/id_list';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage id list route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/errors', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/errors';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage errors route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/force_stop', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/force_stop';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage force stop route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.get('/v3/on_page/available_filters', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/available_filters';
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage available filters route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/pages_by_resource', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/pages_by_resource';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage pages by resource route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/redirect_chains', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/redirect_chains';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage redirect chains route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/non_indexable', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/non_indexable';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage non indexable route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/microdata', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/microdata';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage microdata route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/content_parsing', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/content_parsing';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage content parsing route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/on_page/content_parsing/live', async (req, res) => {
+  try {
+    const endpoint = '/v3/on_page/content_parsing/live';
+    const requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage content parsing live route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
 app.get('/v3/serp/:engine/organic/tasks_ready', async (req, res) => {
   try {
     const { engine } = req.params;

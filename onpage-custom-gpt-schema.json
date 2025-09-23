@@ -762,6 +762,852 @@
           }
         }
       }
+    },
+    "/v3/on_page/lighthouse/languages": {
+      "get": {
+        "summary": "🆓 Lighthouse Sprachen",
+        "description": "KOSTENLOS: Verfügbare Sprachen für Lighthouse-Analysen - funktioniert sofort",
+        "operationId": "onPageLighthouseLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste verfügbarer Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "language_name": {"type": "string"},
+                                "language_code": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/lighthouse/audits": {
+      "get": {
+        "summary": "🆓 Lighthouse Audits",
+        "description": "KOSTENLOS: Verfügbare Lighthouse-Audits - funktioniert sofort",
+        "operationId": "onPageLighthouseAudits",
+        "responses": {
+          "200": {
+            "description": "Liste verfügbarer Audits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "title": {"type": "string"},
+                                "description": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/lighthouse/versions": {
+      "get": {
+        "summary": "🆓 Lighthouse Versionen",
+        "description": "KOSTENLOS: Verfügbare Lighthouse-Versionen - funktioniert sofort",
+        "operationId": "onPageLighthouseVersions",
+        "responses": {
+          "200": {
+            "description": "Liste verfügbarer Versionen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "version": {"type": "string"},
+                                "description": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/lighthouse/task_post": {
+      "post": {
+        "summary": "💰 Lighthouse Task erstellen",
+        "description": "⚠️ KOSTENPFLICHTIG: Lighthouse-Analyse-Task erstellen. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLighthouseTaskPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {"type": "string", "description": "URL der zu analysierenden Seite"},
+                  "language_code": {"type": "string", "description": "Sprachcode", "default": "en"},
+                  "category": {"type": "array", "items": {"type": "string"}, "description": "Lighthouse-Kategorien"},
+                  "version": {"type": "string", "description": "Lighthouse-Version"}
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lighthouse-Task erfolgreich erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/lighthouse/tasks_ready": {
+      "get": {
+        "summary": "💰 Lighthouse fertige Tasks",
+        "description": "⚠️ KOSTENPFLICHTIG: Liste fertiger Lighthouse-Tasks. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLighthouseTasksReady",
+        "responses": {
+          "200": {
+            "description": "Liste fertiger Lighthouse-Tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "result": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/lighthouse/task_get/json/{id}": {
+      "get": {
+        "summary": "💰 Lighthouse Ergebnisse",
+        "description": "⚠️ KOSTENPFLICHTIG: Lighthouse-Analyseergebnisse abrufen. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLighthouseTaskGet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Task ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lighthouse-Ergebnisse erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "lighthouse_result": {"type": "object"},
+                                "categories": {"type": "object"},
+                                "audits": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/lighthouse/live/json": {
+      "post": {
+        "summary": "💰 Lighthouse Live Analyse",
+        "description": "⚠️ KOSTENPFLICHTIG: Sofortige Lighthouse-Analyse. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLighthouseLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {"type": "string", "description": "URL der zu analysierenden Seite"},
+                  "language_code": {"type": "string", "description": "Sprachcode", "default": "en"},
+                  "category": {"type": "array", "items": {"type": "string"}, "description": "Lighthouse-Kategorien"},
+                  "version": {"type": "string", "description": "Lighthouse-Version"}
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lighthouse-Live-Analyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "lighthouse_result": {"type": "object"},
+                                "categories": {"type": "object"},
+                                "audits": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/id_list": {
+      "post": {
+        "summary": "💰 Task ID Liste",
+        "description": "⚠️ KOSTENPFLICHTIG: Liste aller Task-IDs und Metadaten. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageIdList",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date_from": {"type": "string", "description": "Startdatum (YYYY-MM-DD)"},
+                  "date_to": {"type": "string", "description": "Enddatum (YYYY-MM-DD)"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task-ID-Liste erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {"type": "string"},
+                                "status_code": {"type": "integer"},
+                                "created_at": {"type": "string"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/errors": {
+      "post": {
+        "summary": "💰 Task Fehler",
+        "description": "⚠️ KOSTENPFLICHTIG: Informationen über fehlgeschlagene Tasks. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageErrors",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date_from": {"type": "string", "description": "Startdatum (YYYY-MM-DD)"},
+                  "date_to": {"type": "string", "description": "Enddatum (YYYY-MM-DD)"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fehler-Informationen erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {"type": "string"},
+                                "error_message": {"type": "string"},
+                                "error_code": {"type": "integer"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/force_stop": {
+      "post": {
+        "summary": "💰 Crawling stoppen",
+        "description": "⚠️ KOSTENPFLICHTIG: Crawling-Prozess stoppen. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageForceStop",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID zum Stoppen"}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Crawling erfolgreich gestoppt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/available_filters": {
+      "get": {
+        "summary": "🆓 Verfügbare Filter",
+        "description": "KOSTENLOS: Liste aller verfügbaren Filter und Schwellenwerte - funktioniert sofort",
+        "operationId": "onPageAvailableFilters",
+        "responses": {
+          "200": {
+            "description": "Filter-Liste erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "filters": {"type": "object"},
+                                "thresholds": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/pages_by_resource": {
+      "post": {
+        "summary": "💰 Seiten nach Resource",
+        "description": "⚠️ KOSTENPFLICHTIG: Seiten finden, die eine bestimmte Resource enthalten. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPagePagesByResource",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "resource_url": {"type": "string", "description": "URL der Resource"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                },
+                "required": ["id", "resource_url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Seiten nach Resource erfolgreich gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "pages": {"type": "array"},
+                                "resource_info": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/redirect_chains": {
+      "post": {
+        "summary": "💰 Redirect-Ketten",
+        "description": "⚠️ KOSTENPFLICHTIG: Redirect-Ketten und -Schleifen finden. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageRedirectChains",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Redirect-Ketten erfolgreich gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "redirect_chains": {"type": "array"},
+                                "redirect_loops": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/non_indexable": {
+      "post": {
+        "summary": "💰 Nicht indexierbare Seiten",
+        "description": "⚠️ KOSTENPFLICHTIG: Seiten finden, die von Suchmaschinen blockiert sind. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageNonIndexable",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Nicht indexierbare Seiten erfolgreich gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "non_indexable_pages": {"type": "array"},
+                                "blocking_reasons": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/microdata": {
+      "post": {
+        "summary": "💰 Microdata Validierung",
+        "description": "⚠️ KOSTENPFLICHTIG: JSON-LD und Microdata validieren. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageMicrodata",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Microdata-Validierung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "microdata": {"type": "object"},
+                                "validation_results": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/content_parsing": {
+      "post": {
+        "summary": "💰 Content Parsing",
+        "description": "⚠️ KOSTENPFLICHTIG: Strukturierten Content einer Seite extrahieren. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageContentParsing",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string", "description": "Task ID"},
+                  "url": {"type": "string", "description": "URL der zu parsenden Seite"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                },
+                "required": ["id", "url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content-Parsing erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "content": {"type": "object"},
+                                "links": {"type": "array"},
+                                "headings": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/on_page/content_parsing/live": {
+      "post": {
+        "summary": "💰 Content Parsing Live",
+        "description": "⚠️ KOSTENPFLICHTIG: Sofortiges Content-Parsing einer Seite. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageContentParsingLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {"type": "string", "description": "URL der zu parsenden Seite"},
+                  "limit": {"type": "integer", "description": "Anzahl der Ergebnisse", "default": 100}
+                },
+                "required": ["url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Live Content-Parsing erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "content": {"type": "object"},
+                                "links": {"type": "array"},
+                                "headings": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
