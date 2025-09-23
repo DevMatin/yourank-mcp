@@ -166,7 +166,14 @@ function makeDataForSEORequestForAiMode(endpoint, postData, method = 'POST') {
       console.log('🤖 AI Mode Method:', method);
       console.log('🤖 AI Mode Headers:', options.headers);
       
-      req.write(JSON.stringify(cleanPostData));
+      // Test: Try with even more minimal request
+      const minimalPostData = [{
+        keyword: cleanPostData[0].keyword
+      }];
+      
+      console.log('🤖 AI Mode Minimal Request (keyword only):', JSON.stringify(minimalPostData, null, 2));
+      
+      req.write(JSON.stringify(minimalPostData));
     }
     req.end();
   });
