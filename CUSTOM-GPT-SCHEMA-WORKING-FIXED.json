@@ -1,0 +1,241 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Info APIs",
+    "description": "DataForSEO API für verfügbare Sprachen, Standorte und Informationen (GET-Endpoints die funktionieren)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/serp/google/languages": {
+      "get": {
+        "summary": "Google SERP verfügbare Sprachen abrufen",
+        "description": "Ruft alle verfügbaren Sprachen für Google SERP ab",
+        "operationId": "getSerpGoogleLanguages",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage"
+          },
+          "500": {
+            "description": "Server-Fehler"
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations": {
+      "get": {
+        "summary": "Google SERP verfügbare Standorte abrufen",
+        "description": "Ruft alle verfügbaren Standorte für Google SERP ab",
+        "operationId": "getSerpGoogleLocations",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Standorten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations/{country}": {
+      "get": {
+        "summary": "Google SERP Standorte für spezifisches Land abrufen",
+        "description": "Ruft alle verfügbaren Standorte für ein spezifisches Land ab",
+        "operationId": "getSerpGoogleLocationsByCountry",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "DE"
+            },
+            "description": "Ländercode (z.B. DE, US, GB)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit Standorten für das Land",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/languages": {
+      "get": {
+        "summary": "Bing SERP verfügbare Sprachen abrufen",
+        "description": "Ruft alle verfügbaren Sprachen für Bing SERP ab",
+        "operationId": "getSerpBingLanguages",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/locations": {
+      "get": {
+        "summary": "Bing SERP verfügbare Standorte abrufen",
+        "description": "Ruft alle verfügbaren Standorte für Bing SERP ab",
+        "operationId": "getSerpBingLocations",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Standorten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Server Status und verfügbare APIs",
+        "description": "Zeigt den Server-Status und alle verfügbaren APIs an",
+        "operationId": "getServerStatus",
+        "responses": {
+          "200": {
+            "description": "Server-Status und API-Übersicht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "healthy"
+                    },
+                    "server": {
+                      "type": "string",
+                      "example": "dataforseo-mcp-server"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "2.7.2"
+                    },
+                    "available_apis": {
+                      "type": "object",
+                      "description": "Anzahl verfügbarer APIs pro Kategorie"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "HTTP Basic Authentication mit DataForSEO Credentials"
+      }
+    },
+    "schemas": {
+      "DataForSEOResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API Version"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "Status Code"
+          },
+          "status_message": {
+            "type": "string",
+            "description": "Status Message"
+          },
+          "time": {
+            "type": "string",
+            "description": "Ausführungszeit"
+          },
+          "cost": {
+            "type": "number",
+            "description": "API-Kosten"
+          },
+          "tasks_count": {
+            "type": "integer",
+            "description": "Anzahl Tasks"
+          },
+          "tasks_error": {
+            "type": "integer",
+            "description": "Anzahl Task-Errors"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Task ID"
+                },
+                "status_code": {
+                  "type": "integer"
+                },
+                "status_message": {
+                  "type": "string"
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "description": "Ergebnis-Array"
+                }
+              }
+            },
+            "description": "Tasks Array"
+          }
+        }
+      }
+    }
+  }
+}

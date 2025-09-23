@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DataForSEO SERP APIs - Vollständig",
-    "description": "Vollständige DataForSEO SERP API Suite mit Google, Bing und YouTube SERP-Tools",
+    "description": "Vollständige DataForSEO SERP API Suite mit Google, Bing, Yahoo und speziellen SERP-Tools",
     "version": "1.0.0"
   },
   "servers": [
@@ -52,7 +52,7 @@
     },
     "/v3/serp/google/locations": {
       "get": {
-        "summary": "🆓 Google SERP Standorte",
+        "summary": "🆓 Google SERP Standorte (alle)",
         "description": "KOSTENLOS: Alle verfügbaren Standorte für Google SERP weltweit",
         "operationId": "getSerpGoogleLocations",
         "responses": {
@@ -77,6 +77,101 @@
         "responses": {
           "200": {
             "description": "Deutsche Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations/US": {
+      "get": {
+        "summary": "🆓 Google SERP Standorte USA",
+        "description": "KOSTENLOS: US-amerikanische Standorte für SERP-Analysen",
+        "operationId": "getSerpGoogleLocationsUS",
+        "responses": {
+          "200": {
+            "description": "US-amerikanische Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/languages": {
+      "get": {
+        "summary": "🆓 Bing SERP Sprachen",
+        "description": "KOSTENLOS: Alle verfügbaren Sprachen für Bing SERP",
+        "operationId": "getSerpBingLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller Bing-Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/locations": {
+      "get": {
+        "summary": "🆓 Bing SERP Standorte",
+        "description": "KOSTENLOS: Alle verfügbaren Standorte für Bing SERP",
+        "operationId": "getSerpBingLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller Bing-Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/yahoo/languages": {
+      "get": {
+        "summary": "🆓 Yahoo SERP Sprachen",
+        "description": "KOSTENLOS: Alle verfügbaren Sprachen für Yahoo SERP",
+        "operationId": "getSerpYahooLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller Yahoo-Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/yahoo/locations": {
+      "get": {
+        "summary": "🆓 Yahoo SERP Standorte",
+        "description": "KOSTENLOS: Alle verfügbaren Standorte für Yahoo SERP",
+        "operationId": "getSerpYahooLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller Yahoo-Standorte",
             "content": {
               "application/json": {
                 "schema": {
@@ -123,7 +218,7 @@
     "/v3/serp/google/organic/live/advanced": {
       "post": {
         "summary": "💰 Google Organic SERP LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Erweiterte Google SERP-Analyse mit detaillierten Ranking-Daten",
+        "description": "⚠️ KOSTENPFLICHTIG: Erweiterte Google SERP-Analyse mit detaillierten Ranking-Daten, Snippets und Element-Positionen",
         "operationId": "postSerpGoogleOrganicLiveAdvanced",
         "requestBody": {
           "required": true,
@@ -137,7 +232,7 @@
         },
         "responses": {
           "200": {
-            "description": "Erweiterte SERP-Analyse",
+            "description": "Erweiterte SERP-Analyse mit allen Details",
             "content": {
               "application/json": {
                 "schema": {
@@ -152,251 +247,34 @@
         }
       }
     },
-    "/v3/serp/google/ai_mode/live/advanced": {
+    "/v3/serp/bing/organic/live": {
       "post": {
-        "summary": "💰 Google AI Mode SERP LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Google AI Overviews und generative KI-Antworten analysieren",
-        "operationId": "postSerpGoogleAiModeLiveAdvanced",
+        "summary": "💰 Bing Organic SERP LIVE",
+        "description": "⚠️ KOSTENPFLICHTIG: Standard Bing SERP-Analyse in Echtzeit",
+        "operationId": "postSerpBingOrganicLive",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SerpLiveAdvancedRequest"
+                "$ref": "#/components/schemas/SerpLiveRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "AI Mode SERP-Analyse mit KI-generierten Antworten",
+            "description": "Erfolgreiche Bing SERP-Analyse",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                  "$ref": "#/components/schemas/SerpLiveResponse"
                 }
               }
             }
           },
           "404": {
             "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/google/maps/live/advanced": {
-      "post": {
-        "summary": "💰 Google Maps SERP LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Google Maps Suchergebnisse und lokale Businesses analysieren",
-        "operationId": "postSerpGoogleMapsLiveAdvanced",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SerpMapsRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Google Maps SERP-Analyse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/google/local_finder/live/advanced": {
-      "post": {
-        "summary": "💰 Google Local Finder SERP LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Google 'Near me' Suchen und lokale Unternehmen analysieren",
-        "operationId": "postSerpGoogleLocalFinderLiveAdvanced",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SerpLocalRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Local Finder SERP-Analyse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/google/news/live/advanced": {
-      "post": {
-        "summary": "💰 Google News SERP LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Google News Suchergebnisse und Nachrichten-Rankings analysieren",
-        "operationId": "postSerpGoogleNewsLiveAdvanced",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SerpNewsRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Google News SERP-Analyse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/google/images/live/advanced": {
-      "post": {
-        "summary": "💰 Google Images SERP LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Google Bildersuche Ergebnisse und Bild-Rankings analysieren",
-        "operationId": "postSerpGoogleImagesLiveAdvanced",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SerpImagesRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Google Images SERP-Analyse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/google/jobs/locations": {
-      "get": {
-        "summary": "🆓 Google Jobs verfügbare Standorte",
-        "description": "KOSTENLOS: Standorte für Google Jobs Suchen",
-        "operationId": "getSerpGoogleJobsLocations",
-        "responses": {
-          "200": {
-            "description": "Google Jobs Standorte",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataForSEOResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v3/serp/google/autocomplete/live/advanced": {
-      "post": {
-        "summary": "💰 Google Autocomplete LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Google Suchvorschläge und Autocomplete-Daten analysieren",
-        "operationId": "postSerpGoogleAutocompleteLiveAdvanced",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SerpAutocompleteRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Google Autocomplete Analyse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/bing/languages": {
-      "get": {
-        "summary": "🆓 Bing SERP Sprachen",
-        "description": "KOSTENLOS: Alle verfügbaren Sprachen für Bing SERP",
-        "operationId": "getSerpBingLanguages",
-        "responses": {
-          "200": {
-            "description": "Liste aller Bing-Sprachen",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataForSEOResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v3/serp/bing/locations": {
-      "get": {
-        "summary": "🆓 Bing SERP Standorte",
-        "description": "KOSTENLOS: Alle verfügbaren Standorte für Bing SERP",
-        "operationId": "getSerpBingLocations",
-        "responses": {
-          "200": {
-            "description": "Liste aller Bing-Standorte",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataForSEOResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -433,94 +311,24 @@
         }
       }
     },
-    "/v3/serp/bing/local_pack/live": {
+    "/v3/serp/yahoo/organic/live": {
       "post": {
-        "summary": "💰 Bing Local Pack SERP LIVE",
-        "description": "⚠️ KOSTENPFLICHTIG: Bing lokale Suchergebnisse und Business-Listings analysieren",
-        "operationId": "postSerpBingLocalPackLive",
+        "summary": "💰 Yahoo Organic SERP LIVE",
+        "description": "⚠️ KOSTENPFLICHTIG: Standard Yahoo SERP-Analyse in Echtzeit",
+        "operationId": "postSerpYahooOrganicLive",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SerpLocalRequest"
+                "$ref": "#/components/schemas/SerpLiveRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Bing Local Pack Analyse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Keine Credits verfügbar"
-          }
-        }
-      }
-    },
-    "/v3/serp/youtube/languages": {
-      "get": {
-        "summary": "🆓 YouTube SERP Sprachen",
-        "description": "KOSTENLOS: Alle verfügbaren Sprachen für YouTube SERP",
-        "operationId": "getSerpYouTubeLanguages",
-        "responses": {
-          "200": {
-            "description": "Liste aller YouTube-Sprachen",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataForSEOResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v3/serp/youtube/locations": {
-      "get": {
-        "summary": "🆓 YouTube SERP Standorte",
-        "description": "KOSTENLOS: Alle verfügbaren Standorte für YouTube SERP",
-        "operationId": "getSerpYouTubeLocations",
-        "responses": {
-          "200": {
-            "description": "Liste aller YouTube-Standorte",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataForSEOResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v3/serp/youtube/organic/live": {
-      "post": {
-        "summary": "💰 YouTube Organic SERP LIVE",
-        "description": "⚠️ KOSTENPFLICHTIG: YouTube Suchergebnisse und Video-Rankings analysieren",
-        "operationId": "postSerpYouTubeOrganicLive",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SerpYouTubeRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "YouTube SERP-Analyse",
+            "description": "Erfolgreiche Yahoo SERP-Analyse",
             "content": {
               "application/json": {
                 "schema": {
@@ -535,28 +343,92 @@
         }
       }
     },
-    "/v3/serp/youtube/video_info/live/advanced": {
+    "/v3/serp/yahoo/organic/live/advanced": {
       "post": {
-        "summary": "💰 YouTube Video Info LIVE Advanced",
-        "description": "⚠️ KOSTENPFLICHTIG: Detaillierte YouTube Video-Informationen, Metadaten und Statistiken analysieren",
-        "operationId": "postSerpYouTubeVideoInfoLiveAdvanced",
+        "summary": "💰 Yahoo Organic SERP LIVE Advanced",
+        "description": "⚠️ KOSTENPFLICHTIG: Erweiterte Yahoo SERP-Analyse mit detaillierten Daten",
+        "operationId": "postSerpYahooOrganicLiveAdvanced",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SerpYouTubeVideoRequest"
+                "$ref": "#/components/schemas/SerpLiveAdvancedRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "YouTube Video Info Analyse",
+            "description": "Erweiterte Yahoo SERP-Analyse",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Keine Credits verfügbar"
+          }
+        }
+      }
+    },
+    "/v3/serp/screenshot": {
+      "post": {
+        "summary": "💰 SERP Screenshot",
+        "description": "⚠️ KOSTENPFLICHTIG: Screenshot der Suchergebnisseite erstellen",
+        "operationId": "postSerpScreenshot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpScreenshotRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Screenshot erfolgreich erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpScreenshotResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Keine Credits verfügbar"
+          }
+        }
+      }
+    },
+    "/v3/serp/ai_summary": {
+      "post": {
+        "summary": "💰 SERP AI Summary",
+        "description": "⚠️ KOSTENPFLICHTIG: KI-basierte Zusammenfassung der SERP-Ergebnisse",
+        "operationId": "postSerpAiSummary",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpAiSummaryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "KI-Zusammenfassung erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpAiSummaryResponse"
                 }
               }
             }
@@ -654,17 +526,22 @@
             "type": "integer",
             "default": 1080,
             "description": "Browser-Bildschirmhöhe in Pixeln"
+          },
+          "include_serp_info": {
+            "type": "boolean",
+            "default": true,
+            "description": "SERP-Metainformationen einschließen"
           }
         }
       },
-      "SerpMapsRequest": {
+      "SerpScreenshotRequest": {
         "type": "object",
         "required": ["keyword"],
         "properties": {
           "keyword": {
             "type": "string",
-            "description": "Suchbegriff für Maps-Suche",
-            "example": "restaurant berlin"
+            "description": "Suchbegriff für Screenshot",
+            "example": "seo tools"
           },
           "location_name": {
             "type": "string",
@@ -680,139 +557,25 @@
             "type": "string",
             "enum": ["desktop", "mobile"],
             "default": "desktop"
-          }
-        }
-      },
-      "SerpLocalRequest": {
-        "type": "object",
-        "required": ["keyword"],
-        "properties": {
-          "keyword": {
-            "type": "string",
-            "description": "Suchbegriff für lokale Suche",
-            "example": "pizza near me"
           },
-          "location_name": {
-            "type": "string",
-            "default": "Germany",
-            "example": "Berlin, Germany"
-          },
-          "language_code": {
-            "type": "string",
-            "default": "de",
-            "example": "de"
-          }
-        }
-      },
-      "SerpNewsRequest": {
-        "type": "object",
-        "required": ["keyword"],
-        "properties": {
-          "keyword": {
-            "type": "string",
-            "description": "Suchbegriff für News-Suche",
-            "example": "artificial intelligence news"
-          },
-          "location_name": {
-            "type": "string",
-            "default": "Germany",
-            "example": "Germany"
-          },
-          "language_code": {
-            "type": "string",
-            "default": "de",
-            "example": "de"
-          },
-          "time_range": {
-            "type": "string",
-            "enum": ["hour", "day", "week", "month", "year"],
-            "description": "Zeitbereich für News-Ergebnisse"
-          }
-        }
-      },
-      "SerpImagesRequest": {
-        "type": "object",
-        "required": ["keyword"],
-        "properties": {
-          "keyword": {
-            "type": "string",
-            "description": "Suchbegriff für Bildersuche",
-            "example": "seo infographic"
-          },
-          "location_name": {
-            "type": "string",
-            "default": "Germany",
-            "example": "Germany"
-          },
-          "language_code": {
-            "type": "string",
-            "default": "de",
-            "example": "de"
-          },
-          "image_type": {
-            "type": "string",
-            "enum": ["clipart", "face", "lineart", "news", "photo"],
-            "description": "Art der Bilder"
-          }
-        }
-      },
-      "SerpAutocompleteRequest": {
-        "type": "object",
-        "required": ["keyword"],
-        "properties": {
-          "keyword": {
-            "type": "string",
-            "description": "Partial keyword für Autocomplete",
-            "example": "seo to"
-          },
-          "location_name": {
-            "type": "string",
-            "default": "Germany",
-            "example": "Germany"
-          },
-          "language_code": {
-            "type": "string",
-            "default": "de",
-            "example": "de"
-          }
-        }
-      },
-      "SerpYouTubeRequest": {
-        "type": "object",
-        "required": ["keyword"],
-        "properties": {
-          "keyword": {
-            "type": "string",
-            "description": "Suchbegriff für YouTube-Suche",
-            "example": "seo tutorial"
-          },
-          "location_name": {
-            "type": "string",
-            "default": "Germany",
-            "example": "Germany"
-          },
-          "language_code": {
-            "type": "string",
-            "default": "de",
-            "example": "de"
-          },
-          "depth": {
+          "browser_screen_width": {
             "type": "integer",
-            "minimum": 1,
-            "maximum": 100,
-            "default": 10,
-            "description": "Anzahl der Video-Ergebnisse"
+            "default": 1920
+          },
+          "browser_screen_height": {
+            "type": "integer",
+            "default": 1080
           }
         }
       },
-      "SerpYouTubeVideoRequest": {
+      "SerpAiSummaryRequest": {
         "type": "object",
-        "required": ["video_id"],
+        "required": ["keyword"],
         "properties": {
-          "video_id": {
+          "keyword": {
             "type": "string",
-            "description": "YouTube Video ID",
-            "example": "dQw4w9WgXcQ"
+            "description": "Suchbegriff für KI-Zusammenfassung",
+            "example": "seo tools"
           },
           "location_name": {
             "type": "string",
@@ -823,6 +586,12 @@
             "type": "string",
             "default": "de",
             "example": "de"
+          },
+          "summary_type": {
+            "type": "string",
+            "enum": ["short", "detailed"],
+            "default": "short",
+            "description": "Art der Zusammenfassung"
           }
         }
       },
@@ -978,6 +747,65 @@
             }
           }
         ]
+      },
+      "SerpScreenshotResponse": {
+        "type": "object",
+        "properties": {
+          "version": {"type": "string"},
+          "status_code": {"type": "integer"},
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "screenshot": {
+                        "type": "string",
+                        "description": "Base64-kodiertes Screenshot-Bild"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SerpAiSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "version": {"type": "string"},
+          "status_code": {"type": "integer"},
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "summary": {
+                        "type": "string",
+                        "description": "KI-generierte Zusammenfassung der SERP"
+                      },
+                      "key_insights": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Wichtigste Erkenntnisse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "DataForSEOResponse": {
         "type": "object",

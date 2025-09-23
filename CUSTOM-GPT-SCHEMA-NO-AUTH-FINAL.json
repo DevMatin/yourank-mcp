@@ -1,0 +1,280 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Info APIs",
+    "description": "DataForSEO API für verfügbare Sprachen, Standorte und Informationen (ohne Authentication)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "paths": {
+    "/v3/serp/google/languages": {
+      "get": {
+        "summary": "Google SERP verfügbare Sprachen abrufen",
+        "description": "Ruft alle verfügbaren Sprachen für Google SERP ab",
+        "operationId": "getSerpGoogleLanguages",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations": {
+      "get": {
+        "summary": "Google SERP verfügbare Standorte abrufen",
+        "description": "Ruft alle verfügbaren Standorte für Google SERP ab (alle Länder)",
+        "operationId": "getSerpGoogleLocations",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Standorten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations/DE": {
+      "get": {
+        "summary": "Google SERP Standorte für Deutschland abrufen",
+        "description": "Ruft alle verfügbaren Standorte für Deutschland ab",
+        "operationId": "getSerpGoogleLocationsDE",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit deutschen Standorten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations/US": {
+      "get": {
+        "summary": "Google SERP Standorte für USA abrufen",
+        "description": "Ruft alle verfügbaren Standorte für USA ab",
+        "operationId": "getSerpGoogleLocationsUS",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit US-Standorten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/languages": {
+      "get": {
+        "summary": "Bing SERP verfügbare Sprachen abrufen",
+        "description": "Ruft alle verfügbaren Sprachen für Bing SERP ab",
+        "operationId": "getSerpBingLanguages",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/locations": {
+      "get": {
+        "summary": "Bing SERP verfügbare Standorte abrufen",
+        "description": "Ruft alle verfügbaren Standorte für Bing SERP ab",
+        "operationId": "getSerpBingLocations",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Antwort mit verfügbaren Standorten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Server Status und verfügbare APIs",
+        "description": "Zeigt den Server-Status und alle verfügbaren APIs an",
+        "operationId": "getServerStatus",
+        "responses": {
+          "200": {
+            "description": "Server-Status und API-Übersicht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "healthy"
+                    },
+                    "server": {
+                      "type": "string", 
+                      "example": "dataforseo-mcp-server"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "2.7.2"
+                    },
+                    "available_apis": {
+                      "type": "object",
+                      "description": "Anzahl verfügbarer APIs pro Kategorie"
+                    },
+                    "features": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Liste der verfügbaren Features"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DataForSEOResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API Version"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "Status Code (20000 = Success)"
+          },
+          "status_message": {
+            "type": "string",
+            "description": "Status Message"
+          },
+          "time": {
+            "type": "string",
+            "description": "Ausführungszeit"
+          },
+          "cost": {
+            "type": "number",
+            "description": "API-Kosten"
+          },
+          "tasks_count": {
+            "type": "integer",
+            "description": "Anzahl Tasks"
+          },
+          "tasks_error": {
+            "type": "integer",
+            "description": "Anzahl Task-Errors"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Task ID"
+                },
+                "status_code": {
+                  "type": "integer"
+                },
+                "status_message": {
+                  "type": "string"
+                },
+                "result_count": {
+                  "type": "integer",
+                  "description": "Anzahl Ergebnisse"
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "language_name": {
+                            "type": "string",
+                            "description": "Sprachname"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "description": "Sprachcode (z.B. 'de', 'en')"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object", 
+                        "properties": {
+                          "location_code": {
+                            "type": "integer",
+                            "description": "Standortcode"
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standortname"
+                          },
+                          "location_code_parent": {
+                            "type": "integer",
+                            "description": "Parent Location Code"
+                          },
+                          "country_iso_code": {
+                            "type": "string",
+                            "description": "Ländercode (z.B. 'DE', 'US')"
+                          },
+                          "location_type": {
+                            "type": "string",
+                            "description": "Standorttyp (z.B. 'Country', 'City')"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "description": "Ergebnis-Array mit Sprachen oder Standorten"
+                }
+              }
+            },
+            "description": "Tasks Array"
+          }
+        }
+      }
+    }
+  }
+}

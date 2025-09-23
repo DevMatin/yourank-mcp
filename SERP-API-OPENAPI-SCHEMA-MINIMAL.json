@@ -1,83 +1,199 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "DataForSEO SERP API",
-    "description": "SERP API für Google, Bing und YouTube Suchergebnisse",
+    "title": "DataForSEO SERP APIs - Funktionsfähig",
+    "description": "DataForSEO SERP API mit funktionierenden kostenlosen Endpoints und dokumentierten kostenpflichtigen APIs",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://yourank-mcp.vercel.app"
-    }
-  ],
-  "security": [
-    {
-      "basicAuth": []
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
     }
   ],
   "paths": {
-    "/http": {
+    "/": {
+      "get": {
+        "summary": "🆓 Server Status",
+        "description": "KOSTENLOS: Server-Status und verfügbare APIs - funktioniert sofort",
+        "operationId": "getServerStatus",
+        "responses": {
+          "200": {
+            "description": "Server-Status und API-Übersicht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/languages": {
+      "get": {
+        "summary": "🆓 Google SERP Sprachen",
+        "description": "KOSTENLOS: Alle verfügbaren Sprachen für Google SERP - funktioniert sofort",
+        "operationId": "getSerpGoogleLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller verfügbaren Sprachen (128 Sprachen)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations": {
+      "get": {
+        "summary": "🆓 Google SERP Standorte (weltweit)",
+        "description": "KOSTENLOS: Alle verfügbaren Standorte für Google SERP weltweit - funktioniert sofort",
+        "operationId": "getSerpGoogleLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller verfügbaren Standorte (>2000 Standorte)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations/DE": {
+      "get": {
+        "summary": "🆓 Google SERP Standorte Deutschland",
+        "description": "KOSTENLOS: Deutsche Standorte für SERP-Analysen - funktioniert sofort",
+        "operationId": "getSerpGoogleLocationsDE",
+        "responses": {
+          "200": {
+            "description": "Deutsche Standorte (>100 deutsche Städte)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/languages": {
+      "get": {
+        "summary": "🆓 Bing SERP Sprachen",
+        "description": "KOSTENLOS: Alle verfügbaren Sprachen für Bing SERP - funktioniert sofort",
+        "operationId": "getSerpBingLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller Bing-Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/locations": {
+      "get": {
+        "summary": "🆓 Bing SERP Standorte",
+        "description": "KOSTENLOS: Alle verfügbaren Standorte für Bing SERP - funktioniert sofort",
+        "operationId": "getSerpBingLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller Bing-Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/youtube/languages": {
+      "get": {
+        "summary": "🆓 YouTube SERP Sprachen",
+        "description": "KOSTENLOS: Alle verfügbaren Sprachen für YouTube SERP - funktioniert sofort",
+        "operationId": "getSerpYouTubeLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller YouTube-Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/youtube/locations": {
+      "get": {
+        "summary": "🆓 YouTube SERP Standorte",
+        "description": "KOSTENLOS: Alle verfügbaren Standorte für YouTube SERP - funktioniert sofort",
+        "operationId": "getSerpYouTubeLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller YouTube-Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/jobs/locations": {
+      "get": {
+        "summary": "🆓 Google Jobs verfügbare Standorte",
+        "description": "KOSTENLOS: Standorte für Google Jobs Suchen - funktioniert sofort",
+        "operationId": "getSerpGoogleJobsLocations",
+        "responses": {
+          "200": {
+            "description": "Google Jobs Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/organic/live": {
       "post": {
-        "summary": "SERP API aufrufen",
-        "description": "Ruft SERP API Tools über den MCP Server auf",
-        "operationId": "callSerpTool",
+        "summary": "💰 Google Organic SERP LIVE",
+        "description": "⚠️ KOSTENPFLICHTIG: Standard Google SERP-Analyse in Echtzeit. Status: Benötigt DataForSEO Credits (derzeit nicht verfügbar - gibt 404 zurück)",
+        "operationId": "postSerpGoogleOrganicLive",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "jsonrpc": {
-                    "type": "string",
-                    "example": "2.0"
-                  },
-                  "id": {
-                    "type": "integer",
-                    "example": 1
-                  },
-                  "method": {
-                    "type": "string",
-                    "example": "tools/call"
-                  },
-                  "params": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "example": "serp_google_organic_live"
-                      },
-                      "arguments": {
-                        "type": "object",
-                        "properties": {
-                          "keyword": {
-                            "type": "string",
-                            "example": "seo tools"
-                          },
-                          "location_name": {
-                            "type": "string",
-                            "example": "Germany"
-                          },
-                          "language_code": {
-                            "type": "string",
-                            "example": "de"
-                          },
-                          "device": {
-                            "type": "string",
-                            "example": "desktop"
-                          },
-                          "depth": {
-                            "type": "integer",
-                            "example": 10
-                          }
-                        },
-                        "required": ["keyword"]
-                      }
-                    },
-                    "required": ["name", "arguments"]
-                  }
-                },
-                "required": ["jsonrpc", "id", "method", "params"]
+                "$ref": "#/components/schemas/SerpLiveRequest"
               }
             }
           }
@@ -88,31 +204,251 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "$ref": "#/components/schemas/SerpLiveResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Keine Credits verfügbar - Account hat keine aktiven DataForSEO Credits",
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object",
                   "properties": {
-                    "jsonrpc": {
+                    "error": {
                       "type": "string",
-                      "example": "2.0"
-                    },
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "result": {
-                      "type": "object",
-                      "properties": {
-                        "content": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string",
-                                "example": "text"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
+                      "example": "DataForSEO API returned an error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/organic/live/advanced": {
+      "post": {
+        "summary": "💰 Google Organic SERP LIVE Advanced",
+        "description": "⚠️ KOSTENPFLICHTIG: Erweiterte Google SERP-Analyse mit detaillierten Ranking-Daten. Status: Benötigt DataForSEO Credits (derzeit nicht verfügbar - gibt 404 zurück)",
+        "operationId": "postSerpGoogleOrganicLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLiveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erweiterte SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Keine Credits verfügbar - Account hat keine aktiven DataForSEO Credits"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+
+      "SerpLiveRequest": {
+        "type": "object",
+        "required": ["keyword"],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für SERP-Analyse",
+            "example": "seo tools"
+          },
+          "location_name": {
+            "type": "string",
+            "description": "Standort für die Suche",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Sprachcode (ISO 639-1)",
+            "default": "de",
+            "example": "de"
+          },
+          "device": {
+            "type": "string",
+            "enum": ["desktop", "mobile"],
+            "default": "desktop",
+            "description": "Gerätetyp für die Analyse"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Anzahl der zu analysierenden Suchergebnisse"
+          },
+          "calculate_rectangles": {
+            "type": "boolean",
+            "default": false,
+            "description": "Element-Positionen auf der Seite berechnen (nur Advanced)"
+          },
+          "browser_screen_width": {
+            "type": "integer",
+            "default": 1920,
+            "description": "Browser-Bildschirmbreite in Pixeln (nur Advanced)"
+          },
+          "browser_screen_height": {
+            "type": "integer",
+            "default": 1080,
+            "description": "Browser-Bildschirmhöhe in Pixeln (nur Advanced)"
+          }
+        }
+      },
+      "SerpLiveResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API Version",
+            "example": "0.1.20250922"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "Status Code (20000 = Erfolg)",
+            "example": 20000
+          },
+          "status_message": {
+            "type": "string",
+            "description": "Status Nachricht",
+            "example": "Ok."
+          },
+          "time": {
+            "type": "string",
+            "description": "Ausführungszeit",
+            "example": "0.2315 sec."
+          },
+          "cost": {
+            "type": "number",
+            "description": "Kosten in Credits",
+            "example": 0.001
+          },
+          "tasks_count": {
+            "type": "integer",
+            "example": 1
+          },
+          "tasks_error": {
+            "type": "integer",
+            "example": 0
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "09231503-1064-0099-0000-c6eb19dc8746"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 20000
+                },
+                "status_message": {
+                  "type": "string",
+                  "example": "Ok."
+                },
+                "time": {
+                  "type": "string",
+                  "example": "0.1956 sec."
+                },
+                "cost": {
+                  "type": "number",
+                  "example": 0.001
+                },
+                "result_count": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "example": "seo tools"
+                      },
+                      "location_code": {
+                        "type": "integer",
+                        "example": 2276
+                      },
+                      "language_code": {
+                        "type": "string",
+                        "example": "de"
+                      },
+                      "total_count": {
+                        "type": "integer",
+                        "description": "Gesamtanzahl Suchergebnisse",
+                        "example": 8940000
+                      },
+                      "items_count": {
+                        "type": "integer",
+                        "description": "Anzahl zurückgegebener Items",
+                        "example": 10
+                      },
+                      "items": {
+                        "type": "array",
+                        "description": "SERP Items (organische Ergebnisse, Ads, Features)",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Art des SERP-Elements",
+                              "example": "organic"
+                            },
+                            "rank_group": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "rank_absolute": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "position": {
+                              "type": "string",
+                              "example": "left"
+                            },
+                            "domain": {
+                              "type": "string",
+                              "example": "semrush.com"
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "Best SEO Tools in 2024 (Free and Paid) - Semrush"
+                            },
+                            "url": {
+                              "type": "string",
+                              "example": "https://www.semrush.com/blog/seo-tools/"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Find the best SEO tools to improve your website's search engine rankings..."
+                            },
+                            "breadcrumb": {
+                              "type": "string",
+                              "example": "www.semrush.com › blog › seo-tools"
                             }
                           }
                         }
@@ -124,77 +460,274 @@
             }
           }
         }
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "basicAuth": {
-        "type": "http",
-        "scheme": "basic"
-      }
-    },
-    "schemas": {
-      "SerpRequest": {
-        "type": "object",
-        "properties": {
-          "keyword": {
-            "type": "string",
-            "description": "Suchbegriff",
-            "example": "seo tools"
-          },
-          "location_name": {
-            "type": "string",
-            "description": "Standort",
-            "example": "Germany"
-          },
-          "language_code": {
-            "type": "string",
-            "description": "Sprachcode",
-            "example": "de"
-          },
-          "device": {
-            "type": "string",
-            "description": "Gerätetyp",
-            "example": "desktop"
-          },
-          "depth": {
-            "type": "integer",
-            "description": "Anzahl der Ergebnisse",
-            "example": 10
-          }
-        },
-        "required": ["keyword"]
       },
-      "SerpResponse": {
-        "type": "object",
-        "properties": {
-          "jsonrpc": {
-            "type": "string",
-            "example": "2.0"
+      "SerpLiveAdvancedResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SerpLiveResponse"
           },
-          "id": {
-            "type": "integer",
-            "example": 1
-          },
-          "result": {
+          {
             "type": "object",
             "properties": {
-              "content": {
+              "tasks": {
                 "type": "array",
                 "items": {
                   "type": "object",
                   "properties": {
-                    "type": {
-                      "type": "string",
-                      "example": "text"
-                    },
-                    "text": {
-                      "type": "string",
-                      "description": "SERP-Analyse Ergebnisse"
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "rectangle": {
+                                  "type": "object",
+                                  "description": "Element-Position auf der Seite (nur wenn calculate_rectangles=true)",
+                                  "properties": {
+                                    "x": {"type": "integer", "example": 134},
+                                    "y": {"type": "integer", "example": 256},
+                                    "width": {"type": "integer", "example": 438},
+                                    "height": {"type": "integer", "example": 95}
+                                  }
+                                },
+                                "snippet": {
+                                  "type": "string",
+                                  "description": "Ausführlicher Snippet-Text",
+                                  "example": "Find the best SEO tools to improve your website's search engine rankings. Compare free and paid options..."
+                                },
+                                "highlighted": {
+                                  "type": "array",
+                                  "items": {"type": "string"},
+                                  "description": "Hervorgehobene Keywords",
+                                  "example": ["SEO", "tools"]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
+              }
+            }
+          }
+        ]
+      },
+      "DataForSEOResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API Version",
+            "example": "0.1.20250922"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "Status Code (20000 = Success)",
+            "example": 20000
+          },
+          "status_message": {
+            "type": "string",
+            "description": "Status Message",
+            "example": "Ok."
+          },
+          "time": {
+            "type": "string",
+            "description": "Ausführungszeit",
+            "example": "0.0502 sec."
+          },
+          "cost": {
+            "type": "number",
+            "description": "API-Kosten",
+            "example": 0
+          },
+          "tasks_count": {
+            "type": "integer",
+            "description": "Anzahl Tasks",
+            "example": 1
+          },
+          "tasks_error": {
+            "type": "integer",
+            "description": "Anzahl Task-Errors",
+            "example": 0
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Task ID",
+                  "example": "09231325-1064-0099-0000-9c215999b63b"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 20000
+                },
+                "status_message": {
+                  "type": "string",
+                  "example": "Ok."
+                },
+                "time": {
+                  "type": "string",
+                  "example": "0.0001 sec."
+                },
+                "cost": {
+                  "type": "number",
+                  "example": 0
+                },
+                "result_count": {
+                  "type": "integer",
+                  "description": "Anzahl Ergebnisse",
+                  "example": 128
+                },
+                "path": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "example": ["v3", "serp", "google", "languages"]
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "api": {"type": "string", "example": "serp"},
+                    "function": {"type": "string", "example": "languages"},
+                    "se": {"type": "string", "example": "google"}
+                  }
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "description": "Sprache",
+                        "properties": {
+                          "language_name": {
+                            "type": "string",
+                            "description": "Sprachname",
+                            "example": "German"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "description": "Sprachcode (z.B. 'de', 'en')",
+                            "example": "de"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "description": "Standort",
+                        "properties": {
+                          "location_code": {
+                            "type": "integer",
+                            "description": "Standortcode",
+                            "example": 2276
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standortname",
+                            "example": "Germany"
+                          },
+                          "location_code_parent": {
+                            "type": "integer",
+                            "description": "Parent Location Code",
+                            "example": null
+                          },
+                          "country_iso_code": {
+                            "type": "string",
+                            "description": "Ländercode (z.B. 'DE', 'US')",
+                            "example": "DE"
+                          },
+                          "location_type": {
+                            "type": "string",
+                            "description": "Standorttyp (z.B. 'Country', 'City')",
+                            "example": "Country"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "description": "Ergebnis-Array"
+                }
+              }
+            },
+            "description": "Tasks Array"
+          }
+        }
+      },
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "healthy"
+          },
+          "server": {
+            "type": "string", 
+            "example": "dataforseo-mcp-server"
+          },
+          "version": {
+            "type": "string",
+            "example": "2.7.2"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-23T10:20:30.123Z"
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {"type": "string"},
+            "example": ["/http", "/mcp"]
+          },
+          "message": {
+            "type": "string",
+            "example": "DataForSEO MCP Server is running on Vercel! 🚀"
+          },
+          "deployment": {
+            "type": "string",
+            "example": "successful"
+          },
+          "features": {
+            "type": "array",
+            "items": {"type": "string"},
+            "example": [
+              "on_page_instant_pages", 
+              "real_dataforseo_integration", 
+              "all_30_onpage_apis",
+              "all_25_backlinks_apis",
+              "serp_google_organic_live",
+              "serp_google_locations"
+            ]
+          },
+          "available_apis": {
+            "type": "object",
+            "properties": {
+              "serp": {
+                "type": "integer",
+                "description": "Anzahl SERP APIs",
+                "example": 45
+              },
+              "onpage": {
+                "type": "integer",
+                "description": "Anzahl OnPage APIs",
+                "example": 30
+              },
+              "backlinks": {
+                "type": "integer",
+                "description": "Anzahl Backlinks APIs",
+                "example": 25
+              },
+              "total": {
+                "type": "integer",
+                "description": "Gesamtanzahl APIs",
+                "example": 200
               }
             }
           }

@@ -480,27 +480,130 @@ const SERP_ENDPOINTS = {
   'serp_errors': '/v3/serp/errors',
   'serp_tasks_ready': '/v3/serp/tasks_ready',
   
-  // Google SERP Tools
+  // Google SERP Tools - Organic
   'serp_google_locations': '/v3/serp/google/locations',
   'serp_google_languages': '/v3/serp/google/languages',
   'serp_google_organic_live': '/v3/serp/google/organic/live',
+  'serp_google_organic_live_advanced': '/v3/serp/google/organic/live/advanced',
+  'serp_google_organic_live_html': '/v3/serp/google/organic/live/html',
   'serp_google_organic_task_post': '/v3/serp/google/organic/task_post',
   'serp_google_organic_tasks_ready': '/v3/serp/google/organic/tasks_ready',
   'serp_google_organic_task_get_advanced': '/v3/serp/google/organic/task_get/advanced',
   'serp_google_organic_task_get_html': '/v3/serp/google/organic/task_get/html',
   'serp_google_organic_task_get_regular': '/v3/serp/google/organic/task_get/regular',
   
-  // Bing SERP Tools
+  // Google SERP Tools - AI Mode
+  'serp_google_ai_mode_languages': '/v3/serp/google/ai_mode/languages',
+  'serp_google_ai_mode_live_advanced': '/v3/serp/google/ai_mode/live/advanced',
+  'serp_google_ai_mode_live_html': '/v3/serp/google/ai_mode/live/html',
+  'serp_google_ai_mode_task_post': '/v3/serp/google/ai_mode/task_post',
+  'serp_google_ai_mode_tasks_ready': '/v3/serp/google/ai_mode/tasks_ready',
+  'serp_google_ai_mode_task_get_advanced': '/v3/serp/google/ai_mode/task_get/advanced',
+  'serp_google_ai_mode_task_get_html': '/v3/serp/google/ai_mode/task_get/html',
+  
+  // Google SERP Tools - Maps
+  'serp_google_maps_live_advanced': '/v3/serp/google/maps/live/advanced',
+  'serp_google_maps_task_post': '/v3/serp/google/maps/task_post',
+  'serp_google_maps_tasks_ready': '/v3/serp/google/maps/tasks_ready',
+  'serp_google_maps_task_get_advanced': '/v3/serp/google/maps/task_get/advanced',
+  
+  // Google SERP Tools - Local Finder
+  'serp_google_local_finder_live_advanced': '/v3/serp/google/local_finder/live/advanced',
+  'serp_google_local_finder_live_html': '/v3/serp/google/local_finder/live/html',
+  'serp_google_local_finder_task_post': '/v3/serp/google/local_finder/task_post',
+  'serp_google_local_finder_tasks_ready': '/v3/serp/google/local_finder/tasks_ready',
+  'serp_google_local_finder_task_get_advanced': '/v3/serp/google/local_finder/task_get/advanced',
+  'serp_google_local_finder_task_get_html': '/v3/serp/google/local_finder/task_get/html',
+  
+  // Google SERP Tools - News
+  'serp_google_news_live_advanced': '/v3/serp/google/news/live/advanced',
+  'serp_google_news_live_html': '/v3/serp/google/news/live/html',
+  'serp_google_news_task_post': '/v3/serp/google/news/task_post',
+  'serp_google_news_tasks_ready': '/v3/serp/google/news/tasks_ready',
+  'serp_google_news_task_get_advanced': '/v3/serp/google/news/task_get/advanced',
+  'serp_google_news_task_get_html': '/v3/serp/google/news/task_get/html',
+  
+  // Google SERP Tools - Events
+  'serp_google_events_locations': '/v3/serp/google/events/locations',
+  'serp_google_events_live_advanced': '/v3/serp/google/events/live/advanced',
+  'serp_google_events_task_post': '/v3/serp/google/events/task_post',
+  'serp_google_events_tasks_ready': '/v3/serp/google/events/tasks_ready',
+  'serp_google_events_task_get_advanced': '/v3/serp/google/events/task_get/advanced',
+  
+  // Google SERP Tools - Images
+  'serp_google_images_live_advanced': '/v3/serp/google/images/live/advanced',
+  'serp_google_images_live_html': '/v3/serp/google/images/live/html',
+  'serp_google_images_task_post': '/v3/serp/google/images/task_post',
+  'serp_google_images_tasks_ready': '/v3/serp/google/images/tasks_ready',
+  'serp_google_images_task_get_advanced': '/v3/serp/google/images/task_get/advanced',
+  'serp_google_images_task_get_html': '/v3/serp/google/images/task_get/html',
+  
+  // Google SERP Tools - Search By Image
+  'serp_google_search_by_image_task_post': '/v3/serp/google/search_by_image/task_post',
+  'serp_google_search_by_image_tasks_ready': '/v3/serp/google/search_by_image/tasks_ready',
+  'serp_google_search_by_image_task_get_advanced': '/v3/serp/google/search_by_image/task_get/advanced',
+  'serp_google_search_by_image_task_get_html': '/v3/serp/google/search_by_image/task_get/html',
+  
+  // Google SERP Tools - Jobs
+  'serp_google_jobs_locations': '/v3/serp/google/jobs/locations',
+  'serp_google_jobs_task_post': '/v3/serp/google/jobs/task_post',
+  'serp_google_jobs_tasks_ready': '/v3/serp/google/jobs/tasks_ready',
+  'serp_google_jobs_task_get_advanced': '/v3/serp/google/jobs/task_get/advanced',
+  'serp_google_jobs_task_get_html': '/v3/serp/google/jobs/task_get/html',
+  
+  // Google SERP Tools - Autocomplete
+  'serp_google_autocomplete_live_advanced': '/v3/serp/google/autocomplete/live/advanced',
+  'serp_google_autocomplete_task_post': '/v3/serp/google/autocomplete/task_post',
+  'serp_google_autocomplete_tasks_ready': '/v3/serp/google/autocomplete/tasks_ready',
+  'serp_google_autocomplete_task_get_advanced': '/v3/serp/google/autocomplete/task_get/advanced',
+  
+  // Google SERP Tools - Dataset Search
+  'serp_google_dataset_search_live_advanced': '/v3/serp/google/dataset_search/live/advanced',
+  'serp_google_dataset_search_task_post': '/v3/serp/google/dataset_search/task_post',
+  'serp_google_dataset_search_tasks_ready': '/v3/serp/google/dataset_search/tasks_ready',
+  'serp_google_dataset_search_task_get_advanced': '/v3/serp/google/dataset_search/task_get/advanced',
+  
+  // Google SERP Tools - Dataset Info
+  'serp_google_dataset_info_live_advanced': '/v3/serp/google/dataset_info/live/advanced',
+  'serp_google_dataset_info_task_post': '/v3/serp/google/dataset_info/task_post',
+  'serp_google_dataset_info_tasks_ready': '/v3/serp/google/dataset_info/tasks_ready',
+  'serp_google_dataset_info_task_get_advanced': '/v3/serp/google/dataset_info/task_get/advanced',
+  
+  // Google SERP Tools - Ads Advertisers
+  'serp_google_ads_advertisers_locations': '/v3/serp/google/ads_advertisers/locations',
+  'serp_google_ads_advertisers_live_advanced': '/v3/serp/google/ads_advertisers/live/advanced',
+  'serp_google_ads_advertisers_task_post': '/v3/serp/google/ads_advertisers/task_post',
+  'serp_google_ads_advertisers_tasks_ready': '/v3/serp/google/ads_advertisers/tasks_ready',
+  'serp_google_ads_advertisers_task_get_advanced': '/v3/serp/google/ads_advertisers/task_get/advanced',
+  
+  // Google SERP Tools - Ads Search
+  'serp_google_ads_search_locations': '/v3/serp/google/ads_search/locations',
+  'serp_google_ads_search_live_advanced': '/v3/serp/google/ads_search/live/advanced',
+  'serp_google_ads_search_task_post': '/v3/serp/google/ads_search/task_post',
+  'serp_google_ads_search_tasks_ready': '/v3/serp/google/ads_search/tasks_ready',
+  'serp_google_ads_search_task_get_advanced': '/v3/serp/google/ads_search/task_get/advanced',
+  
+  // Bing SERP Tools - Organic
   'serp_bing_locations': '/v3/serp/bing/locations',
   'serp_bing_languages': '/v3/serp/bing/languages',
   'serp_bing_organic_live': '/v3/serp/bing/organic/live',
+  'serp_bing_organic_live_advanced': '/v3/serp/bing/organic/live/advanced',
+  'serp_bing_organic_live_html': '/v3/serp/bing/organic/live/html',
   'serp_bing_organic_task_post': '/v3/serp/bing/organic/task_post',
   'serp_bing_organic_tasks_ready': '/v3/serp/bing/organic/tasks_ready',
   'serp_bing_organic_task_get_advanced': '/v3/serp/bing/organic/task_get/advanced',
   'serp_bing_organic_task_get_html': '/v3/serp/bing/organic/task_get/html',
   'serp_bing_organic_task_get_regular': '/v3/serp/bing/organic/task_get/regular',
   
-  // YouTube SERP Tools
+  // Bing SERP Tools - Local Pack
+  'serp_bing_local_pack_live': '/v3/serp/bing/local_pack/live',
+  'serp_bing_local_pack_live_html': '/v3/serp/bing/local_pack/live/html',
+  'serp_bing_local_pack_task_post': '/v3/serp/bing/local_pack/task_post',
+  'serp_bing_local_pack_tasks_ready': '/v3/serp/bing/local_pack/tasks_ready',
+  'serp_bing_local_pack_task_get_regular': '/v3/serp/bing/local_pack/task_get/regular',
+  'serp_bing_local_pack_task_get_html': '/v3/serp/bing/local_pack/task_get/html',
+  
+  // YouTube SERP Tools - Organic
   'serp_youtube_locations': '/v3/serp/youtube/locations',
   'serp_youtube_languages': '/v3/serp/youtube/languages',
   'serp_youtube_organic_live': '/v3/serp/youtube/organic/live',
@@ -508,7 +611,25 @@ const SERP_ENDPOINTS = {
   'serp_youtube_organic_tasks_ready': '/v3/serp/youtube/organic/tasks_ready',
   'serp_youtube_organic_task_get_advanced': '/v3/serp/youtube/organic/task_get/advanced',
   'serp_youtube_organic_task_get_html': '/v3/serp/youtube/organic/task_get/html',
-  'serp_youtube_organic_task_get_regular': '/v3/serp/youtube/organic/task_get/regular'
+  'serp_youtube_organic_task_get_regular': '/v3/serp/youtube/organic/task_get/regular',
+  
+  // YouTube SERP Tools - Video Info
+  'serp_youtube_video_info_live_advanced': '/v3/serp/youtube/video_info/live/advanced',
+  'serp_youtube_video_info_task_post': '/v3/serp/youtube/video_info/task_post',
+  'serp_youtube_video_info_tasks_ready': '/v3/serp/youtube/video_info/tasks_ready',
+  'serp_youtube_video_info_task_get_advanced': '/v3/serp/youtube/video_info/task_get/advanced',
+  
+  // YouTube SERP Tools - Video Subtitles
+  'serp_youtube_video_subtitles_live_advanced': '/v3/serp/youtube/video_subtitles/live/advanced',
+  'serp_youtube_video_subtitles_task_post': '/v3/serp/youtube/video_subtitles/task_post',
+  'serp_youtube_video_subtitles_tasks_ready': '/v3/serp/youtube/video_subtitles/tasks_ready',
+  'serp_youtube_video_subtitles_task_get_advanced': '/v3/serp/youtube/video_subtitles/task_get/advanced',
+  
+  // YouTube SERP Tools - Video Comments
+  'serp_youtube_video_comments_live_advanced': '/v3/serp/youtube/video_comments/live/advanced',
+  'serp_youtube_video_comments_task_post': '/v3/serp/youtube/video_comments/task_post',
+  'serp_youtube_video_comments_tasks_ready': '/v3/serp/youtube/video_comments/tasks_ready',
+  'serp_youtube_video_comments_task_get_advanced': '/v3/serp/youtube/video_comments/task_get/advanced'
 };
 
 // Combine all endpoints
@@ -611,11 +732,10 @@ async function handleMcpRequest(req, res) {
           }];
         } else {
           // SERP, Content Analysis, OnPage, Backlinks APIs (Standard)
-          requestData = [{
+          const standardParams = {
             ...baseParams,
             location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
             language_code: arguments_.language_code || 'de',
-            language_name: arguments_.language_name,
             depth: arguments_.depth || 20,
             max_crawl_pages: arguments_.max_crawl_pages || 1,
             device: arguments_.device || 'desktop',
@@ -625,7 +745,14 @@ async function handleMcpRequest(req, res) {
             content: arguments_.content,
             text: arguments_.text,
             backlinks_status_type: arguments_.backlinks_status_type
-          }];
+          };
+          
+          // AI Mode Endpoints unterstützen KEIN language_name - nur language_code
+          if (!apiName.includes('ai_mode')) {
+            standardParams.language_name = arguments_.language_name;
+          }
+          
+          requestData = [standardParams];
         }
       
       // Merchant APIs: KEINE anderen Parameter hinzufügen - diese sind bereits perfekt konfiguriert
