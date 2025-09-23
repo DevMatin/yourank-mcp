@@ -112,6 +112,62 @@ function normalizeLocationName(locationName) {
   return LOCATION_MAPPING[normalized] || locationName;
 }
 
+// Helper function to make DataForSEO API calls for AI Mode (without location_name)
+function makeDataForSEORequestForAiMode(endpoint, postData, method = 'POST') {
+  console.log('🤖 makeDataForSEORequestForAiMode called with:', { endpoint, method, postData: postData ? JSON.stringify(postData, null, 2) : 'null' });
+  
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'api.dataforseo.com',
+      port: 443,
+      path: endpoint,
+      method: method,
+      headers: {
+        'Authorization': `Basic ${Buffer.from(`${DATAFORSEO_USERNAME}:${DATAFORSEO_PASSWORD}`).toString('base64')}`,
+        'Content-Type': 'application/json',
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', (chunk) => {
+        body += chunk;
+      });
+      res.on('end', () => {
+        try {
+          const jsonResponse = JSON.parse(body);
+          resolve({
+            status: res.statusCode,
+            body: jsonResponse
+          });
+        } catch (e) {
+          resolve({
+            status: res.statusCode,
+            body: body
+          });
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      reject(err);
+    });
+
+    if (postData && method === 'POST') {
+      // For AI Mode: Only send keyword, device, depth - NO location_name
+      const cleanPostData = postData.map(item => ({
+        keyword: item.keyword,
+        device: item.device || 'desktop',
+        depth: item.depth || 10
+      }));
+      
+      console.log('🤖 AI Mode Clean Request:', JSON.stringify(cleanPostData, null, 2));
+      req.write(JSON.stringify(cleanPostData));
+    }
+    req.end();
+  });
+}
+
 // Helper function to make DataForSEO API calls
 function makeDataForSEORequest(endpoint, postData, method = 'POST') {
   console.log('🔧 makeDataForSEORequest called with:', { endpoint, method, postData: postData ? JSON.stringify(postData, null, 2) : 'null' });
@@ -981,7 +1037,7 @@ app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
     
     console.log('🤖 AI Mode Live Advanced Request:', JSON.stringify(requestData, null, 2));
     
-    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    const dataforseoResponse = await makeDataForSEORequestForAiMode(endpoint, requestData, 'POST');
     
     if (dataforseoResponse.status === 200) {
       res.json(dataforseoResponse.body);
