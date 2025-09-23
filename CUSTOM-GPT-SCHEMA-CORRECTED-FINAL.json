@@ -1,0 +1,294 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO SERP API",
+    "description": "SERP API für Google, Bing und YouTube Suchergebnisse über MCP Server",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/http": {
+      "post": {
+        "summary": "SERP API Tools aufrufen",
+        "description": "Ruft verschiedene SERP API Tools über den MCP Server auf",
+        "operationId": "callSerpTool",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MCPRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche API-Antwort",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MCPResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MCPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server-Fehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MCPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "HTTP Basic Authentication mit DataForSEO Credentials"
+      }
+    },
+    "schemas": {
+      "MCPRequest": {
+        "type": "object",
+        "required": ["jsonrpc", "id", "method", "params"],
+        "properties": {
+          "jsonrpc": {
+            "type": "string",
+            "const": "2.0",
+            "description": "JSON-RPC Version"
+          },
+          "id": {
+            "type": "integer",
+            "example": 1,
+            "description": "Request ID"
+          },
+          "method": {
+            "type": "string",
+            "const": "tools/call",
+            "description": "MCP Method"
+          },
+          "params": {
+            "$ref": "#/components/schemas/MCPParams"
+          }
+        }
+      },
+      "MCPParams": {
+        "type": "object",
+        "required": ["name", "arguments"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "serp_google_organic_live",
+              "serp_google_organic_live_advanced",
+              "serp_bing_organic_live",
+              "serp_yahoo_organic_live",
+              "keywords_data_google_ads_search_volume",
+              "keywords_data_google_ads_keywords_for_site",
+              "backlinks_summary",
+              "backlinks_backlinks",
+              "on_page_instant_pages",
+              "business_data_google_my_business_info_live",
+              "content_analysis_search"
+            ],
+            "description": "Tool Name to call"
+          },
+          "arguments": {
+            "oneOf": [
+              {"$ref": "#/components/schemas/SERPArguments"},
+              {"$ref": "#/components/schemas/KeywordsArguments"},
+              {"$ref": "#/components/schemas/BacklinksArguments"},
+              {"$ref": "#/components/schemas/OnPageArguments"},
+              {"$ref": "#/components/schemas/BusinessDataArguments"}
+            ]
+          }
+        }
+      },
+      "SERPArguments": {
+        "type": "object",
+        "required": ["keyword"],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für SERP-Analyse",
+            "example": "seo tools"
+          },
+          "location_name": {
+            "type": "string",
+            "description": "Standort für die Suche",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Sprachcode",
+            "default": "de",
+            "example": "de"
+          },
+          "device": {
+            "type": "string",
+            "enum": ["desktop", "mobile"],
+            "default": "desktop",
+            "description": "Gerätetyp"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Anzahl der Suchergebnisse"
+          }
+        }
+      },
+      "KeywordsArguments": {
+        "type": "object",
+        "required": ["keywords"],
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Liste der Keywords",
+            "example": ["seo", "marketing"]
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          }
+        }
+      },
+      "BacklinksArguments": {
+        "type": "object",
+        "required": ["target"],
+        "properties": {
+          "target": {
+            "type": "string",
+            "description": "Target Domain oder URL",
+            "example": "example.com"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 100,
+            "description": "Anzahl der Ergebnisse"
+          }
+        }
+      },
+      "OnPageArguments": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL für OnPage Analyse",
+            "example": "https://example.com"
+          },
+          "max_crawl_pages": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "default": 10,
+            "description": "Maximale Anzahl zu crawlende Seiten"
+          }
+        }
+      },
+      "BusinessDataArguments": {
+        "type": "object",
+        "required": ["keyword"],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für Business-Daten",
+            "example": "restaurant berlin"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          }
+        }
+      },
+      "MCPResponse": {
+        "type": "object",
+        "properties": {
+          "jsonrpc": {
+            "type": "string",
+            "const": "2.0"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "result": {
+            "type": "object",
+            "description": "DataForSEO API Response"
+          }
+        }
+      },
+      "MCPError": {
+        "type": "object",
+        "properties": {
+          "jsonrpc": {
+            "type": "string",
+            "const": "2.0"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

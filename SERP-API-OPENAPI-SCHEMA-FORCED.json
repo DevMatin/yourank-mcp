@@ -1,0 +1,252 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO SERP API",
+    "description": "Umfassende SERP API für Google, Bing und YouTube Suchergebnisse",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/http": {
+      "post": {
+        "summary": "SERP API Tool aufrufen",
+        "description": "Ruft verschiedene SERP API Tools über den MCP Server auf",
+        "operationId": "callSerpTool",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "example": "2.0"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "method": {
+                    "type": "string",
+                    "example": "tools/call"
+                  },
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "enum": [
+                          "serp_google_organic_live",
+                          "serp_google_ai_mode_live_advanced",
+                          "serp_bing_organic_live",
+                          "serp_youtube_organic_live",
+                          "serp_google_images_live_advanced",
+                          "serp_google_autocomplete_live_advanced",
+                          "serp_google_jobs_live_advanced",
+                          "serp_google_dataset_search_live_advanced",
+                          "serp_google_dataset_info_live_advanced",
+                          "serp_google_search_by_image_live_advanced",
+                          "serp_bing_local_pack_live_regular",
+                          "serp_youtube_video_info_live_advanced",
+                          "serp_youtube_video_subtitles_live_advanced",
+                          "serp_youtube_video_comments_live_advanced"
+                        ],
+                        "description": "Name des SERP API Tools"
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "keyword": {
+                            "type": "string",
+                            "description": "Suchbegriff für die SERP-Analyse",
+                            "example": "seo tools"
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standort für die Suche",
+                            "example": "Germany"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "description": "Sprachcode",
+                            "example": "de"
+                          },
+                          "device": {
+                            "type": "string",
+                            "enum": ["desktop", "mobile", "tablet"],
+                            "description": "Gerätetyp",
+                            "example": "desktop"
+                          },
+                          "os": {
+                            "type": "string",
+                            "enum": ["windows", "macos", "linux", "android", "ios"],
+                            "description": "Betriebssystem",
+                            "example": "windows"
+                          },
+                          "depth": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100,
+                            "description": "Anzahl der Ergebnisse",
+                            "example": 10
+                          }
+                        },
+                        "required": ["keyword"]
+                      }
+                    },
+                    "required": ["name", "arguments"]
+                  }
+                },
+                "required": ["jsonrpc", "id", "method", "params"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string",
+                      "example": "2.0"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "text"
+                              },
+                              "text": {
+                                "type": "string",
+                                "description": "SERP-Analyse Ergebnisse"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage"
+          },
+          "401": {
+            "description": "Authentifizierung fehlgeschlagen"
+          },
+          "403": {
+            "description": "Zugriff verweigert"
+          },
+          "500": {
+            "description": "Interner Serverfehler"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "DataForSEO API Credentials"
+      }
+    },
+    "schemas": {
+      "SerpRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff",
+            "example": "seo tools"
+          },
+          "location_name": {
+            "type": "string",
+            "description": "Standort",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Sprachcode",
+            "example": "de"
+          },
+          "device": {
+            "type": "string",
+            "enum": ["desktop", "mobile", "tablet"],
+            "description": "Gerätetyp",
+            "example": "desktop"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Anzahl der Ergebnisse",
+            "example": 10
+          }
+        },
+        "required": ["keyword"]
+      },
+      "SerpResponse": {
+        "type": "object",
+        "properties": {
+          "jsonrpc": {
+            "type": "string",
+            "example": "2.0"
+          },
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "text"
+                    },
+                    "text": {
+                      "type": "string",
+                      "description": "SERP-Analyse Ergebnisse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

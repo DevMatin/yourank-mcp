@@ -661,7 +661,20 @@ async function handleMcpRequest(req, res) {
         if (dataforseoResponse.status === 200) {
           return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
         }
-        return res.status(500).json({ jsonrpc: '2.0', error: { code: -32603, message: 'DataForSEO API returned an error' }, id: req.body?.id || null });
+        console.error('DataForSEO API Error:', {
+          status: dataforseoResponse.status,
+          body: dataforseoResponse.body,
+          endpoint: endpoint,
+          requestData: requestData
+        });
+        return res.status(500).json({ 
+          jsonrpc: '2.0', 
+          error: { 
+            code: -32603, 
+            message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+          }, 
+          id: req.body?.id || null 
+        });
       } else {
         // Handle unknown methods  
         res.status(400).json({
@@ -708,7 +721,20 @@ async function handleMcpRequest(req, res) {
       if (dataforseoResponse.status === 200) {
         return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
       }
-      return res.status(500).json({ jsonrpc: '2.0', error: { code: -32603, message: 'DataForSEO API returned an error' }, id: req.body?.id || null });
+      console.error('DataForSEO API Error (direct call):', {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
     } else {
       // Handle other methods or return error
       res.status(400).json({
@@ -722,6 +748,8 @@ async function handleMcpRequest(req, res) {
     }
   } catch (error) {
     console.error('Error in MCP handler:', error);
+    console.error('Stack trace:', error.stack);
+    console.error('Request body:', req.body);
     res.status(500).json({
       jsonrpc: "2.0",
       error: {

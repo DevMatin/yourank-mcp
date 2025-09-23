@@ -1,0 +1,205 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO SERP API",
+    "description": "SERP API für Google, Bing und YouTube Suchergebnisse",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/http": {
+      "post": {
+        "summary": "SERP API aufrufen",
+        "description": "Ruft SERP API Tools über den MCP Server auf",
+        "operationId": "callSerpTool",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "example": "2.0"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "method": {
+                    "type": "string",
+                    "example": "tools/call"
+                  },
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "serp_google_organic_live"
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "properties": {
+                          "keyword": {
+                            "type": "string",
+                            "example": "seo tools"
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "example": "Germany"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "example": "de"
+                          },
+                          "device": {
+                            "type": "string",
+                            "example": "desktop"
+                          },
+                          "depth": {
+                            "type": "integer",
+                            "example": 10
+                          }
+                        },
+                        "required": ["keyword"]
+                      }
+                    },
+                    "required": ["name", "arguments"]
+                  }
+                },
+                "required": ["jsonrpc", "id", "method", "params"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string",
+                      "example": "2.0"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "text"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "SerpRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff",
+            "example": "seo tools"
+          },
+          "location_name": {
+            "type": "string",
+            "description": "Standort",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Sprachcode",
+            "example": "de"
+          },
+          "device": {
+            "type": "string",
+            "description": "Gerätetyp",
+            "example": "desktop"
+          },
+          "depth": {
+            "type": "integer",
+            "description": "Anzahl der Ergebnisse",
+            "example": 10
+          }
+        },
+        "required": ["keyword"]
+      },
+      "SerpResponse": {
+        "type": "object",
+        "properties": {
+          "jsonrpc": {
+            "type": "string",
+            "example": "2.0"
+          },
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "text"
+                    },
+                    "text": {
+                      "type": "string",
+                      "description": "SERP-Analyse Ergebnisse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
