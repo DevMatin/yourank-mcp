@@ -937,6 +937,39 @@ app.get('/', (req, res) => {
 app.post('/http', handleMcpRequest);
 app.post('/mcp', handleMcpRequest);
 
+// AI Mode SERP endpoints - special handling to exclude language_name
+app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
+  try {
+    console.log('🚀 AI Mode Route called!');
+    console.log('🚀 Original request body:', JSON.stringify(req.body, null, 2));
+    
+    const endpoint = '/v3/serp/google/ai_mode/live/advanced';
+    
+    // Filter out language_name AND language_code for AI Mode endpoints
+    let requestData = Array.isArray(req.body) ? req.body : [req.body];
+    requestData = requestData.map(item => {
+      const { language_name, language_code, ...filteredItem } = item;
+      return {
+        location_name: normalizeLocationName(filteredItem.location_name || filteredItem.location),
+        ...filteredItem
+      };
+    });
+    
+    console.log('🤖 AI Mode Live Advanced Request:', JSON.stringify(requestData, null, 2));
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in AI Mode live advanced route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
 // Direct REST API routes for SERP endpoints
 
 // General SERP endpoints
@@ -1163,39 +1196,6 @@ app.get('/v3/serp/:engine/organic/task_get/:format/:id', async (req, res) => {
     }
   } catch (error) {
     console.error('Error in SERP task get route:', error);
-    res.status(500).json({ error: 'Internal server error: ' + error.message });
-  }
-});
-
-// AI Mode SERP endpoints - special handling to exclude language_name
-app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
-  try {
-    console.log('🚀 AI Mode Route called!');
-    console.log('🚀 Original request body:', JSON.stringify(req.body, null, 2));
-    
-    const endpoint = '/v3/serp/google/ai_mode/live/advanced';
-    
-    // Filter out language_name AND language_code for AI Mode endpoints
-    let requestData = Array.isArray(req.body) ? req.body : [req.body];
-    requestData = requestData.map(item => {
-      const { language_name, language_code, ...filteredItem } = item;
-      return {
-        location_name: normalizeLocationName(filteredItem.location_name || filteredItem.location),
-        ...filteredItem
-      };
-    });
-    
-    console.log('🤖 AI Mode Live Advanced Request:', JSON.stringify(requestData, null, 2));
-    
-    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
-    
-    if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
-    } else {
-      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
-    }
-  } catch (error) {
-    console.error('Error in AI Mode live advanced route:', error);
     res.status(500).json({ error: 'Internal server error: ' + error.message });
   }
 });
