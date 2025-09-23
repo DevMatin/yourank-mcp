@@ -57,11 +57,6 @@
                     "enum": ["desktop", "mobile"],
                     "description": "Gerätetyp",
                     "default": "desktop"
-                  },
-                  "crawl_budget": {
-                    "type": "integer",
-                    "description": "Crawl-Budget",
-                    "default": 1000
                   }
                 },
                 "required": ["type"]
