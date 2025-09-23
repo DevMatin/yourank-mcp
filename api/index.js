@@ -162,6 +162,10 @@ function makeDataForSEORequestForAiMode(endpoint, postData, method = 'POST') {
       }));
       
       console.log('🤖 AI Mode Clean Request:', JSON.stringify(cleanPostData, null, 2));
+      console.log('🤖 AI Mode Endpoint:', endpoint);
+      console.log('🤖 AI Mode Method:', method);
+      console.log('🤖 AI Mode Headers:', options.headers);
+      
       req.write(JSON.stringify(cleanPostData));
     }
     req.end();
