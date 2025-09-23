@@ -114,6 +114,8 @@ function normalizeLocationName(locationName) {
 
 // Helper function to make DataForSEO API calls
 function makeDataForSEORequest(endpoint, postData, method = 'POST') {
+  console.log('🔧 makeDataForSEORequest called with:', { endpoint, method, postData: postData ? JSON.stringify(postData, null, 2) : 'null' });
+  
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'api.dataforseo.com',
@@ -152,11 +154,14 @@ function makeDataForSEORequest(endpoint, postData, method = 'POST') {
     });
 
     if (postData && method === 'POST') {
+      console.log('🔧 Processing POST request for endpoint:', endpoint);
+      
       // Special handling for different endpoints to remove invalid parameters
       let cleanPostData = postData;
       
       // AI Mode endpoints - remove language_name and language_code
       if (endpoint.includes('/v3/serp/google/ai_mode/')) {
+        console.log('🔧 AI Mode endpoint detected!');
         cleanPostData = postData.map(item => {
           const { language_name, language_code, ...cleanItem } = item;
           return cleanItem;
