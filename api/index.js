@@ -162,6 +162,8 @@ function makeDataForSEORequest(endpoint, postData, method = 'POST') {
           return cleanItem;
         });
         console.log('🔧 AI Mode DataForSEO Request:', JSON.stringify(cleanPostData, null, 2));
+        console.log('🔧 AI Mode Endpoint:', endpoint);
+        console.log('🔧 AI Mode Method:', method);
       }
       // Google Ads endpoints - remove invalid parameters
       else if (endpoint.includes('/v3/keywords_data/google_ads/ad_traffic_by_keywords/live')) {

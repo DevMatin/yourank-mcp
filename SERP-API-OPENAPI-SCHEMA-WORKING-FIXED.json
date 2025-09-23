@@ -270,7 +270,34 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SerpAiRequest"
+                "type": "object",
+                "required": ["keyword"],
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für AI Overview Analyse",
+                    "example": "artificial intelligence trends"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standort für die Suche",
+                    "default": "Germany",
+                    "example": "Germany"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": ["desktop", "mobile"],
+                    "default": "desktop",
+                    "description": "Gerätetyp für die Analyse"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 10,
+                    "description": "Anzahl der zu analysierenden Suchergebnisse"
+                  }
+                }
               }
             }
           }
