@@ -152,9 +152,19 @@ function makeDataForSEORequest(endpoint, postData, method = 'POST') {
     });
 
     if (postData && method === 'POST') {
-      // Special handling for google_ads_ad_traffic_by_keywords to remove invalid parameters
+      // Special handling for different endpoints to remove invalid parameters
       let cleanPostData = postData;
-      if (endpoint.includes('/v3/keywords_data/google_ads/ad_traffic_by_keywords/live')) {
+      
+      // AI Mode endpoints - remove language_name and language_code
+      if (endpoint.includes('/v3/serp/google/ai_mode/')) {
+        cleanPostData = postData.map(item => {
+          const { language_name, language_code, ...cleanItem } = item;
+          return cleanItem;
+        });
+        console.log('🔧 AI Mode DataForSEO Request:', JSON.stringify(cleanPostData, null, 2));
+      }
+      // Google Ads endpoints - remove invalid parameters
+      else if (endpoint.includes('/v3/keywords_data/google_ads/ad_traffic_by_keywords/live')) {
         cleanPostData = postData.map(item => {
           // Create a completely new object with only valid parameters
           const cleanItem = {};
@@ -176,6 +186,7 @@ function makeDataForSEORequest(endpoint, postData, method = 'POST') {
           return cleanItem;
         });
       }
+      
       req.write(JSON.stringify(cleanPostData));
     }
     req.end();
