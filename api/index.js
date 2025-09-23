@@ -1170,6 +1170,9 @@ app.get('/v3/serp/:engine/organic/task_get/:format/:id', async (req, res) => {
 // AI Mode SERP endpoints - special handling to exclude language_name
 app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
   try {
+    console.log('🚀 AI Mode Route called!');
+    console.log('🚀 Original request body:', JSON.stringify(req.body, null, 2));
+    
     const endpoint = '/v3/serp/google/ai_mode/live/advanced';
     
     // Filter out language_name AND language_code for AI Mode endpoints
