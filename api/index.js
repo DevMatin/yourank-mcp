@@ -154,16 +154,15 @@ function makeDataForSEORequestForAiMode(endpoint, postData, method = 'POST') {
     });
 
     if (postData && method === 'POST') {
-      // For AI Mode: Use language_code instead of language_name
+      // For AI Mode: Only minimal parameters - keyword, location_name, device
       const cleanPostData = postData.map(item => ({
         keyword: item.keyword,
         location_name: item.location_name || 'United States',
-        language_code: 'en', // AI Mode only supports English
-        device: item.device || 'desktop',
-        depth: item.depth || 10
+        device: item.device || 'desktop'
+        // NO language_code, NO depth - AI Mode is very restrictive
       }));
       
-      console.log('🤖 AI Mode Clean Request (with language_code):', JSON.stringify(cleanPostData, null, 2));
+      console.log('🤖 AI Mode Minimal Request (keyword, location_name, device only):', JSON.stringify(cleanPostData, null, 2));
       console.log('🤖 AI Mode Endpoint:', endpoint);
       console.log('🤖 AI Mode Method:', method);
       console.log('🤖 AI Mode Headers:', options.headers);
@@ -1031,14 +1030,15 @@ app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
     
     const endpoint = '/v3/serp/google/ai_mode/live/advanced';
     
-        // For AI Mode: Use language_code instead of language_name
+        // For AI Mode: Only minimal parameters - keyword, location_name, device
         let requestData = Array.isArray(req.body) ? req.body : [req.body];
         requestData = requestData.map(item => {
-          const { language_name, ...filteredItem } = item;
+          const { language_name, language_code, depth, ...filteredItem } = item;
           return {
+            keyword: filteredItem.keyword,
             location_name: normalizeLocationName(filteredItem.location_name || filteredItem.location),
-            language_code: 'en', // AI Mode only supports English
-            ...filteredItem
+            device: filteredItem.device || 'desktop'
+            // NO language_code, NO depth - AI Mode is very restrictive
           };
         });
     
