@@ -1172,13 +1172,12 @@ app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
   try {
     const endpoint = '/v3/serp/google/ai_mode/live/advanced';
     
-    // Filter out language_name for AI Mode endpoints
+    // Filter out language_name AND language_code for AI Mode endpoints
     let requestData = Array.isArray(req.body) ? req.body : [req.body];
     requestData = requestData.map(item => {
-      const { language_name, ...filteredItem } = item;
+      const { language_name, language_code, ...filteredItem } = item;
       return {
         location_name: normalizeLocationName(filteredItem.location_name || filteredItem.location),
-        language_code: filteredItem.language_code || 'de',
         ...filteredItem
       };
     });
