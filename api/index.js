@@ -1797,6 +1797,313 @@ app.post('/v3/on_page/content_parsing/live', async (req, res) => {
   }
 });
 
+// Gruppierte OnPage API Endpunkte - Moderne Lösung für 30 Operationen Limit
+app.post('/v3/onpage_core', async (req, res) => {
+  try {
+    console.log('🚀 OnPage Core Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, ...params } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'task_post':
+        endpoint = '/v3/on_page/task_post';
+        requestData = [{
+          target: params.target,
+          language_code: params.language_code || 'en',
+          location_name: params.location_name || 'United States',
+          device: params.device || 'desktop',
+          crawl_budget: params.crawl_budget || 1000
+        }];
+        break;
+        
+      case 'summary':
+        endpoint = `/v3/on_page/summary/${params.id}`;
+        requestData = null;
+        break;
+        
+      case 'tasks_ready':
+        endpoint = '/v3/on_page/tasks_ready';
+        requestData = null;
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'summary' || type === 'tasks_ready' ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage core route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/onpage_analysis', async (req, res) => {
+  try {
+    console.log('🚀 OnPage Analysis Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, id, url, limit = 100, filters = [] } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'pages':
+        endpoint = '/v3/on_page/pages';
+        requestData = [{ id, limit, filters }];
+        break;
+        
+      case 'resources':
+        endpoint = '/v3/on_page/resources';
+        requestData = [{ id, limit, filters }];
+        break;
+        
+      case 'links':
+        endpoint = '/v3/on_page/links';
+        requestData = [{ id, limit, filters }];
+        break;
+        
+      case 'duplicate_tags':
+        endpoint = '/v3/on_page/duplicate_tags';
+        requestData = [{ id, limit, filters }];
+        break;
+        
+      case 'duplicate_content':
+        endpoint = '/v3/on_page/duplicate_content';
+        requestData = [{ id, limit, filters }];
+        break;
+        
+      case 'waterfall':
+        endpoint = '/v3/on_page/waterfall';
+        requestData = [{ id, url, limit, filters }];
+        break;
+        
+      case 'keyword_density':
+        endpoint = '/v3/on_page/keyword_density';
+        requestData = [{ id, url, limit, filters }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage analysis route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/onpage_content', async (req, res) => {
+  try {
+    console.log('🚀 OnPage Content Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, id, url, limit = 100, screenshot_width = 1920, screenshot_height = 1080 } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'raw_html':
+        endpoint = '/v3/on_page/raw_html';
+        requestData = [{ id, url, limit }];
+        break;
+        
+      case 'page_screenshot':
+        endpoint = '/v3/on_page/page_screenshot';
+        requestData = [{ id, url, limit, screenshot_width, screenshot_height }];
+        break;
+        
+      case 'content_parsing':
+        endpoint = '/v3/on_page/content_parsing';
+        requestData = [{ id, url, limit }];
+        break;
+        
+      case 'content_parsing_live':
+        endpoint = '/v3/on_page/content_parsing/live';
+        requestData = [{ url, limit }];
+        break;
+        
+      case 'instant_pages':
+        endpoint = '/v3/on_page/instant_pages';
+        requestData = [{ url, limit }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage content route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/onpage_lighthouse', async (req, res) => {
+  try {
+    console.log('🚀 OnPage Lighthouse Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, target, id, language_code = 'en', category = [], version } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'languages':
+        endpoint = '/v3/on_page/lighthouse/languages';
+        requestData = null;
+        break;
+        
+      case 'audits':
+        endpoint = '/v3/on_page/lighthouse/audits';
+        requestData = null;
+        break;
+        
+      case 'versions':
+        endpoint = '/v3/on_page/lighthouse/versions';
+        requestData = null;
+        break;
+        
+      case 'task_post':
+        endpoint = '/v3/on_page/lighthouse/task_post';
+        requestData = [{
+          target,
+          language_code,
+          category,
+          version
+        }];
+        break;
+        
+      case 'tasks_ready':
+        endpoint = '/v3/on_page/lighthouse/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'task_get':
+        endpoint = `/v3/on_page/lighthouse/task_get/json/${id}`;
+        requestData = null;
+        break;
+        
+      case 'live':
+        endpoint = '/v3/on_page/lighthouse/live/json';
+        requestData = [{
+          target,
+          language_code,
+          category,
+          version
+        }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage lighthouse route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/onpage_management', async (req, res) => {
+  try {
+    console.log('🚀 OnPage Management Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, id, date_from, date_to, resource_url, limit = 100 } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'id_list':
+        endpoint = '/v3/on_page/id_list';
+        requestData = [{ date_from, date_to, limit }];
+        break;
+        
+      case 'errors':
+        endpoint = '/v3/on_page/errors';
+        requestData = [{ date_from, date_to, limit }];
+        break;
+        
+      case 'force_stop':
+        endpoint = '/v3/on_page/force_stop';
+        requestData = [{ id }];
+        break;
+        
+      case 'available_filters':
+        endpoint = '/v3/on_page/available_filters';
+        requestData = null;
+        break;
+        
+      case 'pages_by_resource':
+        endpoint = '/v3/on_page/pages_by_resource';
+        requestData = [{ id, resource_url, limit }];
+        break;
+        
+      case 'redirect_chains':
+        endpoint = '/v3/on_page/redirect_chains';
+        requestData = [{ id, limit }];
+        break;
+        
+      case 'non_indexable':
+        endpoint = '/v3/on_page/non_indexable';
+        requestData = [{ id, limit }];
+        break;
+        
+      case 'microdata':
+        endpoint = '/v3/on_page/microdata';
+        requestData = [{ id, limit }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'available_filters' ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in OnPage management route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
 app.get('/v3/serp/:engine/organic/tasks_ready', async (req, res) => {
   try {
     const { engine } = req.params;

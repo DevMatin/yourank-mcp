@@ -1,0 +1,461 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO OnPage APIs - Gruppiert (5 Operationen)",
+    "description": "🚀 Moderne gruppierte OnPage APIs für Custom GPT - 5 Operationen statt 30!",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/onpage_core": {
+      "post": {
+        "summary": "💰 OnPage Kernfunktionen",
+        "description": "⚠️ KOSTENPFLICHTIG: Task erstellen, Zusammenfassung abrufen, fertige Tasks. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["task_post", "summary", "tasks_ready"],
+                    "description": "Art der Operation"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Website (nur für task_post)"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für summary)"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standort",
+                    "default": "United States"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": ["desktop", "mobile"],
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "crawl_budget": {
+                    "type": "integer",
+                    "description": "Crawl-Budget",
+                    "default": 1000
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"},
+                          "result": {"type": "array"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_analysis": {
+      "post": {
+        "summary": "💰 OnPage Analyse-Tools",
+        "description": "⚠️ KOSTENPFLICHTIG: Seiten, Ressourcen, Links, Duplicate Content, Performance analysieren. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageAnalysis",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["pages", "resources", "links", "duplicate_tags", "duplicate_content", "waterfall", "keyword_density"],
+                    "description": "Art der Analyse"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite (für pages, waterfall, keyword_density)"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  },
+                  "filters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {"type": "string"},
+                        "operator": {"type": "string"},
+                        "value": {"type": "string"}
+                      }
+                    },
+                    "description": "Filter für die Analyse"
+                  }
+                },
+                "required": ["type", "id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Analyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "pages": {"type": "array"},
+                                "resources": {"type": "array"},
+                                "links": {"type": "array"},
+                                "duplicate_tags": {"type": "array"},
+                                "duplicate_content": {"type": "array"},
+                                "waterfall": {"type": "array"},
+                                "keyword_density": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_content": {
+      "post": {
+        "summary": "💰 OnPage Content-Tools",
+        "description": "⚠️ KOSTENPFLICHTIG: HTML, Screenshots, Content-Parsing, Instant Pages. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageContent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["raw_html", "page_screenshot", "content_parsing", "content_parsing_live", "instant_pages"],
+                    "description": "Art der Content-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für raw_html, page_screenshot, content_parsing)"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  },
+                  "screenshot_width": {
+                    "type": "integer",
+                    "description": "Screenshot-Breite (für page_screenshot)",
+                    "default": 1920
+                  },
+                  "screenshot_height": {
+                    "type": "integer",
+                    "description": "Screenshot-Höhe (für page_screenshot)",
+                    "default": 1080
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Content-Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "raw_html": {"type": "string"},
+                                "screenshot": {"type": "string"},
+                                "content": {"type": "object"},
+                                "links": {"type": "array"},
+                                "headings": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_lighthouse": {
+      "post": {
+        "summary": "💰 OnPage Lighthouse-Tools",
+        "description": "⚠️ KOSTENPFLICHTIG: Lighthouse-Analyse für Performance, Accessibility, SEO. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLighthouse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["languages", "audits", "versions", "task_post", "tasks_ready", "task_get", "live"],
+                    "description": "Art der Lighthouse-Operation"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite (für task_post, live)"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get)"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "category": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Lighthouse-Kategorien (performance, accessibility, seo, pwa, best-practices)"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Lighthouse-Version"
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lighthouse-Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "lighthouse_result": {"type": "object"},
+                                "categories": {"type": "object"},
+                                "audits": {"type": "object"},
+                                "languages": {"type": "array"},
+                                "versions": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_management": {
+      "post": {
+        "summary": "💰 OnPage Verwaltung",
+        "description": "⚠️ KOSTENPFLICHTIG: Task-Verwaltung, Fehler, Filter, Redirects, Microdata. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageManagement",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["id_list", "errors", "force_stop", "available_filters", "pages_by_resource", "redirect_chains", "non_indexable", "microdata"],
+                    "description": "Art der Verwaltungs-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für errors, force_stop, pages_by_resource, redirect_chains, non_indexable, microdata)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Startdatum (YYYY-MM-DD) für id_list, errors"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "Enddatum (YYYY-MM-DD) für id_list, errors"
+                  },
+                  "resource_url": {
+                    "type": "string",
+                    "description": "URL der Resource (für pages_by_resource)"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Verwaltung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id_list": {"type": "array"},
+                                "errors": {"type": "array"},
+                                "force_stop": {"type": "object"},
+                                "filters": {"type": "object"},
+                                "pages_by_resource": {"type": "array"},
+                                "redirect_chains": {"type": "array"},
+                                "non_indexable": {"type": "array"},
+                                "microdata": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {"type": "string"},
+          "message": {"type": "string"},
+          "timestamp": {"type": "string"}
+        }
+      }
+    }
+  }
+}
