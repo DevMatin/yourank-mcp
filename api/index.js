@@ -163,10 +163,16 @@ function makeDataForSEORequest(endpoint, postData, method = 'POST') {
       if (endpoint.includes('/v3/serp/google/ai_mode/')) {
         console.log('🔧 AI Mode endpoint detected!');
         cleanPostData = postData.map(item => {
-          const { language_name, language_code, ...cleanItem } = item;
-          return cleanItem;
+          const { language_name, language_code, location_name, ...cleanItem } = item;
+          // Only keep essential parameters for AI Mode
+          const minimalItem = {
+            keyword: cleanItem.keyword,
+            device: cleanItem.device,
+            depth: cleanItem.depth
+          };
+          return minimalItem;
         });
-        console.log('🔧 AI Mode DataForSEO Request:', JSON.stringify(cleanPostData, null, 2));
+        console.log('🔧 AI Mode DataForSEO Request (minimal):', JSON.stringify(cleanPostData, null, 2));
         console.log('🔧 AI Mode Endpoint:', endpoint);
         console.log('🔧 AI Mode Method:', method);
       }
