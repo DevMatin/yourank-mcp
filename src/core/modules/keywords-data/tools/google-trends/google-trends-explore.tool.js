@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BaseTool } from '../../../base.tool.js';
+import { BaseTool } from '../../../../../../base.tool.js';
 export class GoogleTrendsExploreTool extends BaseTool {
     constructor(dataForSEOClient) {
         super(dataForSEOClient);

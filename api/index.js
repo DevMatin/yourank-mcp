@@ -383,23 +383,73 @@ const KEYWORDS_DATA_ENDPOINTS = {
   'keywords_data_google_ads_keywords_for_keywords_task_post': '/v3/keywords_data/google_ads/keywords_for_keywords/task_post',
   'keywords_data_google_ads_keywords_for_keywords_tasks_ready': '/v3/keywords_data/google_ads/keywords_for_keywords/tasks_ready',
   'keywords_data_google_ads_keywords_for_keywords_task_get': '/v3/keywords_data/google_ads/keywords_for_keywords/task_get',
+  'keywords_data_google_ads_ad_traffic_by_keywords_task_post': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_post',
+  'keywords_data_google_ads_ad_traffic_by_keywords_tasks_ready': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/tasks_ready',
+  'keywords_data_google_ads_ad_traffic_by_keywords_task_get': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_get',
   
   // Google Trends Tools
   'keywords_data_google_trends_categories': '/v3/keywords_data/google_trends/categories',
   'keywords_data_google_trends_explore': '/v3/keywords_data/google_trends/explore/live',
   'keywords_data_google_trends_locations': '/v3/keywords_data/google_trends/locations',
   'keywords_data_google_trends_languages': '/v3/keywords_data/google_trends/languages',
+  'keywords_data_google_trends_explore_task_post': '/v3/keywords_data/google_trends/explore/task_post',
+  'keywords_data_google_trends_explore_tasks_ready': '/v3/keywords_data/google_trends/explore/tasks_ready',
+  'keywords_data_google_trends_explore_task_get': '/v3/keywords_data/google_trends/explore/task_get',
   
   // DataForSEO Trends Tools
   'keywords_data_dataforseo_trends_demography': '/v3/keywords_data/dataforseo_trends/demography/live',
   'keywords_data_dataforseo_trends_explore': '/v3/keywords_data/dataforseo_trends/explore/live',
   'keywords_data_dataforseo_trends_subregion_interests': '/v3/keywords_data/dataforseo_trends/subregion_interests/live',
   'keywords_data_dataforseo_trends_locations': '/v3/keywords_data/dataforseo_trends/locations',
+  'keywords_data_dataforseo_trends_merged_data': '/v3/keywords_data/dataforseo_trends/merged_data/live',
   
   // Bing Tools
   'keywords_data_bing_locations': '/v3/keywords_data/bing/locations',
   'keywords_data_bing_languages': '/v3/keywords_data/bing/languages',
-  'keywords_data_bing_search_volume': '/v3/keywords_data/bing/search_volume/live'
+  'keywords_data_bing_search_volume': '/v3/keywords_data/bing/search_volume/live',
+  'keywords_data_bing_search_volume_task_post': '/v3/keywords_data/bing/search_volume/task_post',
+  'keywords_data_bing_search_volume_tasks_ready': '/v3/keywords_data/bing/search_volume/tasks_ready',
+  'keywords_data_bing_search_volume_task_get': '/v3/keywords_data/bing/search_volume/task_get',
+  
+  // Bing Audience Estimation Tools
+  'keywords_data_bing_audience_estimation_job_functions': '/v3/keywords_data/bing/audience_estimation/job_functions',
+  'keywords_data_bing_audience_estimation_industries': '/v3/keywords_data/bing/audience_estimation/industries',
+  'keywords_data_bing_audience_estimation_task_post': '/v3/keywords_data/bing/audience_estimation/task_post',
+  'keywords_data_bing_audience_estimation_tasks_ready': '/v3/keywords_data/bing/audience_estimation/tasks_ready',
+  'keywords_data_bing_audience_estimation_task_get': '/v3/keywords_data/bing/audience_estimation/task_get',
+  'keywords_data_bing_audience_estimation_live': '/v3/keywords_data/bing/audience_estimation/live',
+  
+  // Bing Keywords for Site Tools
+  'keywords_data_bing_keywords_for_site_task_post': '/v3/keywords_data/bing/keywords_for_site/task_post',
+  'keywords_data_bing_keywords_for_site_tasks_ready': '/v3/keywords_data/bing/keywords_for_site/tasks_ready',
+  'keywords_data_bing_keywords_for_site_task_get': '/v3/keywords_data/bing/keywords_for_site/task_get',
+  'keywords_data_bing_keywords_for_site_live': '/v3/keywords_data/bing/keywords_for_site/live',
+  
+  // Bing Keywords for Keywords Tools
+  'keywords_data_bing_keywords_for_keywords_task_post': '/v3/keywords_data/bing/keywords_for_keywords/task_post',
+  'keywords_data_bing_keywords_for_keywords_tasks_ready': '/v3/keywords_data/bing/keywords_for_keywords/tasks_ready',
+  'keywords_data_bing_keywords_for_keywords_task_get': '/v3/keywords_data/bing/keywords_for_keywords/task_get',
+  'keywords_data_bing_keywords_for_keywords_live': '/v3/keywords_data/bing/keywords_for_keywords/live',
+  
+  // Bing Keyword Performance Tools
+  'keywords_data_bing_keyword_performance_locations_and_languages': '/v3/keywords_data/bing/keyword_performance/locations_and_languages',
+  'keywords_data_bing_keyword_performance_task_post': '/v3/keywords_data/bing/keyword_performance/task_post',
+  'keywords_data_bing_keyword_performance_tasks_ready': '/v3/keywords_data/bing/keyword_performance/tasks_ready',
+  'keywords_data_bing_keyword_performance_task_get': '/v3/keywords_data/bing/keyword_performance/task_get',
+  'keywords_data_bing_keyword_performance_live': '/v3/keywords_data/bing/keyword_performance/live',
+  
+  // Bing Search Volume History Tools
+  'keywords_data_bing_search_volume_history_locations_and_languages': '/v3/keywords_data/bing/search_volume_history/locations_and_languages',
+  'keywords_data_bing_search_volume_history_task_post': '/v3/keywords_data/bing/search_volume_history/task_post',
+  'keywords_data_bing_search_volume_history_tasks_ready': '/v3/keywords_data/bing/search_volume_history/tasks_ready',
+  'keywords_data_bing_search_volume_history_task_get': '/v3/keywords_data/bing/search_volume_history/task_get',
+  'keywords_data_bing_search_volume_history_live': '/v3/keywords_data/bing/search_volume_history/live',
+  
+  // Clickstream Data Tools
+  'keywords_data_clickstream_data_locations_and_languages': '/v3/keywords_data/clickstream_data/locations_and_languages',
+  'keywords_data_clickstream_data_dataforseo_search_volume_live': '/v3/keywords_data/clickstream_data/dataforseo_search_volume/live',
+  'keywords_data_clickstream_data_global_search_volume_live': '/v3/keywords_data/clickstream_data/global_search_volume/live',
+  'keywords_data_clickstream_data_bulk_search_volume_live': '/v3/keywords_data/clickstream_data/bulk_search_volume/live'
 };
 
 // Content Analysis API endpoints mapping
@@ -996,7 +1046,7 @@ app.get('/', (req, res) => {
       'all_30_onpage_apis',
       'all_25_backlinks_apis',
       'all_17_domain_analytics_apis',
-      'all_29_keywords_data_apis',
+      'all_70_keywords_data_apis',
       'all_11_content_analysis_apis',
       'all_10_content_generation_apis',
       'all_41_merchant_apis',

@@ -1,17 +1,17 @@
 import { BaseTool } from '../../../../../../base.tool.js';
 
-export class BingSearchVolumeTool extends BaseTool {
+export class ClickstreamDataDataforseoSearchVolumeLiveTool extends BaseTool {
   constructor(dataForSEOClient) {
     super(dataForSEOClient);
     this.client = dataForSEOClient;
   }
 
   getName() {
-    return 'keywords_data_bing_search_volume';
+    return 'keywords_data_clickstream_data_dataforseo_search_volume_live';
   }
 
   getDescription() {
-    return 'Get search volume data from Bing Ads for specified keywords in real-time.';
+    return 'Get clickstream-based search volume data from DataForSEO for specified keywords.';
   }
 
   getParams() {
@@ -53,6 +53,6 @@ export class BingSearchVolumeTool extends BaseTool {
       device: params.device || 'desktop'
     }];
 
-    return await this.client.post('/v3/keywords_data/bing/search_volume/live', requestData);
+    return await this.client.post('/v3/keywords_data/clickstream_data/dataforseo_search_volume/live', requestData);
   }
 }

@@ -1,50 +1,76 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
 import * as KeywordsDataTools from './tools/index.js';
 
+// Interface for tool instances to ensure they have the required methods
+interface ToolInstance {
+  getName(): string;
+  getDescription(): string;
+  getParams(): any;
+  handle(params: any): Promise<any>;
+}
+
 export class KeywordsDataApiModule extends BaseModule {
   getTools(): Record<string, ToolDefinition> {
     // Erstelle Instanzen aller verfügbaren Keywords Data Tools
-    const tools = [
+    const tools: ToolInstance[] = [
       // Core Keywords Data Tools
-      new KeywordsDataTools.KeywordsDataIdListTool(this.dataForSEOClient),
-      new KeywordsDataTools.KeywordsDataErrorsTool(this.dataForSEOClient),
+      new KeywordsDataTools.KeywordsDataIdListTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.KeywordsDataErrorsTool(this.dataForSEOClient) as ToolInstance,
 
       // Google Ads Tools
-      new KeywordsDataTools.GoogleAdsSearchVolumeTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsStatusTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsLocationsTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsLanguagesTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForSiteTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTool(this.dataForSEOClient),
+      new KeywordsDataTools.GoogleAdsSearchVolumeTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsStatusTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsLocationsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsLanguagesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForSiteTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTool(this.dataForSEOClient) as ToolInstance,
 
       // Google Ads Task-based Tools
-      new KeywordsDataTools.GoogleAdsAdTrafficByKeywordsTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsSearchVolumeTaskPostTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsSearchVolumeTasksReadyTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsSearchVolumeTaskGetTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForSiteTaskPostTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForSiteTasksReadyTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForSiteTaskGetTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTaskPostTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTasksReadyTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTaskGetTool(this.dataForSEOClient),
+      new KeywordsDataTools.GoogleAdsAdTrafficByKeywordsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsSearchVolumeTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsSearchVolumeTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsSearchVolumeTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForSiteTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForSiteTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForSiteTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsAdTrafficByKeywordsTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsAdTrafficByKeywordsTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsAdTrafficByKeywordsTaskGetTool(this.dataForSEOClient) as ToolInstance,
 
       // Google Trends Tools
-      new KeywordsDataTools.GoogleTrendsCategoriesTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleTrendsExploreTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleTrendsLocationsTool(this.dataForSEOClient),
-      new KeywordsDataTools.GoogleTrendsLanguagesTool(this.dataForSEOClient),
+      new KeywordsDataTools.GoogleTrendsCategoriesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsExploreTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsLocationsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsLanguagesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsExploreTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsExploreTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsExploreTaskGetTool(this.dataForSEOClient) as ToolInstance,
 
       // DataForSEO Trends Tools
-      new KeywordsDataTools.DataForSeoTrendsDemographyTool(this.dataForSEOClient),
-      new KeywordsDataTools.DataForSeoTrendsExploreTool(this.dataForSEOClient),
-      new KeywordsDataTools.DataForSeoTrendsSubregionInterestsTool(this.dataForSEOClient),
-      new KeywordsDataTools.DataForSeoTrendsLocationsTool(this.dataForSEOClient),
+      new KeywordsDataTools.DataForSeoTrendsDemographyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.DataForSeoTrendsExploreTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.DataForSeoTrendsSubregionInterestsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.DataForSeoTrendsLocationsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.DataForSeoTrendsMergedDataTool(this.dataForSEOClient) as ToolInstance,
 
       // Bing Tools
-      new KeywordsDataTools.BingLocationsTool(this.dataForSEOClient),
-      new KeywordsDataTools.BingLanguagesTool(this.dataForSEOClient),
-      new KeywordsDataTools.BingSearchVolumeTool(this.dataForSEOClient),
+      new KeywordsDataTools.BingLocationsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingLanguagesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      
+      // Bing Audience Estimation Tools
+      new KeywordsDataTools.BingAudienceEstimationJobFunctionsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingAudienceEstimationIndustriesTool(this.dataForSEOClient) as ToolInstance,
+      
+      // Clickstream Data Tools
+      new KeywordsDataTools.ClickstreamDataLocationsAndLanguagesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.ClickstreamDataDataforseoSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
     ];
 
     return tools.reduce((acc, tool) => ({

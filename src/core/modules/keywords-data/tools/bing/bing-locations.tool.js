@@ -1,5 +1,4 @@
-import { BaseTool } from '../../../base.tool.js';
-import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../../../../base.tool.js';
 
 export class BingLocationsTool extends BaseTool {
   constructor(dataForSEOClient) {
@@ -12,19 +11,17 @@ export class BingLocationsTool extends BaseTool {
   }
 
   getDescription() {
-    return 'Get the list of locations supported by Bing Ads API';
+    return 'Get list of locations supported by Bing Ads Keywords Data API.';
   }
 
   getParams() {
-    return {};
+    return {
+      type: 'object',
+      properties: {}
+    };
   }
 
   async handle(params) {
-    try {
-      const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/bing/locations', 'GET');
-      return this.validateAndFormatResponse(response);
-    } catch (error) {
-      return this.formatErrorResponse(error);
-    }
+    return await this.client.get('/v3/keywords_data/bing/locations');
   }
 }

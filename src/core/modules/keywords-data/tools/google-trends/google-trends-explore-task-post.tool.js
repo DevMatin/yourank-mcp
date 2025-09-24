@@ -1,17 +1,17 @@
 import { BaseTool } from '../../../../../../base.tool.js';
 
-export class BingSearchVolumeTool extends BaseTool {
+export class GoogleTrendsExploreTaskPostTool extends BaseTool {
   constructor(dataForSEOClient) {
     super(dataForSEOClient);
     this.client = dataForSEOClient;
   }
 
   getName() {
-    return 'keywords_data_bing_search_volume';
+    return 'keywords_data_google_trends_explore_task_post';
   }
 
   getDescription() {
-    return 'Get search volume data from Bing Ads for specified keywords in real-time.';
+    return 'Post a task to get keyword popularity data from Google Trends Explore feature.';
   }
 
   getParams() {
@@ -22,7 +22,7 @@ export class BingSearchVolumeTool extends BaseTool {
           type: 'array',
           items: { type: 'string' },
           description: 'Array of keywords to analyze',
-          maxItems: 1000
+          maxItems: 5
         },
         location_name: {
           type: 'string',
@@ -34,11 +34,20 @@ export class BingSearchVolumeTool extends BaseTool {
           description: 'Language code (e.g., "en")',
           default: 'en'
         },
-        device: {
+        category_code: {
+          type: 'number',
+          description: 'Google Trends category code',
+          default: 0
+        },
+        date_from: {
           type: 'string',
-          enum: ['desktop', 'mobile', 'tablet'],
-          description: 'Device type',
-          default: 'desktop'
+          description: 'Start date for data collection (YYYY-MM-DD)',
+          default: '2024-01-01'
+        },
+        date_to: {
+          type: 'string',
+          description: 'End date for data collection (YYYY-MM-DD)',
+          default: '2024-12-31'
         }
       },
       required: ['keywords']
@@ -50,9 +59,11 @@ export class BingSearchVolumeTool extends BaseTool {
       keywords: params.keywords,
       location_name: params.location_name || 'United States',
       language_code: params.language_code || 'en',
-      device: params.device || 'desktop'
+      category_code: params.category_code || 0,
+      date_from: params.date_from || '2024-01-01',
+      date_to: params.date_to || '2024-12-31'
     }];
 
-    return await this.client.post('/v3/keywords_data/bing/search_volume/live', requestData);
+    return await this.client.post('/v3/keywords_data/google_trends/explore/task_post', requestData);
   }
 }

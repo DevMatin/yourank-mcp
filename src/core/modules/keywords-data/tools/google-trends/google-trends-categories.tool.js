@@ -1,4 +1,4 @@
-import { BaseTool } from '../../../base.tool.js';
+import { BaseTool } from '../../../../../../base.tool.js';
 export class GoogleTrendsCategoriesTool extends BaseTool {
     constructor(dataForSEOClient) {
         super(dataForSEOClient);

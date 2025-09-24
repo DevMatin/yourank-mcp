@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
-import { BaseTool } from '../../../base.tool.js';
+// DataForSEOClient import removed
+import { BaseTool } from '../../../../../../base.tool.js';
 
 export class GoogleAdsSearchVolumeTaskPostTool extends BaseTool {
   constructor(client);
