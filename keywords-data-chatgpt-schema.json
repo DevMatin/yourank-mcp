@@ -1,0 +1,1846 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DataForSEO Keywords Data API",
+    "description": "Vollständige Keywords Data API mit allen verfügbaren Endpunkten",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.dataforseo.com",
+      "description": "DataForSEO API Server"
+    }
+  ],
+  "paths": {
+    "/keywords_data/id_list": {
+      "get": {
+        "summary": "Keywords Data Id List",
+        "description": "Keywords Data Id List - /v3/keywords_data/id_list",
+        "tags": [
+          "Core Keywords Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/errors": {
+      "get": {
+        "summary": "Keywords Data Errors",
+        "description": "Keywords Data Errors - /v3/keywords_data/errors",
+        "tags": [
+          "Core Keywords Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/search_volume/live": {
+      "post": {
+        "summary": "Keywords Data Google Ads Search Volume",
+        "description": "Keywords Data Google Ads Search Volume - /v3/keywords_data/google_ads/search_volume/live",
+        "tags": [
+          "Google Ads"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/status": {
+      "get": {
+        "summary": "Keywords Data Google Ads Status",
+        "description": "Keywords Data Google Ads Status - /v3/keywords_data/google_ads/status",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/locations": {
+      "get": {
+        "summary": "Keywords Data Google Ads Locations",
+        "description": "Keywords Data Google Ads Locations - /v3/keywords_data/google_ads/locations",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/languages": {
+      "get": {
+        "summary": "Keywords Data Google Ads Languages",
+        "description": "Keywords Data Google Ads Languages - /v3/keywords_data/google_ads/languages",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_site/live": {
+      "post": {
+        "summary": "Keywords Data Google Ads Keywords For Site",
+        "description": "Keywords Data Google Ads Keywords For Site - /v3/keywords_data/google_ads/keywords_for_site/live",
+        "tags": [
+          "Google Ads"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_keywords/live": {
+      "post": {
+        "summary": "Keywords Data Google Ads Keywords For Keywords",
+        "description": "Keywords Data Google Ads Keywords For Keywords - /v3/keywords_data/google_ads/keywords_for_keywords/live",
+        "tags": [
+          "Google Ads"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/ad_traffic_by_keywords/live": {
+      "post": {
+        "summary": "Keywords Data Google Ads Ad Traffic By Keywords",
+        "description": "Keywords Data Google Ads Ad Traffic By Keywords - /v3/keywords_data/google_ads/ad_traffic_by_keywords/live",
+        "tags": [
+          "Google Ads"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/search_volume/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Google Ads Search Volume Tasks Ready",
+        "description": "Keywords Data Google Ads Search Volume Tasks Ready - /v3/keywords_data/google_ads/search_volume/tasks_ready",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_site/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Google Ads Keywords For Site Tasks Ready",
+        "description": "Keywords Data Google Ads Keywords For Site Tasks Ready - /v3/keywords_data/google_ads/keywords_for_site/tasks_ready",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_keywords/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Google Ads Keywords For Keywords Tasks Ready",
+        "description": "Keywords Data Google Ads Keywords For Keywords Tasks Ready - /v3/keywords_data/google_ads/keywords_for_keywords/tasks_ready",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/ad_traffic_by_keywords/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Google Ads Ad Traffic By Keywords Tasks Ready",
+        "description": "Keywords Data Google Ads Ad Traffic By Keywords Tasks Ready - /v3/keywords_data/google_ads/ad_traffic_by_keywords/tasks_ready",
+        "tags": [
+          "Google Ads"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/search_volume/task_post": {
+      "post": {
+        "summary": "Keywords Data Google Ads Search Volume Task Post",
+        "description": "Keywords Data Google Ads Search Volume Task Post - /v3/keywords_data/google_ads/search_volume/task_post",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/search_volume/task_get": {
+      "get": {
+        "summary": "Keywords Data Google Ads Search Volume Task Get",
+        "description": "Keywords Data Google Ads Search Volume Task Get - /v3/keywords_data/google_ads/search_volume/task_get",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_site/task_post": {
+      "post": {
+        "summary": "Keywords Data Google Ads Keywords For Site Task Post",
+        "description": "Keywords Data Google Ads Keywords For Site Task Post - /v3/keywords_data/google_ads/keywords_for_site/task_post",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_site/task_get": {
+      "get": {
+        "summary": "Keywords Data Google Ads Keywords For Site Task Get",
+        "description": "Keywords Data Google Ads Keywords For Site Task Get - /v3/keywords_data/google_ads/keywords_for_site/task_get",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_keywords/task_post": {
+      "post": {
+        "summary": "Keywords Data Google Ads Keywords For Keywords Task Post",
+        "description": "Keywords Data Google Ads Keywords For Keywords Task Post - /v3/keywords_data/google_ads/keywords_for_keywords/task_post",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/keywords_for_keywords/task_get": {
+      "get": {
+        "summary": "Keywords Data Google Ads Keywords For Keywords Task Get",
+        "description": "Keywords Data Google Ads Keywords For Keywords Task Get - /v3/keywords_data/google_ads/keywords_for_keywords/task_get",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/ad_traffic_by_keywords/task_post": {
+      "post": {
+        "summary": "Keywords Data Google Ads Ad Traffic By Keywords Task Post",
+        "description": "Keywords Data Google Ads Ad Traffic By Keywords Task Post - /v3/keywords_data/google_ads/ad_traffic_by_keywords/task_post",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_ads/ad_traffic_by_keywords/task_get": {
+      "get": {
+        "summary": "Keywords Data Google Ads Ad Traffic By Keywords Task Get",
+        "description": "Keywords Data Google Ads Ad Traffic By Keywords Task Get - /v3/keywords_data/google_ads/ad_traffic_by_keywords/task_get",
+        "tags": [
+          "Google Ads Task-based"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/categories": {
+      "get": {
+        "summary": "Keywords Data Google Trends Categories",
+        "description": "Keywords Data Google Trends Categories - /v3/keywords_data/google_trends/categories",
+        "tags": [
+          "Google Trends"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/explore/live": {
+      "post": {
+        "summary": "Keywords Data Google Trends Explore",
+        "description": "Keywords Data Google Trends Explore - /v3/keywords_data/google_trends/explore/live",
+        "tags": [
+          "Google Trends"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/locations": {
+      "get": {
+        "summary": "Keywords Data Google Trends Locations",
+        "description": "Keywords Data Google Trends Locations - /v3/keywords_data/google_trends/locations",
+        "tags": [
+          "Google Trends"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/languages": {
+      "get": {
+        "summary": "Keywords Data Google Trends Languages",
+        "description": "Keywords Data Google Trends Languages - /v3/keywords_data/google_trends/languages",
+        "tags": [
+          "Google Trends"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/explore/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Google Trends Explore Tasks Ready",
+        "description": "Keywords Data Google Trends Explore Tasks Ready - /v3/keywords_data/google_trends/explore/tasks_ready",
+        "tags": [
+          "Google Trends"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/explore/task_post": {
+      "post": {
+        "summary": "Keywords Data Google Trends Explore Task Post",
+        "description": "Keywords Data Google Trends Explore Task Post - /v3/keywords_data/google_trends/explore/task_post",
+        "tags": [
+          "Google Trends Task-based"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/google_trends/explore/task_get": {
+      "get": {
+        "summary": "Keywords Data Google Trends Explore Task Get",
+        "description": "Keywords Data Google Trends Explore Task Get - /v3/keywords_data/google_trends/explore/task_get",
+        "tags": [
+          "Google Trends Task-based"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/dataforseo_trends/demography/live": {
+      "post": {
+        "summary": "Keywords Data Dataforseo Trends Demography",
+        "description": "Keywords Data Dataforseo Trends Demography - /v3/keywords_data/dataforseo_trends/demography/live",
+        "tags": [
+          "DataForSEO Trends"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/dataforseo_trends/explore/live": {
+      "post": {
+        "summary": "Keywords Data Dataforseo Trends Explore",
+        "description": "Keywords Data Dataforseo Trends Explore - /v3/keywords_data/dataforseo_trends/explore/live",
+        "tags": [
+          "DataForSEO Trends"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/dataforseo_trends/subregion_interests/live": {
+      "post": {
+        "summary": "Keywords Data Dataforseo Trends Subregion Interests",
+        "description": "Keywords Data Dataforseo Trends Subregion Interests - /v3/keywords_data/dataforseo_trends/subregion_interests/live",
+        "tags": [
+          "DataForSEO Trends"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/dataforseo_trends/locations": {
+      "get": {
+        "summary": "Keywords Data Dataforseo Trends Locations",
+        "description": "Keywords Data Dataforseo Trends Locations - /v3/keywords_data/dataforseo_trends/locations",
+        "tags": [
+          "DataForSEO Trends"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/dataforseo_trends/merged_data/live": {
+      "post": {
+        "summary": "Keywords Data Dataforseo Trends Merged Data",
+        "description": "Keywords Data Dataforseo Trends Merged Data - /v3/keywords_data/dataforseo_trends/merged_data/live",
+        "tags": [
+          "DataForSEO Trends"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/locations": {
+      "get": {
+        "summary": "Keywords Data Bing Locations",
+        "description": "Keywords Data Bing Locations - /v3/keywords_data/bing/locations",
+        "tags": [
+          "Bing"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/languages": {
+      "get": {
+        "summary": "Keywords Data Bing Languages",
+        "description": "Keywords Data Bing Languages - /v3/keywords_data/bing/languages",
+        "tags": [
+          "Bing"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume/live": {
+      "post": {
+        "summary": "Keywords Data Bing Search Volume",
+        "description": "Keywords Data Bing Search Volume - /v3/keywords_data/bing/search_volume/live",
+        "tags": [
+          "Bing"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Bing Search Volume Tasks Ready",
+        "description": "Keywords Data Bing Search Volume Tasks Ready - /v3/keywords_data/bing/search_volume/tasks_ready",
+        "tags": [
+          "Bing"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume/task_post": {
+      "post": {
+        "summary": "Keywords Data Bing Search Volume Task Post",
+        "description": "Keywords Data Bing Search Volume Task Post - /v3/keywords_data/bing/search_volume/task_post",
+        "tags": [
+          "Bing Task-based"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume/task_get": {
+      "get": {
+        "summary": "Keywords Data Bing Search Volume Task Get",
+        "description": "Keywords Data Bing Search Volume Task Get - /v3/keywords_data/bing/search_volume/task_get",
+        "tags": [
+          "Bing Task-based"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/audience_estimation/job_functions": {
+      "get": {
+        "summary": "Keywords Data Bing Audience Estimation Job Functions",
+        "description": "Keywords Data Bing Audience Estimation Job Functions - /v3/keywords_data/bing/audience_estimation/job_functions",
+        "tags": [
+          "Bing Audience Estimation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/audience_estimation/industries": {
+      "get": {
+        "summary": "Keywords Data Bing Audience Estimation Industries",
+        "description": "Keywords Data Bing Audience Estimation Industries - /v3/keywords_data/bing/audience_estimation/industries",
+        "tags": [
+          "Bing Audience Estimation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/audience_estimation/task_post": {
+      "post": {
+        "summary": "Keywords Data Bing Audience Estimation Task Post",
+        "description": "Keywords Data Bing Audience Estimation Task Post - /v3/keywords_data/bing/audience_estimation/task_post",
+        "tags": [
+          "Bing Audience Estimation"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/audience_estimation/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Bing Audience Estimation Tasks Ready",
+        "description": "Keywords Data Bing Audience Estimation Tasks Ready - /v3/keywords_data/bing/audience_estimation/tasks_ready",
+        "tags": [
+          "Bing Audience Estimation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/audience_estimation/task_get": {
+      "get": {
+        "summary": "Keywords Data Bing Audience Estimation Task Get",
+        "description": "Keywords Data Bing Audience Estimation Task Get - /v3/keywords_data/bing/audience_estimation/task_get",
+        "tags": [
+          "Bing Audience Estimation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/audience_estimation/live": {
+      "post": {
+        "summary": "Keywords Data Bing Audience Estimation Live",
+        "description": "Keywords Data Bing Audience Estimation Live - /v3/keywords_data/bing/audience_estimation/live",
+        "tags": [
+          "Bing Audience Estimation"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_site/task_post": {
+      "post": {
+        "summary": "Keywords Data Bing Keywords For Site Task Post",
+        "description": "Keywords Data Bing Keywords For Site Task Post - /v3/keywords_data/bing/keywords_for_site/task_post",
+        "tags": [
+          "Bing Keywords for Site"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_site/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Bing Keywords For Site Tasks Ready",
+        "description": "Keywords Data Bing Keywords For Site Tasks Ready - /v3/keywords_data/bing/keywords_for_site/tasks_ready",
+        "tags": [
+          "Bing Keywords for Site"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_site/task_get": {
+      "get": {
+        "summary": "Keywords Data Bing Keywords For Site Task Get",
+        "description": "Keywords Data Bing Keywords For Site Task Get - /v3/keywords_data/bing/keywords_for_site/task_get",
+        "tags": [
+          "Bing Keywords for Site"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_site/live": {
+      "post": {
+        "summary": "Keywords Data Bing Keywords For Site Live",
+        "description": "Keywords Data Bing Keywords For Site Live - /v3/keywords_data/bing/keywords_for_site/live",
+        "tags": [
+          "Bing Keywords for Site"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_keywords/task_post": {
+      "post": {
+        "summary": "Keywords Data Bing Keywords For Keywords Task Post",
+        "description": "Keywords Data Bing Keywords For Keywords Task Post - /v3/keywords_data/bing/keywords_for_keywords/task_post",
+        "tags": [
+          "Bing Keywords for Keywords"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_keywords/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Bing Keywords For Keywords Tasks Ready",
+        "description": "Keywords Data Bing Keywords For Keywords Tasks Ready - /v3/keywords_data/bing/keywords_for_keywords/tasks_ready",
+        "tags": [
+          "Bing Keywords for Keywords"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_keywords/task_get": {
+      "get": {
+        "summary": "Keywords Data Bing Keywords For Keywords Task Get",
+        "description": "Keywords Data Bing Keywords For Keywords Task Get - /v3/keywords_data/bing/keywords_for_keywords/task_get",
+        "tags": [
+          "Bing Keywords for Keywords"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keywords_for_keywords/live": {
+      "post": {
+        "summary": "Keywords Data Bing Keywords For Keywords Live",
+        "description": "Keywords Data Bing Keywords For Keywords Live - /v3/keywords_data/bing/keywords_for_keywords/live",
+        "tags": [
+          "Bing Keywords for Keywords"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keyword_performance/locations_and_languages": {
+      "get": {
+        "summary": "Keywords Data Bing Keyword Performance Locations And Languages",
+        "description": "Keywords Data Bing Keyword Performance Locations And Languages - /v3/keywords_data/bing/keyword_performance/locations_and_languages",
+        "tags": [
+          "Bing Keyword Performance"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keyword_performance/task_post": {
+      "post": {
+        "summary": "Keywords Data Bing Keyword Performance Task Post",
+        "description": "Keywords Data Bing Keyword Performance Task Post - /v3/keywords_data/bing/keyword_performance/task_post",
+        "tags": [
+          "Bing Keyword Performance"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keyword_performance/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Bing Keyword Performance Tasks Ready",
+        "description": "Keywords Data Bing Keyword Performance Tasks Ready - /v3/keywords_data/bing/keyword_performance/tasks_ready",
+        "tags": [
+          "Bing Keyword Performance"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keyword_performance/task_get": {
+      "get": {
+        "summary": "Keywords Data Bing Keyword Performance Task Get",
+        "description": "Keywords Data Bing Keyword Performance Task Get - /v3/keywords_data/bing/keyword_performance/task_get",
+        "tags": [
+          "Bing Keyword Performance"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/keyword_performance/live": {
+      "post": {
+        "summary": "Keywords Data Bing Keyword Performance Live",
+        "description": "Keywords Data Bing Keyword Performance Live - /v3/keywords_data/bing/keyword_performance/live",
+        "tags": [
+          "Bing Keyword Performance"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume_history/locations_and_languages": {
+      "get": {
+        "summary": "Keywords Data Bing Search Volume History Locations And Languages",
+        "description": "Keywords Data Bing Search Volume History Locations And Languages - /v3/keywords_data/bing/search_volume_history/locations_and_languages",
+        "tags": [
+          "Bing Search Volume History"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume_history/task_post": {
+      "post": {
+        "summary": "Keywords Data Bing Search Volume History Task Post",
+        "description": "Keywords Data Bing Search Volume History Task Post - /v3/keywords_data/bing/search_volume_history/task_post",
+        "tags": [
+          "Bing Search Volume History"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume_history/tasks_ready": {
+      "get": {
+        "summary": "Keywords Data Bing Search Volume History Tasks Ready",
+        "description": "Keywords Data Bing Search Volume History Tasks Ready - /v3/keywords_data/bing/search_volume_history/tasks_ready",
+        "tags": [
+          "Bing Search Volume History"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume_history/task_get": {
+      "get": {
+        "summary": "Keywords Data Bing Search Volume History Task Get",
+        "description": "Keywords Data Bing Search Volume History Task Get - /v3/keywords_data/bing/search_volume_history/task_get",
+        "tags": [
+          "Bing Search Volume History"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/bing/search_volume_history/live": {
+      "post": {
+        "summary": "Keywords Data Bing Search Volume History Live",
+        "description": "Keywords Data Bing Search Volume History Live - /v3/keywords_data/bing/search_volume_history/live",
+        "tags": [
+          "Bing Search Volume History"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/clickstream_data/locations_and_languages": {
+      "get": {
+        "summary": "Keywords Data Clickstream Data Locations And Languages",
+        "description": "Keywords Data Clickstream Data Locations And Languages - /v3/keywords_data/clickstream_data/locations_and_languages",
+        "tags": [
+          "Clickstream Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/clickstream_data/dataforseo_search_volume/live": {
+      "post": {
+        "summary": "Keywords Data Clickstream Data Dataforseo Search Volume Live",
+        "description": "Keywords Data Clickstream Data Dataforseo Search Volume Live - /v3/keywords_data/clickstream_data/dataforseo_search_volume/live",
+        "tags": [
+          "Clickstream Data"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/clickstream_data/global_search_volume/live": {
+      "post": {
+        "summary": "Keywords Data Clickstream Data Global Search Volume Live",
+        "description": "Keywords Data Clickstream Data Global Search Volume Live - /v3/keywords_data/clickstream_data/global_search_volume/live",
+        "tags": [
+          "Clickstream Data"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords_data/clickstream_data/bulk_search_volume/live": {
+      "post": {
+        "summary": "Keywords Data Clickstream Data Bulk Search Volume Live",
+        "description": "Keywords Data Clickstream Data Bulk Search Volume Live - /v3/keywords_data/clickstream_data/bulk_search_volume/live",
+        "tags": [
+          "Clickstream Data"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsDataRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "API response data"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "KeywordsDataRequest": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of keywords to analyze",
+            "maxItems": 1000
+          },
+          "location_name": {
+            "type": "string",
+            "description": "Location name (e.g., \"United States\")",
+            "default": "United States"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Language code (e.g., \"en\")",
+            "default": "en"
+          },
+          "device": {
+            "type": "string",
+            "enum": [
+              "desktop",
+              "mobile",
+              "tablet"
+            ],
+            "description": "Device type",
+            "default": "desktop"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Start date for data collection (YYYY-MM-DD)",
+            "default": "2024-01-01"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "End date for data collection (YYYY-MM-DD)",
+            "default": "2024-12-31"
+          }
+        },
+        "required": [
+          "keywords"
+        ]
+      },
+      "TaskRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task ID to retrieve results for"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "EmptyRequest": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

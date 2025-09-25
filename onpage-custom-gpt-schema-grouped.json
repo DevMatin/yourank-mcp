@@ -127,18 +127,6 @@
                     "type": "integer",
                     "description": "Anzahl der Ergebnisse",
                     "default": 100
-                  },
-                  "filters": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "field": {"type": "string"},
-                        "operator": {"type": "string"},
-                        "value": {"type": "string"}
-                      }
-                    },
-                    "description": "Filter für die Analyse"
                   }
                 },
                 "required": ["type", "id"]

@@ -1,0 +1,130 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Keywords Data APIs - Korrigiert",
+    "description": "🚀 Korrigierte Keywords Data APIs für Custom GPT mit richtigen Endpunkten",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/keywords_data/google/search_volume/live": {
+      "post": {
+        "summary": "💰 Google Keywords Search Volume Live",
+        "description": "⚠️ KOSTENPFLICHTIG: Google Keywords Search Volume Live API. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsGoogleSearchVolumeLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "keywords": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Array of keywords to analyze",
+                      "maxItems": 1000
+                    },
+                    "location_name": {
+                      "type": "string",
+                      "description": "Location name",
+                      "default": "United States"
+                    },
+                    "language_code": {
+                      "type": "string",
+                      "description": "Language code",
+                      "default": "en"
+                    },
+                    "device": {
+                      "type": "string",
+                      "enum": [
+                        "desktop",
+                        "mobile",
+                        "tablet"
+                      ],
+                      "description": "Device type",
+                      "default": "desktop"
+                    }
+                  },
+                  "required": [
+                    "keywords"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Keywords Search Volume erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "search_volume": {
+                                  "type": "integer"
+                                },
+                                "competition": {
+                                  "type": "string"
+                                },
+                                "cpc": {
+                                  "type": "number"
+                                },
+                                "competition_index": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

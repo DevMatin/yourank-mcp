@@ -364,25 +364,25 @@ const KEYWORDS_DATA_ENDPOINTS = {
   'keywords_data_id_list': '/v3/keywords_data/id_list',
   'keywords_data_errors': '/v3/keywords_data/errors',
   
-  // Google Ads Tools
-  'keywords_data_google_ads_search_volume': '/v3/keywords_data/google_ads/search_volume/live',
-  'keywords_data_google_ads_status': '/v3/keywords_data/google_ads/status',
-  'keywords_data_google_ads_locations': '/v3/keywords_data/google_ads/locations',
-  'keywords_data_google_ads_languages': '/v3/keywords_data/google_ads/languages',
-  'keywords_data_google_ads_keywords_for_site': '/v3/keywords_data/google_ads/keywords_for_site/live',
-  'keywords_data_google_ads_keywords_for_keywords': '/v3/keywords_data/google_ads/keywords_for_keywords/live',
+  // Google Keywords Tools (corrected URLs)
+  'keywords_data_google_ads_search_volume': '/v3/keywords_data/google/search_volume/live',
+  'keywords_data_google_ads_status': '/v3/keywords_data/google/status',
+  'keywords_data_google_ads_locations': '/v3/keywords_data/google/locations',
+  'keywords_data_google_ads_languages': '/v3/keywords_data/google/languages',
+  'keywords_data_google_ads_keywords_for_site': '/v3/keywords_data/google/keywords_for_site/live',
+  'keywords_data_google_ads_keywords_for_keywords': '/v3/keywords_data/google/keywords_for_keywords/live',
   'keywords_data_google_ads_ad_traffic_by_keywords': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/live',
   
-  // Google Ads Task-based Tools
-  'keywords_data_google_ads_search_volume_task_post': '/v3/keywords_data/google_ads/search_volume/task_post',
-  'keywords_data_google_ads_search_volume_tasks_ready': '/v3/keywords_data/google_ads/search_volume/tasks_ready',
-  'keywords_data_google_ads_search_volume_task_get': '/v3/keywords_data/google_ads/search_volume/task_get',
-  'keywords_data_google_ads_keywords_for_site_task_post': '/v3/keywords_data/google_ads/keywords_for_site/task_post',
-  'keywords_data_google_ads_keywords_for_site_tasks_ready': '/v3/keywords_data/google_ads/keywords_for_site/tasks_ready',
-  'keywords_data_google_ads_keywords_for_site_task_get': '/v3/keywords_data/google_ads/keywords_for_site/task_get',
-  'keywords_data_google_ads_keywords_for_keywords_task_post': '/v3/keywords_data/google_ads/keywords_for_keywords/task_post',
-  'keywords_data_google_ads_keywords_for_keywords_tasks_ready': '/v3/keywords_data/google_ads/keywords_for_keywords/tasks_ready',
-  'keywords_data_google_ads_keywords_for_keywords_task_get': '/v3/keywords_data/google_ads/keywords_for_keywords/task_get',
+  // Google Keywords Task-based Tools (corrected URLs)
+  'keywords_data_google_ads_search_volume_task_post': '/v3/keywords_data/google/search_volume/task_post',
+  'keywords_data_google_ads_search_volume_tasks_ready': '/v3/keywords_data/google/search_volume/tasks_ready',
+  'keywords_data_google_ads_search_volume_task_get': '/v3/keywords_data/google/search_volume/task_get',
+  'keywords_data_google_ads_keywords_for_site_task_post': '/v3/keywords_data/google/keywords_for_site/task_post',
+  'keywords_data_google_ads_keywords_for_site_tasks_ready': '/v3/keywords_data/google/keywords_for_site/tasks_ready',
+  'keywords_data_google_ads_keywords_for_site_task_get': '/v3/keywords_data/google/keywords_for_site/task_get',
+  'keywords_data_google_ads_keywords_for_keywords_task_post': '/v3/keywords_data/google/keywords_for_keywords/task_post',
+  'keywords_data_google_ads_keywords_for_keywords_tasks_ready': '/v3/keywords_data/google/keywords_for_keywords/tasks_ready',
+  'keywords_data_google_ads_keywords_for_keywords_task_get': '/v3/keywords_data/google/keywords_for_keywords/task_get',
   'keywords_data_google_ads_ad_traffic_by_keywords_task_post': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_post',
   'keywords_data_google_ads_ad_traffic_by_keywords_tasks_ready': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/tasks_ready',
   'keywords_data_google_ads_ad_traffic_by_keywords_task_get': '/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_get',
@@ -1910,37 +1910,37 @@ app.post('/v3/onpage_analysis', async (req, res) => {
     switch(type) {
       case 'pages':
         endpoint = '/v3/on_page/pages';
-        requestData = [{ id, limit, filters }];
+        requestData = [{ id, limit }];
         break;
         
       case 'resources':
         endpoint = '/v3/on_page/resources';
-        requestData = [{ id, limit, filters }];
+        requestData = [{ id, limit }];
         break;
         
       case 'links':
         endpoint = '/v3/on_page/links';
-        requestData = [{ id, limit, filters }];
+        requestData = [{ id, limit }];
         break;
         
       case 'duplicate_tags':
         endpoint = '/v3/on_page/duplicate_tags';
-        requestData = [{ id, limit, filters }];
+        requestData = [{ id, limit }];
         break;
         
       case 'duplicate_content':
         endpoint = '/v3/on_page/duplicate_content';
-        requestData = [{ id, limit, filters }];
+        requestData = [{ id, limit }];
         break;
         
       case 'waterfall':
         endpoint = '/v3/on_page/waterfall';
-        requestData = [{ id, url, limit, filters }];
+        requestData = [{ id, url, limit }];
         break;
         
       case 'keyword_density':
         endpoint = '/v3/on_page/keyword_density';
-        requestData = [{ id, url, limit, filters }];
+        requestData = [{ id, url, limit }];
         break;
         
       default:
@@ -2150,6 +2150,679 @@ app.post('/v3/onpage_management', async (req, res) => {
     }
   } catch (error) {
     console.error('Error in OnPage management route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+// Gruppierte Keywords Data API Endpunkte - Moderne Lösung für 67 Operationen Limit
+app.post('/v3/keywords_core', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Core Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'id_list':
+        endpoint = '/v3/keywords_data/id_list';
+        requestData = [{ date_from, date_to }];
+        break;
+        
+      case 'errors':
+        endpoint = '/v3/keywords_data/errors';
+        requestData = [{ date_from, date_to }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords core route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_google_ads', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Google Ads Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, keywords, target, location_name, language_code, device, id, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'search_volume_live':
+        endpoint = '/v3/keywords_data/google/search_volume/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'search_volume_task_post':
+        endpoint = '/v3/keywords_data/google/search_volume/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'search_volume_tasks_ready':
+        endpoint = '/v3/keywords_data/google/search_volume/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'search_volume_task_get':
+        endpoint = `/v3/keywords_data/google/search_volume/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'keywords_for_site_live':
+        endpoint = '/v3/keywords_data/google/keywords_for_site/live';
+        requestData = [{
+          target,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_site_task_post':
+        endpoint = '/v3/keywords_data/google/keywords_for_site/task_post';
+        requestData = [{
+          target,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_site_tasks_ready':
+        endpoint = '/v3/keywords_data/google/keywords_for_site/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'keywords_for_site_task_get':
+        endpoint = `/v3/keywords_data/google/keywords_for_site/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'keywords_for_keywords_live':
+        endpoint = '/v3/keywords_data/google/keywords_for_keywords/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_keywords_task_post':
+        endpoint = '/v3/keywords_data/google/keywords_for_keywords/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_keywords_tasks_ready':
+        endpoint = '/v3/keywords_data/google/keywords_for_keywords/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'keywords_for_keywords_task_get':
+        endpoint = `/v3/keywords_data/google/keywords_for_keywords/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'ad_traffic_by_keywords_live':
+        endpoint = '/v3/keywords_data/google_ads/ad_traffic_by_keywords/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'ad_traffic_by_keywords_task_post':
+        endpoint = '/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'ad_traffic_by_keywords_tasks_ready':
+        endpoint = '/v3/keywords_data/google_ads/ad_traffic_by_keywords/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'ad_traffic_by_keywords_task_get':
+        endpoint = `/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type.includes('task_get') || type.includes('tasks_ready') ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords Google Ads route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_google_trends', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Google Trends Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, keywords, location_name, language_code, id, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'explore_live':
+        endpoint = '/v3/keywords_data/google_trends/explore/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      case 'explore_task_post':
+        endpoint = '/v3/keywords_data/google_trends/explore/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      case 'explore_tasks_ready':
+        endpoint = '/v3/keywords_data/google_trends/explore/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'explore_task_get':
+        endpoint = `/v3/keywords_data/google_trends/explore/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'demography_live':
+        endpoint = '/v3/keywords_data/google_trends/demography/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      case 'demography_task_post':
+        endpoint = '/v3/keywords_data/google_trends/demography/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      case 'demography_tasks_ready':
+        endpoint = '/v3/keywords_data/google_trends/demography/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'demography_task_get':
+        endpoint = `/v3/keywords_data/google_trends/demography/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'merged_data_live':
+        endpoint = '/v3/keywords_data/google_trends/merged_data/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type.includes('task_get') || type.includes('tasks_ready') ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords Google Trends route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
+  try {
+    console.log('🚀 Keywords DataForSEO Trends Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, keywords, location_name, language_code, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'demography_live':
+        endpoint = '/v3/keywords_data/dataforseo_trends/demography/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      case 'merged_data_live':
+        endpoint = '/v3/keywords_data/dataforseo_trends/merged_data/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en'
+        }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords DataForSEO Trends route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_bing', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Bing Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, keywords, target, location_name, language_code, device, id, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'search_volume_live':
+        endpoint = '/v3/keywords_data/bing/search_volume/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'search_volume_task_post':
+        endpoint = '/v3/keywords_data/bing/search_volume/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'search_volume_tasks_ready':
+        endpoint = '/v3/keywords_data/bing/search_volume/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'search_volume_task_get':
+        endpoint = `/v3/keywords_data/bing/search_volume/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'keywords_for_site_live':
+        endpoint = '/v3/keywords_data/bing/keywords_for_site/live';
+        requestData = [{
+          target,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_site_task_post':
+        endpoint = '/v3/keywords_data/bing/keywords_for_site/task_post';
+        requestData = [{
+          target,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_site_tasks_ready':
+        endpoint = '/v3/keywords_data/bing/keywords_for_site/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'keywords_for_site_task_get':
+        endpoint = `/v3/keywords_data/bing/keywords_for_site/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'keywords_for_keywords_live':
+        endpoint = '/v3/keywords_data/bing/keywords_for_keywords/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_keywords_task_post':
+        endpoint = '/v3/keywords_data/bing/keywords_for_keywords/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keywords_for_keywords_tasks_ready':
+        endpoint = '/v3/keywords_data/bing/keywords_for_keywords/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'keywords_for_keywords_task_get':
+        endpoint = `/v3/keywords_data/bing/keywords_for_keywords/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type.includes('task_get') || type.includes('tasks_ready') ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords Bing route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_bing_advanced', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Bing Advanced Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, keywords, location_name, language_code, device, id, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'audience_estimation_job_functions_live':
+        endpoint = '/v3/keywords_data/bing/audience_estimation/job_functions';
+        requestData = null;
+        break;
+        
+      case 'audience_estimation_industries_live':
+        endpoint = '/v3/keywords_data/bing/audience_estimation/industries';
+        requestData = null;
+        break;
+        
+      case 'audience_estimation_live':
+        endpoint = '/v3/keywords_data/bing/audience_estimation/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'audience_estimation_task_post':
+        endpoint = '/v3/keywords_data/bing/audience_estimation/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'audience_estimation_tasks_ready':
+        endpoint = '/v3/keywords_data/bing/audience_estimation/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'audience_estimation_task_get':
+        endpoint = `/v3/keywords_data/bing/audience_estimation/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'keyword_performance_live':
+        endpoint = '/v3/keywords_data/bing/keyword_performance/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keyword_performance_task_post':
+        endpoint = '/v3/keywords_data/bing/keyword_performance/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'keyword_performance_tasks_ready':
+        endpoint = '/v3/keywords_data/bing/keyword_performance/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'keyword_performance_task_get':
+        endpoint = `/v3/keywords_data/bing/keyword_performance/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      case 'search_volume_history_live':
+        endpoint = '/v3/keywords_data/bing/search_volume_history/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'search_volume_history_task_post':
+        endpoint = '/v3/keywords_data/bing/search_volume_history/task_post';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'search_volume_history_tasks_ready':
+        endpoint = '/v3/keywords_data/bing/search_volume_history/tasks_ready';
+        requestData = null;
+        break;
+        
+      case 'search_volume_history_task_get':
+        endpoint = `/v3/keywords_data/bing/search_volume_history/task_get/${id}`;
+        requestData = null;
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type.includes('task_get') || type.includes('tasks_ready') || type.includes('job_functions') || type.includes('industries') ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords Bing Advanced route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_clickstream', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Clickstream Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, keywords, location_name, language_code, device, date_from, date_to } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'locations_and_languages_live':
+        endpoint = '/v3/keywords_data/clickstream_data/locations_and_languages';
+        requestData = null;
+        break;
+        
+      case 'dataforseo_search_volume_live':
+        endpoint = '/v3/keywords_data/clickstream_data/dataforseo_search_volume/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'global_search_volume_live':
+        endpoint = '/v3/keywords_data/clickstream_data/global_search_volume/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      case 'bulk_search_volume_live':
+        endpoint = '/v3/keywords_data/clickstream_data/bulk_search_volume/live';
+        requestData = [{
+          keywords,
+          location_name: location_name || 'United States',
+          language_code: language_code || 'en',
+          device: device || 'desktop'
+        }];
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'locations_and_languages_live' ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords Clickstream route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+app.post('/v3/keywords_management', async (req, res) => {
+  try {
+    console.log('🚀 Keywords Management Route called!');
+    console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
+    
+    const { type, id } = req.body;
+    
+    let endpoint;
+    let requestData;
+    
+    switch(type) {
+      case 'force_stop':
+        endpoint = '/v3/keywords_data/force_stop';
+        requestData = [{ id }];
+        break;
+        
+      case 'available_filters':
+        endpoint = '/v3/keywords_data/available_filters';
+        requestData = null;
+        break;
+        
+      default:
+        return res.status(400).json({ error: `Unsupported type: ${type}` });
+    }
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'available_filters' ? 'GET' : 'POST');
+    
+    if (dataforseoResponse.status === 200) {
+      res.json(dataforseoResponse.body);
+    } else {
+      res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+  } catch (error) {
+    console.error('Error in Keywords Management route:', error);
     res.status(500).json({ error: 'Internal server error: ' + error.message });
   }
 });

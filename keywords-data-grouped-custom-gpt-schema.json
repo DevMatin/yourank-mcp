@@ -1,0 +1,931 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Keywords Data APIs - Gruppiert (8 Operationen)",
+    "description": "🚀 Moderne gruppierte Keywords Data APIs für Custom GPT - 8 Operationen statt 67!",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/keywords_core": {
+      "post": {
+        "summary": "💰 Keywords Kernfunktionen",
+        "description": "⚠️ KOSTENPFLICHTIG: Task erstellen, Zusammenfassung abrufen, fertige Tasks. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "id_list",
+                      "errors"
+                    ],
+                    "description": "Art der Kern-Operation"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Startdatum (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "Enddatum (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_google_ads": {
+      "post": {
+        "summary": "💰 Google Ads Keywords",
+        "description": "⚠️ KOSTENPFLICHTIG: Google Ads Keywords, Ad Traffic, Search Volume, Keywords for Site. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsGoogleAds",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "keywords_for_site_task_post",
+                      "keywords_for_site_tasks_ready",
+                      "keywords_for_site_task_get",
+                      "keywords_for_site_live",
+                      "keywords_for_keywords_task_post",
+                      "keywords_for_keywords_tasks_ready",
+                      "keywords_for_keywords_task_get",
+                      "keywords_for_keywords_live",
+                      "search_volume_task_post",
+                      "search_volume_tasks_ready",
+                      "search_volume_task_get",
+                      "search_volume_live",
+                      "ad_traffic_by_keywords_task_post",
+                      "ad_traffic_by_keywords_tasks_ready",
+                      "ad_traffic_by_keywords_task_get",
+                      "ad_traffic_by_keywords_live"
+                    ],
+                    "description": "Art der Google Ads Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of keywords to analyze",
+                    "maxItems": 1000
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Target website URL (für keywords_for_site)"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name",
+                    "default": "United States"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code",
+                    "default": "en"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type",
+                    "default": "desktop"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Ads Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "search_volume": {
+                                  "type": "integer"
+                                },
+                                "competition": {
+                                  "type": "string"
+                                },
+                                "cpc": {
+                                  "type": "number"
+                                },
+                                "competition_index": {
+                                  "type": "integer"
+                                },
+                                "ad_traffic": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_google_trends": {
+      "post": {
+        "summary": "💰 Google Trends Keywords",
+        "description": "⚠️ KOSTENPFLICHTIG: Google Trends Explore, Demography, Merged Data. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsGoogleTrends",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "explore_task_post",
+                      "explore_tasks_ready",
+                      "explore_task_get",
+                      "explore_live",
+                      "demography_task_post",
+                      "demography_tasks_ready",
+                      "demography_task_get",
+                      "demography_live",
+                      "merged_data_live"
+                    ],
+                    "description": "Art der Google Trends Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of keywords to analyze",
+                    "maxItems": 1000
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name",
+                    "default": "United States"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code",
+                    "default": "en"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Trends Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "trends_data": {
+                                  "type": "object"
+                                },
+                                "demography": {
+                                  "type": "object"
+                                },
+                                "merged_data": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_dataforseo_trends": {
+      "post": {
+        "summary": "💰 DataForSEO Trends",
+        "description": "⚠️ KOSTENPFLICHTIG: DataForSEO Trends Demography, Merged Data. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsDataForSeoTrends",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "demography_live",
+                      "merged_data_live"
+                    ],
+                    "description": "Art der DataForSEO Trends Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of keywords to analyze",
+                    "maxItems": 1000
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name",
+                    "default": "United States"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code",
+                    "default": "en"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "DataForSEO Trends Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "demography": {
+                                  "type": "object"
+                                },
+                                "merged_data": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_bing": {
+      "post": {
+        "summary": "💰 Bing Keywords",
+        "description": "⚠️ KOSTENPFLICHTIG: Bing Search Volume, Keywords for Site, Keywords for Keywords. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsBing",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "search_volume_task_post",
+                      "search_volume_tasks_ready",
+                      "search_volume_task_get",
+                      "search_volume_live",
+                      "keywords_for_site_task_post",
+                      "keywords_for_site_tasks_ready",
+                      "keywords_for_site_task_get",
+                      "keywords_for_site_live",
+                      "keywords_for_keywords_task_post",
+                      "keywords_for_keywords_tasks_ready",
+                      "keywords_for_keywords_task_get",
+                      "keywords_for_keywords_live"
+                    ],
+                    "description": "Art der Bing Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of keywords to analyze",
+                    "maxItems": 1000
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Target website URL (für keywords_for_site)"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name",
+                    "default": "United States"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code",
+                    "default": "en"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type",
+                    "default": "desktop"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bing Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "search_volume": {
+                                  "type": "integer"
+                                },
+                                "competition": {
+                                  "type": "string"
+                                },
+                                "cpc": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_bing_advanced": {
+      "post": {
+        "summary": "💰 Bing Advanced Keywords",
+        "description": "⚠️ KOSTENPFLICHTIG: Bing Audience Estimation, Keyword Performance, Search Volume History. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsBingAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "audience_estimation_job_functions_live",
+                      "audience_estimation_industries_live",
+                      "keyword_performance_task_post",
+                      "keyword_performance_tasks_ready",
+                      "keyword_performance_task_get",
+                      "keyword_performance_live",
+                      "search_volume_history_task_post",
+                      "search_volume_history_tasks_ready",
+                      "search_volume_history_task_get",
+                      "search_volume_history_live"
+                    ],
+                    "description": "Art der Bing Advanced Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of keywords to analyze",
+                    "maxItems": 1000
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name",
+                    "default": "United States"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code",
+                    "default": "en"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type",
+                    "default": "desktop"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bing Advanced Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "audience_estimation": {
+                                  "type": "object"
+                                },
+                                "performance": {
+                                  "type": "object"
+                                },
+                                "search_volume_history": {
+                                  "type": "array"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_clickstream": {
+      "post": {
+        "summary": "💰 Clickstream Keywords",
+        "description": "⚠️ KOSTENPFLICHTIG: Clickstream Data, Locations, Languages, Search Volume. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsClickstream",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "locations_and_languages_live",
+                      "dataforseo_search_volume_live"
+                    ],
+                    "description": "Art der Clickstream Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of keywords to analyze",
+                    "maxItems": 1000
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name",
+                    "default": "United States"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code",
+                    "default": "en"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type",
+                    "default": "desktop"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD)",
+                    "default": "2024-01-01"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD)",
+                    "default": "2024-12-31"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Clickstream Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "clickstream_data": {
+                                  "type": "object"
+                                },
+                                "locations": {
+                                  "type": "array"
+                                },
+                                "languages": {
+                                  "type": "array"
+                                },
+                                "search_volume": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_management": {
+      "post": {
+        "summary": "💰 Keywords Verwaltung",
+        "description": "⚠️ KOSTENPFLICHTIG: Task-Verwaltung, Fehler, Status-Updates. Status: Benötigt DataForSEO Credits",
+        "operationId": "keywordsManagement",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "force_stop",
+                      "available_filters"
+                    ],
+                    "description": "Art der Verwaltungs-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für force_stop)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords Verwaltung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "object",
+                            "properties": {
+                              "force_stop": {
+                                "type": "object"
+                              },
+                              "filters": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
