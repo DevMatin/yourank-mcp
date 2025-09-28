@@ -1075,14 +1075,20 @@ async function handleMcpRequest(req, res) {
             limit: arguments_.limit || 100
           }];
         } else if (apiName.includes('business_data_')) {
-          // Business Data APIs  
-          requestData = [{
+          // Business Data APIs - EXCLUDE location_name for Google My Business
+          const businessDataParams = {
             ...baseParams,
-            location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
             language_code: arguments_.language_code || 'de',
             search_partners: arguments_.search_partners,
             limit: arguments_.limit || 100
-          }];
+          };
+          
+          // Only add location_name for non-Google My Business APIs
+          if (!apiName.includes('google_my_business')) {
+            businessDataParams.location_name = normalizeLocationName(arguments_.location_name || arguments_.location);
+          }
+          
+          requestData = [businessDataParams];
         } else {
           // SERP, Content Analysis, OnPage, Backlinks APIs (Standard)
           const standardParams = {
