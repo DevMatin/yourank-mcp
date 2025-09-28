@@ -1281,6 +1281,92 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/google/my_business_info/live'; // Default
       }
+    } else if (method === 'business_data_google_reviews') {
+      // Handle grouped Business Data Google Reviews endpoint
+      console.log('🔧 Business Data Google Reviews Method Call:', method);
+      
+      const type = params?.type || 'reviews_live';
+      let endpoint;
+      if (type === 'reviews_live') {
+        endpoint = '/v3/business_data/google/reviews/live';
+      } else if (type === 'reviews_task_post') {
+        endpoint = '/v3/business_data/google/reviews/task_post';
+      } else if (type === 'reviews_tasks_ready') {
+        endpoint = '/v3/business_data/google/reviews/tasks_ready';
+      } else if (type === 'reviews_task_get') {
+        endpoint = '/v3/business_data/google/reviews/task_get/{id}';
+      } else if (type === 'extended_reviews_task_post') {
+        endpoint = '/v3/business_data/google/extended_reviews/task_post';
+      } else if (type === 'extended_reviews_tasks_ready') {
+        endpoint = '/v3/business_data/google/extended_reviews/tasks_ready';
+      } else if (type === 'extended_reviews_task_get') {
+        endpoint = '/v3/business_data/google/extended_reviews/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/google/reviews/live'; // Default
+      }
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Google Reviews
+      const requestData = [{}];
+      if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
+      
+      // Handle location parameter - convert location_name to location_code if needed
+      if (arguments_.location_code) { 
+        requestData[0].location_code = arguments_.location_code; 
+      } else if (arguments_.location_coordinate) { 
+        requestData[0].location_coordinate = arguments_.location_coordinate; 
+      } else if (arguments_.location_name) {
+        // Convert location_name to location_code using Google locations API
+        try {
+          const locationsResponse = await makeDataForSEORequest('/v3/business_data/google/locations', null, 'GET');
+          if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
+            const locations = locationsResponse.body.tasks[0].result;
+            const matchingLocation = locations.find(loc => 
+              loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
+            );
+            if (matchingLocation) {
+              requestData[0].location_code = matchingLocation.location_code;
+              console.log(`🔧 Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code}`);
+            } else {
+              console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+            }
+          }
+        } catch (error) {
+          console.error('Error converting location_name to location_code:', error);
+        }
+      }
+      
+      if (arguments_.language_name) { requestData[0].language_name = arguments_.language_name; }
+      else if (arguments_.language_code) { requestData[0].language_code = arguments_.language_code; }
+      if (arguments_.depth) { requestData[0].depth = arguments_.depth; }
+      if (arguments_.tag) { requestData[0].tag = arguments_.tag; }
+      
+      console.log('🔧 Business Data Google Reviews Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
     } else if (method === 'businessDataGoogleHotels') {
       // Handle grouped Business Data Google Hotels endpoint
       console.log('🔧 Business Data Google Hotels Method Call:', method);
