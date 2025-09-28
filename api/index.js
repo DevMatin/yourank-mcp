@@ -1312,10 +1312,12 @@ async function handleMcpRequest(req, res) {
       // Handle grouped Business Data Google Reviews endpoint
       console.log('🔧 Business Data Google Reviews Method Call:', method);
       
-      const type = params?.type || 'reviews_live';
+      const type = params?.type || 'reviews_task_post';
       let endpoint;
       if (type === 'reviews_live') {
-        endpoint = '/v3/business_data/google/reviews/live';
+        // Google Reviews hat keinen live endpoint - verwende task_post stattdessen
+        endpoint = '/v3/business_data/google/reviews/task_post';
+        console.log('⚠️ Google Reviews Live nicht verfügbar - verwende task_post');
       } else if (type === 'reviews_task_post') {
         endpoint = '/v3/business_data/google/reviews/task_post';
       } else if (type === 'reviews_tasks_ready') {
@@ -1329,7 +1331,7 @@ async function handleMcpRequest(req, res) {
       } else if (type === 'extended_reviews_task_get') {
         endpoint = '/v3/business_data/google/extended_reviews/task_get/{id}';
       } else {
-        endpoint = '/v3/business_data/google/reviews/live'; // Default
+        endpoint = '/v3/business_data/google/reviews/task_post'; // Default - kein live endpoint verfügbar
       }
       
       const arguments_ = params || {};
