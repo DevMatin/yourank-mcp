@@ -544,6 +544,7 @@ const BUSINESS_DATA_ENDPOINTS = {
   // General Business Data Tools
   'business_data_id_list': '/v3/business_data/id_list',
   'business_data_errors': '/v3/business_data/errors',
+  'business_data_tasks_ready': '/v3/business_data/tasks_ready',
   
   // Business Listings Tools
   'business_data_business_listings_search': '/v3/business_data/business_listings/search/live',
@@ -850,6 +851,156 @@ async function handleMcpRequest(req, res) {
           } else {
             endpoint = '/v3/business_data/google/my_business_info/live'; // Default
           }
+        } else if (apiName === 'businessDataGoogleHotels') {
+          // Handle grouped Business Data Google Hotels endpoint
+          const type = arguments_.type || 'hotel_searches_live';
+          if (type === 'hotel_searches_live') {
+            endpoint = '/v3/business_data/google/hotel_searches/live';
+          } else if (type === 'hotel_searches_task_post') {
+            endpoint = '/v3/business_data/google/hotel_searches/task_post';
+          } else if (type === 'hotel_searches_tasks_ready') {
+            endpoint = '/v3/business_data/google/hotel_searches/tasks_ready';
+          } else if (type === 'hotel_searches_task_get') {
+            endpoint = '/v3/business_data/google/hotel_searches/task_get/{id}';
+          } else if (type === 'hotel_info_live_advanced') {
+            endpoint = '/v3/business_data/google/hotel_info/live/advanced';
+          } else if (type === 'hotel_info_live_html') {
+            endpoint = '/v3/business_data/google/hotel_info/live/html';
+          } else if (type === 'hotel_info_task_post') {
+            endpoint = '/v3/business_data/google/hotel_info/task_post';
+          } else if (type === 'hotel_info_tasks_ready') {
+            endpoint = '/v3/business_data/google/hotel_info/tasks_ready';
+          } else if (type === 'hotel_info_task_get') {
+            endpoint = '/v3/business_data/google/hotel_info/task_get/{id}';
+          } else if (type === 'hotel_info_task_get_html') {
+            endpoint = '/v3/business_data/google/hotel_info/task_get/html/{id}';
+          } else {
+            endpoint = '/v3/business_data/google/hotel_searches/live'; // Default
+          }
+        } else if (apiName === 'businessDataGoogleReviews') {
+          // Handle grouped Business Data Google Reviews endpoint
+          const type = arguments_.type || 'reviews_live';
+          if (type === 'reviews_live') {
+            endpoint = '/v3/business_data/google/reviews/live';
+          } else if (type === 'reviews_task_post') {
+            endpoint = '/v3/business_data/google/reviews/task_post';
+          } else if (type === 'reviews_tasks_ready') {
+            endpoint = '/v3/business_data/google/reviews/tasks_ready';
+          } else if (type === 'reviews_task_get') {
+            endpoint = '/v3/business_data/google/reviews/task_get/{id}';
+          } else if (type === 'extended_reviews_task_post') {
+            endpoint = '/v3/business_data/google/extended_reviews/task_post';
+          } else if (type === 'extended_reviews_tasks_ready') {
+            endpoint = '/v3/business_data/google/extended_reviews/tasks_ready';
+          } else if (type === 'extended_reviews_task_get') {
+            endpoint = '/v3/business_data/google/extended_reviews/task_get/{id}';
+          } else {
+            endpoint = '/v3/business_data/google/reviews/live'; // Default
+          }
+        } else if (apiName === 'businessDataGoogleQA') {
+          // Handle grouped Business Data Google Q&A endpoint
+          const type = arguments_.type || 'questions_and_answers_live';
+          if (type === 'questions_and_answers_live') {
+            endpoint = '/v3/business_data/google/questions_and_answers/live';
+          } else if (type === 'questions_and_answers_task_post') {
+            endpoint = '/v3/business_data/google/questions_and_answers/task_post';
+          } else if (type === 'questions_and_answers_tasks_ready') {
+            endpoint = '/v3/business_data/google/questions_and_answers/tasks_ready';
+          } else if (type === 'questions_and_answers_task_get') {
+            endpoint = '/v3/business_data/google/questions_and_answers/task_get/{id}';
+          } else {
+            endpoint = '/v3/business_data/google/questions_and_answers/live'; // Default
+          }
+        } else if (apiName === 'businessDataTrustpilot') {
+          // Handle grouped Business Data Trustpilot endpoint
+          const type = arguments_.type || 'search_live';
+          if (type === 'search_live') {
+            endpoint = '/v3/business_data/trustpilot/search/live';
+          } else if (type === 'search_task_post') {
+            endpoint = '/v3/business_data/trustpilot/search/task_post';
+          } else if (type === 'search_tasks_ready') {
+            endpoint = '/v3/business_data/trustpilot/search/tasks_ready';
+          } else if (type === 'search_task_get') {
+            endpoint = '/v3/business_data/trustpilot/search/task_get/{id}';
+          } else if (type === 'reviews_live') {
+            endpoint = '/v3/business_data/trustpilot/reviews/live';
+          } else if (type === 'reviews_task_post') {
+            endpoint = '/v3/business_data/trustpilot/reviews/task_post';
+          } else if (type === 'reviews_tasks_ready') {
+            endpoint = '/v3/business_data/trustpilot/reviews/tasks_ready';
+          } else if (type === 'reviews_task_get') {
+            endpoint = '/v3/business_data/trustpilot/reviews/task_get/{id}';
+          } else {
+            endpoint = '/v3/business_data/trustpilot/search/live'; // Default
+          }
+        } else if (apiName === 'businessDataTripadvisor') {
+          // Handle grouped Business Data Tripadvisor endpoint
+          const type = arguments_.type || 'search_live';
+          if (type === 'locations') {
+            endpoint = '/v3/business_data/tripadvisor/locations';
+          } else if (type === 'locations_country') {
+            endpoint = '/v3/business_data/tripadvisor/locations/{country}';
+          } else if (type === 'languages') {
+            endpoint = '/v3/business_data/tripadvisor/languages';
+          } else if (type === 'search_live') {
+            endpoint = '/v3/business_data/tripadvisor/search/live';
+          } else if (type === 'search_task_post') {
+            endpoint = '/v3/business_data/tripadvisor/search/task_post';
+          } else if (type === 'search_tasks_ready') {
+            endpoint = '/v3/business_data/tripadvisor/search/tasks_ready';
+          } else if (type === 'search_task_get') {
+            endpoint = '/v3/business_data/tripadvisor/search/task_get/{id}';
+          } else if (type === 'reviews_live') {
+            endpoint = '/v3/business_data/tripadvisor/reviews/live';
+          } else if (type === 'reviews_task_post') {
+            endpoint = '/v3/business_data/tripadvisor/reviews/task_post';
+          } else if (type === 'reviews_tasks_ready') {
+            endpoint = '/v3/business_data/tripadvisor/reviews/tasks_ready';
+          } else if (type === 'reviews_task_get') {
+            endpoint = '/v3/business_data/tripadvisor/reviews/task_get/{id}';
+          } else {
+            endpoint = '/v3/business_data/tripadvisor/search/live'; // Default
+          }
+        } else if (apiName === 'businessDataListings') {
+          // Handle grouped Business Data Listings endpoint
+          const type = arguments_.type || 'search_live';
+          if (type === 'search_live') {
+            endpoint = '/v3/business_data/business_listings/search/live';
+          } else if (type === 'available_filters') {
+            endpoint = '/v3/business_data/business_listings/filters';
+          } else if (type === 'locations') {
+            endpoint = '/v3/business_data/business_listings/locations';
+          } else if (type === 'categories') {
+            endpoint = '/v3/business_data/business_listings/categories';
+          } else if (type === 'categories_aggregation_live') {
+            endpoint = '/v3/business_data/business_listings/categories_aggregation/live';
+          } else {
+            endpoint = '/v3/business_data/business_listings/search/live'; // Default
+          }
+        } else if (apiName === 'businessDataSocialMedia') {
+          // Handle grouped Business Data Social Media endpoint
+          const type = arguments_.type || 'pinterest_live';
+          if (type === 'pinterest_live') {
+            endpoint = '/v3/business_data/social_media/pinterest/live';
+          } else if (type === 'facebook_live') {
+            endpoint = '/v3/business_data/social_media/facebook/live';
+          } else if (type === 'reddit_live') {
+            endpoint = '/v3/business_data/social_media/reddit/live';
+          } else {
+            endpoint = '/v3/business_data/social_media/pinterest/live'; // Default
+          }
+        } else if (apiName === 'businessDataGeneral') {
+          // Handle grouped Business Data General endpoint
+          const type = arguments_.type || 'id_list';
+          if (type === 'id_list') {
+            endpoint = '/v3/business_data/id_list';
+          } else if (type === 'errors') {
+            endpoint = '/v3/business_data/errors';
+          } else if (type === 'tasks_ready') {
+            endpoint = '/v3/business_data/tasks_ready';
+          } else {
+            endpoint = '/v3/business_data/id_list'; // Default
+          }
         } else if (ALL_ENDPOINTS[apiName]) {
           // Use ALL_ENDPOINTS mapping for known APIs
           endpoint = ALL_ENDPOINTS[apiName];
@@ -1034,39 +1185,379 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/google/my_business_info/live'; // Default
       }
+    } else if (method === 'businessDataGoogleHotels') {
+      // Handle grouped Business Data Google Hotels endpoint
+      console.log('🔧 Business Data Google Hotels Method Call:', method);
+      
+      const type = params?.type || 'hotel_searches_live';
+      let endpoint;
+      if (type === 'hotel_searches_live') {
+        endpoint = '/v3/business_data/google/hotel_searches/live';
+      } else if (type === 'hotel_searches_task_post') {
+        endpoint = '/v3/business_data/google/hotel_searches/task_post';
+      } else if (type === 'hotel_searches_tasks_ready') {
+        endpoint = '/v3/business_data/google/hotel_searches/tasks_ready';
+      } else if (type === 'hotel_searches_task_get') {
+        endpoint = '/v3/business_data/google/hotel_searches/task_get/{id}';
+      } else if (type === 'hotel_info_live_advanced') {
+        endpoint = '/v3/business_data/google/hotel_info/live/advanced';
+      } else if (type === 'hotel_info_live_html') {
+        endpoint = '/v3/business_data/google/hotel_info/live/html';
+      } else if (type === 'hotel_info_task_post') {
+        endpoint = '/v3/business_data/google/hotel_info/task_post';
+      } else if (type === 'hotel_info_tasks_ready') {
+        endpoint = '/v3/business_data/google/hotel_info/tasks_ready';
+      } else if (type === 'hotel_info_task_get') {
+        endpoint = '/v3/business_data/google/hotel_info/task_get/{id}';
+      } else if (type === 'hotel_info_task_get_html') {
+        endpoint = '/v3/business_data/google/hotel_info/task_get/html/{id}';
+      } else {
+        endpoint = '/v3/business_data/google/hotel_searches/live'; // Default
+      }
+    } else if (method === 'businessDataGoogleReviews') {
+      // Handle grouped Business Data Google Reviews endpoint
+      console.log('🔧 Business Data Google Reviews Method Call:', method);
+      
+      const type = params?.type || 'reviews_live';
+      let endpoint;
+      if (type === 'reviews_live') {
+        endpoint = '/v3/business_data/google/reviews/live';
+      } else if (type === 'reviews_task_post') {
+        endpoint = '/v3/business_data/google/reviews/task_post';
+      } else if (type === 'reviews_tasks_ready') {
+        endpoint = '/v3/business_data/google/reviews/tasks_ready';
+      } else if (type === 'reviews_task_get') {
+        endpoint = '/v3/business_data/google/reviews/task_get/{id}';
+      } else if (type === 'extended_reviews_task_post') {
+        endpoint = '/v3/business_data/google/extended_reviews/task_post';
+      } else if (type === 'extended_reviews_tasks_ready') {
+        endpoint = '/v3/business_data/google/extended_reviews/tasks_ready';
+      } else if (type === 'extended_reviews_task_get') {
+        endpoint = '/v3/business_data/google/extended_reviews/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/google/reviews/live'; // Default
+      }
+    } else if (method === 'businessDataGoogleQA') {
+      // Handle grouped Business Data Google Q&A endpoint
+      console.log('🔧 Business Data Google Q&A Method Call:', method);
+      
+      const type = params?.type || 'questions_and_answers_live';
+      let endpoint;
+      if (type === 'questions_and_answers_live') {
+        endpoint = '/v3/business_data/google/questions_and_answers/live';
+      } else if (type === 'questions_and_answers_task_post') {
+        endpoint = '/v3/business_data/google/questions_and_answers/task_post';
+      } else if (type === 'questions_and_answers_tasks_ready') {
+        endpoint = '/v3/business_data/google/questions_and_answers/tasks_ready';
+      } else if (type === 'questions_and_answers_task_get') {
+        endpoint = '/v3/business_data/google/questions_and_answers/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/google/questions_and_answers/live'; // Default
+      }
+    } else if (method === 'businessDataTrustpilot') {
+      // Handle grouped Business Data Trustpilot endpoint
+      console.log('🔧 Business Data Trustpilot Method Call:', method);
+      
+      const type = params?.type || 'search_live';
+      let endpoint;
+      if (type === 'search_live') {
+        endpoint = '/v3/business_data/trustpilot/search/live';
+      } else if (type === 'search_task_post') {
+        endpoint = '/v3/business_data/trustpilot/search/task_post';
+      } else if (type === 'search_tasks_ready') {
+        endpoint = '/v3/business_data/trustpilot/search/tasks_ready';
+      } else if (type === 'search_task_get') {
+        endpoint = '/v3/business_data/trustpilot/search/task_get/{id}';
+      } else if (type === 'reviews_live') {
+        endpoint = '/v3/business_data/trustpilot/reviews/live';
+      } else if (type === 'reviews_task_post') {
+        endpoint = '/v3/business_data/trustpilot/reviews/task_post';
+      } else if (type === 'reviews_tasks_ready') {
+        endpoint = '/v3/business_data/trustpilot/reviews/tasks_ready';
+      } else if (type === 'reviews_task_get') {
+        endpoint = '/v3/business_data/trustpilot/reviews/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/trustpilot/search/live'; // Default
+      }
+    } else if (method === 'businessDataTripadvisor') {
+      // Handle grouped Business Data Tripadvisor endpoint
+      console.log('🔧 Business Data Tripadvisor Method Call:', method);
+      
+      const type = params?.type || 'search_live';
+      let endpoint;
+      if (type === 'locations') {
+        endpoint = '/v3/business_data/tripadvisor/locations';
+      } else if (type === 'locations_country') {
+        endpoint = '/v3/business_data/tripadvisor/locations/{country}';
+      } else if (type === 'languages') {
+        endpoint = '/v3/business_data/tripadvisor/languages';
+      } else if (type === 'search_live') {
+        endpoint = '/v3/business_data/tripadvisor/search/live';
+      } else if (type === 'search_task_post') {
+        endpoint = '/v3/business_data/tripadvisor/search/task_post';
+      } else if (type === 'search_tasks_ready') {
+        endpoint = '/v3/business_data/tripadvisor/search/tasks_ready';
+      } else if (type === 'search_task_get') {
+        endpoint = '/v3/business_data/tripadvisor/search/task_get/{id}';
+      } else if (type === 'reviews_live') {
+        endpoint = '/v3/business_data/tripadvisor/reviews/live';
+      } else if (type === 'reviews_task_post') {
+        endpoint = '/v3/business_data/tripadvisor/reviews/task_post';
+      } else if (type === 'reviews_tasks_ready') {
+        endpoint = '/v3/business_data/tripadvisor/reviews/tasks_ready';
+      } else if (type === 'reviews_task_get') {
+        endpoint = '/v3/business_data/tripadvisor/reviews/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/tripadvisor/search/live'; // Default
+      }
+    } else if (method === 'businessDataListings') {
+      // Handle grouped Business Data Listings endpoint
+      console.log('🔧 Business Data Listings Method Call:', method);
+      
+      const type = params?.type || 'search_live';
+      let endpoint;
+      if (type === 'search_live') {
+        endpoint = '/v3/business_data/business_listings/search/live';
+      } else if (type === 'available_filters') {
+        endpoint = '/v3/business_data/business_listings/filters';
+      } else if (type === 'locations') {
+        endpoint = '/v3/business_data/business_listings/locations';
+      } else if (type === 'categories') {
+        endpoint = '/v3/business_data/business_listings/categories';
+      } else if (type === 'categories_aggregation_live') {
+        endpoint = '/v3/business_data/business_listings/categories_aggregation/live';
+      } else {
+        endpoint = '/v3/business_data/business_listings/search/live'; // Default
+      }
+    } else if (method === 'businessDataSocialMedia') {
+      // Handle grouped Business Data Social Media endpoint
+      console.log('🔧 Business Data Social Media Method Call:', method);
+      
+      const type = params?.type || 'pinterest_live';
+      let endpoint;
+      if (type === 'pinterest_live') {
+        endpoint = '/v3/business_data/social_media/pinterest/live';
+      } else if (type === 'facebook_live') {
+        endpoint = '/v3/business_data/social_media/facebook/live';
+      } else if (type === 'reddit_live') {
+        endpoint = '/v3/business_data/social_media/reddit/live';
+      } else {
+        endpoint = '/v3/business_data/social_media/pinterest/live'; // Default
+      }
+    } else if (method === 'businessDataGeneral') {
+      // Handle grouped Business Data General endpoint
+      console.log('🔧 Business Data General Method Call:', method);
+      
+      const type = params?.type || 'id_list';
+      let endpoint;
+      if (type === 'id_list') {
+        endpoint = '/v3/business_data/id_list';
+      } else if (type === 'errors') {
+        endpoint = '/v3/business_data/errors';
+      } else if (type === 'tasks_ready') {
+        endpoint = '/v3/business_data/tasks_ready';
+      } else {
+        endpoint = '/v3/business_data/id_list'; // Default
+      }
       
       const arguments_ = params || {};
       
-      // Prepare request data for Business Data Google My Business
-      const requestData = [{}];
+      // Prepare request data based on the method type
+      let requestData = [{}];
       
-      // Add required keyword parameter
-      if (arguments_.keyword) {
-        requestData[0].keyword = arguments_.keyword;
+      if (method === 'businessDataGoogleMyBusiness') {
+        // Add required keyword parameter
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        
+        // Add location parameter (one of: location_name, location_code, or location_coordinate)
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        } else if (arguments_.location_coordinate) {
+          requestData[0].location_coordinate = arguments_.location_coordinate;
+        }
+        
+        // Add language parameter (one of: language_name or language_code)
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        
+        // Add optional tag parameter
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataGoogleHotels') {
+        // Hotel-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.check_in) {
+          requestData[0].check_in = arguments_.check_in;
+        }
+        if (arguments_.check_out) {
+          requestData[0].check_out = arguments_.check_out;
+        }
+        if (arguments_.adults) {
+          requestData[0].adults = arguments_.adults;
+        }
+        if (arguments_.children) {
+          requestData[0].children = arguments_.children;
+        }
+        if (arguments_.currency) {
+          requestData[0].currency = arguments_.currency;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataGoogleReviews') {
+        // Reviews-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.depth) {
+          requestData[0].depth = arguments_.depth;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataGoogleQA') {
+        // Q&A-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.depth) {
+          requestData[0].depth = arguments_.depth;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataTrustpilot') {
+        // Trustpilot-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.depth) {
+          requestData[0].depth = arguments_.depth;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataTripadvisor') {
+        // Tripadvisor-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.depth) {
+          requestData[0].depth = arguments_.depth;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataListings') {
+        // Listings-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.depth) {
+          requestData[0].depth = arguments_.depth;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataSocialMedia') {
+        // Social Media-specific parameters
+        if (arguments_.keyword) {
+          requestData[0].keyword = arguments_.keyword;
+        }
+        if (arguments_.location_name) {
+          requestData[0].location_name = arguments_.location_name;
+        } else if (arguments_.location_code) {
+          requestData[0].location_code = arguments_.location_code;
+        }
+        if (arguments_.language_name) {
+          requestData[0].language_name = arguments_.language_name;
+        } else if (arguments_.language_code) {
+          requestData[0].language_code = arguments_.language_code;
+        }
+        if (arguments_.depth) {
+          requestData[0].depth = arguments_.depth;
+        }
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
+      } else if (method === 'businessDataGeneral') {
+        // General-specific parameters
+        if (arguments_.tag) {
+          requestData[0].tag = arguments_.tag;
+        }
       }
       
-      // Add location parameter (one of: location_name, location_code, or location_coordinate)
-      if (arguments_.location_name) {
-        requestData[0].location_name = arguments_.location_name;
-      } else if (arguments_.location_code) {
-        requestData[0].location_code = arguments_.location_code;
-      } else if (arguments_.location_coordinate) {
-        requestData[0].location_coordinate = arguments_.location_coordinate;
-      }
-      
-      // Add language parameter (one of: language_name or language_code)
-      if (arguments_.language_name) {
-        requestData[0].language_name = arguments_.language_name;
-      } else if (arguments_.language_code) {
-        requestData[0].language_code = arguments_.language_code;
-      }
-      
-      // Add optional tag parameter
-      if (arguments_.tag) {
-        requestData[0].tag = arguments_.tag;
-      }
-      
-      console.log('🔧 Business Data Google My Business Request:', {
+      console.log(`🔧 Business Data ${method} Request:`, {
         endpoint: endpoint,
         requestData: requestData,
         type: type
@@ -1079,7 +1570,7 @@ async function handleMcpRequest(req, res) {
       if (dataforseoResponse.status === 200) {
         return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
       }
-      console.error('DataForSEO API Error (Business Data Google My Business):', {
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
         body: dataforseoResponse.body,
         endpoint: endpoint,
