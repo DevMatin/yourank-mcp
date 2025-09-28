@@ -2029,12 +2029,29 @@ async function handleMcpRequest(req, res) {
         }
         
         // Add location parameter (one of: location_name, location_code, or location_coordinate)
-        if (arguments_.location_name) {
-          requestData[0].location_name = arguments_.location_name;
-        } else if (arguments_.location_code) {
+        if (arguments_.location_code) {
           requestData[0].location_code = arguments_.location_code;
         } else if (arguments_.location_coordinate) {
           requestData[0].location_coordinate = arguments_.location_coordinate;
+        } else if (arguments_.location_name) {
+          // Convert location_name to location_code using Google locations API
+          try {
+            const locationsResponse = await makeDataForSEORequest('/v3/business_data/google/locations', null, 'GET');
+            if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
+              const locations = locationsResponse.body.tasks[0].result;
+              const matchingLocation = locations.find(loc => 
+                loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
+              );
+              if (matchingLocation) {
+                requestData[0].location_code = matchingLocation.location_code;
+                console.log(`🔧 Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code}`);
+              } else {
+                console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+              }
+            }
+          } catch (error) {
+            console.error('Error converting location_name to location_code:', error);
+          }
         }
         
         // Add language parameter (one of: language_name or language_code)
