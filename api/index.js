@@ -2206,8 +2206,10 @@ app.post('/v3/keywords_google_ads', async (req, res) => {
     switch(type) {
       case 'search_volume_live':
         endpoint = '/v3/keywords_data/google/search_volume/live';
+        // Limitiere Keywords auf 3 für kleinere Responses
+        const limitedSearchKeywords = Array.isArray(keywords) ? keywords.slice(0, 3) : [keywords];
         requestData = [{
-          keywords,
+          keywords: limitedSearchKeywords,
           location_name: location_name || 'United States',
           language_code: language_code || 'en',
           device: device || 'desktop'
@@ -2266,11 +2268,14 @@ app.post('/v3/keywords_google_ads', async (req, res) => {
         
       case 'keywords_for_keywords_live':
         endpoint = '/v3/keywords_data/google/keywords_for_keywords/live';
+        // Limitiere Keywords auf 1 für kleinere Responses
+        const limitedKeywords = Array.isArray(keywords) ? keywords.slice(0, 1) : [keywords];
         requestData = [{
-          keywords,
+          keywords: limitedKeywords,
           location_name: location_name || 'United States',
           language_code: language_code || 'en',
-          device: device || 'desktop'
+          device: device || 'desktop',
+          include_serp_info: false // Deaktiviere SERP Info für kleinere Response
         }];
         break;
         
@@ -2331,7 +2336,27 @@ app.post('/v3/keywords_google_ads', async (req, res) => {
     const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type.includes('task_get') || type.includes('tasks_ready') ? 'GET' : 'POST');
     
     if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
+      // Response Size Limiting für Keywords Data APIs
+      let responseBody = dataforseoResponse.body;
+      
+      // Prüfe Response-Größe und limitiere bei Bedarf
+      const jsonString = JSON.stringify(responseBody);
+      if (jsonString.length > 200000) { // 200KB Limit
+        console.log(`Response zu groß (${jsonString.length} bytes), limitiere...`);
+        
+        // Limitiere Arrays in der Response
+        if (responseBody.tasks && Array.isArray(responseBody.tasks)) {
+          responseBody.tasks = responseBody.tasks.slice(0, 1); // Nur erste Task
+          
+          if (responseBody.tasks[0] && responseBody.tasks[0].result && Array.isArray(responseBody.tasks[0].result)) {
+            responseBody.tasks[0].result = responseBody.tasks[0].result.slice(0, 5); // Nur erste 5 Ergebnisse
+            responseBody._truncated = true;
+            responseBody._message = "Response wurde aufgrund der Größe auf 5 Ergebnisse beschränkt.";
+          }
+        }
+      }
+      
+      res.json(responseBody);
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }
