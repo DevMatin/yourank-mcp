@@ -1038,15 +1038,39 @@ async function handleMcpRequest(req, res) {
       const arguments_ = params || {};
       
       // Prepare request data for Business Data Google My Business
-      const requestData = [{
-        keyword: arguments_.keyword,
-        location_name: arguments_.location_name,
-        location_code: arguments_.location_code,
-        location_coordinate: arguments_.location_coordinate,
-        language_name: arguments_.language_name,
-        language_code: arguments_.language_code,
-        tag: arguments_.tag
-      }];
+      const requestData = [{}];
+      
+      // Add required keyword parameter
+      if (arguments_.keyword) {
+        requestData[0].keyword = arguments_.keyword;
+      }
+      
+      // Add location parameter (one of: location_name, location_code, or location_coordinate)
+      if (arguments_.location_name) {
+        requestData[0].location_name = arguments_.location_name;
+      } else if (arguments_.location_code) {
+        requestData[0].location_code = arguments_.location_code;
+      } else if (arguments_.location_coordinate) {
+        requestData[0].location_coordinate = arguments_.location_coordinate;
+      }
+      
+      // Add language parameter (one of: language_name or language_code)
+      if (arguments_.language_name) {
+        requestData[0].language_name = arguments_.language_name;
+      } else if (arguments_.language_code) {
+        requestData[0].language_code = arguments_.language_code;
+      }
+      
+      // Add optional tag parameter
+      if (arguments_.tag) {
+        requestData[0].tag = arguments_.tag;
+      }
+      
+      console.log('🔧 Business Data Google My Business Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
       
       // Determine HTTP method
       const httpMethod = 'POST';
