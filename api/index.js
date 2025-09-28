@@ -1210,22 +1210,49 @@ async function handleMcpRequest(req, res) {
         requestData[0].location_coordinate = arguments_.location_coordinate; 
       } else if (arguments_.location_name) {
         // Convert location_name to location_code using Google locations API
+        console.log(`🔧 Converting location_name "${arguments_.location_name}" to location_code...`);
         try {
           const locationsResponse = await makeDataForSEORequest('/v3/business_data/google/locations', null, 'GET');
           if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
             const locations = locationsResponse.body.tasks[0].result;
-            const matchingLocation = locations.find(loc => 
+            // Try multiple matching strategies
+            let matchingLocation = locations.find(loc => 
               loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
             );
+            
+            // If no match, try with city name only (remove country)
+            if (!matchingLocation) {
+              const cityName = arguments_.location_name.split(',')[0].trim();
+              matchingLocation = locations.find(loc => 
+                loc.location_name && loc.location_name.toLowerCase().includes(cityName.toLowerCase())
+              );
+            }
+            
+            // If still no match, try with partial matching
+            if (!matchingLocation) {
+              const searchTerms = arguments_.location_name.toLowerCase().split(/[,\s]+/);
+              matchingLocation = locations.find(loc => 
+                loc.location_name && searchTerms.some(term => 
+                  term.length > 2 && loc.location_name.toLowerCase().includes(term)
+                )
+              );
+            }
+            
             if (matchingLocation) {
               requestData[0].location_code = matchingLocation.location_code;
-              console.log(`🔧 Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code}`);
+              console.log(`✅ Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code} (${matchingLocation.location_name})`);
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+              // Use default location code for Germany
+              requestData[0].location_code = 2276; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
+          // Use fallback location code
+          requestData[0].location_code = 2276;
+          console.log(`🔄 Using fallback location_code: 2276 due to error`);
         }
       }
       
@@ -1318,22 +1345,49 @@ async function handleMcpRequest(req, res) {
         requestData[0].location_coordinate = arguments_.location_coordinate; 
       } else if (arguments_.location_name) {
         // Convert location_name to location_code using Google locations API
+        console.log(`🔧 Converting location_name "${arguments_.location_name}" to location_code...`);
         try {
           const locationsResponse = await makeDataForSEORequest('/v3/business_data/google/locations', null, 'GET');
           if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
             const locations = locationsResponse.body.tasks[0].result;
-            const matchingLocation = locations.find(loc => 
+            // Try multiple matching strategies
+            let matchingLocation = locations.find(loc => 
               loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
             );
+            
+            // If no match, try with city name only (remove country)
+            if (!matchingLocation) {
+              const cityName = arguments_.location_name.split(',')[0].trim();
+              matchingLocation = locations.find(loc => 
+                loc.location_name && loc.location_name.toLowerCase().includes(cityName.toLowerCase())
+              );
+            }
+            
+            // If still no match, try with partial matching
+            if (!matchingLocation) {
+              const searchTerms = arguments_.location_name.toLowerCase().split(/[,\s]+/);
+              matchingLocation = locations.find(loc => 
+                loc.location_name && searchTerms.some(term => 
+                  term.length > 2 && loc.location_name.toLowerCase().includes(term)
+                )
+              );
+            }
+            
             if (matchingLocation) {
               requestData[0].location_code = matchingLocation.location_code;
-              console.log(`🔧 Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code}`);
+              console.log(`✅ Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code} (${matchingLocation.location_name})`);
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+              // Use default location code for Germany
+              requestData[0].location_code = 2276; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
+          // Use fallback location code
+          requestData[0].location_code = 2276;
+          console.log(`🔄 Using fallback location_code: 2276 due to error`);
         }
       }
       
