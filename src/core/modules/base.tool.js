@@ -59,7 +59,7 @@ export class BaseTool {
         };
     }
 
-    limitResponseSize(data, maxSize = 500000) { // 500KB Limit
+    limitResponseSize(data, maxSize = 200000) { // 200KB Limit (reduziert)
         const jsonString = JSON.stringify(data);
         if (jsonString.length <= maxSize) {
             return data;
@@ -67,7 +67,7 @@ export class BaseTool {
 
         // Für Keywords Data: Limitiere Arrays auf die ersten N Einträge
         if (Array.isArray(data)) {
-            const limitedData = data.slice(0, 10); // Nur erste 10 Einträge
+            const limitedData = data.slice(0, 5); // Nur erste 5 Einträge (reduziert)
             return {
                 ...limitedData,
                 _truncated: true,
@@ -81,8 +81,8 @@ export class BaseTool {
             const limitedData = { ...data };
             
             for (const [key, value] of Object.entries(limitedData)) {
-                if (Array.isArray(value) && value.length > 10) {
-                    limitedData[key] = value.slice(0, 10);
+                if (Array.isArray(value) && value.length > 5) { // Reduziert von 10 auf 5
+                    limitedData[key] = value.slice(0, 5);
                     limitedData[`_${key}_truncated`] = true;
                     limitedData[`_${key}_original_count`] = value.length;
                 }

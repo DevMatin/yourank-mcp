@@ -20,7 +20,7 @@ export class GoogleAdsKeywordsForKeywordsTool extends BaseTool {
       keywords: {
         type: 'array',
         items: { type: 'string' },
-        description: 'Array of keywords (max 5 für optimale Performance)'
+        description: 'Array of keywords (max 1 für optimale Performance)'
       },
       location_name: {
         type: 'string',
@@ -57,9 +57,9 @@ export class GoogleAdsKeywordsForKeywordsTool extends BaseTool {
 
   async handle(params) {
     try {
-      // Limitiere Keywords auf 5 für kleinere Responses
+      // Limitiere Keywords auf 1 für kleinere Responses
       const limitedKeywords = Array.isArray(params.keywords) 
-        ? params.keywords.slice(0, 5) 
+        ? params.keywords.slice(0, 1) 
         : [params.keywords];
 
       const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/google_ads/keywords_for_keywords/live', 'POST', [{
