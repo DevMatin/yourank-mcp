@@ -1,0 +1,1379 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Business Data API - Komplett (61 Operationen)",
+    "description": "🚀 Komplette Business Data API für Custom GPT - 61 Operationen für Google My Business, Hotels, Reviews, Trustpilot, Tripadvisor, Listings und Social Media!",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/business_data_google_core": {
+      "post": {
+        "summary": "🏢 Google Business Kernfunktionen",
+        "description": "Google Business Profile Standorte, Sprachen und allgemeine Verwaltungsfunktionen für alle Google Business Data APIs",
+        "operationId": "businessDataGoogleCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "google_locations",
+                      "google_locations_country",
+                      "google_languages"
+                    ],
+                    "description": "Art der Google Business Kern-Operation"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Ländercode (für locations_country)",
+                    "default": "us"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Business Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "location_name": {
+                                  "type": "string"
+                                },
+                                "location_code": {
+                                  "type": "integer"
+                                },
+                                "language_name": {
+                                  "type": "string"
+                                },
+                                "language_code": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_google_my_business": {
+      "post": {
+        "summary": "🏢 Google My Business",
+        "description": "Google My Business Profile Informationen, Updates und Live-Daten für lokale Unternehmen",
+        "operationId": "businessDataGoogleMyBusiness",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "my_business_info_live",
+                      "my_business_info_task_post",
+                      "my_business_info_tasks_ready",
+                      "my_business_info_task_get",
+                      "my_business_updates_task_post",
+                      "my_business_updates_tasks_ready",
+                      "my_business_updates_task_get"
+                    ],
+                    "description": "Art der Google My Business Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Unternehmensname oder Suchbegriff",
+                    "example": "pizza restaurant new york"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "default": "New York,New York,United States"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 2840
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "English"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Task-Priorität",
+                    "default": 1,
+                    "enum": [1, 2, 3, 4, 5]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google My Business Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "business_name": {
+                                  "type": "string"
+                                },
+                                "address": {
+                                  "type": "string"
+                                },
+                                "phone": {
+                                  "type": "string"
+                                },
+                                "rating": {
+                                  "type": "number"
+                                },
+                                "reviews_count": {
+                                  "type": "integer"
+                                },
+                                "website": {
+                                  "type": "string"
+                                },
+                                "hours": {
+                                  "type": "object"
+                                },
+                                "updates": {
+                                  "type": "array"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_google_hotels": {
+      "post": {
+        "summary": "🏨 Google Hotels",
+        "description": "Google Hotels Suche, Hotel-Informationen, Bewertungen und Live-Daten für Hotels und Unterkünfte",
+        "operationId": "businessDataGoogleHotels",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "hotel_searches_live",
+                      "hotel_searches_task_post",
+                      "hotel_searches_tasks_ready",
+                      "hotel_searches_task_get",
+                      "hotel_info_live_advanced",
+                      "hotel_info_live_html",
+                      "hotel_info_task_post",
+                      "hotel_info_tasks_ready",
+                      "hotel_info_task_get",
+                      "hotel_info_task_get_html"
+                    ],
+                    "description": "Art der Google Hotels Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Hotelname oder Suchbegriff",
+                    "example": "hotel new york times square"
+                  },
+                  "hotel_identifier": {
+                    "type": "string",
+                    "description": "Eindeutige Hotel-ID (für hotel_info)",
+                    "example": "ChIJN1t_tDeuEmsRUsoyG83frY4"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "default": "New York,New York,United States"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 2840
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "English"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Task-Priorität",
+                    "default": 1,
+                    "enum": [1, 2, 3, 4, 5]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Hotels Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "hotel_name": {
+                                  "type": "string"
+                                },
+                                "address": {
+                                  "type": "string"
+                                },
+                                "rating": {
+                                  "type": "number"
+                                },
+                                "reviews_count": {
+                                  "type": "integer"
+                                },
+                                "price_range": {
+                                  "type": "string"
+                                },
+                                "amenities": {
+                                  "type": "array"
+                                },
+                                "photos": {
+                                  "type": "array"
+                                },
+                                "availability": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_google_reviews": {
+      "post": {
+        "summary": "⭐ Google Reviews",
+        "description": "Google Bewertungen und erweiterte Reviews von verschiedenen Plattformen für lokale Unternehmen",
+        "operationId": "businessDataGoogleReviews",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "reviews_live",
+                      "reviews_task_post",
+                      "reviews_tasks_ready",
+                      "reviews_task_get",
+                      "extended_reviews_task_post",
+                      "extended_reviews_tasks_ready",
+                      "extended_reviews_task_get"
+                    ],
+                    "description": "Art der Google Reviews Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Unternehmensname oder Suchbegriff",
+                    "example": "pizza restaurant new york"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "default": "New York,New York,United States"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 2840
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "English"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Task-Priorität",
+                    "default": 1,
+                    "enum": [1, 2, 3, 4, 5]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Reviews Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "business_name": {
+                                  "type": "string"
+                                },
+                                "reviews": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "rating": {
+                                        "type": "integer"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "author": {
+                                        "type": "string"
+                                      },
+                                      "date": {
+                                        "type": "string"
+                                      },
+                                      "source": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
+                                "average_rating": {
+                                  "type": "number"
+                                },
+                                "total_reviews": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_google_qa": {
+      "post": {
+        "summary": "❓ Google Questions & Answers",
+        "description": "Google My Business Fragen und Antworten für lokale Unternehmen - Live und Standard-Methoden",
+        "operationId": "businessDataGoogleQA",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "questions_and_answers_live",
+                      "questions_and_answers_task_post",
+                      "questions_and_answers_tasks_ready",
+                      "questions_and_answers_task_get"
+                    ],
+                    "description": "Art der Google Q&A Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Unternehmensname oder Suchbegriff",
+                    "example": "pizza restaurant new york"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "default": "New York,New York,United States"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 2840
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "English"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Task-Priorität",
+                    "default": 1,
+                    "enum": [1, 2, 3, 4, 5]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Q&A Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "business_name": {
+                                  "type": "string"
+                                },
+                                "questions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "question": {
+                                        "type": "string"
+                                      },
+                                      "answers": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "answer": {
+                                              "type": "string"
+                                            },
+                                            "author": {
+                                              "type": "string"
+                                            },
+                                            "date": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_trustpilot": {
+      "post": {
+        "summary": "🔍 Trustpilot Business Data",
+        "description": "Trustpilot Unternehmenssuche und Bewertungen - Live und Standard-Methoden für Business-Profile und Reviews",
+        "operationId": "businessDataTrustpilot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "search_live",
+                      "search_task_post",
+                      "search_tasks_ready",
+                      "search_task_get",
+                      "reviews_live",
+                      "reviews_task_post",
+                      "reviews_tasks_ready",
+                      "reviews_task_get"
+                    ],
+                    "description": "Art der Trustpilot Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Unternehmensname oder Suchbegriff",
+                    "example": "amazon"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "description": "Unternehmens-Domain (für reviews)",
+                    "example": "amazon.com"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Task-Priorität",
+                    "default": 1,
+                    "enum": [1, 2, 3, 4, 5]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trustpilot Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "business_name": {
+                                  "type": "string"
+                                },
+                                "trustpilot_url": {
+                                  "type": "string"
+                                },
+                                "rating": {
+                                  "type": "number"
+                                },
+                                "reviews_count": {
+                                  "type": "integer"
+                                },
+                                "category": {
+                                  "type": "string"
+                                },
+                                "reviews": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "rating": {
+                                        "type": "integer"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "author": {
+                                        "type": "string"
+                                      },
+                                      "date": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_tripadvisor": {
+      "post": {
+        "summary": "🏖️ Tripadvisor Business Data",
+        "description": "Tripadvisor Unternehmenssuche, Bewertungen und Standortdaten - Live und Standard-Methoden für Restaurants, Hotels und Attraktionen",
+        "operationId": "businessDataTripadvisor",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "locations",
+                      "locations_country",
+                      "languages",
+                      "search_live",
+                      "search_task_post",
+                      "search_tasks_ready",
+                      "search_task_get",
+                      "reviews_live",
+                      "reviews_task_post",
+                      "reviews_tasks_ready",
+                      "reviews_task_get"
+                    ],
+                    "description": "Art der Tripadvisor Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Unternehmensname oder Suchbegriff",
+                    "example": "restaurant paris"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Ländercode (für locations_country)",
+                    "default": "fr"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "default": "Paris,France"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 187147
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "English"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Task-Priorität",
+                    "default": 1,
+                    "enum": [1, 2, 3, 4, 5]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tripadvisor Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "business_name": {
+                                  "type": "string"
+                                },
+                                "tripadvisor_url": {
+                                  "type": "string"
+                                },
+                                "rating": {
+                                  "type": "number"
+                                },
+                                "reviews_count": {
+                                  "type": "integer"
+                                },
+                                "category": {
+                                  "type": "string"
+                                },
+                                "address": {
+                                  "type": "string"
+                                },
+                                "phone": {
+                                  "type": "string"
+                                },
+                                "website": {
+                                  "type": "string"
+                                },
+                                "reviews": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "rating": {
+                                        "type": "integer"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "author": {
+                                        "type": "string"
+                                      },
+                                      "date": {
+                                        "type": "string"
+                                      },
+                                      "title": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_general": {
+      "post": {
+        "summary": "⚙️ Business Data Verwaltung",
+        "description": "Allgemeine Business Data Verwaltungsfunktionen - ID-Listen, Fehlerbehandlung und Task-Status",
+        "operationId": "businessDataGeneral",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "id_list",
+                      "errors",
+                      "tasks_ready"
+                    ],
+                    "description": "Art der allgemeinen Operation"
+                  },
+                  "datetime_from": {
+                    "type": "string",
+                    "description": "Startzeit (YYYY-MM-DD HH:MM:SS +00:00)",
+                    "default": "2024-01-01 00:00:00 +00:00"
+                  },
+                  "datetime_to": {
+                    "type": "string",
+                    "description": "Endzeit (YYYY-MM-DD HH:MM:SS +00:00)",
+                    "default": "2024-12-31 23:59:59 +00:00"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Maximale Anzahl der Ergebnisse",
+                    "default": 100,
+                    "maximum": 1000
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "description": "Offset in den Ergebnissen",
+                    "default": 0
+                  },
+                  "sort": {
+                    "type": "string",
+                    "enum": ["asc", "desc"],
+                    "description": "Sortierung nach Ausführungszeit",
+                    "default": "asc"
+                  },
+                  "include_metadata": {
+                    "type": "boolean",
+                    "description": "Task-Metadaten inkludieren",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Business Data Verwaltung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "task_id": {
+                                  "type": "string"
+                                },
+                                "status": {
+                                  "type": "string"
+                                },
+                                "error_message": {
+                                  "type": "string"
+                                },
+                                "created_at": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_listings": {
+      "post": {
+        "summary": "🏢 Business Listings",
+        "description": "Business Listings Suche, Kategorien, Standorte und Aggregationen für lokale Unternehmen",
+        "operationId": "businessDataListings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "search_live",
+                      "available_filters",
+                      "locations",
+                      "categories",
+                      "categories_aggregation_live"
+                    ],
+                    "description": "Art der Business Listings Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für Business Listings",
+                    "example": "restaurant"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "default": "New York,New York,United States"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 2840
+                  },
+                  "category_codes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array von Kategorie-Codes"
+                  },
+                  "filters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    },
+                    "description": "Filter für die Suche"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Business Listings Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "business_name": {
+                                  "type": "string"
+                                },
+                                "address": {
+                                  "type": "string"
+                                },
+                                "phone": {
+                                  "type": "string"
+                                },
+                                "website": {
+                                  "type": "string"
+                                },
+                                "rating": {
+                                  "type": "number"
+                                },
+                                "reviews_count": {
+                                  "type": "integer"
+                                },
+                                "category": {
+                                  "type": "string"
+                                },
+                                "hours": {
+                                  "type": "object"
+                                },
+                                "location": {
+                                  "type": "object",
+                                  "properties": {
+                                    "lat": {
+                                      "type": "number"
+                                    },
+                                    "lng": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data_social_media": {
+      "post": {
+        "summary": "📱 Social Media Business Data",
+        "description": "Social Media Interaktionen und Engagement-Daten für Unternehmen - Pinterest, Facebook und Reddit",
+        "operationId": "businessDataSocialMedia",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "pinterest_live",
+                      "facebook_live",
+                      "reddit_live"
+                    ],
+                    "description": "Art der Social Media Operation"
+                  },
+                  "urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array von URLs für Social Media Analyse",
+                    "maxItems": 1000
+                  }
+                },
+                "required": [
+                  "type",
+                  "urls"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Social Media Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                },
+                                "pinterest": {
+                                  "type": "object",
+                                  "properties": {
+                                    "saves_count": {
+                                      "type": "integer"
+                                    }
+                                  }
+                                },
+                                "facebook": {
+                                  "type": "object",
+                                  "properties": {
+                                    "likes_count": {
+                                      "type": "integer"
+                                    }
+                                  }
+                                },
+                                "reddit": {
+                                  "type": "object",
+                                  "properties": {
+                                    "shares": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "subreddit": {
+                                            "type": "string"
+                                          },
+                                          "author": {
+                                            "type": "string"
+                                          },
+                                          "title": {
+                                            "type": "string"
+                                          },
+                                          "permalink": {
+                                            "type": "string"
+                                          },
+                                          "members": {
+                                            "type": "integer"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
