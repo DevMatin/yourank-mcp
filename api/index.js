@@ -541,6 +541,17 @@ const MERCHANT_ENDPOINTS = {
 
 // Business Data API endpoints mapping
 const BUSINESS_DATA_ENDPOINTS = {
+  // Gruppierte Endpoints für Custom GPT Schema
+  'business_data_google_my_business': '/v3/business_data_google_my_business',
+  'business_data_google_hotels': '/v3/business_data_google_hotels',
+  'business_data_google_reviews': '/v3/business_data_google_reviews',
+  'business_data_google_qa': '/v3/business_data_google_qa',
+  'business_data_trustpilot': '/v3/business_data_trustpilot',
+  'business_data_tripadvisor': '/v3/business_data_tripadvisor',
+  'business_data_general': '/v3/business_data_general',
+  'business_data_listings': '/v3/business_data_listings',
+  'business_data_social_media': '/v3/business_data_social_media',
+  
   // General Business Data Tools
   'business_data_id_list': '/v3/business_data/id_list',
   'business_data_errors': '/v3/business_data/errors',
@@ -1162,8 +1173,69 @@ async function handleMcpRequest(req, res) {
           id: req.body?.id || null
         });
       }
-    } else if (method === 'businessDataGoogleMyBusiness') {
+    } else if (method === 'business_data_google_my_business') {
       // Handle grouped Business Data Google My Business endpoint
+      console.log('🔧 Business Data Google My Business Method Call:', method);
+      
+      const type = params?.type || 'my_business_info_live';
+      let endpoint;
+      if (type === 'my_business_info_live') {
+        endpoint = '/v3/business_data/google/my_business_info/live';
+      } else if (type === 'my_business_info_task_post') {
+        endpoint = '/v3/business_data/google/my_business_info/task_post';
+      } else if (type === 'my_business_info_tasks_ready') {
+        endpoint = '/v3/business_data/google/my_business_info/tasks_ready';
+      } else if (type === 'my_business_info_task_get') {
+        endpoint = '/v3/business_data/google/my_business_info/task_get/{id}';
+      } else if (type === 'my_business_updates_task_post') {
+        endpoint = '/v3/business_data/google/my_business_updates/task_post';
+      } else if (type === 'my_business_updates_tasks_ready') {
+        endpoint = '/v3/business_data/google/my_business_updates/tasks_ready';
+      } else if (type === 'my_business_updates_task_get') {
+        endpoint = '/v3/business_data/google/my_business_updates/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/google/my_business_info/live'; // Default
+      }
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Google My Business
+      const requestData = [{}];
+      if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
+      if (arguments_.location_name) { requestData[0].location_name = arguments_.location_name; }
+      else if (arguments_.location_code) { requestData[0].location_code = arguments_.location_code; }
+      else if (arguments_.location_coordinate) { requestData[0].location_coordinate = arguments_.location_coordinate; }
+      if (arguments_.language_name) { requestData[0].language_name = arguments_.language_name; }
+      else if (arguments_.language_code) { requestData[0].language_code = arguments_.language_code; }
+      if (arguments_.tag) { requestData[0].tag = arguments_.tag; }
+      
+      console.log('🔧 Business Data Google My Business Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
+    } else if (method === 'businessDataGoogleMyBusiness') {
+      // Handle grouped Business Data Google My Business endpoint (legacy)
       console.log('🔧 Business Data Google My Business Method Call:', method);
       
       const type = params?.type || 'my_business_info_live';
@@ -1584,8 +1656,9 @@ async function handleMcpRequest(req, res) {
         }, 
         id: req.body?.id || null 
       });
-    } else if (ALL_ENDPOINTS[method]) {
+    } else if (ALL_ENDPOINTS[method] && !method.startsWith('business_data_google_') && !method.startsWith('business_data_trustpilot') && !method.startsWith('business_data_tripadvisor') && !method.startsWith('business_data_general') && !method.startsWith('business_data_listings') && !method.startsWith('business_data_social_media')) {
       // Handle direct API method calls (backwards compatibility)
+      // Exclude grouped Business Data endpoints - they have special handlers
       console.log('🔧 Direct API Method Call:', method);
       
       const endpoint = ALL_ENDPOINTS[method];
@@ -3529,6 +3602,36 @@ app.get('/v3/serp/:engine/organic/task_get/:format/:id', async (req, res) => {
 app.all('/v3/*', async (req, res) => {
   try {
     const apiPath = req.path;
+    
+    // Check if this is a grouped Business Data endpoint that needs special handling
+    const groupedEndpoints = [
+      'business_data_google_my_business',
+      'business_data_google_hotels', 
+      'business_data_google_reviews',
+      'business_data_google_qa',
+      'business_data_trustpilot',
+      'business_data_tripadvisor',
+      'business_data_general',
+      'business_data_listings',
+      'business_data_social_media'
+    ];
+    
+    const isGroupedEndpoint = groupedEndpoints.some(endpoint => apiPath.includes(endpoint));
+    
+    if (isGroupedEndpoint) {
+      // Route to MCP handler for grouped endpoints
+      const method = apiPath.replace('/v3/', '');
+      const params = Array.isArray(req.body) ? req.body[0] : req.body;
+      
+      // Create a mock request object for the MCP handler
+      const mockReq = {
+        body: { method, params }
+      };
+      
+      // Call the MCP handler
+      await handleMcpRequest(mockReq, res);
+      return;
+    }
     
     // Determine HTTP method based on endpoint pattern
     const isGetEndpoint = apiPath.includes('/languages') || 
