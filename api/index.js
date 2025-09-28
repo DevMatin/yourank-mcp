@@ -1202,9 +1202,33 @@ async function handleMcpRequest(req, res) {
       // Prepare request data for Business Data Google My Business
       const requestData = [{}];
       if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
-      // DataForSEO API akzeptiert nur location_code oder location_coordinate, NICHT location_name
-      if (arguments_.location_code) { requestData[0].location_code = arguments_.location_code; }
-      else if (arguments_.location_coordinate) { requestData[0].location_coordinate = arguments_.location_coordinate; }
+      
+      // Handle location parameter - convert location_name to location_code if needed
+      if (arguments_.location_code) { 
+        requestData[0].location_code = arguments_.location_code; 
+      } else if (arguments_.location_coordinate) { 
+        requestData[0].location_coordinate = arguments_.location_coordinate; 
+      } else if (arguments_.location_name) {
+        // Convert location_name to location_code using Google locations API
+        try {
+          const locationsResponse = await makeDataForSEORequest('/v3/business_data/google/locations', null, 'GET');
+          if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
+            const locations = locationsResponse.body.tasks[0].result;
+            const matchingLocation = locations.find(loc => 
+              loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
+            );
+            if (matchingLocation) {
+              requestData[0].location_code = matchingLocation.location_code;
+              console.log(`🔧 Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code}`);
+            } else {
+              console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+            }
+          }
+        } catch (error) {
+          console.error('Error converting location_name to location_code:', error);
+        }
+      }
+      
       if (arguments_.language_name) { requestData[0].language_name = arguments_.language_name; }
       else if (arguments_.language_code) { requestData[0].language_code = arguments_.language_code; }
       if (arguments_.tag) { requestData[0].tag = arguments_.tag; }

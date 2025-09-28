@@ -47,9 +47,14 @@
                     "description": "Unternehmensname oder Suchbegriff",
                     "example": "pizza restaurant new york"
                   },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (wird automatisch zu location_code konvertiert)",
+                    "example": "München,Deutschland"
+                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
+                    "description": "Standortcode (alternative zu location_name)",
                     "default": 2840
                   },
                   "location_coordinate": {
@@ -183,9 +188,14 @@
                     "description": "Eindeutige Hotel-ID (für hotel_info)",
                     "example": "ChIJN1t_tDeuEmsRUsoyG83frY4"
                   },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (wird automatisch zu location_code konvertiert)",
+                    "example": "München,Deutschland"
+                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
+                    "description": "Standortcode (alternative zu location_name)",
                     "default": 2840
                   },
                   "location_coordinate": {
@@ -332,9 +342,14 @@
                     "description": "Unternehmensname oder Suchbegriff",
                     "example": "pizza restaurant new york"
                   },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (wird automatisch zu location_code konvertiert)",
+                    "example": "München,Deutschland"
+                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
+                    "description": "Standortcode (alternative zu location_name)",
                     "default": 2840
                   },
                   "location_coordinate": {
@@ -467,9 +482,14 @@
                     "description": "Unternehmensname oder Suchbegriff",
                     "example": "pizza restaurant new york"
                   },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (wird automatisch zu location_code konvertiert)",
+                    "example": "München,Deutschland"
+                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
+                    "description": "Standortcode (alternative zu location_name)",
                     "default": 2840
                   },
                   "location_coordinate": {
@@ -739,6 +759,11 @@
                     "type": "string",
                     "description": "Ländercode (für locations_country)",
                     "default": "fr"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (wird automatisch zu location_code konvertiert)",
+                    "example": "Paris,France"
                   },
                   "location_coordinate": {
                     "type": "string",
@@ -1015,9 +1040,14 @@
                     "description": "Suchbegriff für Business Listings",
                     "example": "restaurant"
                   },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (wird automatisch zu location_code konvertiert)",
+                    "example": "München,Deutschland"
+                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
+                    "description": "Standortcode (alternative zu location_name)",
                     "default": 2840
                   },
                   "location_coordinate": {
