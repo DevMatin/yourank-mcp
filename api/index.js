@@ -1011,6 +1011,64 @@ async function handleMcpRequest(req, res) {
           id: req.body?.id || null
         });
       }
+    } else if (method === 'businessDataGoogleMyBusiness') {
+      // Handle grouped Business Data Google My Business endpoint
+      console.log('🔧 Business Data Google My Business Method Call:', method);
+      
+      const type = params?.type || 'my_business_info_live';
+      let endpoint;
+      if (type === 'my_business_info_live') {
+        endpoint = '/v3/business_data/google/my_business_info/live';
+      } else if (type === 'my_business_info_task_post') {
+        endpoint = '/v3/business_data/google/my_business_info/task_post';
+      } else if (type === 'my_business_info_tasks_ready') {
+        endpoint = '/v3/business_data/google/my_business_info/tasks_ready';
+      } else if (type === 'my_business_info_task_get') {
+        endpoint = '/v3/business_data/google/my_business_info/task_get/{id}';
+      } else if (type === 'my_business_updates_task_post') {
+        endpoint = '/v3/business_data/google/my_business_updates/task_post';
+      } else if (type === 'my_business_updates_tasks_ready') {
+        endpoint = '/v3/business_data/google/my_business_updates/tasks_ready';
+      } else if (type === 'my_business_updates_task_get') {
+        endpoint = '/v3/business_data/google/my_business_updates/task_get/{id}';
+      } else {
+        endpoint = '/v3/business_data/google/my_business_info/live'; // Default
+      }
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Google My Business
+      const requestData = [{
+        keyword: arguments_.keyword,
+        location_name: arguments_.location_name,
+        location_code: arguments_.location_code,
+        location_coordinate: arguments_.location_coordinate,
+        language_name: arguments_.language_name,
+        language_code: arguments_.language_code,
+        tag: arguments_.tag
+      }];
+      
+      // Determine HTTP method
+      const httpMethod = 'POST';
+
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error('DataForSEO API Error (Business Data Google My Business):', {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
     } else if (ALL_ENDPOINTS[method]) {
       // Handle direct API method calls (backwards compatibility)
       console.log('🔧 Direct API Method Call:', method);
