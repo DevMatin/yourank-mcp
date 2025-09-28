@@ -47,15 +47,15 @@
                     "description": "Unternehmensname oder Suchbegriff",
                     "example": "pizza restaurant new york"
                   },
-                  "location_name": {
-                    "type": "string",
-                    "description": "Standortname",
-                    "default": "New York,New York,United States"
-                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode",
+                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
                     "default": 2840
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.1351,11.5820"
                   },
                   "location_coordinate": {
                     "type": "string",
@@ -183,15 +183,15 @@
                     "description": "Eindeutige Hotel-ID (für hotel_info)",
                     "example": "ChIJN1t_tDeuEmsRUsoyG83frY4"
                   },
-                  "location_name": {
-                    "type": "string",
-                    "description": "Standortname",
-                    "default": "New York,New York,United States"
-                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode",
+                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
                     "default": 2840
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.1351,11.5820"
                   },
                   "language_name": {
                     "type": "string",
@@ -332,15 +332,15 @@
                     "description": "Unternehmensname oder Suchbegriff",
                     "example": "pizza restaurant new york"
                   },
-                  "location_name": {
-                    "type": "string",
-                    "description": "Standortname",
-                    "default": "New York,New York,United States"
-                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode",
+                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
                     "default": 2840
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.1351,11.5820"
                   },
                   "language_name": {
                     "type": "string",
@@ -467,15 +467,15 @@
                     "description": "Unternehmensname oder Suchbegriff",
                     "example": "pizza restaurant new york"
                   },
-                  "location_name": {
-                    "type": "string",
-                    "description": "Standortname",
-                    "default": "New York,New York,United States"
-                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode",
+                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
                     "default": 2840
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.1351,11.5820"
                   },
                   "language_name": {
                     "type": "string",
@@ -740,10 +740,10 @@
                     "description": "Ländercode (für locations_country)",
                     "default": "fr"
                   },
-                  "location_name": {
+                  "location_coordinate": {
                     "type": "string",
-                    "description": "Standortname",
-                    "default": "Paris,France"
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.8566,2.3522"
                   },
                   "location_code": {
                     "type": "integer",
@@ -1015,15 +1015,15 @@
                     "description": "Suchbegriff für Business Listings",
                     "example": "restaurant"
                   },
-                  "location_name": {
-                    "type": "string",
-                    "description": "Standortname",
-                    "default": "New York,New York,United States"
-                  },
                   "location_code": {
                     "type": "integer",
-                    "description": "Standortcode",
+                    "description": "Standortcode (erforderlich - verwende location_code statt location_name)",
                     "default": 2840
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.1351,11.5820"
                   },
                   "category_codes": {
                     "type": "array",
