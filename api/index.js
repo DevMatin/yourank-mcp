@@ -830,6 +830,26 @@ async function handleMcpRequest(req, res) {
         if (apiName === 'serp_locations') {
           const country = arguments_.country_code || 'US';
           endpoint = `/v3/serp/${engine}/locations/${country}`;
+        } else if (apiName === 'businessDataGoogleMyBusiness') {
+          // Handle grouped Business Data Google My Business endpoint
+          const type = arguments_.type || 'my_business_info_live';
+          if (type === 'my_business_info_live') {
+            endpoint = '/v3/business_data/google/my_business_info/live';
+          } else if (type === 'my_business_info_task_post') {
+            endpoint = '/v3/business_data/google/my_business_info/task_post';
+          } else if (type === 'my_business_info_tasks_ready') {
+            endpoint = '/v3/business_data/google/my_business_info/tasks_ready';
+          } else if (type === 'my_business_info_task_get') {
+            endpoint = '/v3/business_data/google/my_business_info/task_get/{id}';
+          } else if (type === 'my_business_updates_task_post') {
+            endpoint = '/v3/business_data/google/my_business_updates/task_post';
+          } else if (type === 'my_business_updates_tasks_ready') {
+            endpoint = '/v3/business_data/google/my_business_updates/tasks_ready';
+          } else if (type === 'my_business_updates_task_get') {
+            endpoint = '/v3/business_data/google/my_business_updates/task_get/{id}';
+          } else {
+            endpoint = '/v3/business_data/google/my_business_info/live'; // Default
+          }
         } else if (ALL_ENDPOINTS[apiName]) {
           // Use ALL_ENDPOINTS mapping for known APIs
           endpoint = ALL_ENDPOINTS[apiName];
