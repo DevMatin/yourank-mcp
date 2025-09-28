@@ -1202,8 +1202,8 @@ async function handleMcpRequest(req, res) {
       // Prepare request data for Business Data Google My Business
       const requestData = [{}];
       if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
-      if (arguments_.location_name) { requestData[0].location_name = arguments_.location_name; }
-      else if (arguments_.location_code) { requestData[0].location_code = arguments_.location_code; }
+      // DataForSEO API akzeptiert nur location_code oder location_coordinate, NICHT location_name
+      if (arguments_.location_code) { requestData[0].location_code = arguments_.location_code; }
       else if (arguments_.location_coordinate) { requestData[0].location_coordinate = arguments_.location_coordinate; }
       if (arguments_.language_name) { requestData[0].language_name = arguments_.language_name; }
       else if (arguments_.language_code) { requestData[0].language_code = arguments_.language_code; }
