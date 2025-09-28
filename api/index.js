@@ -1571,7 +1571,7 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/google/reviews/live'; // Default
       }
-    } else if (method === 'businessDataGoogleQA') {
+    } else if (method === 'business_data_google_qa') {
       // Handle grouped Business Data Google Q&A endpoint
       console.log('🔧 Business Data Google Q&A Method Call:', method);
       
@@ -1588,7 +1588,97 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/google/questions_and_answers/live'; // Default
       }
-    } else if (method === 'businessDataTrustpilot') {
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Google Q&A
+      const requestData = [{}];
+      if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
+      
+      // Handle location parameter - convert location_name to location_code if needed
+      if (arguments_.location_code) { 
+        requestData[0].location_code = arguments_.location_code; 
+      } else if (arguments_.location_coordinate) { 
+        requestData[0].location_coordinate = arguments_.location_coordinate; 
+      } else if (arguments_.location_name) {
+        // Convert location_name to location_code using Google locations API
+        console.log(`🔧 Converting location_name "${arguments_.location_name}" to location_code...`);
+        try {
+          const locationsResponse = await makeDataForSEORequest('/v3/business_data/google/locations', null, 'GET');
+          if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
+            const locations = locationsResponse.body.tasks[0].result;
+            // Try multiple matching strategies
+            let matchingLocation = locations.find(loc => 
+              loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
+            );
+            
+            // If no match, try with city name only (remove country)
+            if (!matchingLocation) {
+              const cityName = arguments_.location_name.split(',')[0].trim();
+              matchingLocation = locations.find(loc => 
+                loc.location_name && loc.location_name.toLowerCase().includes(cityName.toLowerCase())
+              );
+            }
+            
+            // If still no match, try with partial matching
+            if (!matchingLocation) {
+              const searchTerms = arguments_.location_name.toLowerCase().split(/[,\s]+/);
+              matchingLocation = locations.find(loc => 
+                loc.location_name && searchTerms.some(term => 
+                  term.length > 2 && loc.location_name.toLowerCase().includes(term)
+                )
+              );
+            }
+            
+            if (matchingLocation) {
+              requestData[0].location_code = matchingLocation.location_code;
+              console.log(`✅ Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code} (${matchingLocation.location_name})`);
+            } else {
+              console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+              // Use default location code for Germany
+              requestData[0].location_code = 2276; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
+            }
+          }
+        } catch (error) {
+          console.error('Error converting location_name to location_code:', error);
+          // Use fallback location code
+          requestData[0].location_code = 2276;
+          console.log(`🔄 Using fallback location_code: 2276 due to error`);
+        }
+      }
+      
+      if (arguments_.language_name) { requestData[0].language_name = arguments_.language_name; }
+      else if (arguments_.language_code) { requestData[0].language_code = arguments_.language_code; }
+      if (arguments_.depth) { requestData[0].depth = arguments_.depth; }
+      if (arguments_.tag) { requestData[0].tag = arguments_.tag; }
+      
+      console.log('🔧 Business Data Google Q&A Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
+    } else if (method === 'business_data_trustpilot') {
       // Handle grouped Business Data Trustpilot endpoint
       console.log('🔧 Business Data Trustpilot Method Call:', method);
       
@@ -1613,7 +1703,42 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/trustpilot/search/live'; // Default
       }
-    } else if (method === 'businessDataTripadvisor') {
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Trustpilot
+      const requestData = [{}];
+      if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
+      if (arguments_.domain) { requestData[0].domain = arguments_.domain; }
+      if (arguments_.depth) { requestData[0].depth = arguments_.depth; }
+      if (arguments_.tag) { requestData[0].tag = arguments_.tag; }
+      
+      console.log('🔧 Business Data Trustpilot Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
+    } else if (method === 'business_data_tripadvisor') {
       // Handle grouped Business Data Tripadvisor endpoint
       console.log('🔧 Business Data Tripadvisor Method Call:', method);
       
@@ -1644,7 +1769,98 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/tripadvisor/search/live'; // Default
       }
-    } else if (method === 'businessDataListings') {
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Tripadvisor
+      const requestData = [{}];
+      if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
+      if (arguments_.country) { requestData[0].country = arguments_.country; }
+      
+      // Handle location parameter - convert location_name to location_code if needed
+      if (arguments_.location_code) { 
+        requestData[0].location_code = arguments_.location_code; 
+      } else if (arguments_.location_coordinate) { 
+        requestData[0].location_coordinate = arguments_.location_coordinate; 
+      } else if (arguments_.location_name) {
+        // Convert location_name to location_code using Tripadvisor locations API
+        console.log(`🔧 Converting location_name "${arguments_.location_name}" to location_code...`);
+        try {
+          const locationsResponse = await makeDataForSEORequest('/v3/business_data/tripadvisor/locations', null, 'GET');
+          if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
+            const locations = locationsResponse.body.tasks[0].result;
+            // Try multiple matching strategies
+            let matchingLocation = locations.find(loc => 
+              loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
+            );
+            
+            // If no match, try with city name only (remove country)
+            if (!matchingLocation) {
+              const cityName = arguments_.location_name.split(',')[0].trim();
+              matchingLocation = locations.find(loc => 
+                loc.location_name && loc.location_name.toLowerCase().includes(cityName.toLowerCase())
+              );
+            }
+            
+            // If still no match, try with partial matching
+            if (!matchingLocation) {
+              const searchTerms = arguments_.location_name.toLowerCase().split(/[,\s]+/);
+              matchingLocation = locations.find(loc => 
+                loc.location_name && searchTerms.some(term => 
+                  term.length > 2 && loc.location_name.toLowerCase().includes(term)
+                )
+              );
+            }
+            
+            if (matchingLocation) {
+              requestData[0].location_code = matchingLocation.location_code;
+              console.log(`✅ Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code} (${matchingLocation.location_name})`);
+            } else {
+              console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+              // Use default location code for Germany
+              requestData[0].location_code = 187147; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: 187147 (Munich, Germany)`);
+            }
+          }
+        } catch (error) {
+          console.error('Error converting location_name to location_code:', error);
+          // Use fallback location code
+          requestData[0].location_code = 187147;
+          console.log(`🔄 Using fallback location_code: 187147 due to error`);
+        }
+      }
+      
+      if (arguments_.language_name) { requestData[0].language_name = arguments_.language_name; }
+      else if (arguments_.language_code) { requestData[0].language_code = arguments_.language_code; }
+      if (arguments_.depth) { requestData[0].depth = arguments_.depth; }
+      if (arguments_.tag) { requestData[0].tag = arguments_.tag; }
+      
+      console.log('🔧 Business Data Tripadvisor Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
+    } else if (method === 'business_data_listings') {
       // Handle grouped Business Data Listings endpoint
       console.log('🔧 Business Data Listings Method Call:', method);
       
@@ -1663,7 +1879,97 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/business_listings/search/live'; // Default
       }
-    } else if (method === 'businessDataSocialMedia') {
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Listings
+      const requestData = [{}];
+      if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
+      if (arguments_.category_codes) { requestData[0].category_codes = arguments_.category_codes; }
+      if (arguments_.filters) { requestData[0].filters = arguments_.filters; }
+      
+      // Handle location parameter - convert location_name to location_code if needed
+      if (arguments_.location_code) { 
+        requestData[0].location_code = arguments_.location_code; 
+      } else if (arguments_.location_coordinate) { 
+        requestData[0].location_coordinate = arguments_.location_coordinate; 
+      } else if (arguments_.location_name) {
+        // Convert location_name to location_code using Business Listings locations API
+        console.log(`🔧 Converting location_name "${arguments_.location_name}" to location_code...`);
+        try {
+          const locationsResponse = await makeDataForSEORequest('/v3/business_data/business_listings/locations', null, 'GET');
+          if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
+            const locations = locationsResponse.body.tasks[0].result;
+            // Try multiple matching strategies
+            let matchingLocation = locations.find(loc => 
+              loc.location_name && loc.location_name.toLowerCase().includes(arguments_.location_name.toLowerCase())
+            );
+            
+            // If no match, try with city name only (remove country)
+            if (!matchingLocation) {
+              const cityName = arguments_.location_name.split(',')[0].trim();
+              matchingLocation = locations.find(loc => 
+                loc.location_name && loc.location_name.toLowerCase().includes(cityName.toLowerCase())
+              );
+            }
+            
+            // If still no match, try with partial matching
+            if (!matchingLocation) {
+              const searchTerms = arguments_.location_name.toLowerCase().split(/[,\s]+/);
+              matchingLocation = locations.find(loc => 
+                loc.location_name && searchTerms.some(term => 
+                  term.length > 2 && loc.location_name.toLowerCase().includes(term)
+                )
+              );
+            }
+            
+            if (matchingLocation) {
+              requestData[0].location_code = matchingLocation.location_code;
+              console.log(`✅ Converted location_name "${arguments_.location_name}" to location_code: ${matchingLocation.location_code} (${matchingLocation.location_name})`);
+            } else {
+              console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
+              // Use default location code for Germany
+              requestData[0].location_code = 2840; // New York as fallback
+              console.log(`🔄 Using fallback location_code: 2840 (New York, United States)`);
+            }
+          }
+        } catch (error) {
+          console.error('Error converting location_name to location_code:', error);
+          // Use fallback location code
+          requestData[0].location_code = 2840;
+          console.log(`🔄 Using fallback location_code: 2840 due to error`);
+        }
+      }
+      
+      if (arguments_.depth) { requestData[0].depth = arguments_.depth; }
+      if (arguments_.tag) { requestData[0].tag = arguments_.tag; }
+      
+      console.log('🔧 Business Data Listings Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
+    } else if (method === 'business_data_social_media') {
       // Handle grouped Business Data Social Media endpoint
       console.log('🔧 Business Data Social Media Method Call:', method);
       
@@ -1678,7 +1984,39 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/social_media/pinterest/live'; // Default
       }
-    } else if (method === 'businessDataGeneral') {
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data Social Media
+      const requestData = [{}];
+      if (arguments_.urls) { requestData[0].urls = arguments_.urls; }
+      
+      console.log('🔧 Business Data Social Media Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
+    } else if (method === 'business_data_general') {
       // Handle grouped Business Data General endpoint
       console.log('🔧 Business Data General Method Call:', method);
       
@@ -1693,6 +2031,43 @@ async function handleMcpRequest(req, res) {
       } else {
         endpoint = '/v3/business_data/id_list'; // Default
       }
+      
+      const arguments_ = params || {};
+      
+      // Prepare request data for Business Data General
+      const requestData = [{}];
+      if (arguments_.datetime_from) { requestData[0].datetime_from = arguments_.datetime_from; }
+      if (arguments_.datetime_to) { requestData[0].datetime_to = arguments_.datetime_to; }
+      if (arguments_.limit) { requestData[0].limit = arguments_.limit; }
+      if (arguments_.offset) { requestData[0].offset = arguments_.offset; }
+      if (arguments_.sort) { requestData[0].sort = arguments_.sort; }
+      if (arguments_.include_metadata) { requestData[0].include_metadata = arguments_.include_metadata; }
+      
+      console.log('🔧 Business Data General Request:', {
+        endpoint: endpoint,
+        requestData: requestData,
+        type: type
+      });
+      
+      const httpMethod = 'POST';
+      const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
+      if (dataforseoResponse.status === 200) {
+        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+      }
+      console.error(`DataForSEO API Error (Business Data ${method}):`, {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData
+      });
+      return res.status(500).json({ 
+        jsonrpc: '2.0', 
+        error: { 
+          code: -32603, 
+          message: `DataForSEO API returned status ${dataforseoResponse.status}: ${JSON.stringify(dataforseoResponse.body)}` 
+        }, 
+        id: req.body?.id || null 
+      });
       
       const arguments_ = params || {};
       
