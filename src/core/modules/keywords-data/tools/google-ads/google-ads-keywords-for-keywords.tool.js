@@ -20,43 +20,54 @@ export class GoogleAdsKeywordsForKeywordsTool extends BaseTool {
       keywords: {
         type: 'array',
         items: { type: 'string' },
-        description: 'Array of keywords (up to 20)'
+        description: 'Array of keywords (max 5 für optimale Performance)'
       },
       location_name: {
         type: 'string',
-        nullable,
-        default,
+        nullable: true,
+        default: 'United States',
         description: 'Full name of the location (e.g., "United Kingdom")'
       },
       language_code: {
         type: 'string',
-        nullable,
-        default,
+        nullable: true,
+        default: 'en',
         description: 'Language two-letter ISO code (e.g., "en")'
       },
       search_partners: {
         type: 'boolean',
-        nullable,
-        default,
+        nullable: true,
+        default: false,
         description: 'Include search partners'
       },
       include_serp_info: {
         type: 'boolean',
-        nullable,
-        default,
-        description: 'Include SERP information'
+        nullable: true,
+        default: false,
+        description: 'Include SERP information (deaktiviert für bessere Performance)'
+      },
+      limit_results: {
+        type: 'number',
+        nullable: true,
+        default: 10,
+        description: 'Anzahl der zurückgegebenen Ergebnisse (max 50)'
       }
     };
   }
 
   async handle(params) {
     try {
+      // Limitiere Keywords auf 5 für kleinere Responses
+      const limitedKeywords = Array.isArray(params.keywords) 
+        ? params.keywords.slice(0, 5) 
+        : [params.keywords];
+
       const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/google_ads/keywords_for_keywords/live', 'POST', [{
-        keywords: params.keywords,
+        keywords: limitedKeywords,
         location_name: params.location_name,
         language_code: params.language_code,
         search_partners: params.search_partners,
-        include_serp_info: params.include_serp_info,
+        include_serp_info: false, // Deaktiviere SERP Info für kleinere Response
       }]);
       return this.validateAndFormatResponse(response);
     } catch (error) {

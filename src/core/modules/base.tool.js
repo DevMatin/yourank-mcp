@@ -45,6 +45,10 @@ export class BaseTool {
                 }
             }
         }
+
+        // Response Size Limiting für Keywords Data APIs
+        data = this.limitResponseSize(data);
+
         return {
             content: [
                 {
@@ -53,6 +57,44 @@ export class BaseTool {
                 },
             ],
         };
+    }
+
+    limitResponseSize(data, maxSize = 500000) { // 500KB Limit
+        const jsonString = JSON.stringify(data);
+        if (jsonString.length <= maxSize) {
+            return data;
+        }
+
+        // Für Keywords Data: Limitiere Arrays auf die ersten N Einträge
+        if (Array.isArray(data)) {
+            const limitedData = data.slice(0, 10); // Nur erste 10 Einträge
+            return {
+                ...limitedData,
+                _truncated: true,
+                _original_count: data.length,
+                _message: `Response wurde auf ${limitedData.length} von ${data.length} Einträgen beschränkt aufgrund der Größe.`
+            };
+        }
+
+        // Für Objekte mit Arrays: Limitiere die Arrays
+        if (typeof data === 'object' && data !== null) {
+            const limitedData = { ...data };
+            
+            for (const [key, value] of Object.entries(limitedData)) {
+                if (Array.isArray(value) && value.length > 10) {
+                    limitedData[key] = value.slice(0, 10);
+                    limitedData[`_${key}_truncated`] = true;
+                    limitedData[`_${key}_original_count`] = value.length;
+                }
+            }
+            
+            limitedData._response_limited = true;
+            limitedData._message = "Response wurde aufgrund der Größe beschränkt. Verwenden Sie spezifischere Parameter für vollständige Ergebnisse.";
+            
+            return limitedData;
+        }
+
+        return data;
     }
     formatErrorResponse(error) {
         return {

@@ -1,0 +1,34 @@
+{
+  "supported_fields": {
+    "keywords_data_google_ads_keywords_for_keywords": [
+      "keyword_data.keyword",
+      "keyword_data.location_code", 
+      "keyword_data.language_code",
+      "keyword_data.search_partners",
+      "keyword_data.competition",
+      "keyword_data.competition_index",
+      "keyword_data.search_volume",
+      "keyword_data.low_top_of_page_bid",
+      "keyword_data.high_top_of_page_bid",
+      "keyword_data.cpc",
+      "keyword_data.monthly_searches"
+    ],
+    "keywords_data_google_ads_search_volume": [
+      "keyword_data.keyword",
+      "keyword_data.location_code",
+      "keyword_data.language_code", 
+      "keyword_data.search_volume",
+      "keyword_data.competition",
+      "keyword_data.competition_index",
+      "keyword_data.cpc",
+      "keyword_data.monthly_searches"
+    ],
+    "keywords_data_google_ads_keywords_for_site": [
+      "keyword_data.keyword",
+      "keyword_data.search_volume",
+      "keyword_data.competition",
+      "keyword_data.cpc",
+      "keyword_data.categories"
+    ]
+  }
+}
