@@ -1275,11 +1275,13 @@ async function handleMcpRequest(req, res) {
           const bodyJson = typeof dataforseoResponse.body === 'string' ? dataforseoResponse.body : JSON.stringify(dataforseoResponse.body);
           const key = `business-data/listings/${Date.now()}-${crypto.randomUUID()}.json`;
           const { url } = await put(key, bodyJson, { access: 'public', contentType: 'application/json', addRandomSuffix: false });
+          const proxy = `https://yourank-mcp.vercel.app/api/blob/proxy?url=${encodeURIComponent(url)}`;
           return res.json({
             jsonrpc: '2.0',
             result: {
               storage: 'vercel-blob',
               results_url: url,
+              proxy_url: proxy,
               size_bytes: Buffer.byteLength(bodyJson),
               expires_at: new Date(Date.now() + 24*60*60*1000).toISOString(),
               meta: { endpoint, type }
@@ -1907,6 +1909,9 @@ async function handleMcpRequest(req, res) {
       if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
       if (arguments_.category_codes) { requestData[0].category_codes = arguments_.category_codes; }
       if (arguments_.filters) { requestData[0].filters = arguments_.filters; }
+      if (arguments_.limit) { requestData[0].limit = arguments_.limit; }
+      if (arguments_.offset) { requestData[0].offset = arguments_.offset; }
+      if (arguments_.order_by) { requestData[0].order_by = arguments_.order_by; }
       
       // Handle location parameter - convert location_name to location_code if needed
       if (arguments_.location_code) { 
@@ -1973,7 +1978,27 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        try {
+          const bodyJson = typeof dataforseoResponse.body === 'string' ? dataforseoResponse.body : JSON.stringify(dataforseoResponse.body);
+          const key = `business-data/listings/${Date.now()}-${crypto.randomUUID()}.json`;
+          const { url } = await put(key, bodyJson, { access: 'public', contentType: 'application/json', addRandomSuffix: false });
+          const proxy = `https://yourank-mcp.vercel.app/api/blob/proxy?url=${encodeURIComponent(url)}`;
+          return res.json({
+            jsonrpc: '2.0',
+            result: {
+              storage: 'vercel-blob',
+              results_url: url,
+              proxy_url: proxy,
+              size_bytes: Buffer.byteLength(bodyJson),
+              expires_at: new Date(Date.now() + 24*60*60*1000).toISOString(),
+              meta: { endpoint, type }
+            },
+            id: req.body?.id || null
+          });
+        } catch (uploadErr) {
+          console.error('Blob upload failed, returning inline body as fallback:', uploadErr);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
