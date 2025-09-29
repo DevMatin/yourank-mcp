@@ -52,6 +52,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@vercel/blob": "^0.24.0",
     "@modelcontextprotocol/sdk": "^1.4.0",
     "@supabase/supabase-js": "^2.46.1",
     "agents": "^0.0.101",

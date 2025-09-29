@@ -1,6 +1,8 @@
 // Vercel API handler - Real DataForSEO integration with all 30 OnPage APIs and Backlinks APIs
 import express from 'express';
 import https from 'https';
+import crypto from 'node:crypto';
+import { put } from '@vercel/blob';
 
 const app = express();
 app.use(express.json());
@@ -1269,7 +1271,25 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        try {
+          const bodyJson = typeof dataforseoResponse.body === 'string' ? dataforseoResponse.body : JSON.stringify(dataforseoResponse.body);
+          const key = `business-data/listings/${Date.now()}-${crypto.randomUUID()}.json`;
+          const { url } = await put(key, bodyJson, { access: 'public', contentType: 'application/json', addRandomSuffix: false });
+          return res.json({
+            jsonrpc: '2.0',
+            result: {
+              storage: 'vercel-blob',
+              results_url: url,
+              size_bytes: Buffer.byteLength(bodyJson),
+              expires_at: new Date(Date.now() + 24*60*60*1000).toISOString(),
+              meta: { endpoint, type }
+            },
+            id: req.body?.id || null
+          });
+        } catch (uploadErr) {
+          console.error('Blob upload failed, returning inline body as fallback:', uploadErr);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
