@@ -2206,6 +2206,29 @@ app.get('/', (req, res) => {
 app.post('/http', handleMcpRequest);
 app.post('/mcp', handleMcpRequest);
 
+// Blob Proxy: Liefert öffentliche Vercel Blob URLs über die eigene Domain aus
+app.get('/api/blob/proxy', async (req, res) => {
+  try {
+    const url = req.query?.url;
+    if (!url || typeof url !== 'string') {
+      return res.status(400).json({ error: 'Missing required query parameter: url' });
+    }
+    // Einfacher Sicherheits-Check: nur Vercel Blob Domain erlauben
+    const allowedPrefix = 'https://blob.vercel-storage.com/';
+    if (!url.startsWith(allowedPrefix)) {
+      return res.status(400).json({ error: 'URL not allowed' });
+    }
+    const response = await fetch(url);
+    const contentType = response.headers.get('content-type') || 'application/octet-stream';
+    const text = await response.text();
+    res.set('content-type', contentType);
+    res.status(response.status).send(text);
+  } catch (err) {
+    console.error('Blob proxy error:', err);
+    res.status(500).json({ error: 'Blob proxy failed: ' + err.message });
+  }
+});
+
 // AI Mode SERP endpoints - special handling to exclude language_name
 app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
   try {
