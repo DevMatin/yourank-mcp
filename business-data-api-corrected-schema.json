@@ -1278,6 +1278,29 @@
           }
         }
       }
+    },
+    "/api/blob/proxy": {
+      "get": {
+        "summary": "Fetch stored blob via proxy",
+        "operationId": "fetchBlobProxy",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uri" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blob content (JSON)",
+            "content": { "application/json": {} }
+          },
+          "400": { "description": "Bad request" },
+          "500": { "description": "Server error" }
+        }
+      }
     }
   },
   "components": {

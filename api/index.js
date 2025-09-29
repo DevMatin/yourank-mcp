@@ -2277,16 +2277,25 @@ app.get('/api/blob/proxy', async (req, res) => {
     if (!url || typeof url !== 'string') {
       return res.status(400).json({ error: 'Missing required query parameter: url' });
     }
-    // Einfacher Sicherheits-Check: nur Vercel Blob Domain erlauben
-    const allowedPrefix = 'https://blob.vercel-storage.com/';
-    if (!url.startsWith(allowedPrefix)) {
+    // Sicherheits-Check: nur Vercel Blob Domains mit business-data Pfad erlauben
+    let parsed;
+    try {
+      parsed = new URL(url);
+    } catch (e) {
+      return res.status(400).json({ error: 'Invalid URL' });
+    }
+    const allowedHost = parsed.hostname.endsWith('blob.vercel-storage.com');
+    if (!allowedHost) {
       return res.status(400).json({ error: 'URL not allowed' });
     }
-    const response = await fetch(url);
+    if (!parsed.pathname.includes('/business-data/')) {
+      return res.status(400).json({ error: 'Path not allowed' });
+    }
+    const response = await fetch(parsed.toString());
     const contentType = response.headers.get('content-type') || 'application/octet-stream';
-    const text = await response.text();
+    const buf = Buffer.from(await response.arrayBuffer());
     res.set('content-type', contentType);
-    res.status(response.status).send(text);
+    res.status(response.status).send(buf);
   } catch (err) {
     console.error('Blob proxy error:', err);
     res.status(500).json({ error: 'Blob proxy failed: ' + err.message });
