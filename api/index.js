@@ -7,6 +7,22 @@ import { put } from '@vercel/blob';
 const app = express();
 app.use(express.json());
 
+// Blob Helper: speichert vollständige Ergebnisse und liefert Meta + Proxy-URL
+async function uploadToBlobAndMeta(prefix, body, meta) {
+  const bodyJson = typeof body === 'string' ? body : JSON.stringify(body);
+  const key = `${prefix}/${Date.now()}-${crypto.randomUUID()}.json`;
+  const { url } = await put(key, bodyJson, { access: 'public', contentType: 'application/json', addRandomSuffix: false });
+  const proxy_url = `https://yourank-mcp.vercel.app/api/blob/proxy?url=${encodeURIComponent(url)}`;
+  return {
+    storage: 'vercel-blob',
+    results_url: url,
+    proxy_url,
+    size_bytes: Buffer.byteLength(bodyJson),
+    expires_at: new Date(Date.now() + 24*60*60*1000).toISOString(),
+    meta
+  };
+}
+
 // DataForSEO Configuration
 const DATAFORSEO_USERNAME = process.env.DATAFORSEO_USERNAME || 'marcos.gonzalez@you-rank.de';
 const DATAFORSEO_PASSWORD = process.env.DATAFORSEO_PASSWORD || '23778ba164190549';
@@ -1271,25 +1287,12 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
+        const meta = { endpoint, type };
         try {
-          const bodyJson = typeof dataforseoResponse.body === 'string' ? dataforseoResponse.body : JSON.stringify(dataforseoResponse.body);
-          const key = `business-data/listings/${Date.now()}-${crypto.randomUUID()}.json`;
-          const { url } = await put(key, bodyJson, { access: 'public', contentType: 'application/json', addRandomSuffix: false });
-          const proxy = `https://yourank-mcp.vercel.app/api/blob/proxy?url=${encodeURIComponent(url)}`;
-          return res.json({
-            jsonrpc: '2.0',
-            result: {
-              storage: 'vercel-blob',
-              results_url: url,
-              proxy_url: proxy,
-              size_bytes: Buffer.byteLength(bodyJson),
-              expires_at: new Date(Date.now() + 24*60*60*1000).toISOString(),
-              meta: { endpoint, type }
-            },
-            id: req.body?.id || null
-          });
-        } catch (uploadErr) {
-          console.error('Blob upload failed, returning inline body as fallback:', uploadErr);
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
           return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
         }
       }
@@ -1429,7 +1432,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
@@ -1554,7 +1564,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
@@ -1684,7 +1701,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
@@ -1744,7 +1768,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
@@ -1866,7 +1897,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
@@ -1978,25 +2016,12 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
+        const meta = { endpoint, type };
         try {
-          const bodyJson = typeof dataforseoResponse.body === 'string' ? dataforseoResponse.body : JSON.stringify(dataforseoResponse.body);
-          const key = `business-data/listings/${Date.now()}-${crypto.randomUUID()}.json`;
-          const { url } = await put(key, bodyJson, { access: 'public', contentType: 'application/json', addRandomSuffix: false });
-          const proxy = `https://yourank-mcp.vercel.app/api/blob/proxy?url=${encodeURIComponent(url)}`;
-          return res.json({
-            jsonrpc: '2.0',
-            result: {
-              storage: 'vercel-blob',
-              results_url: url,
-              proxy_url: proxy,
-              size_bytes: Buffer.byteLength(bodyJson),
-              expires_at: new Date(Date.now() + 24*60*60*1000).toISOString(),
-              meta: { endpoint, type }
-            },
-            id: req.body?.id || null
-          });
-        } catch (uploadErr) {
-          console.error('Blob upload failed, returning inline body as fallback:', uploadErr);
+          const stored = await uploadToBlobAndMeta('business-data/listings', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (listings). Returning inline:', e);
           return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
         }
       }
@@ -2045,7 +2070,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/social', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (social). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
@@ -2097,7 +2129,14 @@ async function handleMcpRequest(req, res) {
       const httpMethod = 'POST';
       const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, httpMethod);
       if (dataforseoResponse.status === 200) {
-        return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        const meta = { endpoint, type };
+        try {
+          const stored = await uploadToBlobAndMeta('business-data/general', dataforseoResponse.body, meta);
+          return res.json({ jsonrpc: '2.0', result: stored, id: req.body?.id || null });
+        } catch (e) {
+          console.error('Blob upload failed (general). Returning inline:', e);
+          return res.json({ jsonrpc: '2.0', result: dataforseoResponse.body, id: req.body?.id || null });
+        }
       }
       console.error(`DataForSEO API Error (Business Data ${method}):`, {
         status: dataforseoResponse.status,
