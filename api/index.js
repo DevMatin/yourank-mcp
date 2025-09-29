@@ -2291,11 +2291,117 @@ app.get('/api/blob/proxy', async (req, res) => {
     if (!parsed.pathname.includes('/business-data/')) {
       return res.status(400).json({ error: 'Path not allowed' });
     }
+
     const response = await fetch(parsed.toString());
     const contentType = response.headers.get('content-type') || 'application/octet-stream';
-    const buf = Buffer.from(await response.arrayBuffer());
-    res.set('content-type', contentType);
-    res.status(response.status).send(buf);
+
+    // Pagination-Parameter
+    const path = typeof req.query.path === 'string' ? req.query.path : undefined;
+    const offset = req.query.offset !== undefined ? Math.max(0, parseInt(String(req.query.offset), 10) || 0) : undefined;
+    const limit = req.query.limit !== undefined ? Math.max(1, parseInt(String(req.query.limit), 10) || 0) : undefined;
+
+    if (!path && offset === undefined && limit === undefined) {
+      // Kein Slicing: binär durchreichen
+      const buf = Buffer.from(await response.arrayBuffer());
+      res.set('content-type', contentType);
+      return res.status(response.status).send(buf);
+    }
+
+    // JSON drilldown + Slicing
+    const text = await response.text();
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch (e) {
+      return res.status(415).json({ error: 'Blob is not valid JSON' });
+    }
+
+    // Hilfsfunktionen für Pfadnavigation: tasks.0.result.0.items
+    const getByPath = (obj, p) => {
+      const parts = p.split('.');
+      let cur = obj;
+      for (const part of parts) {
+        if (cur == null) return { parent: null, key: null, value: undefined };
+        const idx = Number.isFinite(Number(part)) ? Number(part) : null;
+        if (idx !== null && part.trim() !== '' && String(idx) === part) {
+          cur = cur[idx];
+        } else {
+          cur = cur[part];
+        }
+      }
+      return { parent: null, key: null, value: cur };
+    };
+
+    const setByPath = (obj, p, newValue) => {
+      const parts = p.split('.');
+      let cur = obj;
+      for (let i = 0; i < parts.length - 1; i++) {
+        const part = parts[i];
+        const idx = Number.isFinite(Number(part)) ? Number(part) : null;
+        if (idx !== null && String(idx) === part) {
+          if (!Array.isArray(cur)) return false;
+          cur = cur[idx];
+        } else {
+          if (typeof cur !== 'object' || cur == null) return false;
+          cur = cur[part];
+        }
+      }
+      const last = parts[parts.length - 1];
+      const lastIdx = Number.isFinite(Number(last)) ? Number(last) : null;
+      if (lastIdx !== null && String(lastIdx) === last) {
+        if (!Array.isArray(cur)) return false;
+        cur[lastIdx] = newValue;
+      } else {
+        if (typeof cur !== 'object' || cur == null) return false;
+        cur[last] = newValue;
+      }
+      return true;
+    };
+
+    // Standard-Pfad, wenn keiner angegeben wurde
+    let targetPath = path;
+    if (!targetPath) {
+      // Häufige DataForSEO-Struktur
+      if (Array.isArray(json?.tasks?.[0]?.result)) {
+        // Falls items vorhanden, bevorzugt paginieren
+        if (Array.isArray(json?.tasks?.[0]?.result?.[0]?.items)) {
+          targetPath = 'tasks.0.result.0.items';
+        } else {
+          targetPath = 'tasks.0.result';
+        }
+      } else {
+        return res.status(400).json({ error: 'No default paginable array found; please specify path' });
+      }
+    }
+
+    const { value } = getByPath(json, targetPath);
+    if (!Array.isArray(value)) {
+      return res.status(400).json({ error: 'Target path is not an array', path: targetPath });
+    }
+    const total = value.length;
+    const start = offset ?? 0;
+    const size = limit ?? Math.min(100, total);
+    const end = Math.min(start + size, total);
+    const slice = value.slice(start, end);
+
+    // Ersetze Array durch den Slice
+    const ok = setByPath(json, targetPath, slice);
+    if (!ok) {
+      return res.status(500).json({ error: 'Failed to set sliced data back into JSON' });
+    }
+
+    // Ergänze Pagination-Meta
+    json.__pagination = {
+      path: targetPath,
+      offset: start,
+      limit: size,
+      total,
+      has_next: end < total,
+      next_offset: end < total ? end : null
+    };
+
+    res.set('content-type', 'application/json');
+    return res.status(200).send(JSON.stringify(json));
   } catch (err) {
     console.error('Blob proxy error:', err);
     res.status(500).json({ error: 'Blob proxy failed: ' + err.message });

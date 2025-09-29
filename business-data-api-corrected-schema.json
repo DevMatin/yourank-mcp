@@ -1284,6 +1284,7 @@
         "summary": "Fetch stored blob via proxy",
         "operationId": "fetchBlobProxy",
         "x-openai-isConsequential": false,
+        "security": [],
         "parameters": [
           {
             "name": "url",
