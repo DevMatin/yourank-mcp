@@ -56,3 +56,4 @@ export class BingSearchVolumeTaskPostTool extends BaseTool {
     return await this.client.post('/v3/keywords_data/bing/search_volume/task_post', requestData);
   }
 }
+

@@ -61,3 +61,4 @@ export class DataForSeoTrendsMergedDataTool extends BaseTool {
     return await this.client.post('/v3/keywords_data/dataforseo_trends/merged_data/live', requestData);
   }
 }
+

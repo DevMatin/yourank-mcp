@@ -31,3 +31,4 @@ export class GoogleAdsAdTrafficByKeywordsTaskGetTool extends BaseTool {
     return await this.client.get(`/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_get/${params.id}`);
   }
 }
+

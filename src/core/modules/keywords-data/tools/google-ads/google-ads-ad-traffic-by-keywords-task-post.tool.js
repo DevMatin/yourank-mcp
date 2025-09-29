@@ -68,3 +68,4 @@ export class GoogleAdsAdTrafficByKeywordsTaskPostTool extends BaseTool {
     return await this.client.post('/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_post', requestData);
   }
 }
+

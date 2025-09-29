@@ -25,3 +25,5 @@ export class BingLocationsTool extends BaseTool {
     return await this.client.get('/v3/keywords_data/bing/locations');
   }
 }
+
+

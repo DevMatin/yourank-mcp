@@ -31,3 +31,4 @@ export class BingSearchVolumeTaskGetTool extends BaseTool {
     return await this.client.get(`/v3/keywords_data/bing/search_volume/task_get/${params.id}`);
   }
 }
+

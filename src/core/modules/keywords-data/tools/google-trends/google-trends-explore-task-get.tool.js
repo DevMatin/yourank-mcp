@@ -31,3 +31,4 @@ export class GoogleTrendsExploreTaskGetTool extends BaseTool {
     return await this.client.get(`/v3/keywords_data/google_trends/explore/task_get/${params.id}`);
   }
 }
+

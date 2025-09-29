@@ -25,3 +25,4 @@ export class BingAudienceEstimationJobFunctionsTool extends BaseTool {
     return await this.client.get('/v3/keywords_data/bing/audience_estimation/job_functions');
   }
 }
+

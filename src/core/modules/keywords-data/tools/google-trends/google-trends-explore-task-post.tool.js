@@ -67,3 +67,4 @@ export class GoogleTrendsExploreTaskPostTool extends BaseTool {
     return await this.client.post('/v3/keywords_data/google_trends/explore/task_post', requestData);
   }
 }
+

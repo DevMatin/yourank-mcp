@@ -56,3 +56,5 @@ export class BingSearchVolumeTool extends BaseTool {
     return await this.client.post('/v3/keywords_data/bing/search_volume/live', requestData);
   }
 }
+
+
