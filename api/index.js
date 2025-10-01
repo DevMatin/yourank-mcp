@@ -3763,10 +3763,24 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         break;
         
       case 'summary':
-        // Verwende den Summary-Endpoint
-        endpoint = `/v3/on_page/lighthouse/summary/${id}`;
-        requestData = null;
-        break;
+        // Rufe den Summary-Endpoint direkt auf (nicht über DataForSEO API)
+        try {
+          const summaryResponse = await fetch(`${req.protocol}://${req.get('host')}/v3/on_page/lighthouse/summary/${id}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': req.headers.authorization
+            }
+          });
+          
+          if (summaryResponse.ok) {
+            const summaryData = await summaryResponse.json();
+            return res.json(summaryData);
+          } else {
+            return res.status(summaryResponse.status).json({ error: 'Summary endpoint failed' });
+          }
+        } catch (error) {
+          return res.status(500).json({ error: 'Summary endpoint error: ' + error.message });
+        }
         
       case 'live':
         endpoint = '/v3/on_page/lighthouse/live/json';
@@ -3782,7 +3796,7 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         return res.status(400).json({ error: `Unsupported type: ${type}` });
     }
     
-    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' || type === 'summary' ? 'GET' : 'POST');
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' ? 'GET' : 'POST');
     
     if (dataforseoResponse.status === 200) {
       res.json(dataforseoResponse.body);
