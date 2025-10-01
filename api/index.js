@@ -3046,6 +3046,168 @@ app.post('/v3/on_page/lighthouse/live/json', async (req, res) => {
   }
 });
 
+// Lighthouse Summary Endpoint - extrahiert wichtige Daten aus Blob Storage
+app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`🚀 Lighthouse Summary Route called for task: ${id}`);
+    
+    // Erst normale Lighthouse Ergebnisse abrufen
+    const endpoint = `/v3/on_page/lighthouse/task_get/json/${id}`;
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
+    
+    if (dataforseoResponse.status !== 200) {
+      return res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
+    }
+    
+    const lighthouseData = dataforseoResponse.body;
+    const jsonString = JSON.stringify(lighthouseData);
+    
+    // Wenn Daten in Blob Storage sind, lade sie und extrahiere Summary
+    if (jsonString.length > 50000) {
+      console.log(`📦 Lighthouse data in blob storage, extracting summary...`);
+      
+      // Upload zu Blob (falls noch nicht geschehen)
+      const blobMeta = await uploadToBlobAndMeta('lighthouse', lighthouseData, {
+        task_id: id,
+        type: 'lighthouse_results',
+        size_bytes: jsonString.length
+      });
+      
+      // Extrahiere wichtige Daten für Summary
+      const task = lighthouseData?.tasks?.[0];
+      const result = task?.result?.[0];
+      const lighthouse = result?.lighthouse;
+      
+      if (!lighthouse) {
+        return res.status(404).json({ error: 'Lighthouse data not found' });
+      }
+      
+      // Performance Metrics extrahieren
+      const performanceMetrics = {};
+      if (lighthouse.audits) {
+        const keyAudits = [
+          'first-contentful-paint',
+          'largest-contentful-paint', 
+          'cumulative-layout-shift',
+          'speed-index',
+          'total-blocking-time',
+          'interactive'
+        ];
+        
+        keyAudits.forEach(auditId => {
+          const audit = lighthouse.audits[auditId];
+          if (audit) {
+            performanceMetrics[auditId] = {
+              score: audit.score,
+              displayValue: audit.displayValue,
+              numericValue: audit.numericValue,
+              numericUnit: audit.numericUnit
+            };
+          }
+        });
+      }
+      
+      // Top Issues extrahieren
+      const topIssues = [];
+      if (lighthouse.audits) {
+        Object.entries(lighthouse.audits).forEach(([auditId, audit]) => {
+          if (audit.score !== null && audit.score < 0.9 && audit.score !== 1) {
+            topIssues.push({
+              id: auditId,
+              title: audit.title,
+              score: audit.score,
+              description: audit.description,
+              category: getAuditCategory(auditId)
+            });
+          }
+        });
+        
+        // Sortiere nach Score (schlechteste zuerst)
+        topIssues.sort((a, b) => a.score - b.score);
+        topIssues.splice(10); // Top 10 Issues
+      }
+      
+      // Summary Response
+      const summary = {
+        status_code: 200,
+        status_message: "Lighthouse summary extracted successfully",
+        task_id: id,
+        url: result?.url || 'N/A',
+        fetch_time: result?.fetch_time || 'N/A',
+        lighthouse_version: lighthouse.version,
+        scores: {
+          performance: lighthouse.categories?.performance?.score || null,
+          accessibility: lighthouse.categories?.accessibility?.score || null,
+          seo: lighthouse.categories?.seo?.score || null,
+          'best-practices': lighthouse.categories?.['best-practices']?.score || null,
+          pwa: lighthouse.categories?.pwa?.score || null
+        },
+        performance_metrics: performanceMetrics,
+        top_issues: topIssues,
+        blob_storage: blobMeta,
+        _message: "Vollständige Lighthouse-Daten verfügbar über blob_storage.proxy_url"
+      };
+      
+      return res.json(summary);
+    }
+    
+    // Für kleine Daten, extrahiere Summary direkt
+    const task = lighthouseData?.tasks?.[0];
+    const result = task?.result?.[0];
+    const lighthouse = result?.lighthouse;
+    
+    if (!lighthouse) {
+      return res.status(404).json({ error: 'Lighthouse data not found' });
+    }
+    
+    const summary = {
+      status_code: 200,
+      status_message: "Lighthouse summary extracted successfully",
+      task_id: id,
+      url: result?.url || 'N/A',
+      fetch_time: result?.fetch_time || 'N/A',
+      lighthouse_version: lighthouse.version,
+      scores: {
+        performance: lighthouse.categories?.performance?.score || null,
+        accessibility: lighthouse.categories?.accessibility?.score || null,
+        seo: lighthouse.categories?.seo?.score || null,
+        'best-practices': lighthouse.categories?.['best-practices']?.score || null,
+        pwa: lighthouse.categories?.pwa?.score || null
+      },
+      _message: "Direct data (no blob storage needed)"
+    };
+    
+    res.json(summary);
+    
+  } catch (error) {
+    console.error('Error in Lighthouse summary route:', error);
+    res.status(500).json({ error: 'Internal server error: ' + error.message });
+  }
+});
+
+// Hilfsfunktion für Audit-Kategorien
+function getAuditCategory(auditId) {
+  if (auditId.includes('first-contentful-paint') || auditId.includes('largest-contentful-paint') || 
+      auditId.includes('speed-index') || auditId.includes('total-blocking-time') || 
+      auditId.includes('interactive') || auditId.includes('cumulative-layout-shift')) {
+    return 'performance';
+  }
+  if (auditId.includes('color-contrast') || auditId.includes('aria') || 
+      auditId.includes('keyboard') || auditId.includes('screen-reader')) {
+    return 'accessibility';
+  }
+  if (auditId.includes('meta') || auditId.includes('canonical') || 
+      auditId.includes('robots') || auditId.includes('structured-data')) {
+    return 'seo';
+  }
+  if (auditId.includes('https') || auditId.includes('csp') || 
+      auditId.includes('xss') || auditId.includes('mixed-content')) {
+    return 'best-practices';
+  }
+  return 'other';
+}
+
 // Additional OnPage API endpoints - direct HTTP access for Custom GPT
 app.post('/v3/on_page/id_list', async (req, res) => {
   try {
