@@ -3762,6 +3762,12 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         requestData = null;
         break;
         
+      case 'summary':
+        // Verwende den Summary-Endpoint
+        endpoint = `/v3/on_page/lighthouse/summary/${id}`;
+        requestData = null;
+        break;
+        
       case 'live':
         endpoint = '/v3/on_page/lighthouse/live/json';
         requestData = [{
@@ -3776,7 +3782,7 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         return res.status(400).json({ error: `Unsupported type: ${type}` });
     }
     
-    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' ? 'GET' : 'POST');
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' || type === 'summary' ? 'GET' : 'POST');
     
     if (dataforseoResponse.status === 200) {
       res.json(dataforseoResponse.body);
