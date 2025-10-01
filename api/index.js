@@ -3142,8 +3142,20 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
       
       // Top Issues extrahieren
       const topIssues = [];
+      const allAudits = [];
       if (lighthouse.audits) {
         Object.entries(lighthouse.audits).forEach(([auditId, audit]) => {
+          allAudits.push({
+            id: auditId,
+            title: audit.title,
+            score: audit.score,
+            description: audit.description,
+            category: getAuditCategory(auditId),
+            displayValue: audit.displayValue,
+            numericValue: audit.numericValue,
+            numericUnit: audit.numericUnit
+          });
+          
           if (audit.score !== null && audit.score < 0.9 && audit.score !== 1) {
             topIssues.push({
               id: auditId,
@@ -3157,7 +3169,53 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
         
         // Sortiere nach Score (schlechteste zuerst)
         topIssues.sort((a, b) => a.score - b.score);
-        topIssues.splice(10); // Top 10 Issues
+        topIssues.splice(20); // Top 20 Issues
+      }
+      
+      // Kategorie-spezifische Issues extrahieren
+      const categoryIssues = {
+        performance: [],
+        accessibility: [],
+        seo: [],
+        'best-practices': [],
+        pwa: []
+      };
+      
+      topIssues.forEach(issue => {
+        if (categoryIssues[issue.category]) {
+          categoryIssues[issue.category].push(issue);
+        }
+      });
+      
+      // Best Practices und PWA Audits extrahieren
+      const bestPracticesAudits = [];
+      const pwaAudits = [];
+      
+      if (lighthouse.audits) {
+        Object.entries(lighthouse.audits).forEach(([auditId, audit]) => {
+          if (auditId.includes('https') || auditId.includes('csp') || 
+              auditId.includes('xss') || auditId.includes('mixed-content') ||
+              auditId.includes('deprecations') || auditId.includes('errors-in-console')) {
+            bestPracticesAudits.push({
+              id: auditId,
+              title: audit.title,
+              score: audit.score,
+              description: audit.description,
+              displayValue: audit.displayValue
+            });
+          }
+          
+          if (auditId.includes('pwa') || auditId.includes('service-worker') ||
+              auditId.includes('manifest') || auditId.includes('installable')) {
+            pwaAudits.push({
+              id: auditId,
+              title: audit.title,
+              score: audit.score,
+              description: audit.description,
+              displayValue: audit.displayValue
+            });
+          }
+        });
       }
       
       // Summary Response
@@ -3177,6 +3235,16 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
         },
         performance_metrics: performanceMetrics,
         top_issues: topIssues,
+        category_issues: categoryIssues,
+        best_practices_audits: bestPracticesAudits,
+        pwa_audits: pwaAudits,
+        all_audits_count: allAudits.length,
+        audit_summary: {
+          total_audits: allAudits.length,
+          passed_audits: allAudits.filter(a => a.score === 1).length,
+          failed_audits: allAudits.filter(a => a.score !== null && a.score < 0.9).length,
+          not_applicable: allAudits.filter(a => a.score === null).length
+        },
         blob_storage: blobMeta,
         _message: "Vollständige Lighthouse-Daten verfügbar über blob_storage.proxy_url"
       };
@@ -3216,6 +3284,37 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
     
     console.log('✅ Found lighthouse data in small data result object');
     
+    // Extrahiere auch für kleine Daten alle relevanten Informationen
+    const topIssues = [];
+    const allAudits = [];
+    if (lighthouse.audits) {
+      Object.entries(lighthouse.audits).forEach(([auditId, audit]) => {
+        allAudits.push({
+          id: auditId,
+          title: audit.title,
+          score: audit.score,
+          description: audit.description,
+          category: getAuditCategory(auditId),
+          displayValue: audit.displayValue,
+          numericValue: audit.numericValue,
+          numericUnit: audit.numericUnit
+        });
+        
+        if (audit.score !== null && audit.score < 0.9 && audit.score !== 1) {
+          topIssues.push({
+            id: auditId,
+            title: audit.title,
+            score: audit.score,
+            description: audit.description,
+            category: getAuditCategory(auditId)
+          });
+        }
+      });
+      
+      topIssues.sort((a, b) => a.score - b.score);
+      topIssues.splice(20);
+    }
+    
     const summary = {
       status_code: 200,
       status_message: "Lighthouse summary extracted successfully",
@@ -3229,6 +3328,14 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
         seo: lighthouse.categories?.seo?.score || null,
         'best-practices': lighthouse.categories?.['best-practices']?.score || null,
         pwa: lighthouse.categories?.pwa?.score || null
+      },
+      top_issues: topIssues,
+      all_audits_count: allAudits.length,
+      audit_summary: {
+        total_audits: allAudits.length,
+        passed_audits: allAudits.filter(a => a.score === 1).length,
+        failed_audits: allAudits.filter(a => a.score !== null && a.score < 0.9).length,
+        not_applicable: allAudits.filter(a => a.score === null).length
       },
       _message: "Direct data (no blob storage needed)"
     };
