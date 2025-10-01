@@ -2277,7 +2277,7 @@ app.get('/api/blob/proxy', async (req, res) => {
     if (!url || typeof url !== 'string') {
       return res.status(400).json({ error: 'Missing required query parameter: url' });
     }
-    // Sicherheits-Check: nur Vercel Blob Domains mit business-data Pfad erlauben
+    // Sicherheits-Check: nur Vercel Blob Domains mit erlaubten Pfaden
     let parsed;
     try {
       parsed = new URL(url);
@@ -2288,8 +2288,11 @@ app.get('/api/blob/proxy', async (req, res) => {
     if (!allowedHost) {
       return res.status(400).json({ error: 'URL not allowed' });
     }
-    if (!parsed.pathname.includes('/business-data/')) {
-      return res.status(400).json({ error: 'Path not allowed' });
+    // Erlaube business-data und lighthouse Pfade
+    const allowedPaths = ['/business-data/', '/lighthouse/'];
+    const hasAllowedPath = allowedPaths.some(path => parsed.pathname.includes(path));
+    if (!hasAllowedPath) {
+      return res.status(400).json({ error: 'Path not allowed. Allowed paths: /business-data/, /lighthouse/' });
     }
 
     const response = await fetch(parsed.toString());
