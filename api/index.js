@@ -2972,7 +2972,50 @@ app.get('/v3/on_page/lighthouse/task_get/json/:id', async (req, res) => {
     const dataforseoResponse = await makeDataForSEORequest(endpoint, null, 'GET');
     
     if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
+      const lighthouseData = dataforseoResponse.body;
+      
+      // Prüfe Response-Größe
+      const jsonString = JSON.stringify(lighthouseData);
+      if (jsonString.length > 50000) { // 50KB Limit
+        console.log(`🚀 Lighthouse response zu groß (${jsonString.length} bytes), speichere in Blob...`);
+        
+        // Upload zu Vercel Blob
+        const blobMeta = await uploadToBlobAndMeta('lighthouse', lighthouseData, {
+          task_id: id,
+          type: 'lighthouse_results',
+          size_bytes: jsonString.length
+        });
+        
+        // Extrahiere wichtige Meta-Daten für direkte Response
+        const summary = {
+          url: lighthouseData?.tasks?.[0]?.result?.[0]?.url || 'N/A',
+          fetch_time: lighthouseData?.tasks?.[0]?.result?.[0]?.fetch_time || 'N/A',
+          scores: {}
+        };
+        
+        // Lighthouse Scores extrahieren
+        if (lighthouseData?.tasks?.[0]?.result?.[0]?.lighthouse?.categories) {
+          const categories = lighthouseData.tasks[0].result[0].lighthouse.categories;
+          summary.scores = {
+            performance: categories.performance?.score || null,
+            accessibility: categories.accessibility?.score || null,
+            seo: categories.seo?.score || null,
+            'best-practices': categories['best-practices']?.score || null,
+            pwa: categories.pwa?.score || null
+          };
+        }
+        
+        return res.json({
+          status_code: 200,
+          status_message: "Lighthouse results stored in blob storage due to size",
+          blob_storage: blobMeta,
+          summary: summary,
+          _message: `Response zu groß (${jsonString.length} bytes). Vollständige Daten verfügbar über blob_storage.proxy_url`
+        });
+      }
+      
+      // Normale Response für kleine Daten
+      res.json(lighthouseData);
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }

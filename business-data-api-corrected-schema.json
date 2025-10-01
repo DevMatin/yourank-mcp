@@ -1291,6 +1291,27 @@
             "in": "query",
             "required": true,
             "schema": { "type": "string", "format": "uri" }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "JSON-Pfad zur paginierbaren Liste, z. B. tasks.0.result.0.items"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 },
+            "description": "Startindex für Pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1 },
+            "description": "Maximale Anzahl der Einträge (Seiten-Größe)"
           }
         ],
         "responses": {
