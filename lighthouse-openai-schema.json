@@ -526,6 +526,40 @@
         },
         "security": [{"basicAuth": []}]
       }
+    },
+    "/v3/on_page/lighthouse/summary/{id}": {
+      "get": {
+        "tags": ["Lighthouse"],
+        "summary": "Lighthouse Summary",
+        "description": "Extrahiert wichtige Lighthouse-Daten und Performance-Metriken aus großen Reports",
+        "operationId": "getLighthouseSummary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Task-ID des Lighthouse Tests",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "07131248-1535-0216-1000-17384017ad04"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation - Lighthouse Summary mit Scores, Metriken und Top-Issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LighthouseSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [{"basicAuth": []}]
+      }
     }
   },
   "components": {
@@ -710,6 +744,56 @@
               "pwa": {"type": "number"}
             }
           }
+        }
+      },
+      "LighthouseSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {"type": "integer"},
+          "status_message": {"type": "string"},
+          "task_id": {"type": "string"},
+          "url": {"type": "string"},
+          "fetch_time": {"type": "string"},
+          "lighthouse_version": {"type": "string"},
+          "scores": {
+            "type": "object",
+            "properties": {
+              "performance": {"type": "number"},
+              "accessibility": {"type": "number"},
+              "seo": {"type": "number"},
+              "best-practices": {"type": "number"},
+              "pwa": {"type": "number"}
+            }
+          },
+          "performance_metrics": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "score": {"type": "number"},
+                "displayValue": {"type": "string"},
+                "numericValue": {"type": "number"},
+                "numericUnit": {"type": "string"}
+              }
+            }
+          },
+          "top_issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "title": {"type": "string"},
+                "score": {"type": "number"},
+                "description": {"type": "string"},
+                "category": {"type": "string"}
+              }
+            }
+          },
+          "blob_storage": {
+            "$ref": "#/components/schemas/BlobStorageMeta"
+          },
+          "_message": {"type": "string"}
         }
       },
       "LighthouseTaskRequest": {
