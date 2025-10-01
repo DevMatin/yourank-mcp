@@ -2989,11 +2989,13 @@ app.get('/v3/on_page/lighthouse/task_get/json/:id', async (req, res) => {
         // Extrahiere wichtige Meta-Daten für direkte Response
         const task = lighthouseData?.tasks?.[0];
         const result = task?.result?.[0];
-        const lighthouse = result?.lighthouse;
+        
+        // Lighthouse-Daten sind direkt im result-Objekt
+        const lighthouse = result;
         
         const summary = {
-          url: result?.url || 'N/A',
-          fetch_time: result?.fetch_time || 'N/A',
+          url: result?.finalUrl || result?.requestedUrl || 'N/A',
+          fetch_time: result?.fetchTime || 'N/A',
           scores: {}
         };
         
@@ -3081,30 +3083,34 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
       // Extrahiere wichtige Daten für Summary
       const task = lighthouseData?.tasks?.[0];
       const result = task?.result?.[0];
-      const lighthouse = result?.lighthouse;
       
       // Debug: Logge die Datenstruktur
       console.log('🔍 Debug Lighthouse Data Structure:');
       console.log('Task:', !!task);
       console.log('Result:', !!result);
-      console.log('Lighthouse:', !!lighthouse);
       console.log('Task keys:', task ? Object.keys(task) : 'N/A');
       console.log('Result keys:', result ? Object.keys(result) : 'N/A');
       
-      if (!lighthouse) {
-        console.log('❌ No lighthouse data found in standard structure');
+      // Lighthouse-Daten sind direkt im result-Objekt, nicht unter result.lighthouse
+      const lighthouse = result;
+      
+      if (!lighthouse || !lighthouse.categories) {
+        console.log('❌ No lighthouse categories found in result');
         return res.status(404).json({ 
           error: 'Lighthouse data not found',
           debug: {
             hasTask: !!task,
             hasResult: !!result,
             hasLighthouse: !!lighthouse,
+            hasCategories: !!lighthouse?.categories,
             taskKeys: task ? Object.keys(task) : null,
             resultKeys: result ? Object.keys(result) : null,
             dataStructure: JSON.stringify(lighthouseData, null, 2).substring(0, 1000)
           }
         });
       }
+      
+      console.log('✅ Found lighthouse data in result object');
       
       // Performance Metrics extrahieren
       const performanceMetrics = {};
@@ -3156,9 +3162,9 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
         status_code: 200,
         status_message: "Lighthouse summary extracted successfully",
         task_id: id,
-        url: result?.url || 'N/A',
-        fetch_time: result?.fetch_time || 'N/A',
-        lighthouse_version: lighthouse.version,
+        url: result?.finalUrl || result?.requestedUrl || 'N/A',
+        fetch_time: result?.fetchTime || 'N/A',
+        lighthouse_version: result?.lighthouseVersion || 'N/A',
         scores: {
           performance: lighthouse.categories?.performance?.score || null,
           accessibility: lighthouse.categories?.accessibility?.score || null,
@@ -3178,22 +3184,26 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
     // Für kleine Daten, extrahiere Summary direkt
     const task = lighthouseData?.tasks?.[0];
     const result = task?.result?.[0];
-    const lighthouse = result?.lighthouse;
     
     // Debug: Logge die Datenstruktur für kleine Daten
     console.log('🔍 Debug Small Data Structure:');
     console.log('Task:', !!task);
     console.log('Result:', !!result);
-    console.log('Lighthouse:', !!lighthouse);
+    console.log('Task keys:', task ? Object.keys(task) : 'N/A');
+    console.log('Result keys:', result ? Object.keys(result) : 'N/A');
     
-    if (!lighthouse) {
-      console.log('❌ No lighthouse data found in small data structure');
+    // Lighthouse-Daten sind direkt im result-Objekt, nicht unter result.lighthouse
+    const lighthouse = result;
+    
+    if (!lighthouse || !lighthouse.categories) {
+      console.log('❌ No lighthouse categories found in small data structure');
       return res.status(404).json({ 
         error: 'Lighthouse data not found',
         debug: {
           hasTask: !!task,
           hasResult: !!result,
           hasLighthouse: !!lighthouse,
+          hasCategories: !!lighthouse?.categories,
           taskKeys: task ? Object.keys(task) : null,
           resultKeys: result ? Object.keys(result) : null,
           dataStructure: JSON.stringify(lighthouseData, null, 2).substring(0, 1000)
@@ -3201,13 +3211,15 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
       });
     }
     
+    console.log('✅ Found lighthouse data in small data result object');
+    
     const summary = {
       status_code: 200,
       status_message: "Lighthouse summary extracted successfully",
       task_id: id,
-      url: result?.url || 'N/A',
-      fetch_time: result?.fetch_time || 'N/A',
-      lighthouse_version: lighthouse.version,
+      url: result?.finalUrl || result?.requestedUrl || 'N/A',
+      fetch_time: result?.fetchTime || 'N/A',
+      lighthouse_version: result?.lighthouseVersion || 'N/A',
       scores: {
         performance: lighthouse.categories?.performance?.score || null,
         accessibility: lighthouse.categories?.accessibility?.score || null,
