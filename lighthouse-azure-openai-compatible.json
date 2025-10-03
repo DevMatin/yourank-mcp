@@ -1,0 +1,909 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO OnPage Lighthouse API",
+    "description": "Lighthouse Performance API für Core Web Vitals, Performance-Scores, Accessibility und Best Practices Analyse von Webseiten.",
+    "version": "v1.0.0",
+    "contact": {
+      "name": "DataForSEO",
+      "url": "https://dataforseo.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel MCP Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Lighthouse",
+      "description": "Lighthouse Performance und Quality Tests"
+    }
+  ],
+  "paths": {
+    "/v3/on_page/lighthouse/languages": {
+      "get": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Verfügbare Sprachen",
+        "description": "Liste aller verfügbaren Sprachen für Lighthouse Tests",
+        "operationId": "getLighthouseLanguages",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "languages": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "language_code": {
+                                      "type": "string"
+                                    },
+                                    "language_name": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/v3/on_page/lighthouse/audits": {
+      "get": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Verfügbare Audits",
+        "description": "Liste aller verfügbaren Lighthouse Audit-Typen",
+        "operationId": "getLighthouseAudits",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "audits": {
+                                "type": "array",
+                                "items": {"$ref": "#/components/schemas/AuditInfo"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/v3/on_page/lighthouse/task_post": {
+      "post": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Lighthouse Task erstellen",
+        "description": "Erstellt einen neuen Lighthouse Performance Test Task",
+        "operationId": "createLighthouseTask",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL der zu testenden Webseite",
+                    "example": "https://example.com"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprache für den Test",
+                    "default": "en",
+                    "example": "en"
+                  },
+                  "enable_javascript": {
+                    "type": "boolean",
+                    "description": "JavaScript aktivieren",
+                    "default": true,
+                    "example": true
+                  },
+                  "audits": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Spezifische Audits durchführen",
+                    "example": ["first-contentful-paint", "largest-contentful-paint"]
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "performance",
+                        "accessibility",
+                        "best-practices",
+                        "seo",
+                        "pwa"
+                      ]
+                    },
+                    "description": "Lighthouse Kategorien",
+                    "example": ["performance", "seo"]
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "Tag für die Task-Identifikation",
+                    "example": "lighthouse-test-2024"
+                  }
+                },
+                "required": [
+                  "target"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "data": {"$ref": "#/components/schemas/TaskCreationData"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/v3/on_page/lighthouse/tasks_ready": {
+      "get": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Abgeschlossene Tasks",
+        "description": "Liste aller abgeschlossenen Lighthouse Tasks",
+        "operationId": "getLighthouseTasksReady",
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "data": {"$ref": "#/components/schemas/TasksReadyData"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/v3/on_page/lighthouse/task_get/json/{id}": {
+      "get": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Lighthouse Ergebnisse abrufen",
+        "description": "Abrufen der Lighthouse Test Ergebnisse anhand der Task-ID. Bei großen Responses werden die Daten in Blob Storage gespeichert.",
+        "operationId": "getLighthouseResults",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Task-ID des Lighthouse Tests",
+            "schema": {
+              "type": "string"
+            },
+            "example": "07131248-1535-0216-1000-17384017ad04"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation - Lighthouse Ergebnisse oder Blob Storage Referenz",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {"$ref": "#/components/schemas/LighthouseResults"},
+                    {"$ref": "#/components/schemas/LighthouseBlobResponse"}
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/v3/on_page/lighthouse/live/json": {
+      "post": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Live Lighthouse Test",
+        "description": "Führt einen sofortigen Lighthouse Performance Test durch",
+        "operationId": "runLighthouseLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL der zu testenden Webseite",
+                    "example": "https://example.com"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprache für den Test",
+                    "default": "en",
+                    "example": "en"
+                  },
+                  "enable_javascript": {
+                    "type": "boolean",
+                    "description": "JavaScript aktivieren",
+                    "default": true,
+                    "example": true
+                  },
+                  "audits": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Spezifische Audits durchführen",
+                    "example": ["first-contentful-paint", "largest-contentful-paint"]
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "performance",
+                        "accessibility",
+                        "best-practices",
+                        "seo",
+                        "pwa"
+                      ]
+                    },
+                    "description": "Lighthouse Kategorien",
+                    "example": ["performance", "seo"]
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "Tag für die Task-Identifikation",
+                    "example": "lighthouse-live-test"
+                  }
+                },
+                "required": [
+                  "target"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"},
+                          "time": {"type": "string"},
+                          "cost": {"type": "number"},
+                          "result_count": {"type": "integer"},
+                          "path": {"type": "array", "items": {"type": "string"}},
+                          "data": {"$ref": "#/components/schemas/LighthouseLiveData"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/v3/on_page/lighthouse/summary/{id}": {
+      "get": {
+        "tags": [
+          "Lighthouse"
+        ],
+        "summary": "Lighthouse Summary",
+        "description": "Extrahiert wichtige Lighthouse-Daten und Performance-Metriken aus großen Reports",
+        "operationId": "getLighthouseSummary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Task-ID des Lighthouse Tests",
+            "schema": {
+              "type": "string"
+            },
+            "example": "07131248-1535-0216-1000-17384017ad04"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche Operation - Lighthouse Summary mit Scores, Metriken und Top-Issues",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/LighthouseSummaryResponse"}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuditInfo": {
+        "type": "object",
+        "properties": {
+          "audit_id": {"type": "string"},
+          "audit_name": {"type": "string"},
+          "category": {"type": "string"},
+          "description": {"type": "string"}
+        }
+      },
+      "TaskCreationData": {
+        "type": "object",
+        "properties": {
+          "task_id": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "TasksReadyData": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "status_code": {"type": "integer"},
+                "status_message": {"type": "string"},
+                "time": {"type": "string"},
+                "cost": {"type": "number"},
+                "result_count": {"type": "integer"},
+                "path": {"type": "array", "items": {"type": "string"}}
+              }
+            }
+          }
+        }
+      },
+      "LighthouseResults": {
+        "type": "object",
+        "properties": {
+          "status_code": {"type": "integer"},
+          "status_message": {"type": "string"},
+          "time": {"type": "string"},
+          "cost": {"type": "number"},
+          "tasks_count": {"type": "integer"},
+          "tasks_error": {"type": "integer"},
+          "tasks": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/LighthouseTaskResult"}
+          }
+        }
+      },
+      "LighthouseTaskResult": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "status_code": {"type": "integer"},
+          "status_message": {"type": "string"},
+          "time": {"type": "string"},
+          "cost": {"type": "number"},
+          "result_count": {"type": "integer"},
+          "path": {"type": "array", "items": {"type": "string"}},
+          "data": {"$ref": "#/components/schemas/LighthouseData"}
+        }
+      },
+      "LighthouseData": {
+        "type": "object",
+        "properties": {
+          "url": {"type": "string"},
+          "fetch_time": {"type": "string"},
+          "lighthouse": {"$ref": "#/components/schemas/LighthouseReport"}
+        }
+      },
+      "LighthouseLiveData": {
+        "type": "object",
+        "properties": {
+          "url": {"type": "string"},
+          "fetch_time": {"type": "string"},
+          "lighthouse": {"$ref": "#/components/schemas/LighthouseReport"}
+        }
+      },
+      "LighthouseReport": {
+        "type": "object",
+        "properties": {
+          "version": {"type": "string"},
+          "user_agent": {"type": "string"},
+          "fetch_time": {"type": "string"},
+          "environment": {"$ref": "#/components/schemas/LighthouseEnvironment"},
+          "run_warnings": {"type": "array", "items": {"type": "string"}},
+          "config_settings": {"$ref": "#/components/schemas/LighthouseConfigSettings"},
+          "categories": {"$ref": "#/components/schemas/LighthouseCategories"},
+          "audits": {"type": "object", "additionalProperties": {"$ref": "#/components/schemas/LighthouseAudit"}},
+          "timing": {"$ref": "#/components/schemas/LighthouseTiming"}
+        }
+      },
+      "LighthouseEnvironment": {
+        "type": "object",
+        "properties": {
+          "network_user_agent": {"type": "string"},
+          "host_user_agent": {"type": "string"},
+          "benchmark_index": {"type":"number"}
+        }
+      },
+      "LighthouseConfigSettings": {
+        "type": "object",
+        "properties": {
+          "emulated_form_factor": {"type": "string"},
+          "locale": {"type": "string"},
+          "only_categories": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "LighthouseCategories": {
+        "type": "object",
+        "properties": {
+          "performance": {"$ref": "#/components/schemas/PerformanceCategory"},
+          "accessibility": {"$ref": "#/components/schemas/CategoryBase"},
+          "best-practices": {"$ref": "#/components/schemas/CategoryBase"},
+          "seo": {"$ref": "#/components/schemas/LighthouseCategoryBase"},
+          "pwa": {"$ref": "#/components/schemas/CategoryBase"}
+        }
+      },
+      "CategoryBase": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "score": {"type": "number"},
+          "audit_refs": {"type": "array", "items": {"type": "object"}}
+        }
+      },
+      "LighthouseCategoryBase": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "score": {"type": "number"},
+          "audit_refs": {"type": "array", "items": {"type": "object"}}
+        }
+      },
+      "PerformanceCategory": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "score": {"type": "number"},
+          "audit_refs": {"type": "array", "items": {"type": "object"}}
+        }
+      },
+      "LighthouseAudit": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "score": {"type": "number"},
+          "score_display_mode": {"type": "string"},
+          "numeric_value": {"type": "number"},
+          "numeric_unit": {"type": "string"},
+          "display_value": {"type": "string"},
+          "details": {"type": "object"},
+          "warnings": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "LighthouseTiming": {
+        "type": "object",
+        "properties": {
+          "entries": {"type": "array", "items": {"type": "object"}},
+          "total": {"type": "number"}
+        }
+      },
+      "LighthouseBlobResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {"type": "integer"},
+          "status_message": {"type": "string"},
+          "blob_storage": {"$ref": "#/components/schemas/BlobStorageMeta"},
+          "summary": {"$ref": "#/components/schemas/LighthouseSummary"},
+          "_message": {"type": "string"}
+        }
+      },
+      "BlobStorageMeta": {
+        "type": "object",
+        "properties": {
+          "storage": {"type": "string"},
+          "results_url": {"type": "string"},
+          "proxy_url": {"type": "string"},
+          "size_bytes": {"type": "integer"},
+          "expires_at": {"type": "string"},
+          "meta": {
+            "type": "object",
+            "properties": {
+              "task_id": {"type": "string"},
+              "type": {"type": "string"},
+              "size_bytes": {"type": "integer"}
+            }
+          }
+        }
+      },
+      "LighthouseSummary": {
+        "type": "object",
+        "properties": {
+          "url": {"type": "string"},
+          "fetch_time": {"type": "string"},
+          "scores": {
+            "type": "object",
+            "properties": {
+              "performance": {"type": "number"},
+              "accessibility": {"type": "number"},
+              "seo": {"type": "number"},
+              "best-practices": {"type": "number"},
+              "pwa": {"type": "number"}
+            }
+          }
+        }
+      },
+      "LighthouseSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {"type": "integer"},
+          "status_message": {"type": "string"},
+          "task_id": {"type": "string"},
+          "url": {"type": "string"},
+          "fetch_time": {"type": "string"},
+          "lighthouse_version": {"type": "string"},
+          "scores": {
+            "type": "object",
+            "properties": {
+              "performance": {"type": "number"},
+              "accessibility": {"type": "number"},
+              "seo": {"type": "number"},
+              "best-practices": {"type": "number"},
+              "pwa": {"type": "number"}
+            }
+          },
+          "performance_metrics": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "score": {"type": "number"},
+                "displayValue": {"type": "string"},
+                "numericValue": {"type": "number"},
+                "numericUnit": {"type": "string"}
+              }
+            }
+          },
+          "top_issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "title": {"type": "string"},
+                "score": {"type": "number"},
+                "description": {"type": "string"},
+                "category": {"type": "string"}
+              }
+            }
+          },
+          "blob_storage": {"$ref": "#/components/schemas/BlobStorageMeta"},
+          "_message": {"type": "string"}
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "DataForSEO Basic Authentication"
+      }
+    }
+  }
+}

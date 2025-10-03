@@ -1,0 +1,190 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Lighthouse Test API",
+    "description": "Einfache Lighthouse Performance Tests",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/on_page/lighthouse/languages": {
+      "get": {
+        "summary": "Sprachen",
+        "operationId": "getLanguages",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {"type": "array"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"basicAuth": []}]
+      }
+    },
+    "/v3/on_page/lighthouse/task_post": {
+      "post": {
+        "summary": "Task erstellen",
+        "operationId": "createTask",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "URL"
+                  },
+                  "language_code": {"type": "string"}
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "task_id": {"type": "string"}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"basicAuth": []}]
+      }
+    },
+    "/v3/on_page/lighthouse/live/json": {
+      "post": {
+        "summary": "Live Test",
+        "operationId": "liveTest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "URL der Website"
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                  }
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "url": {"type": "string"},
+                              "lighthouse": {
+                                "type": "object",
+                                "properties": {
+                                  "categories": {
+                                    "type": "object",
+                                    "properties": {
+                                      "performance": {
+                                        "type": "object",
+                                        "properties": {
+                                          "score": {"type": "number"}
+                                        }
+                                      },
+                                      "accessibility": {
+                                        "type": "object",
+                                        "properties": {
+                                          "score": {"type": "number"}
+                                        }
+                                      },
+                                      "seo": {
+                                        "type": "object",
+                                        "properties": {
+                                          "score": {"type": "number"}
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"basicAuth": []}]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
