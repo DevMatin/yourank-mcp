@@ -3605,7 +3605,7 @@ app.post('/v3/onpage_analysis', async (req, res) => {
     console.log('🚀 OnPage Analysis Route called!');
     console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
     
-    const { type, id, url, limit = 100, filters = [] } = req.body;
+    const { type, id, url, limit = 10, filters = [], summary_only = true, page = 1, per_page = 10 } = req.body;
     
     let endpoint;
     let requestData;
@@ -3653,7 +3653,47 @@ app.post('/v3/onpage_analysis', async (req, res) => {
     const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
     
     if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
+      const rawData = dataforseoResponse.body;
+      
+      // Token-Optimierung: Erstelle kompakte Response
+      if (summary_only) {
+        const optimizedResponse = {
+          status_code: rawData.status_code || 200,
+          analysis_type: type,
+          pagination: {
+            current_page: page,
+            per_page: per_page,
+            total_items: rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0,
+            total_pages: Math.ceil((rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0) / per_page),
+            has_next: page < Math.ceil((rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0) / per_page),
+            has_prev: page > 1
+          },
+          summary: {
+            pages_count: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.page_type === 'page')?.length || 0,
+            resources_count: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.resource_type)?.length || 0,
+            links_count: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.link_type)?.length || 0,
+            duplicate_issues: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.duplicate_content || item.duplicate_tags)?.length || 0,
+            performance_score: rawData.tasks?.[0]?.result?.[0]?.items?.[0]?.performance_score || null
+          },
+          items: (rawData.tasks?.[0]?.result?.[0]?.items || []).slice((page - 1) * per_page, page * per_page).map(item => ({
+            url: item.url || item.page_url,
+            title: item.title || item.page_title,
+            score: item.score || item.performance_score,
+            issues: item.issues_count || 0,
+            status: item.status_code || 'unknown'
+          })),
+          blob_storage: {
+            storage: 'vercel-blob',
+            results_url: `https://yourank-mcp.vercel.app/api/onpage-analysis/${id}`,
+            proxy_url: `https://yourank-mcp.vercel.app/api/onpage-analysis/${id}`,
+            size_bytes: JSON.stringify(rawData).length
+          }
+        };
+        
+        res.json(optimizedResponse);
+      } else {
+        res.json(rawData);
+      }
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }
@@ -3668,7 +3708,7 @@ app.post('/v3/onpage_content', async (req, res) => {
     console.log('🚀 OnPage Content Route called!');
     console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
     
-    const { type, id, url, limit = 100, screenshot_width = 1920, screenshot_height = 1080 } = req.body;
+    const { type, id, url, limit = 5, screenshot_width = 1920, screenshot_height = 1080, summary_only = true, page = 1, per_page = 5 } = req.body;
     
     let endpoint;
     let requestData;
@@ -3706,7 +3746,47 @@ app.post('/v3/onpage_content', async (req, res) => {
     const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
     
     if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
+      const rawData = dataforseoResponse.body;
+      
+      // Token-Optimierung: Erstelle kompakte Response
+      if (summary_only) {
+        const optimizedResponse = {
+          status_code: rawData.status_code || 200,
+          content_type: type,
+          url: url,
+          pagination: {
+            current_page: page,
+            per_page: per_page,
+            total_items: rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0,
+            total_pages: Math.ceil((rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0) / per_page),
+            has_next: page < Math.ceil((rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0) / per_page),
+            has_prev: page > 1
+          },
+          summary: {
+            title: rawData.tasks?.[0]?.result?.[0]?.title || 'N/A',
+            meta_description: rawData.tasks?.[0]?.result?.[0]?.meta_description || 'N/A',
+            headings_count: rawData.tasks?.[0]?.result?.[0]?.headings?.length || 0,
+            links_count: rawData.tasks?.[0]?.result?.[0]?.links?.length || 0,
+            images_count: rawData.tasks?.[0]?.result?.[0]?.images?.length || 0,
+            word_count: rawData.tasks?.[0]?.result?.[0]?.word_count || 0
+          },
+          preview: {
+            html_preview: rawData.tasks?.[0]?.result?.[0]?.raw_html?.substring(0, 500) || 'N/A',
+            screenshot_url: rawData.tasks?.[0]?.result?.[0]?.screenshot_url || null,
+            content_preview: rawData.tasks?.[0]?.result?.[0]?.content?.substring(0, 1000) || 'N/A'
+          },
+          blob_storage: {
+            storage: 'vercel-blob',
+            results_url: `https://yourank-mcp.vercel.app/api/onpage-content/${id}`,
+            proxy_url: `https://yourank-mcp.vercel.app/api/onpage-content/${id}`,
+            size_bytes: JSON.stringify(rawData).length
+          }
+        };
+        
+        res.json(optimizedResponse);
+      } else {
+        res.json(rawData);
+      }
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }
@@ -3758,9 +3838,24 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         break;
         
       case 'task_get':
-        endpoint = `/v3/on_page/lighthouse/task_get/json/${id}`;
-        requestData = null;
-        break;
+        // Verwende automatisch den optimierten Summary-Endpoint für task_get
+        try {
+          const summaryResponse = await fetch(`${req.protocol}://${req.get('host')}/v3/on_page/lighthouse/summary/${id}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': req.headers.authorization
+            }
+          });
+          
+          if (summaryResponse.ok) {
+            const summaryData = await summaryResponse.json();
+            return res.json(summaryData);
+          } else {
+            return res.status(summaryResponse.status).json({ error: 'Summary endpoint failed' });
+          }
+        } catch (error) {
+          return res.status(500).json({ error: 'Summary endpoint error: ' + error.message });
+        }
         
       case 'summary':
         // Rufe den Summary-Endpoint direkt auf (nicht über DataForSEO API)
@@ -3814,7 +3909,7 @@ app.post('/v3/onpage_management', async (req, res) => {
     console.log('🚀 OnPage Management Route called!');
     console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
     
-    const { type, id, date_from, date_to, resource_url, limit = 100 } = req.body;
+    const { type, id, date_from, date_to, resource_url, limit = 10, summary_only = true, page = 1, per_page = 10 } = req.body;
     
     let endpoint;
     let requestData;
@@ -3867,7 +3962,47 @@ app.post('/v3/onpage_management', async (req, res) => {
     const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'available_filters' ? 'GET' : 'POST');
     
     if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
+      const rawData = dataforseoResponse.body;
+      
+      // Token-Optimierung: Erstelle kompakte Response
+      if (summary_only) {
+        const optimizedResponse = {
+          status_code: rawData.status_code || 200,
+          operation_type: type,
+          pagination: {
+            current_page: page,
+            per_page: per_page,
+            total_items: rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0,
+            total_pages: Math.ceil((rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0) / per_page),
+            has_next: page < Math.ceil((rawData.tasks?.[0]?.result?.[0]?.total_items_count || 0) / per_page),
+            has_prev: page > 1
+          },
+          summary: {
+            task_count: rawData.tasks?.length || 0,
+            error_count: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.error)?.length || 0,
+            filter_count: rawData.tasks?.[0]?.result?.[0]?.filters?.length || 0,
+            redirect_count: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.redirect)?.length || 0,
+            non_indexable_count: rawData.tasks?.[0]?.result?.[0]?.items?.filter(item => item.non_indexable)?.length || 0
+          },
+          items: (rawData.tasks?.[0]?.result?.[0]?.items || []).slice((page - 1) * per_page, page * per_page).map(item => ({
+            id: item.id || item.task_id,
+            url: item.url || item.page_url,
+            status: item.status || item.status_code,
+            error_message: item.error || item.error_message,
+            created_at: item.created_at || item.timestamp
+          })),
+          blob_storage: {
+            storage: 'vercel-blob',
+            results_url: `https://yourank-mcp.vercel.app/api/onpage-management/${id}`,
+            proxy_url: `https://yourank-mcp.vercel.app/api/onpage-management/${id}`,
+            size_bytes: JSON.stringify(rawData).length
+          }
+        };
+        
+        res.json(optimizedResponse);
+      } else {
+        res.json(rawData);
+      }
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }
