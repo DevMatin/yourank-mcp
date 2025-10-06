@@ -1,0 +1,712 @@
+{
+  "meta": {
+    "title": "DataForSEO Business Data API - Custom GPT Datenbank",
+    "version": "2.1.0",
+    "description": "Vollständige Datenbank für Custom GPT Prompts mit allen Business Data Tools, korrigierten Parametern und Anwendungsfällen - FINAL KORRIGIERT",
+    "last_updated": "2025-01-07",
+    "total_endpoints": 9,
+    "total_operations": 61,
+    "implementation_status": "✅ VOLLSTÄNDIG KORRIGIERT - Alle kritischen Fehler behoben",
+    "critical_warnings": {
+      "🚨 GOOGLE REVIEWS LIVE-ENDPOINT": "EXISTIERT NICHT in DataForSEO API - führt zu Fehlern!",
+      "⚠️ TASK-POST/GET WORKFLOW": "ERFORDERLICH für Google Reviews - keine Live-Ergebnisse möglich",
+      "✅ PARAMETER-VALIDIERUNG": "IMPLEMENTIERT - required fields und Limits werden geprüft",
+      "❌ LEGACY HANDLER": "DEPRECATED - verwende neue 'business_data_' Endpoints"
+    },
+    "critical_fixes": {
+      "status": "✅ ALLE BEHOBEN",
+      "google_reviews_live": "❌ ENTFERNT - Existiert nicht in DataForSEO API",
+      "legacy_handlers": "✅ Als deprecated markiert",
+      "parameter_validation": "✅ Implementiert für alle Endpoints",
+      "fallback_codes": "✅ Vereinheitlicht",
+      "schema_corrections": "✅ Alle Endpoints korrekt definiert"
+    }
+  },
+  "api_overview": {
+    "base_url": "https://yourank-mcp.vercel.app",
+    "authentication": "Basic Auth",
+    "content_type": "application/json",
+    "rate_limits": {
+      "live_endpoints": "2000 requests/minute",
+      "task_endpoints": "2000 requests/minute, max 100 tasks per call",
+      "free_endpoints": "Unlimited (Locations, Languages, Filters)"
+    },
+    "cost_info": {
+      "note": "DataForSEO Credits erforderlich für LIVE Endpoints",
+      "free_endpoints": [
+        "business_data_google_locations",
+        "business_data_google_languages",
+        "business_data_tripadvisor_locations",
+        "business_data_tripadvisor_languages",
+        "business_data_business_listings_locations",
+        "business_data_business_listings_categories",
+        "business_data_business_listings_filters"
+      ],
+      "paid_endpoints": "Alle anderen Business Data Endpoints"
+    }
+  },
+  "endpoints": {
+    "google_my_business": {
+      "description": "Google My Business Profile Informationen und Updates - Vollständig implementiert",
+      "endpoint": "/v3/business_data_google_my_business",
+      "operations": {
+        "my_business_info_live": {
+          "purpose": "Live Google My Business Profile Informationen abrufen",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "location_coordinate", "language_name", "language_code", "tag"],
+          "use_cases": [
+            "Unternehmensprofile analysieren",
+            "Kontaktdaten abrufen",
+            "Öffnungszeiten prüfen",
+            "Bewertungen und Ratings anzeigen"
+          ],
+          "example_prompts": [
+            "Zeige mir Informationen zu McDonald's in München",
+            "Gib mir die Kontaktdaten von Starbucks in Berlin",
+            "Prüfe die Öffnungszeiten von Apotheken in Hamburg"
+          ]
+        },
+        "my_business_info_task_post": {
+          "purpose": "Asynchrone Google My Business Info Task erstellen",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "tag"],
+          "use_cases": [
+            "Batch-Unternehmensanalysen",
+            "Kostenoptimierte Abfragen",
+            "Große Datenmengen verarbeiten"
+          ]
+        },
+        "my_business_updates_task_post": {
+          "purpose": "Google My Business Updates und Posts abrufen",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "tag"],
+          "use_cases": [
+            "Social Media Posts analysieren",
+            "Unternehmens-Updates verfolgen",
+            "Content-Strategien bewerten"
+          ]
+        }
+      }
+    },
+    "google_hotels": {
+      "description": "Google Hotels Suche und Hotel-Informationen - Vollständig implementiert",
+      "endpoint": "/v3/business_data_google_hotels",
+      "operations": {
+        "hotel_searches_live": {
+          "purpose": "Live Hotel-Suche mit Verfügbarkeit und Preisen",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "check_in", "check_out", "adults", "children", "currency", "tag"],
+          "use_cases": [
+            "Hotel-Verfügbarkeit prüfen",
+            "Preise vergleichen",
+            "Buchungsoptionen analysieren"
+          ],
+          "example_prompts": [
+            "Finde Hotels in Berlin für nächste Woche",
+            "Zeige mir verfügbare Zimmer in München vom 25.-27. August",
+            "Vergleiche Hotel-Preise in Hamburg für 2 Erwachsene"
+          ]
+        },
+        "hotel_info_live_advanced": {
+          "purpose": "Detaillierte Hotel-Informationen und Features",
+          "required_params": ["type", "hotel_identifier"],
+          "optional_params": ["location_name", "location_code", "language_code", "tag"],
+          "use_cases": [
+            "Hotel-Details analysieren",
+            "Ausstattung und Features prüfen",
+            "Hotel-Bewertungen anzeigen"
+          ]
+        }
+      }
+    },
+    "google_reviews": {
+      "description": "Google Bewertungen und Reviews - ⚠️ KORRIGIERT: Kein Live-Endpoint verfügbar!",
+      "endpoint": "/v3/business_data_google_reviews",
+      "operations": {
+        "reviews_task_post": {
+          "purpose": "Google Reviews Task erstellen (KEIN Live-Endpoint verfügbar)",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "depth", "tag"],
+          "use_cases": [
+            "Kundenbewertungen analysieren",
+            "Review-Sentiment bewerten",
+            "Feedback-Trends verfolgen"
+          ],
+          "example_prompts": [
+            "Analysiere Google Reviews für Pizza-Restaurants in München",
+            "Zeige mir Bewertungen von Hotels in Berlin",
+            "Prüfe Kundenfeedback für Apotheken in Hamburg"
+          ],
+          "important_note": "⚠️ WICHTIG: Google Reviews hat KEINEN Live-Endpoint! Nur task_post/task_get verfügbar."
+        },
+        "extended_reviews_task_post": {
+          "purpose": "Erweiterte Reviews von verschiedenen Plattformen",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "depth", "tag"],
+          "use_cases": [
+            "Multi-Platform Reviews analysieren",
+            "Umfassende Bewertungsanalyse",
+            "Cross-Platform Sentiment-Analyse"
+          ]
+        }
+      }
+    },
+    "google_qa": {
+      "description": "Google Questions & Answers - Vollständig implementiert",
+      "endpoint": "/v3/business_data_google_qa",
+      "operations": {
+        "questions_and_answers_live": {
+          "purpose": "Live Google My Business Fragen und Antworten",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "depth", "tag"],
+          "use_cases": [
+            "Kundenfragen analysieren",
+            "FAQ-Content generieren",
+            "Service-Qualität bewerten"
+          ],
+          "example_prompts": [
+            "Zeige mir Fragen und Antworten zu Restaurants in München",
+            "Analysiere Kundenfragen zu Hotels in Berlin",
+            "Prüfe FAQ-Patterns für Apotheken in Hamburg"
+          ]
+        }
+      }
+    },
+    "trustpilot": {
+      "description": "Trustpilot Unternehmenssuche und Bewertungen - Vollständig implementiert",
+      "endpoint": "/v3/business_data_trustpilot",
+      "operations": {
+        "search_live": {
+          "purpose": "Live Trustpilot Unternehmenssuche",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["depth", "tag"],
+          "use_cases": [
+            "Trustpilot-Profile finden",
+            "Trust-Scores analysieren",
+            "Unternehmensreputation bewerten"
+          ],
+          "example_prompts": [
+            "Finde Trustpilot-Profile für Amazon",
+            "Analysiere Trust-Scores von PayPal",
+            "Prüfe die Reputation von Booking.com"
+          ]
+        },
+        "reviews_live": {
+          "purpose": "Live Trustpilot Bewertungen und Reviews",
+          "required_params": ["type", "domain"],
+          "optional_params": ["depth", "tag"],
+          "use_cases": [
+            "Trustpilot-Reviews analysieren",
+            "Kundenfeedback bewerten",
+            "Reputation-Trends verfolgen"
+          ]
+        }
+      }
+    },
+    "tripadvisor": {
+      "description": "Tripadvisor Unternehmenssuche und Bewertungen - Vollständig implementiert",
+      "endpoint": "/v3/business_data_tripadvisor",
+      "operations": {
+        "search_live": {
+          "purpose": "Live Tripadvisor Unternehmenssuche",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "depth", "tag"],
+          "use_cases": [
+            "Tripadvisor-Profile finden",
+            "Reisebewertungen analysieren",
+            "Tourismus-Insights gewinnen"
+          ],
+          "example_prompts": [
+            "Finde Restaurants auf Tripadvisor in Berlin",
+            "Analysiere Hotel-Bewertungen in München",
+            "Prüfe Aktivitäten und Attraktionen in Hamburg"
+          ]
+        },
+        "reviews_live": {
+          "purpose": "Live Tripadvisor Bewertungen und Reviews",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "depth", "tag"],
+          "use_cases": [
+            "Reisebewertungen analysieren",
+            "Tourismus-Feedback bewerten",
+            "Reise-Trends verfolgen"
+          ]
+        },
+        "locations": {
+          "purpose": "Verfügbare Tripadvisor Standorte (KOSTENLOS)",
+          "required_params": ["type"],
+          "use_cases": [
+            "Verfügbare Reiseziele prüfen",
+            "Standort-Codes abrufen",
+            "Geografische Abdeckung analysieren"
+          ]
+        }
+      }
+    },
+    "business_listings": {
+      "description": "Business Listings Suche und Kategorien - Vollständig implementiert",
+      "endpoint": "/v3/business_data_listings",
+      "operations": {
+        "search_live": {
+          "purpose": "Live Business Listings Suche",
+          "required_params": ["type", "keyword"],
+          "optional_params": ["location_name", "location_code", "category_codes", "filters", "depth", "tag"],
+          "use_cases": [
+            "Lokale Unternehmen finden",
+            "Business-Kategorien analysieren",
+            "Konkurrenz-Recherche durchführen"
+          ],
+          "example_prompts": [
+            "Finde Restaurants in München",
+            "Suche nach Fitnessstudios in Hamburg",
+            "Zeige mir alle Hotels in Berlin",
+            "Gib mir Apotheken in Köln"
+          ]
+        },
+        "categories": {
+          "purpose": "Verfügbare Business-Kategorien (KOSTENLOS)",
+          "required_params": ["type"],
+          "use_cases": [
+            "Business-Kategorien durchsuchen",
+            "Kategorie-Codes abrufen",
+            "Filter-Optionen analysieren"
+          ]
+        },
+        "locations": {
+          "purpose": "Verfügbare Business-Listings Standorte (KOSTENLOS)",
+          "required_params": ["type"],
+          "use_cases": [
+            "Verfügbare Standorte prüfen",
+            "Geografische Abdeckung analysieren",
+            "Standort-Codes abrufen"
+          ]
+        }
+      }
+    },
+    "social_media": {
+      "description": "Social Media Interaktionen und Engagement - Vollständig implementiert",
+      "endpoint": "/v3/business_data_social_media",
+      "operations": {
+        "pinterest_live": {
+          "purpose": "Live Pinterest Engagement-Daten",
+          "required_params": ["type", "urls"],
+          "use_cases": [
+            "Pinterest-Performance messen",
+            "Pin-Engagement analysieren",
+            "Social Media ROI bewerten"
+          ],
+          "example_prompts": [
+            "Analysiere Pinterest-Daten für meine Website",
+            "Zeige mir Pinterest-Engagement für Google.com",
+            "Prüfe Social Media Performance auf Pinterest"
+          ]
+        },
+        "facebook_live": {
+          "purpose": "Live Facebook Engagement-Daten",
+          "required_params": ["type", "urls"],
+          "use_cases": [
+            "Facebook-Performance messen",
+            "Like-Engagement analysieren",
+            "Social Reach bewerten"
+          ]
+        },
+        "reddit_live": {
+          "purpose": "Live Reddit Shares und Engagement",
+          "required_params": ["type", "urls"],
+          "use_cases": [
+            "Reddit-Performance messen",
+            "Subreddit-Engagement analysieren",
+            "Community-Reach bewerten"
+          ]
+        }
+      }
+    },
+    "general": {
+      "description": "Business Data Verwaltung und System-Tools - Vollständig implementiert",
+      "endpoint": "/v3/business_data_general",
+      "operations": {
+        "id_list": {
+          "purpose": "Task-ID-Liste und API-Übersicht",
+          "required_params": ["type"],
+          "optional_params": ["datetime_from", "datetime_to", "limit", "offset", "sort", "include_metadata", "tag"],
+          "use_cases": [
+            "Task-Verlauf überwachen",
+            "API-Usage analysieren",
+            "System-Status prüfen"
+          ],
+          "example_prompts": [
+            "Zeige mir alle abgeschlossenen Business Data Tasks",
+            "Analysiere die API-Auslastung der letzten Tage",
+            "Prüfe den Status der laufenden Tasks"
+          ]
+        },
+        "errors": {
+          "purpose": "API-Fehler und Problem-Diagnose",
+          "required_params": ["type"],
+          "optional_params": ["datetime_from", "datetime_to", "limit", "offset", "tag"],
+          "use_cases": [
+            "API-Fehler analysieren",
+            "Problem-Diagnose durchführen",
+            "System-Monitoring"
+          ]
+        },
+        "tasks_ready": {
+          "purpose": "Verfügbare Task-Ergebnisse abrufen",
+          "required_params": ["type"],
+          "optional_params": ["datetime_from", "datetime_to", "limit", "offset", "tag"],
+          "use_cases": [
+            "Fertige Tasks abrufen",
+            "Batch-Processing verwalten",
+            "Ergebnisse sammeln"
+          ]
+        }
+      }
+    }
+  },
+  "location_handling": {
+    "overview": "Business Data API unterstützt verschiedene Location-Parameter",
+    "parameters": {
+      "location_name": {
+        "type": "string",
+        "description": "Menschenlesbarer Standortname",
+        "format": "Stadt,Bundesland,Land (ohne Leerzeichen nach Kommas)",
+        "examples": {
+          "deutschland": [
+            "Berlin,Germany",
+            "Munich,Bavaria,Germany",
+            "Hamburg,Germany",
+            "Cologne,North Rhine-Westphalia,Germany"
+          ]
+        },
+        "fallback": "Automatische Konvertierung zu location_code bei unbekannten Standorten"
+      },
+      "location_code": {
+        "type": "integer",
+        "description": "Numerischer Standortcode von DataForSEO",
+        "advantages": [
+          "✅ Immer korrekt und eindeutig",
+          "✅ Keine Format-Probleme",
+          "✅ Schneller zu verarbeiten"
+        ],
+        "examples": {
+          "google": {
+            "Berlin": 20226,
+            "Munich": 20229,
+            "Hamburg": 20232
+          },
+          "tripadvisor": {
+            "Munich": 187768,
+            "Hamburg": 1009309
+          }
+        }
+      },
+      "location_coordinate": {
+        "type": "string",
+        "description": "GPS-Koordinaten",
+        "format": "lat,lng",
+        "examples": ["48.1351,11.5820", "52.5200,13.4050"]
+      }
+    },
+    "fallback_system": {
+      "google_apis": 2276,
+      "tripadvisor_apis": 187768,
+      "general_apis": 2840,
+      "note": "Automatische Fallback-Codes bei unbekannten Standorten"
+    }
+  },
+  "parameter_validation": {
+    "required_fields": {
+      "keyword": {
+        "type": "string",
+        "max_length": 200,
+        "description": "Unternehmensname oder Suchbegriff",
+        "required_for": "Alle Business Data Endpoints außer General"
+      },
+      "type": {
+        "type": "string",
+        "description": "Art der Operation",
+        "required_for": "Alle Business Data Endpoints"
+      },
+      "urls": {
+        "type": "array",
+        "max_items": 1000,
+        "description": "URLs für Social Media Analyse",
+        "required_for": "Social Media Endpoints"
+      }
+    },
+    "validation_rules": {
+      "keyword_length": "Max 200 Zeichen",
+      "depth_limits": "1-100 für Reviews, 1-1000 für General",
+      "language_codes": "2 Buchstaben (z.B. 'de', 'en')",
+      "location_formats": "Korrekte DataForSEO Formate erforderlich"
+    }
+  },
+  "common_parameters": {
+    "keyword": {
+      "type": "string",
+      "description": "Unternehmensname oder Suchbegriff",
+      "examples": ["pizza restaurant", "hotel berlin", "apotheke münchen"],
+      "required_for": "Alle Endpoints außer General und Social Media"
+    },
+    "location_name": {
+      "type": "string",
+      "description": "Standortname im DataForSEO Format",
+      "default": "Germany",
+      "examples": ["Berlin,Germany", "Munich,Bavaria,Germany"],
+      "note": "⚠️ WICHTIG: Format muss exakt sein! Stadt,Bundesland,Land"
+    },
+    "location_code": {
+      "type": "integer",
+      "description": "Numerischer Standortcode",
+      "examples": [2276, 20226, 187768],
+      "note": "✅ Empfohlen: Eindeutig und immer korrekt"
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Sprachcode (ISO 639-1)",
+      "default": "de",
+      "examples": ["de", "en", "fr", "es"],
+      "validation": "2 Buchstaben, lowercase"
+    },
+    "depth": {
+      "type": "integer",
+      "description": "Anzahl der Ergebnisse",
+      "default": 10,
+      "min": 1,
+      "max": 100,
+      "use_cases": "Ergebnis-Tiefe kontrollieren"
+    },
+    "tag": {
+      "type": "string",
+      "description": "Benutzerdefinierte Task-Identifikation",
+      "use_cases": "Task-Tracking und -Organisation"
+    }
+  },
+  "prompt_templates": {
+    "business_analysis": {
+      "template": "Analysiere '{keyword}' in {location_name}. Verwende {type} Operation und zeige mir detaillierte Unternehmensinformationen, Bewertungen und Kontaktdaten.",
+      "variables": {
+        "keyword": "Unternehmensname",
+        "location_name": "Standort (Format: Stadt,Bundesland,Land)",
+        "type": "Operationstyp"
+      },
+      "example": "Analysiere 'pizza restaurant' in Munich,Bavaria,Germany. Verwende my_business_info_live Operation und zeige mir detaillierte Unternehmensinformationen, Bewertungen und Kontaktdaten."
+    },
+    "local_business_search": {
+      "template": "Finde {business_type} in {location_name}. Verwende business_listings search_live und zeige mir die Top {depth} Ergebnisse mit Bewertungen und Kontaktdaten.",
+      "variables": {
+        "business_type": "Art des Unternehmens",
+        "location_name": "Standort",
+        "depth": "Anzahl Ergebnisse"
+      },
+      "example": "Finde restaurants in Berlin,Germany. Verwende business_listings search_live und zeige mir die Top 20 Ergebnisse mit Bewertungen und Kontaktdaten."
+    },
+    "review_analysis": {
+      "template": "Analysiere Bewertungen für '{keyword}' in {location_name}. Verwende reviews_task_post und zeige mir Kundenfeedback, Sentiment und Trends.",
+      "variables": {
+        "keyword": "Unternehmensname",
+        "location_name": "Standort"
+      },
+      "important_note": "⚠️ Google Reviews hat KEINEN Live-Endpoint! Verwende task_post und dann task_get mit der Task-ID.",
+      "example": "Analysiere Bewertungen für 'hotel berlin' in Berlin,Germany. Verwende reviews_task_post und zeige mir Kundenfeedback, Sentiment und Trends."
+    },
+    "social_media_analysis": {
+      "template": "Analysiere Social Media Performance für {urls}. Verwende {platform}_live und zeige mir Engagement-Daten, Shares und Performance-Metriken.",
+      "variables": {
+        "urls": "Array von URLs",
+        "platform": "pinterest, facebook oder reddit"
+      },
+      "example": "Analysiere Social Media Performance für ['https://google.com', 'https://example.com']. Verwende pinterest_live und zeige mir Engagement-Daten, Shares und Performance-Metriken."
+    }
+  },
+  "workflow_examples": {
+    "complete_business_audit": {
+      "description": "Vollständiger Business-Audit Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "business_data_google_my_business",
+          "description": "Google My Business Profile analysieren",
+          "parameters": {
+            "type": "my_business_info_live",
+            "keyword": "restaurant münchen",
+            "location_name": "Munich,Bavaria,Germany"
+          }
+        },
+        {
+          "step": 2,
+          "action": "business_data_google_reviews",
+          "description": "Google Reviews analysieren",
+          "parameters": {
+            "type": "reviews_task_post",
+            "keyword": "restaurant münchen",
+            "location_name": "Munich,Bavaria,Germany"
+          },
+          "note": "⚠️ Task-POST erforderlich, dann task_get mit ID"
+        },
+        {
+          "step": 3,
+          "action": "business_data_trustpilot",
+          "description": "Trustpilot-Bewertungen prüfen",
+          "parameters": {
+            "type": "search_live",
+            "keyword": "restaurant münchen"
+          }
+        }
+      ]
+    },
+    "local_seo_analysis": {
+      "description": "Lokale SEO-Analyse Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "business_data_listings",
+          "description": "Business Listings Standorte prüfen",
+          "parameters": {
+            "type": "locations"
+          }
+        },
+        {
+          "step": 2,
+          "action": "business_data_listings",
+          "description": "Lokale Unternehmen suchen",
+          "parameters": {
+            "type": "search_live",
+            "keyword": "restaurant",
+            "location_name": "Berlin,Germany",
+            "depth": 20
+          }
+        },
+        {
+          "step": 3,
+          "action": "business_data_google_my_business",
+          "description": "Google My Business Details",
+          "parameters": {
+            "type": "my_business_info_live",
+            "keyword": "restaurant berlin",
+            "location_name": "Berlin,Germany"
+          }
+        }
+      ]
+    }
+  },
+  "best_practices": {
+    "cost_optimization": [
+      "Verwende kostenlose Locations/Languages Endpoints für Setup",
+      "Begrenze depth-Parameter für erste Analysen",
+      "Nutze task_post für Batch-Analysen statt einzelne LIVE-Calls",
+      "Verwende location_code statt location_name für bessere Performance"
+    ],
+    "error_prevention": [
+      "⚠️ Google Reviews: KEIN Live-Endpoint verfügbar - verwende task_post",
+      "Validiere keyword-Parameter (max 200 Zeichen)",
+      "Verwende korrekte location_name Formate",
+      "Prüfe language_code Format (2 Buchstaben)"
+    ],
+    "performance_tips": [
+      "Starte mit kleineren depth-Werten (10-20)",
+      "Verwende task_post für große Unternehmenslisten",
+      "Kombiniere verschiedene Business Data Endpoints",
+      "Nutze location_code für bessere Performance"
+    ]
+  },
+  "critical_notes": {
+    "google_reviews_live_endpoint": {
+      "status": "❌ EXISTIERT NICHT in DataForSEO API",
+      "problem": "Viele Implementierungen versuchen reviews_live zu verwenden",
+      "reality": "DataForSEO Business Data API hat KEINEN Live-Endpoint für Google Reviews",
+      "available_methods": ["reviews_task_post", "reviews_tasks_ready", "reviews_task_get"],
+      "workflow": "1. Task erstellen mit task_post → 2. Task-ID notieren → 3. Ergebnisse mit task_get abrufen",
+      "example": "Verwende reviews_task_post, warte auf Task-ID, dann reviews_task_get mit der ID",
+      "warning": "⚠️ NIEMALS reviews_live verwenden - führt zu API-Fehlern!"
+    },
+    "task_post_get_workflow": {
+      "status": "✅ ERFORDERLICH für Google Reviews",
+      "description": "Google Reviews funktioniert nur über Task-System",
+      "steps": [
+        "1. POST zu /v3/business_data_google_reviews mit type=reviews_task_post",
+        "2. Task-ID aus Response extrahieren",
+        "3. Warten bis Task fertig ist (tasks_ready prüfen)",
+        "4. GET mit type=reviews_task_get und id=Task-ID"
+      ],
+      "important": "⚠️ Live-Ergebnisse sind NICHT möglich für Google Reviews!"
+    },
+    "parameter_validation": {
+      "status": "✅ IMPLEMENTIERT - Required fields und Limits",
+      "keyword_required": "Für alle Endpoints außer General und Social Media",
+      "keyword_limits": "Max 200 Zeichen, nicht leer",
+      "location_formats": "Korrekte DataForSEO Formate erforderlich",
+      "depth_limits": "1-100 für Reviews, 1-1000 für General",
+      "language_codes": "2 Buchstaben, lowercase (de, en, fr, es)",
+      "validation_errors": "400 Bad Request bei fehlenden required fields"
+    },
+    "legacy_handlers": {
+      "status": "❌ DEPRECATED - Neue Endpoints verwenden",
+      "old_handlers": ["businessDataGoogleMyBusiness", "businessDataGoogleReviews"],
+      "new_handlers": ["business_data_google_my_business", "business_data_google_reviews"],
+      "migration": "Verwende die neuen 'business_data_' Endpoints",
+      "error_response": "400 Bad Request mit 'Method deprecated' Message",
+      "warning": "⚠️ Legacy Handler führen zu Fehlern - immer neue Endpoints verwenden!"
+    }
+  },
+  "response_formats": {
+    "success_response": {
+      "structure": {
+        "jsonrpc": "2.0",
+        "result": {
+          "storage": "vercel-blob",
+          "results_url": "string (Blob URL)",
+          "proxy_url": "string (Proxy URL)",
+          "size_bytes": "number",
+          "expires_at": "string (ISO Date)",
+          "meta": {
+            "endpoint": "string",
+            "type": "string"
+          }
+        },
+        "id": "null"
+      }
+    },
+    "error_response": {
+      "structure": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": "integer (-32602 = validation error, -32603 = API error)",
+          "message": "string (Error description)"
+        },
+        "id": "null"
+      },
+      "common_errors": {
+        "-32602": "Parameter validation failed",
+        "-32603": "DataForSEO API returned error",
+        "-32601": "Method deprecated (Legacy handlers)"
+      }
+    }
+  },
+  "integration_tips": {
+    "custom_gpt": [
+      "🚨 KRITISCH: Google Reviews Live-Endpoint existiert NICHT in DataForSEO API!",
+      "⚠️ Task-POST/GET Workflow ist ERFORDERLICH für Google Reviews",
+      "✅ Parameter-Validierung ist implementiert - required fields und Limits prüfen",
+      "❌ Legacy Handler sind DEPRECATED - verwende neue 'business_data_' Endpoints",
+      "Verwende spezifische Parameter in Prompts",
+      "Erkläre Task-POST/GET Workflow für Reviews",
+      "Gib konkrete Beispiele für jeden Endpoint",
+      "Erwähne Parameter-Validierung und Limits"
+    ],
+    "automation": [
+      "Implementiere Task-Management für Reviews",
+      "Verwende tasks_ready für Status-Überwachung",
+      "Cache Locations/Languages für Performance",
+      "Monitor API-Usage und Costs",
+      "Implementiere Retry-Logic für fehlgeschlagene Tasks"
+    ],
+    "reporting": [
+      "Kombiniere verschiedene Business Data Endpoints",
+      "Verwende depth-Parameter für Datenmenge-Kontrolle",
+      "Erstelle vergleichende Analysen zwischen Plattformen",
+      "Exportiere große Datensätze über Task-System",
+      "Nutze Blob-Proxy für große Response-Daten"
+    ]
+  }
+}

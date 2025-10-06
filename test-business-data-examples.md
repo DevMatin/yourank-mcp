@@ -67,15 +67,24 @@ curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/google/hotel_searc
   }]'
 ```
 
-### Social Media Pinterest Live
+### Google Reviews Task Post (KORREKTUR: Kein Live-Endpoint verfügbar)
 ```bash
-curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/social_media/pinterest/live" \
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/google/reviews/task_post" \
   -H "Content-Type: application/json" \
   -d '[{
-    "targets": [
-      "https://example.com",
-      "https://google.com"
-    ]
+    "keyword": "pizza restaurant new york",
+    "location_code": 2840,
+    "language_code": "en",
+    "depth": 10
+  }]'
+```
+
+### Google Reviews Task Get (Nach Task-POST)
+```bash
+curl -X POST "https://yourank-mcp.vercel.app/v3/business_data/google/reviews/task_get/{task_id}" \
+  -H "Content-Type: application/json" \
+  -d '[{
+    "id": "your_task_id_here"
   }]'
 ```
 

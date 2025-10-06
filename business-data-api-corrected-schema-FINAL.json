@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "DataForSEO Business Data API - Korrigiert (61 Operationen)",
-    "description": "🚀 Korrigierte Business Data API für Custom GPT - 61 Operationen für Google My Business, Hotels, Reviews, Trustpilot, Tripadvisor, Listings und Social Media!",
-    "version": "2.0.0"
+    "title": "DataForSEO Business Data API - Korrigiert FINAL (61 Operationen)",
+    "description": "🚀 FINAL korrigierte Business Data API für Custom GPT - 61 Operationen für Google My Business, Hotels, Reviews, Trustpilot, Tripadvisor, Listings und Social Media!",
+    "version": "2.1.0"
   },
   "servers": [
     {
@@ -78,7 +78,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }
@@ -240,7 +241,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }
@@ -311,7 +313,7 @@
     "/v3/business_data_google_reviews": {
       "post": {
         "summary": "⭐ Google Reviews",
-        "description": "Google Bewertungen und erweiterte Reviews von verschiedenen Plattformen für lokale Unternehmen",
+        "description": "Google Bewertungen und erweiterte Reviews von verschiedenen Plattformen für lokale Unternehmen - ⚠️ KEIN Live-Endpoint verfügbar!",
         "operationId": "businessDataGoogleReviews",
         "requestBody": {
           "required": true,
@@ -330,7 +332,7 @@
                       "extended_reviews_tasks_ready",
                       "extended_reviews_task_get"
                     ],
-                    "description": "Art der Google Reviews Operation"
+                    "description": "Art der Google Reviews Operation - ⚠️ reviews_live existiert NICHT in DataForSEO API!"
                   },
                   "keyword": {
                     "type": "string",
@@ -374,7 +376,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }
@@ -514,7 +517,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }
@@ -637,7 +641,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }
@@ -792,7 +797,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }
@@ -1076,7 +1082,8 @@
                   }
                 },
                 "required": [
-                  "type"
+                  "type",
+                  "keyword"
                 ]
               }
             }

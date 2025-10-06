@@ -605,6 +605,42 @@ const MERCHANT_ENDPOINTS = {
   'merchant_amazon_reviews_task_get_html': '/v3/merchant/amazon/reviews/task_get/html/{id}'
 };
 
+// Parameter validation helper for Business Data API
+function validateBusinessDataParams(params, requiredFields = []) {
+  const errors = [];
+  
+  // Check required fields
+  for (const field of requiredFields) {
+    if (!params[field] || (typeof params[field] === 'string' && params[field].trim() === '')) {
+      errors.push(`Missing required parameter: ${field}`);
+    }
+  }
+  
+  // Validate keyword length
+  if (params.keyword && params.keyword.length > 200) {
+    errors.push('Keyword too long (max 200 characters)');
+  }
+  
+  // Validate depth limits
+  if (params.depth && (params.depth < 1 || params.depth > 100)) {
+    errors.push('Depth must be between 1 and 100');
+  }
+  
+  // Validate language codes
+  if (params.language_code && !/^[a-z]{2}$/.test(params.language_code)) {
+    errors.push('Language code must be 2 lowercase letters (e.g., "de", "en")');
+  }
+  
+  return errors;
+}
+
+// Default location codes for Business Data API fallbacks
+const DEFAULT_LOCATION_CODES = {
+  google: 2276,        // Munich, Germany
+  tripadvisor: 187768,  // Munich, Germany (TripAdvisor)
+  general: 2840        // New York, United States (DataForSEO Standard)
+};
+
 // Business Data API endpoints mapping
 const BUSINESS_DATA_ENDPOINTS = {
   // Gruppierte Endpoints für Custom GPT Schema
@@ -1265,6 +1301,19 @@ async function handleMcpRequest(req, res) {
       
       const arguments_ = params || {};
       
+      // Validate required parameters
+      const validationErrors = validateBusinessDataParams(arguments_, ['keyword']);
+      if (validationErrors.length > 0) {
+        return res.status(400).json({
+          jsonrpc: '2.0',
+          error: {
+            code: -32602,
+            message: `Parameter validation failed: ${validationErrors.join(', ')}`
+          },
+          id: req.body?.id || null
+        });
+      }
+      
       // Prepare request data for Business Data Google My Business
       const requestData = [{}];
       if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
@@ -1310,15 +1359,15 @@ async function handleMcpRequest(req, res) {
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
               // Use default location code for Germany
-              requestData[0].location_code = 2276; // Munich as fallback
-              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
+              requestData[0].location_code = DEFAULT_LOCATION_CODES.google; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
           // Use fallback location code
-          requestData[0].location_code = 2276;
-          console.log(`🔄 Using fallback location_code: 2276 due to error`);
+          requestData[0].location_code = DEFAULT_LOCATION_CODES.google;
+          console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} due to error`);
         }
       }
       
@@ -1359,39 +1408,22 @@ async function handleMcpRequest(req, res) {
         id: req.body?.id || null 
       });
     } else if (method === 'businessDataGoogleMyBusiness') {
-      // Handle grouped Business Data Google My Business endpoint (legacy)
-      console.log('🔧 Business Data Google My Business Method Call:', method);
-      
-      const type = params?.type || 'my_business_info_live';
-      let endpoint;
-      if (type === 'my_business_info_live') {
-        endpoint = '/v3/business_data/google/my_business_info/live';
-      } else if (type === 'my_business_info_task_post') {
-        endpoint = '/v3/business_data/google/my_business_info/task_post';
-      } else if (type === 'my_business_info_tasks_ready') {
-        endpoint = '/v3/business_data/google/my_business_info/tasks_ready';
-      } else if (type === 'my_business_info_task_get') {
-        endpoint = '/v3/business_data/google/my_business_info/task_get/{id}';
-      } else if (type === 'my_business_updates_task_post') {
-        endpoint = '/v3/business_data/google/my_business_updates/task_post';
-      } else if (type === 'my_business_updates_tasks_ready') {
-        endpoint = '/v3/business_data/google/my_business_updates/tasks_ready';
-      } else if (type === 'my_business_updates_task_get') {
-        endpoint = '/v3/business_data/google/my_business_updates/task_get/{id}';
-      } else {
-        endpoint = '/v3/business_data/google/my_business_info/live'; // Default
-      }
+      // Legacy handler removed - use business_data_google_my_business instead
+      return res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32601,
+          message: "Method deprecated. Use 'business_data_google_my_business' instead."
+        },
+        id: req.body?.id || null
+      });
     } else if (method === 'business_data_google_reviews') {
       // Handle grouped Business Data Google Reviews endpoint
       console.log('🔧 Business Data Google Reviews Method Call:', method);
       
       const type = params?.type || 'reviews_task_post';
       let endpoint;
-      if (type === 'reviews_live') {
-        // Google Reviews hat keinen live endpoint - verwende task_post stattdessen
-        endpoint = '/v3/business_data/google/reviews/task_post';
-        console.log('⚠️ Google Reviews Live nicht verfügbar - verwende task_post');
-      } else if (type === 'reviews_task_post') {
+      if (type === 'reviews_task_post') {
         endpoint = '/v3/business_data/google/reviews/task_post';
       } else if (type === 'reviews_tasks_ready') {
         endpoint = '/v3/business_data/google/reviews/tasks_ready';
@@ -1408,6 +1440,19 @@ async function handleMcpRequest(req, res) {
       }
       
       const arguments_ = params || {};
+      
+      // Validate required parameters
+      const validationErrors = validateBusinessDataParams(arguments_, ['keyword']);
+      if (validationErrors.length > 0) {
+        return res.status(400).json({
+          jsonrpc: '2.0',
+          error: {
+            code: -32602,
+            message: `Parameter validation failed: ${validationErrors.join(', ')}`
+          },
+          id: req.body?.id || null
+        });
+      }
       
       // Prepare request data for Business Data Google Reviews
       const requestData = [{}];
@@ -1454,15 +1499,15 @@ async function handleMcpRequest(req, res) {
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
               // Use default location code for Germany
-              requestData[0].location_code = 2276; // Munich as fallback
-              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
+              requestData[0].location_code = DEFAULT_LOCATION_CODES.google; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
           // Use fallback location code
-          requestData[0].location_code = 2276;
-          console.log(`🔄 Using fallback location_code: 2276 due to error`);
+          requestData[0].location_code = DEFAULT_LOCATION_CODES.google;
+          console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} due to error`);
         }
       }
       
@@ -1535,6 +1580,19 @@ async function handleMcpRequest(req, res) {
       
       const arguments_ = params || {};
       
+      // Validate required parameters
+      const validationErrors = validateBusinessDataParams(arguments_, ['keyword']);
+      if (validationErrors.length > 0) {
+        return res.status(400).json({
+          jsonrpc: '2.0',
+          error: {
+            code: -32602,
+            message: `Parameter validation failed: ${validationErrors.join(', ')}`
+          },
+          id: req.body?.id || null
+        });
+      }
+      
       // Prepare request data for Business Data Google Hotels
       const requestData = [{}];
       if (arguments_.keyword) { requestData[0].keyword = arguments_.keyword; }
@@ -1580,15 +1638,15 @@ async function handleMcpRequest(req, res) {
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
               // Use default location code for Germany
-              requestData[0].location_code = 2276; // Munich as fallback
-              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
+              requestData[0].location_code = DEFAULT_LOCATION_CODES.google; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
           // Use fallback location code
-          requestData[0].location_code = 2276;
-          console.log(`🔄 Using fallback location_code: 2276 due to error`);
+          requestData[0].location_code = DEFAULT_LOCATION_CODES.google;
+          console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} due to error`);
         }
       }
       
@@ -1636,28 +1694,15 @@ async function handleMcpRequest(req, res) {
         id: req.body?.id || null 
       });
     } else if (method === 'businessDataGoogleReviews') {
-      // Handle grouped Business Data Google Reviews endpoint
-      console.log('🔧 Business Data Google Reviews Method Call:', method);
-      
-      const type = params?.type || 'reviews_live';
-      let endpoint;
-      if (type === 'reviews_live') {
-        endpoint = '/v3/business_data/google/reviews/live';
-      } else if (type === 'reviews_task_post') {
-        endpoint = '/v3/business_data/google/reviews/task_post';
-      } else if (type === 'reviews_tasks_ready') {
-        endpoint = '/v3/business_data/google/reviews/tasks_ready';
-      } else if (type === 'reviews_task_get') {
-        endpoint = '/v3/business_data/google/reviews/task_get/{id}';
-      } else if (type === 'extended_reviews_task_post') {
-        endpoint = '/v3/business_data/google/extended_reviews/task_post';
-      } else if (type === 'extended_reviews_tasks_ready') {
-        endpoint = '/v3/business_data/google/extended_reviews/tasks_ready';
-      } else if (type === 'extended_reviews_task_get') {
-        endpoint = '/v3/business_data/google/extended_reviews/task_get/{id}';
-      } else {
-        endpoint = '/v3/business_data/google/reviews/live'; // Default
-      }
+      // Legacy handler removed - use business_data_google_reviews instead
+      return res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32601,
+          message: "Method deprecated. Use 'business_data_google_reviews' instead."
+        },
+        id: req.body?.id || null
+      });
     } else if (method === 'business_data_google_qa') {
       // Handle grouped Business Data Google Q&A endpoint
       console.log('🔧 Business Data Google Q&A Method Call:', method);
@@ -1723,15 +1768,15 @@ async function handleMcpRequest(req, res) {
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
               // Use default location code for Germany
-              requestData[0].location_code = 2276; // Munich as fallback
-              console.log(`🔄 Using fallback location_code: 2276 (Munich, Germany)`);
+              requestData[0].location_code = DEFAULT_LOCATION_CODES.google; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
           // Use fallback location code
-          requestData[0].location_code = 2276;
-          console.log(`🔄 Using fallback location_code: 2276 due to error`);
+          requestData[0].location_code = DEFAULT_LOCATION_CODES.google;
+          console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.google} due to error`);
         }
       }
       
@@ -1919,15 +1964,15 @@ async function handleMcpRequest(req, res) {
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
               // Use default location code for Germany
-              requestData[0].location_code = 187147; // Munich as fallback
-              console.log(`🔄 Using fallback location_code: 187147 (Munich, Germany)`);
+              requestData[0].location_code = DEFAULT_LOCATION_CODES.tripadvisor; // Munich as fallback
+              console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.tripadvisor} (Munich, Germany)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
           // Use fallback location code
-          requestData[0].location_code = 187147;
-          console.log(`🔄 Using fallback location_code: 187147 due to error`);
+          requestData[0].location_code = DEFAULT_LOCATION_CODES.tripadvisor;
+          console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.tripadvisor} due to error`);
         }
       }
       
@@ -2040,15 +2085,15 @@ async function handleMcpRequest(req, res) {
             } else {
               console.warn(`⚠️ No matching location found for: ${arguments_.location_name}`);
               // Use default location code for Germany
-              requestData[0].location_code = 2840; // New York as fallback
-              console.log(`🔄 Using fallback location_code: 2840 (New York, United States)`);
+              requestData[0].location_code = DEFAULT_LOCATION_CODES.general; // New York as fallback
+              console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.general} (New York, United States)`);
             }
           }
         } catch (error) {
           console.error('Error converting location_name to location_code:', error);
           // Use fallback location code
-          requestData[0].location_code = 2840;
-          console.log(`🔄 Using fallback location_code: 2840 due to error`);
+          requestData[0].location_code = DEFAULT_LOCATION_CODES.general;
+          console.log(`🔄 Using fallback location_code: ${DEFAULT_LOCATION_CODES.general} due to error`);
         }
       }
       
@@ -2459,7 +2504,7 @@ app.get('/api/blob/proxy', async (req, res) => {
   }
 });
 
-// AI Mode SERP endpoints - special handling to exclude language_name
+// AI Mode SERP endpoints - special handling with location restrictions
 app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
   try {
     console.log('🚀 AI Mode Route called!');
@@ -2467,17 +2512,52 @@ app.post('/v3/serp/google/ai_mode/live/advanced', async (req, res) => {
     
     const endpoint = '/v3/serp/google/ai_mode/live/advanced';
     
-        // For AI Mode: Only minimal parameters - keyword, location_name, device
-        let requestData = Array.isArray(req.body) ? req.body : [req.body];
-        requestData = requestData.map(item => {
-          const { language_name, language_code, depth, ...filteredItem } = item;
-          return {
-            keyword: filteredItem.keyword,
-            location_name: normalizeLocationName(filteredItem.location_name || filteredItem.location),
-            device: filteredItem.device || 'desktop'
-            // NO language_code, NO depth - AI Mode is very restrictive
-          };
-        });
+    // AI Mode Location Check - only supports US, UK, India
+    const aiModeSupportedLocations = {
+      'united states': 'United States',
+      'usa': 'United States', 
+      'us': 'United States',
+      'united kingdom': 'United Kingdom',
+      'uk': 'United Kingdom',
+      'india': 'India',
+      'in': 'India'
+    };
+    
+    let requestData = Array.isArray(req.body) ? req.body : [req.body];
+    requestData = requestData.map(item => {
+      const { language_name, depth, ...filteredItem } = item;
+      
+      // Check if location is supported by AI Mode
+      const locationName = normalizeLocationName(filteredItem.location_name || filteredItem.location || 'United States');
+      const locationLower = locationName.toLowerCase();
+      
+      let supportedLocation = null;
+      for (const [key, value] of Object.entries(aiModeSupportedLocations)) {
+        if (locationLower.includes(key)) {
+          supportedLocation = value;
+          break;
+        }
+      }
+      
+      // If location not supported, use United States as fallback
+      if (!supportedLocation) {
+        console.log(`⚠️ AI Mode: Location "${locationName}" not supported, using "United States" as fallback`);
+        supportedLocation = 'United States';
+      }
+      
+      const aiModeRequest = {
+        keyword: filteredItem.keyword,
+        location_name: supportedLocation,
+        device: filteredItem.device || 'desktop'
+      };
+      
+      // Add language_code if provided (AI Mode supports this)
+      if (filteredItem.language_code) {
+        aiModeRequest.language_code = filteredItem.language_code;
+      }
+      
+      return aiModeRequest;
+    });
     
     console.log('🤖 AI Mode Live Advanced Request:', JSON.stringify(requestData, null, 2));
     
@@ -4820,12 +4900,47 @@ app.all('/v3/*', async (req, res) => {
       'business_data_social_media'
     ];
     
+    // Check for legacy deprecated endpoints
+    const legacyEndpoints = [
+      'businessDataGoogleMyBusiness',
+      'businessDataGoogleReviews'
+    ];
+    
+    const isLegacyEndpoint = legacyEndpoints.some(endpoint => apiPath.includes(endpoint));
+    if (isLegacyEndpoint) {
+      return res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32601,
+          message: "Method deprecated. Use the corresponding 'business_data_' endpoint instead."
+        },
+        id: req.body?.id || null
+      });
+    }
+    
     const isGroupedEndpoint = groupedEndpoints.some(endpoint => apiPath.includes(endpoint));
     
     if (isGroupedEndpoint) {
       // Route to MCP handler for grouped endpoints
       const method = apiPath.replace('/v3/', '');
       const params = Array.isArray(req.body) ? req.body[0] : req.body;
+      
+      // Validate parameters for Business Data endpoints
+      if (method.startsWith('business_data_') && params) {
+        console.log('🔍 Debug - Validating params:', { method, params });
+        const validationErrors = validateBusinessDataParams(params, ['keyword']);
+        console.log('🔍 Debug - Validation errors:', validationErrors);
+        if (validationErrors.length > 0) {
+          return res.status(400).json({
+            jsonrpc: '2.0',
+            error: {
+              code: -32602,
+              message: `Parameter validation failed: ${validationErrors.join(', ')}`
+            },
+            id: req.body?.id || null
+          });
+        }
+      }
       
       // Create a mock request object for the MCP handler
       const mockReq = {

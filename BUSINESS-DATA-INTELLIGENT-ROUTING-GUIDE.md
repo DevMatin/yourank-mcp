@@ -101,15 +101,17 @@ Diese Business Data API bietet **24 verschiedene Tools** für lokale SEO, Busine
   - "Welche Länder unterstützt TripAdvisor?"
   - "TripAdvisor verfügbare Städte"
 
-### ⭐ **TRUSTPILOT APIs** (Wähle diese für Kundenbewertungen und Trust-Scores)
+### ⚠️ **WICHTIGE HINWEISE**
 
-**`business_data_trustpilot_search_live`** ⭐ **TRUSTPILOT-BEWERTUNGEN**
-- **Wann verwenden**: Benutzer sucht nach **Trustpilot-Bewertungen** oder **Business-Reviews**
-- **Trigger-Wörter**: "Trustpilot", "Kundenbewertungen", "Trust-Score", "Business Reviews"
-- **Beispiel-Anfragen**:
-  - "Zeige mir Trustpilot-Bewertungen für PayPal"
-  - "Trust-Score von Unternehmen"
-  - "Kundenfeedback analysieren"
+**Google Reviews API:**
+- ⚠️ **KEIN Live-Endpoint verfügbar** - nur task_post/task_get Methoden
+- Verwende `reviews_task_post` für neue Tasks
+- Verwende `reviews_task_get` mit Task-ID für Ergebnisse
+
+**Parameter-Validierung:**
+- `keyword` ist **erforderlich** für alle Business Data APIs
+- `depth` muss zwischen 1-100 liegen
+- `language_code` muss 2 Buchstaben sein (z.B. "de", "en")
 
 ### 🔧 **CORE MANAGEMENT APIs** (Wähle diese für System-Verwaltung)
 
