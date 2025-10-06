@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Vereinfachtes Debug-Skript für Content Analysis Module
-import { ContentAnalysisApiModule } from '../src/core/modules/content-analysis/content-analysis-api.module.js';
+import { ContentAnalysisApiModule } from '../src/core/modules/content-analysis/content-analysis-api.module.ts';
 
 // Mock DataForSEO Client
 class MockDataForSEOClient {

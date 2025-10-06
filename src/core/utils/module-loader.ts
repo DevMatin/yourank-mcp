@@ -13,8 +13,8 @@ import { BusinessUtilitiesApiModule } from '../modules/business-utilities-api/bu
 import { DomainAnalyticsApiModule } from '../modules/domain-analytics/domain-analytics-api.module.js';
 import { BaseModule } from '../modules/base.module.js';
 import { EnabledModules, isModuleEnabled } from '../config/modules.config.js';
-import { ContentAnalysisApiModule } from '../modules/content-analysis/content-analysis-api.module.js';
-import { ContentGenerationApiModule } from '../modules/content-generation/content-generation-api.module.js';
+import { ContentAnalysisApiModule } from '../modules/content-analysis/content-analysis-api.module.ts';
+import { ContentGenerationApiModule } from '../modules/content-generation/content-generation-api.module.ts';
 import { MerchantApiModule } from '../modules/merchant/merchant-api.module.js';
 import { GoogleShoppingApiModule } from '../modules/google-shopping/google-shopping-api.module.js';
 import { AiOptimizationApiModule } from '../modules/ai-optimization/ai-optimization-api.module.js';

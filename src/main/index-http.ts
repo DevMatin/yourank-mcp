@@ -87,7 +87,7 @@ async function getServer(username: string | undefined, password: string | undefi
   
   // Always add Content Analysis API Module
   try {
-    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module.js');
+    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module.ts');
     const contentAnalysisModule = new ContentAnalysisApiModule(dataForSEOClient);
     modules.push(contentAnalysisModule);
     console.error('Content Analysis Module loaded successfully');

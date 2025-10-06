@@ -1,5 +1,5 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
-import * as ContentAnalysisTools from './tools/index.js';
+import * as ContentAnalysisTools from './tools/index.ts';
 
 export class ContentAnalysisApiModule extends BaseModule {
   getTools(): Record<string, ToolDefinition> {
