@@ -95,24 +95,27 @@ async function loadGermanCities() {
 // Fallback für wichtigste deutsche Städte wenn API nicht verfügbar
 function addFallbackCities() {
   const fallbackCities = {
-    // Top 50 deutsche Städte
-    'berlin': 'Berlin, Germany', 'münchen': 'Munich, Germany', 'hamburg': 'Hamburg, Germany',
-    'köln': 'Cologne, Germany', 'frankfurt': 'Frankfurt, Germany', 'stuttgart': 'Stuttgart, Germany',
-    'düsseldorf': 'Dusseldorf, Germany', 'leipzig': 'Leipzig, Germany', 'dortmund': 'Dortmund, Germany',
-    'essen': 'Essen, Germany', 'bremen': 'Bremen, Germany', 'dresden': 'Dresden, Germany',
-    'hannover': 'Hanover, Germany', 'nürnberg': 'Nuremberg, Germany', 'duisburg': 'Duisburg, Germany',
-    'bochum': 'Bochum, Germany', 'wuppertal': 'Wuppertal, Germany', 'bielefeld': 'Bielefeld, Germany',
-    'bonn': 'Bonn, Germany', 'münster': 'Munster, Germany', 'karlsruhe': 'Karlsruhe, Germany',
-    'mannheim': 'Mannheim, Germany', 'augsburg': 'Augsburg, Germany', 'wiesbaden': 'Wiesbaden, Germany',
-    'mönchengladbach': 'Monchengladbach, Germany', 'braunschweig': 'Brunswick, Germany',
-    'kiel': 'Kiel, Germany', 'aachen': 'Aachen, Germany', 'magdeburg': 'Magdeburg, Germany',
-    'freiburg': 'Freiburg, Germany', 'lübeck': 'Lubeck, Germany', 'erfurt': 'Erfurt, Germany',
-    'rostock': 'Rostock, Germany', 'kassel': 'Kassel, Germany', 'potsdam': 'Potsdam, Germany',
-    'erlangen': 'Erlangen, Germany', 'göttingen': 'Gottingen, Germany', 'heidelberg': 'Heidelberg, Germany',
+    // Top 50 deutsche Städte (korrektes DataForSEO Format: Stadt,Bundesland,Germany)
+    'berlin': 'Berlin,Germany', 'münchen': 'Munich,Bavaria,Germany', 'hamburg': 'Hamburg,Germany',
+    'köln': 'Cologne,North Rhine-Westphalia,Germany', 'frankfurt': 'Frankfurt,Hessen,Germany', 'stuttgart': 'Stuttgart,Baden-Wurttemberg,Germany',
+    'düsseldorf': 'Dusseldorf,North Rhine-Westphalia,Germany', 'leipzig': 'Leipzig,Saxony,Germany', 'dortmund': 'Dortmund,North Rhine-Westphalia,Germany',
+    'essen': 'Essen,North Rhine-Westphalia,Germany', 'bremen': 'Bremen,Bremen,Germany', 'dresden': 'Dresden,Saxony,Germany',
+    'hannover': 'Hanover,Lower Saxony,Germany', 'nürnberg': 'Nuremberg,Bavaria,Germany', 'duisburg': 'Duisburg,North Rhine-Westphalia,Germany',
+    'bochum': 'Bochum,North Rhine-Westphalia,Germany', 'wuppertal': 'Wuppertal,North Rhine-Westphalia,Germany', 'bielefeld': 'Bielefeld,North Rhine-Westphalia,Germany',
+    'bonn': 'Bonn,North Rhine-Westphalia,Germany', 'münster': 'Munster,North Rhine-Westphalia,Germany', 'karlsruhe': 'Karlsruhe,Baden-Wurttemberg,Germany',
+    'mannheim': 'Mannheim,Baden-Wurttemberg,Germany', 'augsburg': 'Augsburg,Bavaria,Germany', 'wiesbaden': 'Wiesbaden,Hessen,Germany',
+    'mönchengladbach': 'Monchengladbach,North Rhine-Westphalia,Germany', 'braunschweig': 'Brunswick,Lower Saxony,Germany',
+    'kiel': 'Kiel,Schleswig-Holstein,Germany', 'aachen': 'Aachen,North Rhine-Westphalia,Germany', 'magdeburg': 'Magdeburg,Saxony-Anhalt,Germany',
+    'freiburg': 'Freiburg,Baden-Wurttemberg,Germany', 'lübeck': 'Lubeck,Schleswig-Holstein,Germany', 'erfurt': 'Erfurt,Thuringia,Germany',
+    'rostock': 'Rostock,Mecklenburg-Vorpommern,Germany', 'kassel': 'Kassel,Hessen,Germany', 'potsdam': 'Potsdam,Brandenburg,Germany',
+    'erlangen': 'Erlangen,Bavaria,Germany', 'göttingen': 'Gottingen,Lower Saxony,Germany', 'heidelberg': 'Heidelberg,Baden-Wurttemberg,Germany',
     // Ohne Umlaute Varianten
-    'munchen': 'Munich, Germany', 'koln': 'Cologne, Germany', 'dusseldorf': 'Dusseldorf, Germany',
-    'nurnberg': 'Nuremberg, Germany', 'munster': 'Munster, Germany', 'monchengladbach': 'Monchengladbach, Germany',
-    'lubeck': 'Lubeck, Germany', 'gottingen': 'Gottingen, Germany'
+    'munchen': 'Munich,Bavaria,Germany', 'koln': 'Cologne,North Rhine-Westphalia,Germany', 'dusseldorf': 'Dusseldorf,North Rhine-Westphalia,Germany',
+    'nurnberg': 'Nuremberg,Bavaria,Germany', 'munster': 'Munster,North Rhine-Westphalia,Germany', 'monchengladbach': 'Monchengladbach,North Rhine-Westphalia,Germany',
+    'lubeck': 'Lubeck,Schleswig-Holstein,Germany', 'gottingen': 'Gottingen,Lower Saxony,Germany',
+    // Explizite "Stadt, Germany" Varianten für häufige Städte (korrektes DataForSEO Format)
+    'erlangen, germany': 'Erlangen,Bavaria,Germany', 'berlin, germany': 'Berlin,Germany',
+    'munich, germany': 'Munich,Bavaria,Germany', 'hamburg, germany': 'Hamburg,Germany'
   };
   
   LOCATION_MAPPING = { ...LOCATION_MAPPING, ...fallbackCities };
@@ -127,7 +130,52 @@ function normalizeLocationName(locationName) {
   if (!locationName) return 'Germany';
   
   const normalized = locationName.toLowerCase().trim();
-  return LOCATION_MAPPING[normalized] || locationName;
+  console.log(`🗺️ Normalizing location: "${locationName}" -> "${normalized}"`);
+  
+  // Direkte Suche im Mapping
+  if (LOCATION_MAPPING[normalized]) {
+    console.log(`✅ Direct mapping found: "${normalized}" -> "${LOCATION_MAPPING[normalized]}"`);
+    return LOCATION_MAPPING[normalized];
+  }
+  
+  // Spezielle Behandlung für "Stadt, Land" Format
+  if (normalized.includes(',')) {
+    const parts = normalized.split(',').map(part => part.trim());
+    const city = parts[0];
+    const country = parts[1];
+    
+    console.log(`🔍 Parsing city/country: city="${city}", country="${country}"`);
+    
+    // Suche nach der Stadt im Mapping
+    if (LOCATION_MAPPING[city]) {
+      console.log(`✅ City mapping found: "${city}" -> "${LOCATION_MAPPING[city]}"`);
+      return LOCATION_MAPPING[city];
+    }
+    
+    // Wenn Land "germany" ist, versuche deutsche Städte
+    if (country === 'germany' || country === 'deutschland') {
+      // Versuche verschiedene Varianten
+      const variants = [
+        city,
+        city.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss'),
+        city + ', germany',
+        city + ', germany'
+      ];
+      
+      console.log(`🔍 Trying variants for German city:`, variants);
+      
+      for (const variant of variants) {
+        if (LOCATION_MAPPING[variant]) {
+          console.log(`✅ Variant mapping found: "${variant}" -> "${LOCATION_MAPPING[variant]}"`);
+          return LOCATION_MAPPING[variant];
+        }
+      }
+    }
+  }
+  
+  // Fallback: Original zurückgeben
+  console.log(`⚠️ No mapping found, using original: "${locationName}"`);
+  return locationName;
 }
 
 // Helper function to make DataForSEO API calls for AI Mode (without location_name)

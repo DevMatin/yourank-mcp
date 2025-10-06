@@ -1,0 +1,889 @@
+{
+  "meta": {
+    "title": "DataForSEO Keywords Data API - Custom GPT Datenbank",
+    "version": "1.0.0",
+    "description": "Vollständige Datenbank für Custom GPT Prompts mit allen Keywords Data Tools, Parametern und Anwendungsfällen",
+    "last_updated": "2024-12-19",
+    "total_endpoints": 54,
+    "total_parameters": 38
+  },
+  "api_overview": {
+    "base_url": "https://yourank-mcp.vercel.app",
+    "authentication": "Basic Auth",
+    "content_type": "application/json",
+    "rate_limits": {
+      "live_endpoints": "2000 requests/minute",
+      "task_based": "2000 requests/minute, max 1000 keywords per call",
+      "bing_endpoints": "2000 requests/minute, max 200 keywords per call"
+    },
+    "cost_info": {
+      "note": "DataForSEO Credits erforderlich",
+      "pricing_tiers": {
+        "google_ads": "Standard Pricing",
+        "bing": "Standard Pricing", 
+        "google_trends": "Standard Pricing",
+        "dataforseo_trends": "Standard Pricing",
+        "clickstream": "Premium Pricing"
+      }
+    }
+  },
+  "endpoints": {
+    "core": {
+      "path": "/v3/keywords_data",
+      "description": "Kernfunktionen für Keywords Data API Management",
+      "operations": {
+        "id_list": {
+          "purpose": "Liste aller Keywords Data Task-IDs abrufen",
+          "optional_params": ["date_from", "date_to", "limit"],
+          "use_cases": [
+            "Task-Historie anzeigen",
+            "Vergangene Keyword-Analysen finden",
+            "Task-Verwaltung"
+          ],
+          "example_prompts": [
+            "Zeige mir alle Keywords Data Tasks der letzten Woche",
+            "Liste alle verfügbaren Task-IDs auf",
+            "Welche Keyword-Analysen wurden durchgeführt?"
+          ]
+        },
+        "errors": {
+          "purpose": "Analysiere Keywords Data Task-Fehler",
+          "optional_params": ["date_from", "date_to", "limit"],
+          "use_cases": [
+            "Fehler-Diagnose",
+            "Problem-Analyse",
+            "Task-Debugging"
+          ],
+          "example_prompts": [
+            "Welche Keywords Data Tasks sind fehlgeschlagen?",
+            "Analysiere alle Fehler der letzten Tage",
+            "Zeige mir die Problem-Tasks"
+          ]
+        }
+      }
+    },
+    "google_ads": {
+      "path": "/v3/keywords_data/google_ads",
+      "description": "Google Ads Keywords Data - Search Volume, Keywords for Site/Keywords, Ad Traffic",
+      "operations": {
+        "search_volume": {
+          "purpose": "Hole Suchvolumen-Daten von Google Ads in Echtzeit",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device"],
+          "use_cases": [
+            "Keyword-Volumen prüfen",
+            "SEO-Keyword-Recherche",
+            "PPC-Keyword-Planung"
+          ],
+          "example_prompts": [
+            "Zeige mir das Suchvolumen für die Keywords 'SEO Tools' und 'Keyword Research'",
+            "Analysiere die Suchvolumen für meine Hauptkeywords",
+            "Prüfe das monatliche Suchvolumen für diese Keywords"
+          ]
+        },
+        "search_volume_task_post": {
+          "purpose": "Erstelle Task für Suchvolumen-Analyse",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "postback_url"],
+          "use_cases": [
+            "Batch-Keyword-Analyse",
+            "Große Keyword-Listen verarbeiten",
+            "Asynchrone Verarbeitung"
+          ],
+          "example_prompts": [
+            "Erstelle eine Task für 500 Keywords zur Suchvolumen-Analyse",
+            "Starte eine Batch-Analyse für meine Keyword-Liste",
+            "Verarbeite diese Keywords asynchron"
+          ]
+        },
+        "keywords_for_site": {
+          "purpose": "Finde Keywords für eine spezifische Website",
+          "required_params": ["target"],
+          "optional_params": ["location_name", "language_code", "device", "limit"],
+          "use_cases": [
+            "Website-Keyword-Discovery",
+            "Konkurrenz-Keyword-Analyse",
+            "Content-Keyword-Ideen"
+          ],
+          "example_prompts": [
+            "Finde alle Keywords für die Website example.com",
+            "Zeige mir die wichtigsten Keywords für diese Domain",
+            "Analysiere die Keyword-Opportunities für diese Website"
+          ]
+        },
+        "keywords_for_keywords": {
+          "purpose": "Hole Keyword-Vorschläge basierend auf Seed-Keywords",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "limit"],
+          "use_cases": [
+            "Keyword-Expansion",
+            "Long-Tail-Keyword-Findung",
+            "Verwandte Keywords entdecken"
+          ],
+          "example_prompts": [
+            "Zeige mir verwandte Keywords für 'Digital Marketing'",
+            "Finde Long-Tail-Varianten für diese Keywords",
+            "Erweitere meine Keyword-Liste mit Vorschlägen"
+          ]
+        },
+        "ad_traffic_by_keywords": {
+          "purpose": "Analysiere Ad-Traffic-Daten für Keywords",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device"],
+          "use_cases": [
+            "PPC-Keyword-Analyse",
+            "Ad-Traffic-Schätzung",
+            "Werbung-Keyword-Planung"
+          ],
+          "example_prompts": [
+            "Analysiere den Ad-Traffic für diese Keywords",
+            "Zeige mir die Werbe-Traffic-Daten",
+            "Schätze den PPC-Traffic für meine Keywords"
+          ]
+        },
+        "status": {
+          "purpose": "Prüfe Google Ads API Status",
+          "use_cases": [
+            "API-Verfügbarkeit prüfen",
+            "Datenaktualität überwachen",
+            "System-Status checken"
+          ],
+          "example_prompts": [
+            "Ist die Google Ads API verfügbar?",
+            "Wann wurden die Keyword-Daten zuletzt aktualisiert?",
+            "Prüfe den Status der Google Ads Integration"
+          ]
+        },
+        "locations": {
+          "purpose": "Liste verfügbarer Standorte",
+          "use_cases": [
+            "Verfügbare Länder/Regionen anzeigen",
+            "Geografische Targeting-Optionen",
+            "Standort-spezifische Analysen"
+          ],
+          "example_prompts": [
+            "Welche Länder werden für Keyword-Analysen unterstützt?",
+            "Zeige mir alle verfügbaren Standorte",
+            "Welche geografischen Optionen gibt es?"
+          ]
+        },
+        "languages": {
+          "purpose": "Liste verfügbarer Sprachen",
+          "use_cases": [
+            "Sprach-Optionen anzeigen",
+            "Lokalisierte Keyword-Analysen",
+            "Sprach-spezifische Targeting"
+          ],
+          "example_prompts": [
+            "Welche Sprachen werden unterstützt?",
+            "Zeige mir alle verfügbaren Sprach-Codes",
+            "Welche Sprach-Optionen gibt es für Keywords?"
+          ]
+        }
+      }
+    },
+    "google_trends": {
+      "path": "/v3/keywords_data/google_trends",
+      "description": "Google Trends Daten - Keyword-Popularität und Trends",
+      "operations": {
+        "explore": {
+          "purpose": "Hole Google Trends Daten für Keywords",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "date_from", "date_to"],
+          "use_cases": [
+            "Keyword-Trend-Analyse",
+            "Saisonale Trends identifizieren",
+            "Populäritäts-Entwicklung verfolgen"
+          ],
+          "example_prompts": [
+            "Zeige mir die Google Trends für 'Artificial Intelligence'",
+            "Analysiere die Trend-Entwicklung dieser Keywords",
+            "Wie populär sind diese Keywords über die Zeit?"
+          ]
+        },
+        "categories": {
+          "purpose": "Liste verfügbarer Google Trends Kategorien",
+          "use_cases": [
+            "Kategorie-spezifische Trends",
+            "Branchen-Trend-Analyse",
+            "Themen-basierte Keyword-Recherche"
+          ],
+          "example_prompts": [
+            "Welche Kategorien gibt es für Google Trends?",
+            "Zeige mir alle verfügbaren Trend-Kategorien",
+            "Welche Branchen-Kategorien sind verfügbar?"
+          ]
+        },
+        "locations": {
+          "purpose": "Liste verfügbarer Google Trends Standorte",
+          "use_cases": [
+            "Geografische Trend-Analyse",
+            "Lokale Trend-Vergleiche",
+            "Standort-spezifische Trends"
+          ],
+          "example_prompts": [
+            "Welche Standorte werden für Google Trends unterstützt?",
+            "Zeige mir die verfügbaren Trend-Standorte",
+            "Welche geografischen Optionen gibt es für Trends?"
+          ]
+        },
+        "languages": {
+          "purpose": "Liste verfügbarer Google Trends Sprachen",
+          "use_cases": [
+            "Sprach-spezifische Trends",
+            "Lokalisierte Trend-Analyse",
+            "Mehrsprachige Keyword-Trends"
+          ],
+          "example_prompts": [
+            "Welche Sprachen werden für Google Trends unterstützt?",
+            "Zeige mir die verfügbaren Trend-Sprachen",
+            "Welche Sprach-Optionen gibt es für Trends?"
+          ]
+        }
+      }
+    },
+    "dataforseo_trends": {
+      "path": "/v3/keywords_data/dataforseo_trends",
+      "description": "DataForSEO eigene Trends-Daten mit erweiterten Features",
+      "operations": {
+        "explore": {
+          "purpose": "Hole DataForSEO Trends Daten",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "date_from", "date_to"],
+          "use_cases": [
+            "Erweiterte Trend-Analyse",
+            "Detaillierte Keyword-Entwicklung",
+            "Präzise Trend-Daten"
+          ],
+          "example_prompts": [
+            "Analysiere die DataForSEO Trends für diese Keywords",
+            "Zeige mir die detaillierten Trend-Daten",
+            "Wie entwickeln sich diese Keywords laut DataForSEO?"
+          ]
+        },
+        "demography": {
+          "purpose": "Demografische Aufschlüsselung der Keyword-Popularität",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code"],
+          "use_cases": [
+            "Zielgruppen-Analyse",
+            "Alters- und Geschlechts-spezifische Trends",
+            "Demografische Keyword-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir die demografische Aufschlüsselung für diese Keywords",
+            "Welche Altersgruppen interessieren sich für diese Keywords?",
+            "Analysiere die Zielgruppen-Verteilung"
+          ]
+        },
+        "subregion_interests": {
+          "purpose": "Subregion-spezifische Keyword-Interessen",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code"],
+          "use_cases": [
+            "Lokale Keyword-Analyse",
+            "Region-spezifische Trends",
+            "Geografische Keyword-Verteilung"
+          ],
+          "example_prompts": [
+            "Zeige mir die regionalen Interessen für diese Keywords",
+            "Wie unterscheiden sich die Trends in verschiedenen Regionen?",
+            "Analysiere die geografische Keyword-Verteilung"
+          ]
+        },
+        "merged_data": {
+          "purpose": "Kombinierte Trend-Daten mit allen Metriken",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code"],
+          "use_cases": [
+            "Vollständige Trend-Analyse",
+            "Kombinierte Insights",
+            "Umfassende Keyword-Bewertung"
+          ],
+          "example_prompts": [
+            "Zeige mir alle kombinierten Trend-Daten für diese Keywords",
+            "Analysiere die vollständigen Trend-Insights",
+            "Gib mir eine umfassende Trend-Bewertung"
+          ]
+        },
+        "locations": {
+          "purpose": "Liste verfügbarer DataForSEO Trends Standorte",
+          "use_cases": [
+            "Verfügbare Trend-Standorte",
+            "Geografische Optionen",
+            "Standort-spezifische Analysen"
+          ],
+          "example_prompts": [
+            "Welche Standorte werden für DataForSEO Trends unterstützt?",
+            "Zeige mir die verfügbaren Trend-Standorte",
+            "Welche geografischen Optionen gibt es?"
+          ]
+        }
+      }
+    },
+    "bing": {
+      "path": "/v3/keywords_data/bing",
+      "description": "Bing Ads Keywords Data - Alternative Suchvolumen und Keyword-Daten",
+      "operations": {
+        "search_volume": {
+          "purpose": "Hole Suchvolumen-Daten von Bing Ads",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device"],
+          "use_cases": [
+            "Bing-Keyword-Volumen",
+            "Alternative Suchvolumen-Daten",
+            "Multi-Platform-Keyword-Analyse"
+          ],
+          "example_prompts": [
+            "Zeige mir das Bing-Suchvolumen für diese Keywords",
+            "Analysiere die Bing-Keyword-Daten",
+            "Vergleiche Google vs Bing Suchvolumen"
+          ]
+        },
+        "keywords_for_site": {
+          "purpose": "Finde Bing-Keywords für eine Website",
+          "required_params": ["target"],
+          "optional_params": ["location_name", "language_code", "device", "limit"],
+          "use_cases": [
+            "Bing-Website-Keyword-Discovery",
+            "Alternative Keyword-Quellen",
+            "Bing-spezifische Keyword-Analyse"
+          ],
+          "example_prompts": [
+            "Finde Bing-Keywords für die Website example.com",
+            "Zeige mir die Bing-Keyword-Opportunities",
+            "Analysiere die Bing-Keywords für diese Domain"
+          ]
+        },
+        "keywords_for_keywords": {
+          "purpose": "Hole Bing-Keyword-Vorschläge",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "limit"],
+          "use_cases": [
+            "Bing-Keyword-Expansion",
+            "Alternative Keyword-Ideen",
+            "Bing-spezifische Vorschläge"
+          ],
+          "example_prompts": [
+            "Zeige mir Bing-Keyword-Vorschläge für diese Keywords",
+            "Finde alternative Keywords bei Bing",
+            "Erweitere meine Liste mit Bing-Vorschlägen"
+          ]
+        },
+        "keyword_performance": {
+          "purpose": "Analysiere Bing-Keyword-Performance",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "match_type"],
+          "use_cases": [
+            "Bing-Keyword-Performance",
+            "Bing-Ad-Performance-Daten",
+            "Bing-spezifische Metriken"
+          ],
+          "example_prompts": [
+            "Analysiere die Bing-Keyword-Performance",
+            "Zeige mir die Bing-Ad-Metriken",
+            "Wie performen diese Keywords bei Bing?"
+          ]
+        },
+        "search_volume_history": {
+          "purpose": "Historische Bing-Suchvolumen-Daten",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "date_from", "date_to", "granularity"],
+          "use_cases": [
+            "Bing-Trend-Analyse",
+            "Historische Bing-Daten",
+            "Bing-Keyword-Entwicklung"
+          ],
+          "example_prompts": [
+            "Zeige mir die historischen Bing-Suchvolumen",
+            "Analysiere die Bing-Trend-Entwicklung",
+            "Wie haben sich diese Keywords bei Bing entwickelt?"
+          ]
+        },
+        "audience_estimation": {
+          "purpose": "Schätze Bing-Zielgruppen-Größe",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "job_functions", "industries", "age_ranges", "gender"],
+          "use_cases": [
+            "Bing-Zielgruppen-Schätzung",
+            "Bing-Ad-Audience-Analyse",
+            "Bing-spezifische Targeting-Daten"
+          ],
+          "example_prompts": [
+            "Schätze die Bing-Zielgruppen-Größe für diese Keywords",
+            "Analysiere die Bing-Audience-Daten",
+            "Wie groß ist die Zielgruppe bei Bing?"
+          ]
+        },
+        "locations": {
+          "purpose": "Liste verfügbarer Bing-Standorte",
+          "use_cases": [
+            "Bing-geografische Optionen",
+            "Bing-Standort-Targeting",
+            "Bing-spezifische Regionen"
+          ],
+          "example_prompts": [
+            "Welche Standorte werden für Bing unterstützt?",
+            "Zeige mir die Bing-geografischen Optionen",
+            "Welche Bing-Standorte sind verfügbar?"
+          ]
+        },
+        "languages": {
+          "purpose": "Liste verfügbarer Bing-Sprachen",
+          "use_cases": [
+            "Bing-Sprach-Optionen",
+            "Bing-Lokalisierung",
+            "Bing-spezifische Sprachen"
+          ],
+          "example_prompts": [
+            "Welche Sprachen werden für Bing unterstützt?",
+            "Zeige mir die Bing-Sprach-Optionen",
+            "Welche Bing-Sprachen sind verfügbar?"
+          ]
+        }
+      }
+    },
+    "clickstream": {
+      "path": "/v3/keywords_data/clickstream_data",
+      "description": "Clickstream-basierte Suchvolumen-Daten mit erweiterten Insights",
+      "operations": {
+        "dataforseo_search_volume": {
+          "purpose": "DataForSEO Clickstream-Suchvolumen",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device"],
+          "use_cases": [
+            "Clickstream-basierte Volumen-Daten",
+            "Erweiterte Suchvolumen-Insights",
+            "Präzise Clickstream-Metriken"
+          ],
+          "example_prompts": [
+            "Zeige mir die Clickstream-Suchvolumen-Daten",
+            "Analysiere die Clickstream-basierten Metriken",
+            "Wie sind die Clickstream-Volumen für diese Keywords?"
+          ]
+        },
+        "global_search_volume": {
+          "purpose": "Globale Clickstream-Suchvolumen mit geografischer Verteilung",
+          "required_params": ["keywords"],
+          "optional_params": ["language_code", "device"],
+          "use_cases": [
+            "Globale Keyword-Verteilung",
+            "Geografische Clickstream-Insights",
+            "Weltweite Suchvolumen-Analyse"
+          ],
+          "example_prompts": [
+            "Zeige mir die globale Clickstream-Verteilung",
+            "Analysiere die weltweiten Clickstream-Daten",
+            "Wie verteilen sich diese Keywords global?"
+          ]
+        },
+        "bulk_search_volume": {
+          "purpose": "Bulk Clickstream-Suchvolumen mit historischen Daten",
+          "required_params": ["keywords"],
+          "optional_params": ["location_name", "language_code", "device", "date_from", "date_to"],
+          "use_cases": [
+            "Bulk-Keyword-Analyse",
+            "Historische Clickstream-Daten",
+            "Große Keyword-Listen verarbeiten"
+          ],
+          "example_prompts": [
+            "Analysiere diese Keywords mit Clickstream-Bulk-Daten",
+            "Zeige mir die historischen Clickstream-Volumen",
+            "Verarbeite diese Keyword-Liste mit Clickstream-Daten"
+          ]
+        },
+        "locations_and_languages": {
+          "purpose": "Liste verfügbarer Clickstream-Standorte und Sprachen",
+          "use_cases": [
+            "Clickstream-geografische Optionen",
+            "Clickstream-Sprach-Unterstützung",
+            "Verfügbare Clickstream-Regionen"
+          ],
+          "example_prompts": [
+            "Welche Standorte werden für Clickstream unterstützt?",
+            "Zeige mir die Clickstream-geografischen Optionen",
+            "Welche Clickstream-Sprachen sind verfügbar?"
+          ]
+        }
+      }
+    }
+  },
+  "common_parameters": {
+    "keywords": {
+      "type": "array",
+      "description": "Array von Keywords zur Analyse",
+      "max_items": {
+        "google_ads": 1000,
+        "bing": 200,
+        "google_trends": 100,
+        "dataforseo_trends": 100,
+        "clickstream": 1000
+      },
+      "examples": [["SEO Tools", "Keyword Research"], ["Digital Marketing", "Content Marketing"]],
+      "required_for": ["search_volume", "keywords_for_keywords", "ad_traffic_by_keywords", "explore", "demography", "subregion_interests", "merged_data", "bing_search_volume", "bing_keywords_for_keywords", "bing_keyword_performance", "bing_search_volume_history", "bing_audience_estimation", "clickstream_endpoints"]
+    },
+    "target": {
+      "type": "string",
+      "description": "Website-URL oder Domain für Keyword-Discovery",
+      "examples": ["example.com", "https://www.example.com", "shop.example.com"],
+      "required_for": ["keywords_for_site", "bing_keywords_for_site"]
+    },
+    "location_name": {
+      "type": "string",
+      "description": "Geografischer Standort für Keyword-Analyse",
+      "default": "United States",
+      "examples": ["United States", "Germany", "United Kingdom", "France", "Canada"],
+      "use_cases": ["Lokale Keyword-Analyse", "Geografische Targeting", "Standort-spezifische Volumen"]
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Sprachcode für Keyword-Analyse",
+      "default": "en",
+      "examples": ["en", "de", "fr", "es", "it", "pt"],
+      "use_cases": ["Sprach-spezifische Keywords", "Lokalisierte Analysen", "Mehrsprachige Keyword-Recherche"]
+    },
+    "device": {
+      "type": "string",
+      "description": "Gerätetyp für Keyword-Analyse",
+      "enum": ["desktop", "mobile", "tablet"],
+      "default": "desktop",
+      "use_cases": ["Geräte-spezifische Keywords", "Mobile vs Desktop Volumen", "Geräte-Targeting"]
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Maximale Anzahl zurückgegebener Keywords",
+      "default": 1000,
+      "min": 1,
+      "max": 3000,
+      "use_cases": ["Ergebnisbegrenzung", "Performance-Optimierung", "Fokussierte Analysen"]
+    },
+    "date_from": {
+      "type": "string",
+      "description": "Startdatum für historische Daten (YYYY-MM-DD)",
+      "example": "2023-01-01",
+      "use_cases": ["Trend-Analyse", "Historische Vergleiche", "Zeitraum-spezifische Daten"]
+    },
+    "date_to": {
+      "type": "string",
+      "description": "Enddatum für historische Daten (YYYY-MM-DD)",
+      "example": "2023-12-31",
+      "use_cases": ["Trend-Analyse", "Historische Vergleiche", "Zeitraum-spezifische Daten"]
+    },
+    "granularity": {
+      "type": "string",
+      "description": "Granularität für historische Daten",
+      "enum": ["daily", "weekly", "monthly"],
+      "default": "monthly",
+      "use_cases": ["Detaillierte Trend-Analyse", "Saisonale Muster", "Zeitliche Auflösung"]
+    },
+    "match_type": {
+      "type": "string",
+      "description": "Match-Typ für Bing-Keywords",
+      "enum": ["exact", "phrase", "broad"],
+      "default": "exact",
+      "use_cases": ["Bing-spezifische Targeting", "Match-Typ-Analyse", "Bing-Ad-Optimierung"]
+    },
+    "job_functions": {
+      "type": "array",
+      "description": "Job-Funktionen für Bing-Audience-Targeting",
+      "items": {"type": "integer"},
+      "use_cases": ["Bing-B2B-Targeting", "Berufs-spezifische Keywords", "Bing-Audience-Segmentierung"]
+    },
+    "industries": {
+      "type": "array",
+      "description": "Branchen für Bing-Audience-Targeting",
+      "items": {"type": "integer"},
+      "use_cases": ["Bing-Branchen-Targeting", "Industrie-spezifische Keywords", "Bing-Audience-Segmentierung"]
+    },
+    "age_ranges": {
+      "type": "array",
+      "description": "Altersgruppen für Bing-Audience-Targeting",
+      "items": {"type": "string"},
+      "examples": [["18-24", "25-34"], ["35-44", "45-54"]],
+      "use_cases": ["Bing-Alters-Targeting", "Demografische Segmentierung", "Bing-Audience-Optimierung"]
+    },
+    "gender": {
+      "type": "string",
+      "description": "Geschlecht für Bing-Audience-Targeting",
+      "enum": ["male", "female", "all"],
+      "default": "all",
+      "use_cases": ["Bing-Geschlechts-Targeting", "Demografische Segmentierung", "Bing-Audience-Optimierung"]
+    },
+    "postback_url": {
+      "type": "string",
+      "description": "URL für Task-Completion-Benachrichtigung",
+      "use_cases": ["Asynchrone Verarbeitung", "Webhook-Integration", "Task-Management"]
+    }
+  },
+  "prompt_templates": {
+    "keyword_research": {
+      "template": "Führe eine umfassende Keyword-Recherche für {topic} durch. Analysiere Suchvolumen, verwandte Keywords und Trends. Verwende {platform} für die Analyse.",
+      "variables": {
+        "topic": "Hauptthema oder Branche",
+        "platform": "google_ads, bing, google_trends, dataforseo_trends"
+      },
+      "example": "Führe eine umfassende Keyword-Recherche für 'Digital Marketing' durch. Analysiere Suchvolumen, verwandte Keywords und Trends. Verwende google_ads für die Analyse."
+    },
+    "competitor_analysis": {
+      "template": "Analysiere die Keywords der Website {competitor_url}. Finde ihre wichtigsten Keywords und schätze das Suchvolumen. Verwende {platform} für die Analyse.",
+      "variables": {
+        "competitor_url": "URL der Konkurrenz-Website",
+        "platform": "google_ads, bing"
+      },
+      "example": "Analysiere die Keywords der Website example.com. Finde ihre wichtigsten Keywords und schätze das Suchvolumen. Verwende google_ads für die Analyse."
+    },
+    "trend_analysis": {
+      "template": "Analysiere die Trend-Entwicklung für die Keywords {keywords} über den Zeitraum {date_from} bis {date_to}. Verwende {platform} für die Trend-Analyse.",
+      "variables": {
+        "keywords": "Array von Keywords",
+        "date_from": "Startdatum",
+        "date_to": "Enddatum",
+        "platform": "google_trends, dataforseo_trends, bing_search_volume_history"
+      },
+      "example": "Analysiere die Trend-Entwicklung für die Keywords ['AI', 'Machine Learning'] über den Zeitraum 2023-01-01 bis 2023-12-31. Verwende google_trends für die Trend-Analyse."
+    },
+    "audience_analysis": {
+      "template": "Analysiere die Zielgruppe für die Keywords {keywords}. Verwende demografische Daten und geografische Verteilung. Verwende {platform} für die Zielgruppen-Analyse.",
+      "variables": {
+        "keywords": "Array von Keywords",
+        "platform": "dataforseo_trends_demography, bing_audience_estimation"
+      },
+      "example": "Analysiere die Zielgruppe für die Keywords ['Fitness', 'Workout']. Verwende demografische Daten und geografische Verteilung. Verwende dataforseo_trends_demography für die Zielgruppen-Analyse."
+    },
+    "bulk_keyword_analysis": {
+      "template": "Analysiere diese große Keyword-Liste {keywords} mit {platform}. Verwende Task-basierte Verarbeitung für optimale Performance.",
+      "variables": {
+        "keywords": "Große Keyword-Liste (100+ Keywords)",
+        "platform": "google_ads_task_post, bing_task_post, clickstream_bulk"
+      },
+      "example": "Analysiere diese große Keyword-Liste ['SEO', 'PPC', 'Content Marketing', ...] mit google_ads_task_post. Verwende Task-basierte Verarbeitung für optimale Performance."
+    }
+  },
+  "workflow_examples": {
+    "complete_keyword_research": {
+      "description": "Vollständige Keyword-Recherche Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "google_ads_search_volume",
+          "description": "Analysiere Hauptkeywords",
+          "parameters": {
+            "keywords": ["Digital Marketing", "SEO", "PPC"],
+            "location_name": "United States",
+            "language_code": "en"
+          }
+        },
+        {
+          "step": 2,
+          "action": "google_ads_keywords_for_keywords",
+          "description": "Erweitere Keyword-Liste",
+          "parameters": {
+            "keywords": ["Digital Marketing"],
+            "limit": 100
+          }
+        },
+        {
+          "step": 3,
+          "action": "google_trends_explore",
+          "description": "Analysiere Trends",
+          "parameters": {
+            "keywords": ["Digital Marketing", "SEO", "PPC"],
+            "date_from": "2023-01-01",
+            "date_to": "2023-12-31"
+          }
+        },
+        {
+          "step": 4,
+          "action": "dataforseo_trends_demography",
+          "description": "Zielgruppen-Analyse",
+          "parameters": {
+            "keywords": ["Digital Marketing", "SEO", "PPC"]
+          }
+        }
+      ]
+    },
+    "competitor_keyword_analysis": {
+      "description": "Konkurrenz-Keyword-Analyse Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "google_ads_keywords_for_site",
+          "description": "Finde Konkurrenz-Keywords",
+          "parameters": {
+            "target": "competitor.com",
+            "limit": 200
+          }
+        },
+        {
+          "step": 2,
+          "action": "google_ads_search_volume",
+          "description": "Analysiere Keyword-Volumen",
+          "parameters": {
+            "keywords": "{{keywords_from_step_1}}",
+            "location_name": "United States"
+          }
+        },
+        {
+          "step": 3,
+          "action": "bing_keywords_for_site",
+          "description": "Vergleiche mit Bing-Daten",
+          "parameters": {
+            "target": "competitor.com",
+            "limit": 200
+          }
+        }
+      ]
+    },
+    "trend_monitoring": {
+      "description": "Keyword-Trend-Monitoring Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "google_trends_explore_task_post",
+          "description": "Starte Trend-Analyse",
+          "parameters": {
+            "keywords": ["AI", "Machine Learning", "ChatGPT"],
+            "date_from": "2023-01-01",
+            "date_to": "2023-12-31"
+          }
+        },
+        {
+          "step": 2,
+          "action": "google_trends_explore_tasks_ready",
+          "description": "Prüfe Task-Status",
+          "parameters": {}
+        },
+        {
+          "step": 3,
+          "action": "google_trends_explore_task_get",
+          "description": "Hole Trend-Ergebnisse",
+          "parameters": {
+            "id": "{{task_id_from_step_1}}"
+          }
+        },
+        {
+          "step": 4,
+          "action": "dataforseo_trends_merged_data",
+          "description": "Erweiterte Trend-Analyse",
+          "parameters": {
+            "keywords": ["AI", "Machine Learning", "ChatGPT"]
+          }
+        }
+      ]
+    }
+  },
+  "best_practices": {
+    "keyword_selection": [
+      "Verwende relevante, branchenspezifische Keywords",
+      "Kombiniere Short-Tail und Long-Tail Keywords",
+      "Berücksichtige saisonale Trends",
+      "Analysiere sowohl Haupt- als auch Nebenkeywords"
+    ],
+    "platform_optimization": [
+      "Verwende Google Ads für umfassende Keyword-Daten",
+      "Nutze Bing für alternative Perspektiven",
+      "Kombiniere Google Trends für Trend-Analyse",
+      "Verwende DataForSEO Trends für erweiterte Insights"
+    ],
+    "performance_tips": [
+      "Verwende Task-basierte Endpoints für große Keyword-Listen",
+      "Nutze Live-Endpoints für schnelle Einzelanalysen",
+      "Implementiere Caching für wiederholte Abfragen",
+      "Überwache API-Limits und Costs"
+    ],
+    "data_analysis": [
+      "Vergleiche Daten zwischen verschiedenen Plattformen",
+      "Analysiere sowohl Volumen als auch Trends",
+      "Berücksichtige geografische und demografische Faktoren",
+      "Kombiniere quantitative und qualitative Insights"
+    ]
+  },
+  "common_use_cases": {
+    "seo_keyword_research": {
+      "description": "SEO-Keyword-Recherche und -Optimierung",
+      "endpoints": ["google_ads_search_volume", "google_ads_keywords_for_keywords", "google_trends_explore", "dataforseo_trends_explore"],
+      "key_metrics": ["Suchvolumen", "Keyword-Schwierigkeit", "Trend-Entwicklung", "Verwandte Keywords", "Saisonale Muster"]
+    },
+    "ppc_campaign_planning": {
+      "description": "PPC-Kampagnen-Planung und -Optimierung",
+      "endpoints": ["google_ads_search_volume", "google_ads_ad_traffic_by_keywords", "bing_keyword_performance", "bing_audience_estimation"],
+      "key_metrics": ["Ad-Traffic-Potential", "CPC-Schätzungen", "Zielgruppen-Größe", "Keyword-Performance", "Konkurrenz-Level"]
+    },
+    "content_strategy": {
+      "description": "Content-Strategie und Keyword-Planung",
+      "endpoints": ["google_ads_keywords_for_site", "google_ads_keywords_for_keywords", "dataforseo_trends_demography", "google_trends_explore"],
+      "key_metrics": ["Content-Keywords", "Zielgruppen-Interessen", "Trend-relevante Topics", "Keyword-Opportunities", "Content-Gaps"]
+    },
+    "market_research": {
+      "description": "Marktforschung und Trend-Analyse",
+      "endpoints": ["google_trends_explore", "dataforseo_trends_merged_data", "bing_search_volume_history", "clickstream_global_search_volume"],
+      "key_metrics": ["Markt-Trends", "Saisonale Muster", "Geografische Verteilung", "Demografische Insights", "Markt-Opportunities"]
+    },
+    "competitor_analysis": {
+      "description": "Konkurrenz-Analyse und Benchmarking",
+      "endpoints": ["google_ads_keywords_for_site", "bing_keywords_for_site", "google_ads_search_volume", "bing_keyword_performance"],
+      "key_metrics": ["Konkurrenz-Keywords", "Keyword-Überschneidungen", "Performance-Vergleiche", "Markt-Positionierung", "Opportunity-Gaps"]
+    }
+  },
+  "response_formats": {
+    "success_response": {
+      "structure": {
+        "status_code": "integer (200 = success)",
+        "data": "object with keyword results",
+        "summary": "object with key metrics",
+        "pagination": "object with pagination info (optional)"
+      },
+      "example": {
+        "status_code": 200,
+        "data": {
+          "keywords": [
+            {
+              "keyword": "SEO Tools",
+              "search_volume": 12000,
+              "competition": "medium",
+              "cpc": 2.50
+            }
+          ]
+        },
+        "summary": {
+          "total_keywords": 50,
+          "keywords_returned": 10
+        }
+      }
+    },
+    "error_response": {
+      "structure": {
+        "status_code": "integer (4xx/5xx = error)",
+        "error": "string with error message",
+        "details": "object with error details (optional)"
+      },
+      "common_errors": {
+        "400": "Bad Request - Invalid keywords or parameters",
+        "401": "Unauthorized - Invalid credentials",
+        "404": "Not Found - Task ID not found",
+        "429": "Rate Limit Exceeded",
+        "500": "Internal Server Error"
+      }
+    }
+  },
+  "integration_tips": {
+    "custom_gpt": [
+      "Verwende spezifische Keyword-Arrays in Prompts",
+      "Erkläre die Unterschiede zwischen verschiedenen Plattformen",
+      "Gib konkrete Beispiele für jeden Endpoint",
+      "Erwähne die verschiedenen Datenquellen und ihre Stärken"
+    ],
+    "automation": [
+      "Implementiere Retry-Logic für fehlgeschlagene Requests",
+      "Verwende Task-basierte Endpoints für große Datensätze",
+      "Cache Ergebnisse für wiederholte Keyword-Analysen",
+      "Monitor API-Usage und Costs"
+    ],
+    "reporting": [
+      "Kombiniere verschiedene Plattformen für vollständige Insights",
+      "Erstelle vergleichende Analysen zwischen Google und Bing",
+      "Visualisiere Trend-Daten über Zeit",
+      "Exportiere große Keyword-Listen über Task-basierte Endpoints"
+    ]
+  }
+}

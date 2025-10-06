@@ -11,7 +11,7 @@ export class GoogleAdsAdTrafficByKeywordsTasksReadyTool extends BaseTool {
   }
 
   getDescription() {
-    return 'Get list of completed Google Ads ad traffic by keywords tasks that are ready for retrieval.';
+    return 'Get list of completed Google Ads ad traffic by keywords tasks that are ready for collection.';
   }
 
   getParams() {

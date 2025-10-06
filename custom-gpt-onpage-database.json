@@ -1,0 +1,886 @@
+{
+  "meta": {
+    "title": "DataForSEO OnPage API - Custom GPT Datenbank",
+    "version": "1.0.0",
+    "description": "Vollständige Datenbank für Custom GPT Prompts mit allen OnPage-Tools, Parametern und Anwendungsfällen",
+    "last_updated": "2024-12-19",
+    "total_endpoints": 31,
+    "total_parameters": 45
+  },
+  "api_overview": {
+    "base_url": "https://yourank-mcp.vercel.app",
+    "authentication": "Basic Auth",
+    "content_type": "application/json",
+    "rate_limits": {
+      "task_post": "2000 requests/minute, max 100 tasks per call",
+      "instant_pages": "2000 requests/minute, max 20 tasks per call",
+      "other_endpoints": "30 simultaneous requests max"
+    },
+    "cost_info": {
+      "note": "DataForSEO Credits erforderlich",
+      "additional_costs": [
+        "enable_javascript",
+        "enable_browser_rendering", 
+        "custom_js",
+        "load_resources",
+        "calculate_keyword_density"
+      ]
+    }
+  },
+  "endpoints": {
+    "core": {
+      "path": "/v3/onpage_core",
+      "description": "Kernfunktionen für Task-Management und Website-Crawling",
+      "operations": {
+        "task_post": {
+          "purpose": "Erstelle neue OnPage-Analyse-Tasks",
+          "required_params": ["target"],
+          "optional_params": [
+            "max_crawl_pages", "start_url", "enable_javascript", "custom_js",
+            "custom_user_agent", "accept_language", "enable_browser_rendering",
+            "load_resources", "custom_settings", "language_code", "location_name", "device"
+          ],
+          "use_cases": [
+            "Website-Crawling starten",
+            "SEO-Analyse initialisieren", 
+            "Performance-Tests einleiten",
+            "Content-Audit vorbereiten"
+          ],
+          "example_prompts": [
+            "Analysiere die Website example.com mit JavaScript-Aktivierung",
+            "Starte ein Crawling von 50 Seiten der Domain shop.example.com",
+            "Führe eine OnPage-Analyse mit Browser-Rendering durch"
+          ]
+        },
+        "summary": {
+          "purpose": "Hole Zusammenfassung der OnPage-Analyse",
+          "required_params": ["id"],
+          "use_cases": [
+            "Crawling-Status prüfen",
+            "Gesamtübersicht der gefundenen Issues",
+            "Fortschritt der Analyse verfolgen"
+          ],
+          "example_prompts": [
+            "Zeige mir die Zusammenfassung der Analyse für Task ID 12345",
+            "Wie ist der Status des Website-Crawlings?",
+            "Welche OnPage-Probleme wurden gefunden?"
+          ]
+        },
+        "tasks_ready": {
+          "purpose": "Liste aller fertigen Tasks abrufen",
+          "use_cases": [
+            "Verfügbare Analysen anzeigen",
+            "Task-Status überwachen",
+            "Fertige Ergebnisse identifizieren"
+          ],
+          "example_prompts": [
+            "Welche OnPage-Analysen sind fertig?",
+            "Zeige mir alle verfügbaren Task-Ergebnisse",
+            "Liste die abgeschlossenen Website-Analysen auf"
+          ]
+        }
+      }
+    },
+    "analysis": {
+      "path": "/v3/onpage_analysis", 
+      "description": "Detaillierte Analyse-Tools für gecrawlte Websites",
+      "operations": {
+        "pages": {
+          "purpose": "Analysiere alle gecrawlten Seiten",
+          "required_params": ["id"],
+          "optional_params": ["url", "limit", "offset", "filters", "order_by"],
+          "use_cases": [
+            "Seiten-Übersicht mit SEO-Metriken",
+            "Performance-Probleme identifizieren",
+            "Content-Qualität bewerten"
+          ],
+          "example_prompts": [
+            "Analysiere alle Seiten der Website mit den schlechtesten SEO-Scores",
+            "Zeige mir die 20 langsamsten Seiten",
+            "Welche Seiten haben die meisten OnPage-Issues?"
+          ]
+        },
+        "resources": {
+          "purpose": "Analysiere Website-Ressourcen (CSS, JS, Bilder)",
+          "required_params": ["id"],
+          "use_cases": [
+            "Performance-Bottlenecks finden",
+            "Broken Resources identifizieren",
+            "Optimierungsmöglichkeiten aufzeigen"
+          ],
+          "example_prompts": [
+            "Welche Ressourcen verlangsamen die Website?",
+            "Finde alle defekten Bilder und Scripts",
+            "Analysiere die größten Dateien auf der Website"
+          ]
+        },
+        "links": {
+          "purpose": "Analysiere interne und externe Links",
+          "required_params": ["id"],
+          "use_cases": [
+            "Link-Struktur bewerten",
+            "Broken Links finden",
+            "SEO-Link-Optimierung"
+          ],
+          "example_prompts": [
+            "Finde alle defekten Links auf der Website",
+            "Analysiere die interne Link-Struktur",
+            "Welche externen Links sind problematisch?"
+          ]
+        },
+        "duplicate_content": {
+          "purpose": "Finde doppelten Content",
+          "required_params": ["id"],
+          "use_cases": [
+            "Duplicate Content identifizieren",
+            "SEO-Probleme durch Kopien finden",
+            "Content-Optimierung"
+          ],
+          "example_prompts": [
+            "Welche Seiten haben doppelten Content?",
+            "Finde alle ähnlichen Seiten-Inhalte",
+            "Identifiziere Content-Duplikate für SEO"
+          ]
+        },
+        "duplicate_tags": {
+          "purpose": "Finde doppelte Title/Description Tags",
+          "required_params": ["id"],
+          "use_cases": [
+            "SEO-Tag-Probleme finden",
+            "Meta-Tag-Optimierung",
+            "Duplicate Tag Issues"
+          ],
+          "example_prompts": [
+            "Welche Seiten haben doppelte Title-Tags?",
+            "Finde alle Seiten mit identischen Meta-Descriptions",
+            "Analysiere die Meta-Tag-Struktur"
+          ]
+        },
+        "waterfall": {
+          "purpose": "Performance-Waterfall-Analyse",
+          "required_params": ["id", "url"],
+          "use_cases": [
+            "Ladezeiten analysieren",
+            "Performance-Bottlenecks identifizieren",
+            "Optimierungsempfehlungen"
+          ],
+          "example_prompts": [
+            "Analysiere die Ladezeit der Startseite",
+            "Welche Ressourcen verlangsamen die Seite am meisten?",
+            "Zeige mir das Performance-Waterfall-Diagramm"
+          ]
+        },
+        "keyword_density": {
+          "purpose": "Keyword-Dichte und -Häufigkeit analysieren",
+          "required_params": ["id"],
+          "optional_params": ["url"],
+          "use_cases": [
+            "SEO-Keyword-Optimierung",
+            "Content-Analyse",
+            "Keyword-Stuffing erkennen"
+          ],
+          "example_prompts": [
+            "Analysiere die Keyword-Dichte auf der Startseite",
+            "Welche Keywords werden am häufigsten verwendet?",
+            "Finde Keyword-Stuffing-Probleme"
+          ]
+        }
+      }
+    },
+    "content": {
+      "path": "/v3/onpage_content",
+      "description": "Content-Extraktion und visuelle Analyse-Tools",
+      "operations": {
+        "raw_html": {
+          "purpose": "Hole Raw HTML-Code einer Seite",
+          "required_params": ["id", "url"],
+          "optional_params": ["enable_javascript", "custom_js", "custom_user_agent", "accept_language"],
+          "use_cases": [
+            "HTML-Struktur analysieren",
+            "Code-Qualität prüfen",
+            "Technical SEO Audit"
+          ],
+          "example_prompts": [
+            "Zeige mir den HTML-Code der Startseite",
+            "Analysiere die HTML-Struktur für SEO",
+            "Prüfe den Quellcode auf Probleme"
+          ]
+        },
+        "page_screenshot": {
+          "purpose": "Erstelle Screenshot einer Seite",
+          "required_params": ["id", "url"],
+          "optional_params": ["screenshot_width", "screenshot_height", "enable_javascript", "custom_js", "custom_user_agent", "accept_language", "viewport_width", "viewport_height"],
+          "use_cases": [
+            "Visuelle Website-Analyse",
+            "Mobile/Desktop-Vergleich",
+            "Design-Qualität bewerten"
+          ],
+          "example_prompts": [
+            "Erstelle einen Screenshot der Startseite",
+            "Mache ein Bild der mobilen Ansicht",
+            "Zeige mir, wie die Seite aussieht"
+          ]
+        },
+        "content_parsing": {
+          "purpose": "Parse und analysiere Content-Struktur",
+          "required_params": ["id", "url"],
+          "use_cases": [
+            "Content-Struktur analysieren",
+            "Strukturierte Daten extrahieren",
+            "Content-Qualität bewerten"
+          ],
+          "example_prompts": [
+            "Analysiere die Content-Struktur der Seite",
+            "Extrahiere alle Überschriften und Absätze",
+            "Parse den Content für SEO-Analyse"
+          ]
+        },
+        "content_parsing_live": {
+          "purpose": "Live Content-Parsing ohne Task",
+          "required_params": ["url"],
+          "use_cases": [
+            "Schnelle Content-Analyse",
+            "Live-Website-Check",
+            "Sofortige Content-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere sofort den Content von example.com",
+            "Führe einen Live-Content-Check durch",
+            "Parse die Seite ohne Wartezeit"
+          ]
+        },
+        "instant_pages": {
+          "purpose": "Sofortige Seiten-Analyse ohne Crawling",
+          "required_params": ["url"],
+          "use_cases": [
+            "Schnelle Einzelseiten-Analyse",
+            "Live-Website-Check",
+            "Sofortige SEO-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere sofort die Startseite von example.com",
+            "Führe einen Instant-Check der Seite durch",
+            "Zeige mir sofortige SEO-Ergebnisse"
+          ]
+        }
+      }
+    },
+    "microdata": {
+      "path": "/v3/onpage_microdata",
+      "description": "Strukturierte Daten und Microdata-Validierung",
+      "operations": {
+        "microdata_validation": {
+          "purpose": "Validiere strukturierte Daten",
+          "required_params": ["url"],
+          "optional_params": ["enable_javascript", "custom_js", "custom_user_agent", "accept_language"],
+          "use_cases": [
+            "Schema.org-Validierung",
+            "JSON-LD-Check",
+            "Strukturierte Daten-Optimierung"
+          ],
+          "example_prompts": [
+            "Validiere die strukturierten Daten der Seite",
+            "Prüfe alle Schema.org-Markups",
+            "Analysiere JSON-LD und Microdata"
+          ]
+        }
+      }
+    },
+    "lighthouse": {
+      "path": "/v3/onpage_lighthouse",
+      "description": "Lighthouse Performance und Qualitäts-Tests",
+      "operations": {
+        "task_post": {
+          "purpose": "Erstelle Lighthouse-Analyse-Task",
+          "required_params": ["url"],
+          "optional_params": ["language_code", "category", "version"],
+          "use_cases": [
+            "Performance-Analyse starten",
+            "SEO-Score messen",
+            "Accessibility prüfen"
+          ],
+          "example_prompts": [
+            "Starte eine Lighthouse-Analyse für die Startseite",
+            "Führe Performance-Tests durch",
+            "Analysiere SEO und Accessibility"
+          ]
+        },
+        "live": {
+          "purpose": "Sofortige Lighthouse-Analyse",
+          "required_params": ["url"],
+          "use_cases": [
+            "Schnelle Performance-Checks",
+            "Live-Lighthouse-Scores",
+            "Sofortige Optimierungsempfehlungen"
+          ],
+          "example_prompts": [
+            "Führe sofort eine Lighthouse-Analyse durch",
+            "Zeige mir die aktuellen Performance-Scores",
+            "Analysiere live die Website-Qualität"
+          ]
+        },
+        "task_get": {
+          "purpose": "Hole Lighthouse-Ergebnisse",
+          "required_params": ["id"],
+          "use_cases": [
+            "Lighthouse-Ergebnisse abrufen",
+            "Detaillierte Performance-Daten",
+            "Audit-Ergebnisse analysieren"
+          ],
+          "example_prompts": [
+            "Zeige mir die Lighthouse-Ergebnisse",
+            "Analysiere die Performance-Metriken",
+            "Welche Optimierungen werden empfohlen?"
+          ]
+        }
+      }
+    },
+    "management": {
+      "path": "/v3/onpage_management",
+      "description": "Task-Verwaltung und Problem-Analyse",
+      "operations": {
+        "id_list": {
+          "purpose": "Liste aller Task-IDs",
+          "optional_params": ["date_from", "date_to", "limit"],
+          "use_cases": [
+            "Task-Historie anzeigen",
+            "Vergangene Analysen finden",
+            "Task-Verwaltung"
+          ],
+          "example_prompts": [
+            "Zeige mir alle OnPage-Tasks der letzten Woche",
+            "Liste alle verfügbaren Task-IDs auf",
+            "Welche Analysen wurden durchgeführt?"
+          ]
+        },
+        "errors": {
+          "purpose": "Analysiere Task-Fehler",
+          "optional_params": ["date_from", "date_to", "limit"],
+          "use_cases": [
+            "Fehler-Diagnose",
+            "Problem-Analyse",
+            "Task-Debugging"
+          ],
+          "example_prompts": [
+            "Welche OnPage-Tasks sind fehlgeschlagen?",
+            "Analysiere alle Fehler der letzten Tage",
+            "Zeige mir die Problem-Tasks"
+          ]
+        },
+        "force_stop": {
+          "purpose": "Stoppe laufende Tasks",
+          "required_params": ["id"],
+          "use_cases": [
+            "Laufende Crawls stoppen",
+            "Task-Management",
+            "Ressourcen sparen"
+          ],
+          "example_prompts": [
+            "Stoppe den laufenden Crawl für Task 12345",
+            "Beende alle aktiven OnPage-Tasks",
+            "Force-Stop für spezifische Task"
+          ]
+        },
+        "available_filters": {
+          "purpose": "Zeige verfügbare Filter",
+          "use_cases": [
+            "Filter-Optionen anzeigen",
+            "Analyse-Parameter verstehen",
+            "Erweiterte Filterung"
+          ],
+          "example_prompts": [
+            "Welche Filter sind verfügbar?",
+            "Zeige mir alle Analyse-Parameter",
+            "Welche Filter-Optionen kann ich verwenden?"
+          ]
+        },
+        "pages_by_resource": {
+          "purpose": "Finde Seiten mit spezifischer Resource",
+          "required_params": ["id", "resource_url"],
+          "use_cases": [
+            "Resource-Impact analysieren",
+            "Seiten mit bestimmten Dateien finden",
+            "Optimierungsanalyse"
+          ],
+          "example_prompts": [
+            "Welche Seiten verwenden diese CSS-Datei?",
+            "Finde alle Seiten mit diesem JavaScript",
+            "Analysiere die Verwendung dieser Resource"
+          ]
+        },
+        "redirect_chains": {
+          "purpose": "Analysiere Redirect-Ketten",
+          "required_params": ["id"],
+          "use_cases": [
+            "Redirect-Probleme finden",
+            "SEO-Redirect-Optimierung",
+            "Performance-Impact analysieren"
+          ],
+          "example_prompts": [
+            "Welche Redirect-Ketten gibt es?",
+            "Finde alle problematischen Redirects",
+            "Analysiere die Redirect-Struktur"
+          ]
+        },
+        "non_indexable": {
+          "purpose": "Finde nicht-indexierbare Seiten",
+          "required_params": ["id"],
+          "use_cases": [
+            "Indexierungsprobleme finden",
+            "SEO-Barrieren identifizieren",
+            "Crawling-Probleme analysieren"
+          ],
+          "example_prompts": [
+            "Welche Seiten sind nicht indexierbar?",
+            "Finde alle blockierten Seiten",
+            "Analysiere Indexierungsprobleme"
+          ]
+        }
+      }
+    }
+  },
+  "common_parameters": {
+    "target": {
+      "type": "string",
+      "description": "URL oder Domain der zu analysierenden Website",
+      "examples": ["example.com", "https://www.example.com", "shop.example.com"],
+      "required_for": ["task_post", "instant_pages", "content_parsing_live"]
+    },
+    "id": {
+      "type": "string", 
+      "description": "Task ID von vorheriger Analyse",
+      "examples": ["12345-67890-abcdef", "task_12345"],
+      "required_for": ["summary", "pages", "resources", "links", "duplicate_content", "duplicate_tags", "waterfall", "keyword_density", "raw_html", "page_screenshot", "content_parsing", "lighthouse_task_get", "force_stop", "pages_by_resource", "redirect_chains", "non_indexable"]
+    },
+    "url": {
+      "type": "string",
+      "description": "Spezifische URL für Analyse",
+      "examples": ["https://example.com/page", "https://shop.example.com/product/123"],
+      "required_for": ["waterfall", "keyword_density", "raw_html", "page_screenshot", "content_parsing", "content_parsing_live", "instant_pages", "microdata", "lighthouse_task_post", "lighthouse_live"]
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Anzahl der zurückgegebenen Ergebnisse",
+      "default": 10,
+      "min": 1,
+      "max": 1000,
+      "use_cases": ["Pagination", "Ergebnisbegrenzung", "Performance-Optimierung"]
+    },
+    "offset": {
+      "type": "integer", 
+      "description": "Offset für Pagination",
+      "default": 0,
+      "min": 0,
+      "use_cases": ["Pagination", "Große Datensätze durchsuchen"]
+    },
+    "enable_javascript": {
+      "type": "boolean",
+      "description": "JavaScript-Ausführung aktivieren",
+      "default": false,
+      "cost_impact": "Zusätzliche Kosten",
+      "use_cases": ["SPA-Analyse", "Dynamischer Content", "JavaScript-basierte Features"]
+    },
+    "custom_js": {
+      "type": "string",
+      "description": "Custom JavaScript Code ausführen",
+      "cost_impact": "Zusätzliche Kosten",
+      "use_cases": ["Custom Interaktionen", "Spezielle Analysen", "Dynamische Tests"]
+    },
+    "custom_user_agent": {
+      "type": "string",
+      "description": "Custom User-Agent Header",
+      "default": "Mozilla/5.0 (compatible; RSiteAuditor)",
+      "use_cases": ["Mobile-Simulation", "Bot-Erkennung umgehen", "Spezielle Browser-Simulation"]
+    },
+    "accept_language": {
+      "type": "string",
+      "description": "Accept-Language Header",
+      "default": "en-US,en;q=0.9",
+      "use_cases": ["Sprach-spezifische Inhalte", "Lokalisierung", "Internationale Websites"]
+    },
+    "enable_browser_rendering": {
+      "type": "boolean",
+      "description": "Browser-Rendering für Core Web Vitals",
+      "default": false,
+      "cost_impact": "Zusätzliche Kosten",
+      "use_cases": ["Performance-Messung", "Core Web Vitals", "Echte Browser-Metriken"]
+    },
+    "load_resources": {
+      "type": "boolean",
+      "description": "Ressourcen (CSS, JS, Bilder) laden",
+      "default": true,
+      "cost_impact": "Zusätzliche Kosten",
+      "use_cases": ["Vollständige Seiten-Analyse", "Performance-Tests", "Resource-Analyse"]
+    },
+    "max_crawl_pages": {
+      "type": "integer",
+      "description": "Maximale Anzahl zu crawlender Seiten",
+      "default": 10,
+      "min": 1,
+      "max": 1000,
+      "use_cases": ["Crawl-Begrenzung", "Kostenkontrolle", "Fokus-Analyse"]
+    },
+    "screenshot_width": {
+      "type": "integer",
+      "description": "Screenshot-Breite in Pixeln",
+      "default": 1920,
+      "min": 320,
+      "max": 3840,
+      "use_cases": ["Desktop-Screenshots", "Hochauflösende Bilder", "Spezielle Auflösungen"]
+    },
+    "screenshot_height": {
+      "type": "integer", 
+      "description": "Screenshot-Höhe in Pixeln",
+      "default": 1080,
+      "min": 240,
+      "max": 2160,
+      "use_cases": ["Desktop-Screenshots", "Hochauflösende Bilder", "Spezielle Auflösungen"]
+    },
+    "viewport_width": {
+      "type": "integer",
+      "description": "Viewport-Breite für Rendering",
+      "default": 1920,
+      "min": 320,
+      "max": 3840,
+      "use_cases": ["Mobile-Simulation", "Responsive Design Tests", "Viewport-spezifische Analysen"]
+    },
+    "viewport_height": {
+      "type": "integer",
+      "description": "Viewport-Höhe für Rendering", 
+      "default": 1080,
+      "min": 240,
+      "max": 2160,
+      "use_cases": ["Mobile-Simulation", "Responsive Design Tests", "Viewport-spezifische Analysen"]
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Sprachcode für Analyse",
+      "default": "en",
+      "examples": ["en", "de", "fr", "es", "it"],
+      "use_cases": ["Lokalisierte Analysen", "Sprach-spezifische SEO", "Internationale Optimierung"]
+    },
+    "location_name": {
+      "type": "string",
+      "description": "Geografischer Standort",
+      "default": "United States",
+      "examples": ["United States", "Germany", "United Kingdom", "France"],
+      "use_cases": ["Lokale SEO", "Geografische Analysen", "Standort-spezifische Ergebnisse"]
+    },
+    "device": {
+      "type": "string",
+      "description": "Gerätetyp für Analyse",
+      "enum": ["desktop", "mobile"],
+      "default": "desktop",
+      "use_cases": ["Mobile vs Desktop", "Responsive Design", "Geräte-spezifische Optimierung"]
+    },
+    "category": {
+      "type": "array",
+      "description": "Lighthouse-Kategorien",
+      "items": {
+        "enum": ["performance", "accessibility", "seo", "pwa", "best-practices"]
+      },
+      "use_cases": ["Spezifische Lighthouse-Tests", "Fokussierte Analysen", "Kategorie-spezifische Optimierung"]
+    },
+    "filters": {
+      "type": "array",
+      "description": "Filter für Ergebnisse",
+      "items": {"type": "object"},
+      "use_cases": ["Ergebnis-Filterung", "Spezifische Analysen", "Daten-Einschränkung"]
+    },
+    "order_by": {
+      "type": "array",
+      "description": "Sortierung der Ergebnisse",
+      "items": {"type": "string"},
+      "use_cases": ["Ergebnis-Sortierung", "Priorisierung", "Daten-Organisation"]
+    },
+    "summary_only": {
+      "type": "boolean",
+      "description": "Nur Zusammenfassung ohne Details",
+      "default": true,
+      "use_cases": ["Schnelle Übersichten", "Token-Optimierung", "Performance-Verbesserung"]
+    }
+  },
+  "prompt_templates": {
+    "website_analysis": {
+      "template": "Analysiere die Website {target} mit folgenden Parametern: {parameters}. Führe eine umfassende OnPage-SEO-Analyse durch und identifiziere die wichtigsten Optimierungsmöglichkeiten.",
+      "variables": {
+        "target": "URL oder Domain",
+        "parameters": "Spezifische Parameter wie max_crawl_pages, enable_javascript, etc."
+      },
+      "example": "Analysiere die Website example.com mit max_crawl_pages=50 und enable_javascript=true. Führe eine umfassende OnPage-SEO-Analyse durch und identifiziere die wichtigsten Optimierungsmöglichkeiten."
+    },
+    "performance_analysis": {
+      "template": "Führe eine detaillierte Performance-Analyse für {url} durch. Verwende Lighthouse-Tests und Waterfall-Analyse, um Performance-Bottlenecks zu identifizieren und Optimierungsempfehlungen zu geben.",
+      "variables": {
+        "url": "Spezifische URL"
+      },
+      "example": "Führe eine detaillierte Performance-Analyse für https://example.com durch. Verwende Lighthouse-Tests und Waterfall-Analyse, um Performance-Bottlenecks zu identifizieren und Optimierungsempfehlungen zu geben."
+    },
+    "content_audit": {
+      "template": "Führe einen Content-Audit für {target} durch. Analysiere Content-Struktur, Keyword-Dichte, Duplicate Content und strukturierte Daten. Gib konkrete Verbesserungsvorschläge.",
+      "variables": {
+        "target": "URL oder Domain"
+      },
+      "example": "Führe einen Content-Audit für example.com durch. Analysiere Content-Struktur, Keyword-Dichte, Duplicate Content und strukturierte Daten. Gib konkrete Verbesserungsvorschläge."
+    },
+    "technical_seo": {
+      "template": "Führe einen Technical SEO Audit für {target} durch. Prüfe HTML-Struktur, Meta-Tags, interne/externe Links, Redirects und Indexierungsprobleme.",
+      "variables": {
+        "target": "URL oder Domain"
+      },
+      "example": "Führe einen Technical SEO Audit für example.com durch. Prüfe HTML-Struktur, Meta-Tags, interne/externe Links, Redirects und Indexierungsprobleme."
+    },
+    "mobile_analysis": {
+      "template": "Analysiere die mobile Version von {url}. Verwende device=mobile und führe Screenshots sowie Performance-Tests durch. Identifiziere mobile-spezifische Probleme.",
+      "variables": {
+        "url": "Spezifische URL"
+      },
+      "example": "Analysiere die mobile Version von https://example.com. Verwende device=mobile und führe Screenshots sowie Performance-Tests durch. Identifiziere mobile-spezifische Probleme."
+    }
+  },
+  "workflow_examples": {
+    "complete_website_audit": {
+      "description": "Vollständiger Website-Audit Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "task_post",
+          "description": "Starte OnPage-Analyse mit task_post",
+          "parameters": {
+            "target": "example.com",
+            "max_crawl_pages": 100,
+            "enable_javascript": true,
+            "load_resources": true
+          }
+        },
+        {
+          "step": 2,
+          "action": "summary",
+          "description": "Prüfe Crawling-Status",
+          "parameters": {
+            "id": "{{task_id_from_step_1}}"
+          }
+        },
+        {
+          "step": 3,
+          "action": "pages",
+          "description": "Analysiere alle Seiten",
+          "parameters": {
+            "id": "{{task_id_from_step_1}}",
+            "limit": 50
+          }
+        },
+        {
+          "step": 4,
+          "action": "resources",
+          "description": "Analysiere Website-Ressourcen",
+          "parameters": {
+            "id": "{{task_id_from_step_1}}",
+            "limit": 30
+          }
+        },
+        {
+          "step": 5,
+          "action": "links",
+          "description": "Analysiere Link-Struktur",
+          "parameters": {
+            "id": "{{task_id_from_step_1}}",
+            "limit": 50
+          }
+        },
+        {
+          "step": 6,
+          "action": "duplicate_content",
+          "description": "Finde Duplicate Content",
+          "parameters": {
+            "id": "{{task_id_from_step_1}}"
+          }
+        },
+        {
+          "step": 7,
+          "action": "lighthouse_live",
+          "description": "Führe Lighthouse-Analyse durch",
+          "parameters": {
+            "url": "https://example.com",
+            "category": ["performance", "seo", "accessibility"]
+          }
+        }
+      ]
+    },
+    "quick_page_check": {
+      "description": "Schnelle Einzelseiten-Analyse",
+      "steps": [
+        {
+          "step": 1,
+          "action": "instant_pages",
+          "description": "Sofortige Seiten-Analyse",
+          "parameters": {
+            "url": "https://example.com/page"
+          }
+        },
+        {
+          "step": 2,
+          "action": "lighthouse_live",
+          "description": "Live Lighthouse-Test",
+          "parameters": {
+            "url": "https://example.com/page",
+            "category": ["performance", "seo"]
+          }
+        },
+        {
+          "step": 3,
+          "action": "microdata",
+          "description": "Strukturierte Daten prüfen",
+          "parameters": {
+            "url": "https://example.com/page"
+          }
+        }
+      ]
+    },
+    "performance_optimization": {
+      "description": "Performance-Optimierung Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "lighthouse_task_post",
+          "description": "Starte Lighthouse-Analyse",
+          "parameters": {
+            "url": "https://example.com",
+            "category": ["performance"]
+          }
+        },
+        {
+          "step": 2,
+          "action": "lighthouse_task_get",
+          "description": "Hole Performance-Ergebnisse",
+          "parameters": {
+            "id": "{{lighthouse_task_id}}"
+          }
+        },
+        {
+          "step": 3,
+          "action": "waterfall",
+          "description": "Analysiere Ladezeiten",
+          "parameters": {
+            "id": "{{onpage_task_id}}",
+            "url": "https://example.com"
+          }
+        },
+        {
+          "step": 4,
+          "action": "resources",
+          "description": "Identifiziere Performance-Bottlenecks",
+          "parameters": {
+            "id": "{{onpage_task_id}}",
+            "limit": 20
+          }
+        }
+      ]
+    }
+  },
+  "best_practices": {
+    "cost_optimization": [
+      "Verwende summary_only=true für schnelle Übersichten",
+      "Begrenze max_crawl_pages für erste Analysen",
+      "Nutze instant_pages für Einzelseiten-Checks",
+      "Verwende limit-Parameter für große Datensätze"
+    ],
+    "performance_tips": [
+      "Starte mit task_post und warte auf summary",
+      "Verwende offset für Pagination großer Ergebnisse",
+      "Nutze filters und order_by für relevante Daten",
+      "Kombiniere verschiedene Endpoints für vollständige Analysen"
+    ],
+    "error_handling": [
+      "Prüfe immer den status_code in Antworten",
+      "Verwende errors-Endpoint für Problem-Diagnose",
+      "Nutze force_stop bei hängenden Tasks",
+      "Überwache Task-Status mit summary"
+    ],
+    "seo_optimization": [
+      "Kombiniere OnPage-Analyse mit Lighthouse-SEO",
+      "Analysiere sowohl Desktop als auch Mobile",
+      "Prüfe strukturierte Daten mit microdata",
+      "Verwende keyword_density für Content-Optimierung"
+    ]
+  },
+  "common_use_cases": {
+    "seo_audit": {
+      "description": "Vollständiger SEO-Audit einer Website",
+      "endpoints": ["task_post", "summary", "pages", "links", "duplicate_content", "duplicate_tags", "lighthouse_live"],
+      "key_metrics": ["SEO-Score", "OnPage-Issues", "Link-Qualität", "Content-Duplikate", "Meta-Tag-Probleme"]
+    },
+    "performance_audit": {
+      "description": "Performance-Analyse und Optimierung",
+      "endpoints": ["lighthouse_live", "waterfall", "resources", "page_screenshot"],
+      "key_metrics": ["Performance-Score", "Core Web Vitals", "Ladezeiten", "Resource-Größe", "Optimierungsempfehlungen"]
+    },
+    "content_analysis": {
+      "description": "Content-Qualität und -Struktur analysieren",
+      "endpoints": ["content_parsing", "keyword_density", "duplicate_content", "microdata"],
+      "key_metrics": ["Content-Struktur", "Keyword-Dichte", "Strukturierte Daten", "Content-Duplikate", "SEO-Optimierung"]
+    },
+    "technical_audit": {
+      "description": "Technical SEO und Website-Struktur",
+      "endpoints": ["raw_html", "links", "redirect_chains", "non_indexable", "available_filters"],
+      "key_metrics": ["HTML-Qualität", "Link-Struktur", "Redirect-Probleme", "Indexierungsprobleme", "Technical Issues"]
+    },
+    "mobile_optimization": {
+      "description": "Mobile-spezifische Analyse und Optimierung",
+      "endpoints": ["page_screenshot", "lighthouse_live", "instant_pages"],
+      "key_metrics": ["Mobile Performance", "Responsive Design", "Mobile SEO", "Viewport-Optimierung", "Mobile Usability"]
+    }
+  },
+  "response_formats": {
+    "success_response": {
+      "structure": {
+        "status_code": "integer (200 = success)",
+        "data": "object with results",
+        "summary": "object with key metrics",
+        "blob_storage": "object with storage info (optional)"
+      },
+      "example": {
+        "status_code": 200,
+        "data": {...},
+        "summary": {
+          "total_items": 50,
+          "items_returned": 10
+        }
+      }
+    },
+    "error_response": {
+      "structure": {
+        "status_code": "integer (4xx/5xx = error)",
+        "error": "string with error message",
+        "details": "object with error details (optional)"
+      },
+      "common_errors": {
+        "400": "Bad Request - Invalid parameters",
+        "401": "Unauthorized - Invalid credentials",
+        "404": "Not Found - Task ID not found",
+        "429": "Rate Limit Exceeded",
+        "500": "Internal Server Error"
+      }
+    }
+  },
+  "integration_tips": {
+    "custom_gpt": [
+      "Verwende spezifische Parameter in Prompts",
+      "Erkläre komplexe Workflows Schritt für Schritt",
+      "Gib konkrete Beispiele für jeden Endpoint",
+      "Erwähne Kosten-Implications für erweiterte Features"
+    ],
+    "automation": [
+      "Implementiere Retry-Logic für fehlgeschlagene Requests",
+      "Verwende Webhooks für Task-Completion",
+      "Cache Ergebnisse für wiederholte Analysen",
+      "Monitor API-Usage und Costs"
+    ],
+    "reporting": [
+      "Kombiniere verschiedene Endpoints für vollständige Reports",
+      "Verwende summary_only für Executive Summaries",
+      "Exportiere große Datensätze über blob_storage",
+      "Erstelle vergleichende Analysen über Zeit"
+    ]
+  }
+}

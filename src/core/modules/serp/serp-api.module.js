@@ -3,10 +3,20 @@ import { BaseModule } from '../base.module.js';
 // Google Organic Tools
 import { SerpOrganicLiveAdvancedTool } from './tools/serp-organic-live-advanced.tool.js';
 import { SerpOrganicLocationsListTool } from './tools/serp-organic-locations-list.tool.js';
+import { SerpGoogleOrganicTaskPostTool } from './tools/serp-google-organic-task-post.tool.js';
+import { SerpGoogleOrganicTasksReadyTool } from './tools/serp-google-organic-tasks-ready.tool.js';
+import { SerpGoogleOrganicTaskGetAdvancedTool } from './tools/serp-google-organic-task-get-advanced.tool.js';
+import { SerpGoogleOrganicTaskGetRegularTool } from './tools/serp-google-organic-task-get-regular.tool.js';
+import { SerpGoogleOrganicTaskGetHtmlTool } from './tools/serp-google-organic-task-get-html.tool.js';
+import { SerpGoogleOrganicLiveHtmlTool } from './tools/serp-google-organic-live-html.tool.js';
+import { SerpGoogleOrganicLiveRegularTool } from './tools/serp-google-organic-live-regular.tool.js';
 
 // Google AI Mode Tools
 import { SerpGoogleAiModeLanguagesTool } from './tools/serp-google-ai-mode-languages.tool.js';
 import { SerpGoogleAiModeLiveAdvancedTool } from './tools/serp-google-ai-mode-live-advanced.tool.js';
+
+// Google Languages Tool
+import { SerpGoogleLanguagesTool } from './tools/serp-google-languages.tool.js';
 
 // Google Maps Tools
 import { SerpGoogleMapsLiveAdvancedTool } from './tools/serp-google-maps-live-advanced.tool.js';
@@ -45,6 +55,8 @@ import { SerpGoogleAdsSearchLiveAdvancedTool } from './tools/serp-google-ads-sea
 // Bing Tools
 import { SerpBingOrganicLiveAdvancedTool } from './tools/serp-bing-organic-live-advanced.tool.js';
 import { SerpBingLocalPackLiveAdvancedTool } from './tools/serp-bing-local-pack-live-advanced.tool.js';
+import { SerpBingLocationsTool } from './tools/serp-bing-locations.tool.js';
+import { SerpBingLanguagesTool } from './tools/serp-bing-languages.tool.js';
 
 // YouTube Tools
 import { SerpYoutubeLocationsListTool } from './tools/serp-youtube-locations-list.tool.js';
@@ -74,10 +86,20 @@ export class SerpApiModule extends BaseModule {
       // Google Organic Tools
       new SerpOrganicLiveAdvancedTool(this.dataForSEOClient),
       new SerpOrganicLocationsListTool(this.dataForSEOClient),
+      new SerpGoogleOrganicTaskPostTool(this.dataForSEOClient),
+      new SerpGoogleOrganicTasksReadyTool(this.dataForSEOClient),
+      new SerpGoogleOrganicTaskGetAdvancedTool(this.dataForSEOClient),
+      new SerpGoogleOrganicTaskGetRegularTool(this.dataForSEOClient),
+      new SerpGoogleOrganicTaskGetHtmlTool(this.dataForSEOClient),
+      new SerpGoogleOrganicLiveHtmlTool(this.dataForSEOClient),
+      new SerpGoogleOrganicLiveRegularTool(this.dataForSEOClient),
 
       // Google AI Mode Tools
       new SerpGoogleAiModeLanguagesTool(this.dataForSEOClient),
       new SerpGoogleAiModeLiveAdvancedTool(this.dataForSEOClient),
+
+      // Google Languages Tool
+      new SerpGoogleLanguagesTool(this.dataForSEOClient),
 
       // Google Maps Tools
       new SerpGoogleMapsLiveAdvancedTool(this.dataForSEOClient),
@@ -116,6 +138,8 @@ export class SerpApiModule extends BaseModule {
       // Bing Tools
       new SerpBingOrganicLiveAdvancedTool(this.dataForSEOClient),
       new SerpBingLocalPackLiveAdvancedTool(this.dataForSEOClient),
+      new SerpBingLocationsTool(this.dataForSEOClient),
+      new SerpBingLanguagesTool(this.dataForSEOClient),
 
       // YouTube Tools
       new SerpYoutubeLocationsListTool(this.dataForSEOClient),

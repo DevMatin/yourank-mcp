@@ -63,14 +63,38 @@ export class KeywordsDataApiModule extends BaseModule {
       new KeywordsDataTools.BingSearchVolumeTaskPostTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingSearchVolumeTasksReadyTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingSearchVolumeTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForSiteTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForSiteTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForSiteTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForSiteTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForKeywordsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForKeywordsTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForKeywordsTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForKeywordsTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordPerformanceLocationsAndLanguagesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordPerformanceTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordPerformanceTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordPerformanceTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordPerformanceTaskGetTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeHistoryLocationsAndLanguagesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeHistoryTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeHistoryTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeHistoryTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeHistoryTaskGetTool(this.dataForSEOClient) as ToolInstance,
       
       // Bing Audience Estimation Tools
       new KeywordsDataTools.BingAudienceEstimationJobFunctionsTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingAudienceEstimationIndustriesTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingAudienceEstimationTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingAudienceEstimationTaskPostTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingAudienceEstimationTasksReadyTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingAudienceEstimationTaskGetTool(this.dataForSEOClient) as ToolInstance,
       
       // Clickstream Data Tools
       new KeywordsDataTools.ClickstreamDataLocationsAndLanguagesTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.ClickstreamDataDataforseoSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.ClickstreamDataGlobalSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.ClickstreamDataBulkSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
     ];
 
     return tools.reduce((acc, tool) => ({

@@ -22,10 +22,13 @@ export class SerpGoogleJobsLiveAdvancedTool extends BaseTool {
       location_code: z.number().optional().describe("Location code"),
       language_code: z.string().optional().describe("Language code (e.g., 'en')"),
       device: z.enum(['desktop', 'mobile']).optional().describe("Device type"),
-      depth: z.number().optional().describe("Number of results to retrieve (10-700)"),
-      include_answer_box: z.boolean().optional().describe("Include answer box content"),
-      include_people_also_ask: z.boolean().optional().describe("Include people also ask content"),
-      include_related_searches: z.boolean().optional().describe("Include related searches"),
+      depth: z.number().min(1).max(700).optional().default(20).describe("Number of job results to retrieve"),
+      job_type: z.string().optional().describe("Job type filter (e.g., 'software engineer', 'marketing manager')"),
+      company: z.string().optional().describe("Company filter (e.g., 'Google', 'Microsoft')"),
+      employment_type: z.enum(['full_time', 'part_time', 'contract', 'temporary', 'internship']).optional().describe("Employment type filter"),
+      experience_level: z.enum(['entry_level', 'mid_level', 'senior_level', 'executive']).optional().describe("Experience level filter"),
+      date_posted: z.enum(['any', 'today', '3days', 'week', 'month']).optional().describe("Date posted filter"),
+      remote: z.boolean().optional().describe("Remote work filter")
     };
   }
 
@@ -50,14 +53,23 @@ export class SerpGoogleJobsLiveAdvancedTool extends BaseTool {
       if (params.depth) {
         requestData.depth = params.depth;
       }
-      if (params.include_answer_box !== undefined) {
-        requestData.include_answer_box = params.include_answer_box;
+      if (params.job_type) {
+        requestData.job_type = params.job_type;
       }
-      if (params.include_people_also_ask !== undefined) {
-        requestData.include_people_also_ask = params.include_people_also_ask;
+      if (params.company) {
+        requestData.company = params.company;
       }
-      if (params.include_related_searches !== undefined) {
-        requestData.include_related_searches = params.include_related_searches;
+      if (params.employment_type) {
+        requestData.employment_type = params.employment_type;
+      }
+      if (params.experience_level) {
+        requestData.experience_level = params.experience_level;
+      }
+      if (params.date_posted) {
+        requestData.date_posted = params.date_posted;
+      }
+      if (params.remote !== undefined) {
+        requestData.remote = params.remote;
       }
 
       const response = await this.dataForSEOClient.makeRequest('/v3/serp/google/jobs/live/advanced', 'POST', [requestData]);

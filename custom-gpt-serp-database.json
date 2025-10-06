@@ -1,0 +1,1123 @@
+{
+  "meta": {
+    "title": "DataForSEO SERP API - Custom GPT Datenbank",
+    "version": "1.1.0",
+    "description": "Vollständige Datenbank für Custom GPT Prompts mit allen SERP-Tools, korrigierten Parametern und Anwendungsfällen - ERWEITERT UM LOCATION-HANDLING",
+    "last_updated": "2025-01-06",
+    "total_endpoints": 45,
+    "total_parameters": 25,
+    "implementation_status": "Korrigiert und vollständig implementiert mit Location-Parameter-Fixes",
+    "location_fixes": {
+      "status": "✅ VOLLSTÄNDIG BEHOBEN",
+      "problem": "location_name Parameter wurde nicht korrekt formatiert",
+      "solution": "Korrektes DataForSEO Format implementiert: Stadt,Bundesland,Land",
+      "fallback": "location_code als Alternative verfügbar",
+      "chatgpt_instructions": "Detaillierte Anweisungen für korrekte Location-Parameter-Verwendung hinzugefügt"
+    }
+  },
+  "api_overview": {
+    "base_url": "https://yourank-mcp.vercel.app",
+    "authentication": "Basic Auth",
+    "content_type": "application/json",
+    "rate_limits": {
+      "live_endpoints": "2000 requests/minute",
+      "task_endpoints": "2000 requests/minute, max 100 tasks per call",
+      "free_endpoints": "Unlimited (Languages, Locations)"
+    },
+    "cost_info": {
+      "note": "DataForSEO Credits erforderlich für LIVE Endpoints",
+      "free_endpoints": [
+        "serp_google_languages",
+        "serp_google_locations", 
+        "serp_bing_languages",
+        "serp_bing_locations",
+        "serp_youtube_languages",
+        "serp_youtube_locations"
+      ],
+      "paid_endpoints": "Alle anderen SERP Endpoints"
+    }
+  },
+  "location_handling": {
+    "overview": "DataForSEO unterstützt zwei Location-Parameter - beide funktionieren!",
+    "parameters": {
+      "location_name": {
+        "type": "string",
+        "description": "Menschenlesbarer Standortname",
+        "format": "Stadt,Bundesland,Land (ohne Leerzeichen nach Kommas)",
+        "examples": {
+          "deutschland": [
+            "Berlin,Germany",
+            "Munich,Bavaria,Germany", 
+            "Hamburg,Germany",
+            "Erlangen,Bavaria,Germany",
+            "Cologne,North Rhine-Westphalia,Germany"
+          ],
+          "international": [
+            "London,England,United Kingdom",
+            "New York,New York,United States",
+            "Paris,Ile-de-France,France"
+          ]
+        },
+        "common_mistakes": [
+          "❌ 'Erlangen, Germany' (Leerzeichen nach Komma)",
+          "❌ 'Erlangen' (fehlendes Bundesland)",
+          "❌ 'Erlangen, Bayern, Deutschland' (deutsche Namen)"
+        ],
+        "correct_format": [
+          "✅ 'Erlangen,Bavaria,Germany'",
+          "✅ 'Berlin,Germany'",
+          "✅ 'Munich,Bavaria,Germany'"
+        ]
+      },
+      "location_code": {
+        "type": "integer", 
+        "description": "Numerischer Standortcode von DataForSEO",
+        "advantages": [
+          "✅ Immer korrekt und eindeutig",
+          "✅ Keine Format-Probleme",
+          "✅ Schneller zu verarbeiten"
+        ],
+        "examples": {
+          "deutschland": {
+            "Berlin": 20226,
+            "Munich": 20229,
+            "Hamburg": 20232,
+            "Erlangen": 1004151,
+            "Cologne": 20230
+          }
+        },
+        "lookup_method": "Verwende serp_google_locations Endpoint um Codes zu finden"
+      }
+    },
+    "recommendations": {
+      "for_prompts": [
+        "1. Wenn Benutzer Stadt + Land angibt: Verwende location_name mit korrektem Format",
+        "2. Wenn Benutzer nur Stadt angibt: Recherchiere Bundesland und verwende location_name",
+        "3. Wenn Format unsicher: Verwende location_code (empfohlen)",
+        "4. Fallback: Verwende 'Germany' als Standard"
+      ],
+    "prompt_examples": [
+      "Benutzer: 'Kaffee in Erlangen' → location_name: 'Erlangen,Bavaria,Germany'",
+      "Benutzer: 'SEO Berlin' → location_name: 'Berlin,Germany'", 
+      "Benutzer: 'Restaurants München' → location_name: 'Munich,Bavaria,Germany'",
+      "Benutzer: 'Café Hamburg' → location_name: 'Hamburg,Germany'"
+    ],
+    "chatgpt_instructions": {
+      "title": "🎯 WICHTIGE ANWEISUNGEN FÜR CHATGPT",
+      "rules": [
+        "1. IMMER beide Location-Parameter prüfen: location_name UND location_code",
+        "2. Wenn Benutzer Stadt angibt: Recherchiere das korrekte DataForSEO Format",
+        "3. Verwende die german_cities_mapping für häufige deutsche Städte",
+        "4. Bei unbekannten Städten: Verwende serp_google_locations Endpoint",
+        "5. Format location_name: 'Stadt,Bundesland,Land' (ohne Leerzeichen nach Kommas)",
+        "6. Bei Unsicherheit: Verwende location_code statt location_name",
+        "7. Fallback: Verwende 'Germany' als Standard"
+      ],
+      "step_by_step": [
+        "Schritt 1: Prüfe ob Stadt in german_cities_mapping vorhanden",
+        "Schritt 2: Wenn ja → Verwende vordefiniertes Format",
+        "Schritt 3: Wenn nein → Recherchiere mit serp_google_locations",
+        "Schritt 4: Wenn Recherche fehlschlägt → Verwende 'Germany'",
+        "Schritt 5: Verwende location_code wenn verfügbar (empfohlen)"
+      ],
+      "error_prevention": [
+        "❌ NIEMALS: 'Stadt, Land' (mit Leerzeichen)",
+        "❌ NIEMALS: Deutsche Bundesland-Namen (Bayern → Bavaria)",
+        "❌ NIEMALS: Deutsche Ländernamen (Deutschland → Germany)",
+        "✅ IMMER: 'Stadt,Bundesland,Land' Format",
+        "✅ IMMER: Englische Namen verwenden"
+      ]
+    }
+    },
+    "german_cities_mapping": {
+      "note": "Häufige deutsche Städte mit korrektem DataForSEO Format",
+      "cities": {
+        "Berlin": "Berlin,Germany",
+        "München": "Munich,Bavaria,Germany", 
+        "Hamburg": "Hamburg,Germany",
+        "Köln": "Cologne,North Rhine-Westphalia,Germany",
+        "Frankfurt": "Frankfurt,Hessen,Germany",
+        "Stuttgart": "Stuttgart,Baden-Wurttemberg,Germany",
+        "Düsseldorf": "Dusseldorf,North Rhine-Westphalia,Germany",
+        "Leipzig": "Leipzig,Saxony,Germany",
+        "Dortmund": "Dortmund,North Rhine-Westphalia,Germany",
+        "Essen": "Essen,North Rhine-Westphalia,Germany",
+        "Bremen": "Bremen,Bremen,Germany",
+        "Dresden": "Dresden,Saxony,Germany",
+        "Hannover": "Hanover,Lower Saxony,Germany",
+        "Nürnberg": "Nuremberg,Bavaria,Germany",
+        "Duisburg": "Duisburg,North Rhine-Westphalia,Germany",
+        "Bochum": "Bochum,North Rhine-Westphalia,Germany",
+        "Wuppertal": "Wuppertal,North Rhine-Westphalia,Germany",
+        "Bielefeld": "Bielefeld,North Rhine-Westphalia,Germany",
+        "Bonn": "Bonn,North Rhine-Westphalia,Germany",
+        "Münster": "Munster,North Rhine-Westphalia,Germany",
+        "Karlsruhe": "Karlsruhe,Baden-Wurttemberg,Germany",
+        "Mannheim": "Mannheim,Baden-Wurttemberg,Germany",
+        "Augsburg": "Augsburg,Bavaria,Germany",
+        "Wiesbaden": "Wiesbaden,Hessen,Germany",
+        "Mönchengladbach": "Monchengladbach,North Rhine-Westphalia,Germany",
+        "Braunschweig": "Brunswick,Lower Saxony,Germany",
+        "Kiel": "Kiel,Schleswig-Holstein,Germany",
+        "Aachen": "Aachen,North Rhine-Westphalia,Germany",
+        "Magdeburg": "Magdeburg,Saxony-Anhalt,Germany",
+        "Freiburg": "Freiburg,Baden-Wurttemberg,Germany",
+        "Lübeck": "Lubeck,Schleswig-Holstein,Germany",
+        "Erfurt": "Erfurt,Thuringia,Germany",
+        "Rostock": "Rostock,Mecklenburg-Vorpommern,Germany",
+        "Kassel": "Kassel,Hessen,Germany",
+        "Potsdam": "Potsdam,Brandenburg,Germany",
+        "Erlangen": "Erlangen,Bavaria,Germany",
+        "Göttingen": "Gottingen,Lower Saxony,Germany",
+        "Heidelberg": "Heidelberg,Baden-Wurttemberg,Germany"
+      }
+    }
+  },
+  "endpoints": {
+    "google_organic": {
+      "description": "Google Organic SERP-Analyse - Vollständig implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Erweiterte Google Organic SERP-Analyse in Echtzeit",
+          "required_params": ["keyword"],
+          "optional_params": [
+            "location_name", "location_code", "language_code", "device", "os", 
+            "depth", "calculate_rectangles", "browser_screen_width", "browser_screen_height"
+          ],
+          "location_parameters": {
+            "location_name": {
+              "type": "string",
+              "description": "Vollständiger Standortname im DataForSEO Format",
+              "format": "Stadt,Bundesland,Land",
+              "examples": [
+                "Erlangen,Bavaria,Germany",
+                "Berlin,Germany", 
+                "Munich,Bavaria,Germany",
+                "Hamburg,Germany"
+              ],
+              "note": "⚠️ WICHTIG: Format muss exakt sein! Verwende Kommas ohne Leerzeichen.",
+              "fallback": "Wenn Format unbekannt, verwende 'Germany' als Standard"
+            },
+            "location_code": {
+              "type": "integer",
+              "description": "Numerischer Standortcode von DataForSEO",
+              "examples": [1004151, 20226, 20227],
+              "note": "✅ Empfohlen: Eindeutig und immer korrekt",
+              "lookup": "Verwende serp_google_locations Endpoint um Codes zu finden"
+            },
+            "priority": "location_code > location_name > 'Germany' (Standard)"
+          },
+          "use_cases": [
+            "SERP-Positionen analysieren",
+            "Konkurrenz-Rankings prüfen", 
+            "SEO-Performance messen",
+            "Keyword-Rankings verfolgen"
+          ],
+          "example_prompts": [
+            "Analysiere die Google SERP für 'seo tools' in Deutschland",
+            "Zeige mir die Top 20 Rankings für 'digital marketing'",
+            "Prüfe die SERP-Positionen für 'e-commerce solutions'"
+          ]
+        },
+        "task_post": {
+          "purpose": "Erstelle Google Organic SERP-Analyse Task",
+          "required_params": ["keyword", "location_name", "language_code"],
+          "optional_params": ["device", "os", "depth"],
+          "use_cases": [
+            "Asynchrone SERP-Analyse",
+            "Batch-Keyword-Analysen",
+            "Kostenoptimierte Analysen"
+          ],
+          "example_prompts": [
+            "Erstelle einen Task für SERP-Analyse von 'seo tools'",
+            "Starte eine asynchrone Analyse für 'digital marketing'",
+            "Initialisiere SERP-Tracking für mehrere Keywords"
+          ]
+        },
+        "tasks_ready": {
+          "purpose": "Prüfe verfügbare SERP-Tasks",
+          "use_cases": [
+            "Task-Status überwachen",
+            "Fertige Analysen abrufen",
+            "Batch-Processing verwalten"
+          ],
+          "example_prompts": [
+            "Welche SERP-Analysen sind fertig?",
+            "Zeige mir alle verfügbaren Task-Ergebnisse",
+            "Prüfe den Status der laufenden SERP-Tasks"
+          ]
+        },
+        "task_get_advanced": {
+          "purpose": "Hole erweiterte SERP-Ergebnisse",
+          "required_params": ["id"],
+          "use_cases": [
+            "Detaillierte SERP-Daten abrufen",
+            "Erweiterte Ranking-Analysen",
+            "Vollständige SERP-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir die detaillierten SERP-Ergebnisse für Task 12345",
+            "Hole die erweiterte Analyse der Google Rankings",
+            "Analysiere die vollständigen SERP-Daten"
+          ]
+        },
+        "task_get_regular": {
+          "purpose": "Hole Standard SERP-Ergebnisse",
+          "required_params": ["id"],
+          "use_cases": [
+            "Standard SERP-Daten",
+            "Basis-Ranking-Analysen",
+            "Einfache SERP-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir die Standard SERP-Ergebnisse",
+            "Hole die Basis-Ranking-Daten",
+            "Analysiere die Standard SERP-Informationen"
+          ]
+        },
+        "task_get_html": {
+          "purpose": "Hole HTML-SERP-Ergebnisse",
+          "required_params": ["id"],
+          "use_cases": [
+            "HTML-SERP-Analyse",
+            "Raw-SERP-Daten",
+            "Technische SERP-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir die HTML-SERP-Daten",
+            "Hole die Raw-SERP-Ergebnisse",
+            "Analysiere die technischen SERP-Details"
+          ]
+        },
+        "live_html": {
+          "purpose": "Live HTML-SERP-Analyse",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "language_code", "device", "depth"],
+          "use_cases": [
+            "Sofortige HTML-SERP-Analyse",
+            "Live Raw-Daten",
+            "Technische Live-Insights"
+          ],
+          "example_prompts": [
+            "Führe eine Live HTML-SERP-Analyse durch",
+            "Zeige mir die aktuellen Raw-SERP-Daten",
+            "Analysiere live die technischen SERP-Details"
+          ]
+        },
+        "live_regular": {
+          "purpose": "Live Standard SERP-Analyse",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "language_code", "device", "depth"],
+          "use_cases": [
+            "Sofortige Standard-SERP-Analyse",
+            "Live Basis-Rankings",
+            "Einfache Live-Insights"
+          ],
+          "example_prompts": [
+            "Führe eine Live Standard-SERP-Analyse durch",
+            "Zeige mir die aktuellen Basis-Rankings",
+            "Analysiere live die Standard SERP-Daten"
+          ]
+        }
+      }
+    },
+    "google_ai_mode": {
+      "description": "Google AI Mode SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google AI Overviews und generative KI-Antworten analysieren",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "language_code", "device", "depth"],
+          "use_cases": [
+            "AI Overviews analysieren",
+            "Generative KI-Antworten prüfen",
+            "AI-SERP-Trends verfolgen"
+          ],
+          "example_prompts": [
+            "Analysiere die AI Overviews für 'artificial intelligence trends'",
+            "Zeige mir die generativen KI-Antworten für 'machine learning'",
+            "Prüfe die AI-SERP-Ergebnisse für 'chatgpt alternatives'"
+          ]
+        }
+      }
+    },
+    "google_autocomplete": {
+      "description": "Google Autocomplete SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google Suchvorschläge und Autocomplete-Daten analysieren",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "device", "depth"],
+          "use_cases": [
+            "Suchvorschläge analysieren",
+            "Keyword-Ideen generieren",
+            "Autocomplete-Trends verfolgen"
+          ],
+          "example_prompts": [
+            "Analysiere die Google Autocomplete-Vorschläge für 'seo'",
+            "Zeige mir die Suchvorschläge für 'digital marketing'",
+            "Finde Keyword-Ideen über Autocomplete für 'e-commerce'"
+          ]
+        }
+      }
+    },
+    "google_jobs": {
+      "description": "Google Jobs SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google Jobs Suchergebnisse und Stellenanzeigen analysieren",
+          "required_params": ["keyword"],
+          "optional_params": [
+            "location_name", "location_code", "language_code", "device", "depth",
+            "job_type", "company", "employment_type", "experience_level", "date_posted", "remote"
+          ],
+          "use_cases": [
+            "Job-Markt analysieren",
+            "Stellenanzeigen-Trends verfolgen",
+            "Recruiting-Insights gewinnen"
+          ],
+          "example_prompts": [
+            "Analysiere Google Jobs für 'software engineer' in Berlin",
+            "Zeige mir Stellenanzeigen für 'marketing manager' remote",
+            "Prüfe den Job-Markt für 'data scientist' in Deutschland"
+          ]
+        }
+      }
+    },
+    "google_search_by_image": {
+      "description": "Google Search by Image SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google Reverse Image Search Ergebnisse analysieren",
+          "required_params": ["image_url"],
+          "optional_params": ["location_name", "location_code", "language_code", "device", "depth"],
+          "use_cases": [
+            "Reverse Image Search",
+            "Bild-Quellen finden",
+            "Visuelle Content-Analyse"
+          ],
+          "example_prompts": [
+            "Analysiere die Reverse Image Search für dieses Bild",
+            "Finde ähnliche Bilder und Quellen",
+            "Führe eine visuelle Content-Analyse durch"
+          ]
+        }
+      }
+    },
+    "google_dataset_search": {
+      "description": "Google Dataset Search SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google Dataset Search Ergebnisse analysieren",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "device", "depth"],
+          "use_cases": [
+            "Dataset-Verfügbarkeit prüfen",
+            "Forschungsdaten finden",
+            "Data-Science-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere verfügbare Datasets für 'climate change'",
+            "Finde Forschungsdaten für 'machine learning'",
+            "Prüfe Dataset-Verfügbarkeit für 'covid-19 statistics'"
+          ]
+        }
+      }
+    },
+    "google_dataset_info": {
+      "description": "Google Dataset Info SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Detaillierte Informationen zu spezifischen Datasets abrufen",
+          "required_params": ["dataset_id"],
+          "optional_params": ["location_name", "location_code", "language_code", "device"],
+          "use_cases": [
+            "Dataset-Details analysieren",
+            "Datenqualität bewerten",
+            "Dataset-Metadaten prüfen"
+          ],
+          "example_prompts": [
+            "Zeige mir Details zum Dataset mit ID 'xyz123'",
+            "Analysiere die Metadaten dieses Datasets",
+            "Prüfe die Qualität und Verfügbarkeit des Datasets"
+          ]
+        }
+      }
+    },
+    "google_ads_advertisers": {
+      "description": "Google Ads Advertisers SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google Ads Advertisers und Werbetreibende analysieren",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "device", "depth"],
+          "use_cases": [
+            "Werbe-Landschaft analysieren",
+            "Konkurrenz-Advertisers prüfen",
+            "PPC-Markt-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere die Advertisers für 'seo tools'",
+            "Zeige mir werbende Unternehmen für 'digital marketing'",
+            "Prüfe die PPC-Konkurrenz für 'e-commerce solutions'"
+          ]
+        }
+      }
+    },
+    "google_ads_search": {
+      "description": "Google Ads Search SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Google Ads Suchergebnisse und Werbeanzeigen analysieren",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "device", "depth"],
+          "use_cases": [
+            "Werbeanzeigen analysieren",
+            "PPC-Performance messen",
+            "Ad-Copy-Insights gewinnen"
+          ],
+          "example_prompts": [
+            "Analysiere die Google Ads für 'seo tools'",
+            "Zeige mir die Werbeanzeigen für 'digital marketing'",
+            "Prüfe die PPC-Anzeigen für 'e-commerce solutions'"
+          ]
+        }
+      }
+    },
+    "bing_organic": {
+      "description": "Bing Organic SERP-Analyse - Vollständig implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Erweiterte Bing Organic SERP-Analyse",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "device", "depth"],
+          "use_cases": [
+            "Bing-Rankings analysieren",
+            "Alternative SERP-Ergebnisse prüfen",
+            "Multi-Engine-Vergleiche"
+          ],
+          "example_prompts": [
+            "Analysiere die Bing SERP für 'seo tools'",
+            "Zeige mir Bing-Rankings für 'digital marketing'",
+            "Prüfe die Bing-SERP-Positionen für 'e-commerce'"
+          ]
+        }
+      }
+    },
+    "bing_local_pack": {
+      "description": "Bing Local Pack SERP-Analyse - Korrigiert implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Bing lokale Suchergebnisse und Business-Listings analysieren",
+          "required_params": ["keyword"],
+          "optional_params": [
+            "location_name", "location_code", "language_code", "device", "depth",
+            "radius", "category", "price_level", "rating_min"
+          ],
+          "use_cases": [
+            "Lokale Bing-Rankings analysieren",
+            "Business-Listings prüfen",
+            "Local SEO-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere Bing Local Pack für 'restaurant berlin'",
+            "Zeige mir lokale Businesses für 'hotel münchen'",
+            "Prüfe die Bing Local Pack Ergebnisse für 'pizza near me'"
+          ]
+        }
+      }
+    },
+    "youtube_organic": {
+      "description": "YouTube Organic SERP-Analyse - Vollständig implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "YouTube Suchergebnisse und Video-Rankings analysieren",
+          "required_params": ["keyword"],
+          "optional_params": ["location_name", "location_code", "language_code", "depth"],
+          "use_cases": [
+            "YouTube-Rankings analysieren",
+            "Video-Performance messen",
+            "Content-Marketing-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere YouTube-Rankings für 'seo tutorial'",
+            "Zeige mir die Top-Videos für 'digital marketing'",
+            "Prüfe die YouTube-SERP für 'e-commerce tips'"
+          ]
+        }
+      }
+    },
+    "youtube_video_info": {
+      "description": "YouTube Video Info SERP-Analyse - Vollständig implementiert",
+      "operations": {
+        "live_advanced": {
+          "purpose": "Detaillierte YouTube Video-Informationen und Metadaten analysieren",
+          "required_params": ["video_id"],
+          "optional_params": ["location_name", "location_code", "language_code"],
+          "use_cases": [
+            "Video-Metadaten analysieren",
+            "Video-Performance messen",
+            "Content-Insights gewinnen"
+          ],
+          "example_prompts": [
+            "Analysiere Video-Info für YouTube ID 'dQw4w9WgXcQ'",
+            "Zeige mir Metadaten und Statistiken für dieses Video",
+            "Prüfe die Performance-Daten des YouTube-Videos"
+          ]
+        }
+      }
+    },
+    "languages_locations": {
+      "description": "Kostenlose Languages und Locations Endpunkte",
+      "operations": {
+        "google_languages": {
+          "purpose": "Alle verfügbaren Sprachen für Google SERP",
+          "use_cases": [
+            "Sprach-Optionen anzeigen",
+            "Lokalisierung unterstützen",
+            "Sprach-spezifische Analysen"
+          ],
+          "example_prompts": [
+            "Zeige mir alle verfügbaren Google SERP-Sprachen",
+            "Welche Sprachen unterstützt Google SERP?",
+            "Liste alle Sprachcodes für Google-Analysen auf"
+          ]
+        },
+        "google_locations": {
+          "purpose": "Alle verfügbaren Standorte für Google SERP",
+          "use_cases": [
+            "Standort-Optionen anzeigen",
+            "Geografische Analysen unterstützen",
+            "Lokale SEO-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir alle verfügbaren Google SERP-Standorte",
+            "Welche Länder unterstützt Google SERP?",
+            "Liste alle Standorte für Google-Analysen auf"
+          ]
+        },
+        "bing_languages": {
+          "purpose": "Alle verfügbaren Sprachen für Bing SERP",
+          "use_cases": [
+            "Bing-Sprach-Optionen anzeigen",
+            "Bing-Lokalisierung unterstützen",
+            "Bing-spezifische Analysen"
+          ],
+          "example_prompts": [
+            "Zeige mir alle verfügbaren Bing SERP-Sprachen",
+            "Welche Sprachen unterstützt Bing SERP?",
+            "Liste alle Sprachcodes für Bing-Analysen auf"
+          ]
+        },
+        "bing_locations": {
+          "purpose": "Alle verfügbaren Standorte für Bing SERP",
+          "use_cases": [
+            "Bing-Standort-Optionen anzeigen",
+            "Bing-geografische Analysen",
+            "Bing-Lokale SEO-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir alle verfügbaren Bing SERP-Standorte",
+            "Welche Länder unterstützt Bing SERP?",
+            "Liste alle Standorte für Bing-Analysen auf"
+          ]
+        },
+        "youtube_languages": {
+          "purpose": "Alle verfügbaren Sprachen für YouTube SERP",
+          "use_cases": [
+            "YouTube-Sprach-Optionen anzeigen",
+            "YouTube-Lokalisierung unterstützen",
+            "YouTube-spezifische Analysen"
+          ],
+          "example_prompts": [
+            "Zeige mir alle verfügbaren YouTube SERP-Sprachen",
+            "Welche Sprachen unterstützt YouTube SERP?",
+            "Liste alle Sprachcodes für YouTube-Analysen auf"
+          ]
+        },
+        "youtube_locations": {
+          "purpose": "Alle verfügbaren Standorte für YouTube SERP",
+          "use_cases": [
+            "YouTube-Standort-Optionen anzeigen",
+            "YouTube-geografische Analysen",
+            "YouTube-Lokale SEO-Insights"
+          ],
+          "example_prompts": [
+            "Zeige mir alle verfügbaren YouTube SERP-Standorte",
+            "Welche Länder unterstützt YouTube SERP?",
+            "Liste alle Standorte für YouTube-Analysen auf"
+          ]
+        }
+      }
+    }
+  },
+  "common_parameters": {
+    "keyword": {
+      "type": "string",
+      "description": "Suchbegriff für SERP-Analyse",
+      "examples": ["seo tools", "digital marketing", "e-commerce solutions"],
+      "required_for": ["alle LIVE Endpoints", "task_post Endpoints"]
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL des Bildes für Reverse Image Search",
+      "examples": ["https://example.com/image.jpg", "https://cdn.example.com/photo.png"],
+      "required_for": ["google_search_by_image"]
+    },
+    "dataset_id": {
+      "type": "string",
+      "description": "Dataset ID für Dataset Info",
+      "examples": ["xyz123", "dataset_456", "research_data_789"],
+      "required_for": ["google_dataset_info"]
+    },
+    "video_id": {
+      "type": "string",
+      "description": "YouTube Video ID",
+      "examples": ["dQw4w9WgXcQ", "abc123def456", "video_789"],
+      "required_for": ["youtube_video_info"]
+    },
+    "location_name": {
+      "type": "string",
+      "description": "Vollständiger Name des Standorts",
+      "default": "Germany",
+      "examples": ["Germany", "United States", "United Kingdom", "France", "Berlin, Germany"],
+      "use_cases": ["Geografische Analysen", "Lokale SEO", "Standort-spezifische Ergebnisse"]
+    },
+    "location_code": {
+      "type": "integer",
+      "description": "Numerischer Standortcode",
+      "examples": [2276, 2840, 2826, 2250],
+      "use_cases": ["Präzise Standort-Angabe", "API-Optimierung", "Automatisierte Analysen"]
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Sprachcode (ISO 639-1)",
+      "default": "de",
+      "examples": ["de", "en", "fr", "es", "it"],
+      "use_cases": ["Sprach-spezifische Analysen", "Lokalisierung", "Internationale Optimierung"]
+    },
+    "device": {
+      "type": "string",
+      "description": "Gerätetyp für Analyse",
+      "enum": ["desktop", "mobile"],
+      "default": "desktop",
+      "use_cases": ["Mobile vs Desktop", "Responsive Design", "Geräte-spezifische Optimierung"]
+    },
+    "os": {
+      "type": "string",
+      "description": "Betriebssystem",
+      "enum": ["windows", "macos", "android", "ios"],
+      "default": "windows",
+      "use_cases": ["OS-spezifische Analysen", "Geräte-Simulation", "Technische Optimierung"]
+    },
+    "depth": {
+      "type": "integer",
+      "description": "Anzahl der zu analysierenden Suchergebnisse",
+      "default": 20,
+      "min": 1,
+      "max": 700,
+      "use_cases": ["Ergebnis-Tiefe", "Performance-Optimierung", "Datenmenge-Kontrolle"]
+    },
+    "calculate_rectangles": {
+      "type": "boolean",
+      "description": "Element-Positionen auf der Seite berechnen",
+      "default": false,
+      "cost_impact": "Zusätzliche Kosten",
+      "use_cases": ["Layout-Analyse", "Position-Tracking", "Erweiterte Metriken"]
+    },
+    "browser_screen_width": {
+      "type": "integer",
+      "description": "Browser-Bildschirmbreite in Pixeln",
+      "default": 1920,
+      "use_cases": ["Screen-Resolution-Simulation", "Layout-Testing", "Responsive Design"]
+    },
+    "browser_screen_height": {
+      "type": "integer",
+      "description": "Browser-Bildschirmhöhe in Pixeln",
+      "default": 1080,
+      "use_cases": ["Screen-Resolution-Simulation", "Layout-Testing", "Responsive Design"]
+    },
+    "job_type": {
+      "type": "string",
+      "description": "Job-Typ Filter",
+      "examples": ["software engineer", "marketing manager", "data scientist"],
+      "use_cases": ["Jobs-spezifische Suche", "Recruiting-Optimierung", "Stellenmarkt-Analyse"]
+    },
+    "company": {
+      "type": "string",
+      "description": "Unternehmens-Filter",
+      "examples": ["Google", "Microsoft", "Amazon"],
+      "use_cases": ["Unternehmens-spezifische Jobs", "Recruiting-Insights", "Arbeitgeber-Analyse"]
+    },
+    "employment_type": {
+      "type": "string",
+      "description": "Anstellungsart Filter",
+      "enum": ["full_time", "part_time", "contract", "temporary", "internship"],
+      "use_cases": ["Anstellungsart-Filterung", "Recruiting-Optimierung", "Job-Markt-Analyse"]
+    },
+    "experience_level": {
+      "type": "string",
+      "description": "Erfahrungslevel Filter",
+      "enum": ["entry_level", "mid_level", "senior_level", "executive"],
+      "use_cases": ["Erfahrungslevel-Filterung", "Karriere-Entwicklung", "Recruiting-Strategie"]
+    },
+    "date_posted": {
+      "type": "string",
+      "description": "Veröffentlichungsdatum Filter",
+      "enum": ["any", "today", "3days", "week", "month"],
+      "use_cases": ["Zeit-spezifische Jobs", "Aktuelle Stellenanzeigen", "Job-Markt-Trends"]
+    },
+    "remote": {
+      "type": "boolean",
+      "description": "Remote-Arbeit Filter",
+      "use_cases": ["Remote-Jobs finden", "Home-Office-Optionen", "Flexible Arbeitsplätze"]
+    },
+    "radius": {
+      "type": "integer",
+      "description": "Suchradius in Kilometern",
+      "min": 1,
+      "max": 500,
+      "use_cases": ["Lokale Suche", "Geografische Filterung", "Radius-basierte Analysen"]
+    },
+    "category": {
+      "type": "string",
+      "description": "Business-Kategorie Filter",
+      "examples": ["restaurants", "hotels", "shopping", "services"],
+      "use_cases": ["Kategorie-spezifische Suche", "Business-Typ-Filterung", "Lokale SEO-Optimierung"]
+    },
+    "price_level": {
+      "type": "integer",
+      "description": "Preislevel Filter",
+      "min": 1,
+      "max": 4,
+      "use_cases": ["Preis-spezifische Suche", "Budget-Filterung", "Preis-Analyse"]
+    },
+    "rating_min": {
+      "type": "number",
+      "description": "Mindestbewertung Filter",
+      "min": 1,
+      "max": 5,
+      "use_cases": ["Qualitäts-Filterung", "Bewertungs-basierte Suche", "Qualitätssicherung"]
+    }
+  },
+  "prompt_templates": {
+    "serp_analysis": {
+      "template": "Analysiere die SERP für '{keyword}' in {location_name} mit {language_code} Sprache. Verwende {device} Gerät und analysiere {depth} Ergebnisse. Identifiziere die wichtigsten Ranking-Faktoren und Konkurrenz-Insights.",
+      "variables": {
+        "keyword": "Suchbegriff",
+        "location_name": "Standort (Format: Stadt,Bundesland,Land)",
+        "language_code": "Sprache",
+        "device": "Gerätetyp",
+        "depth": "Anzahl Ergebnisse"
+      },
+      "location_handling": {
+        "instruction": "⚠️ WICHTIG: location_name muss im korrekten DataForSEO Format sein!",
+        "format": "Stadt,Bundesland,Land (ohne Leerzeichen nach Kommas)",
+        "examples": [
+          "Erlangen,Bavaria,Germany",
+          "Berlin,Germany", 
+          "Munich,Bavaria,Germany"
+        ],
+        "fallback": "Wenn Format unbekannt, verwende 'Germany' als Standard"
+      },
+      "example": "Analysiere die SERP für 'seo tools' in Germany mit de Sprache. Verwende desktop Gerät und analysiere 20 Ergebnisse. Identifiziere die wichtigsten Ranking-Faktoren und Konkurrenz-Insights."
+    },
+    "competitor_analysis": {
+      "template": "Führe eine Konkurrenz-Analyse für '{keyword}' durch. Analysiere die Top {depth} Rankings in {location_name} und identifiziere die erfolgreichsten Websites, deren Content-Strategien und SEO-Taktiken.",
+      "variables": {
+        "keyword": "Suchbegriff",
+        "depth": "Anzahl Ergebnisse",
+        "location_name": "Standort (Format: Stadt,Bundesland,Land)"
+      },
+      "location_handling": {
+        "instruction": "⚠️ WICHTIG: location_name muss im korrekten DataForSEO Format sein!",
+        "format": "Stadt,Bundesland,Land (ohne Leerzeichen nach Kommas)",
+        "examples": [
+          "Erlangen,Bavaria,Germany",
+          "Berlin,Germany",
+          "Munich,Bavaria,Germany"
+        ]
+      },
+      "example": "Führe eine Konkurrenz-Analyse für 'digital marketing' durch. Analysiere die Top 20 Rankings in Germany und identifiziere die erfolgreichsten Websites, deren Content-Strategien und SEO-Taktiken."
+    },
+    "keyword_research": {
+      "template": "Führe Keyword-Recherche für '{keyword}' durch. Analysiere Autocomplete-Vorschläge, verwandte Keywords und SERP-Features. Identifiziere neue Keyword-Opportunities und Content-Ideen.",
+      "variables": {
+        "keyword": "Basis-Keyword"
+      },
+      "example": "Führe Keyword-Recherche für 'e-commerce' durch. Analysiere Autocomplete-Vorschläge, verwandte Keywords und SERP-Features. Identifiziere neue Keyword-Opportunities und Content-Ideen."
+    },
+    "local_seo_analysis": {
+      "template": "Analysiere die lokale SEO für '{keyword}' in {location_name}. Prüfe Local Pack Ergebnisse, Google Maps Rankings und lokale Business-Listings. Identifiziere lokale SEO-Optimierungsmöglichkeiten.",
+      "variables": {
+        "keyword": "Lokaler Suchbegriff",
+        "location_name": "Standort (Format: Stadt,Bundesland,Land)"
+      },
+      "location_handling": {
+        "instruction": "⚠️ WICHTIG: location_name muss im korrekten DataForSEO Format sein!",
+        "format": "Stadt,Bundesland,Land (ohne Leerzeichen nach Kommas)",
+        "examples": [
+          "Erlangen,Bavaria,Germany",
+          "Berlin,Germany",
+          "Munich,Bavaria,Germany"
+        ],
+        "note": "Für lokale SEO besonders wichtig: Korrekte Stadt und Bundesland-Angabe"
+      },
+      "example": "Analysiere die lokale SEO für 'restaurant berlin' in Berlin, Germany. Prüfe Local Pack Ergebnisse, Google Maps Rankings und lokale Business-Listings. Identifiziere lokale SEO-Optimierungsmöglichkeiten."
+    },
+    "video_content_analysis": {
+      "template": "Analysiere YouTube-Rankings für '{keyword}'. Identifiziere die erfolgreichsten Videos, deren Metadaten, Performance-Metriken und Content-Strategien. Gib Empfehlungen für Video-Content-Optimierung.",
+      "variables": {
+        "keyword": "Video-Keyword"
+      },
+      "example": "Analysiere YouTube-Rankings für 'seo tutorial'. Identifiziere die erfolgreichsten Videos, deren Metadaten, Performance-Metriken und Content-Strategien. Gib Empfehlungen für Video-Content-Optimierung."
+    },
+    "ai_content_analysis": {
+      "template": "Analysiere Google AI Mode Ergebnisse für '{keyword}'. Prüfe AI Overviews, generative Antworten und KI-generierte Inhalte. Identifiziere Trends und Anpassungsstrategien für AI-Content.",
+      "variables": {
+        "keyword": "AI-relevanter Suchbegriff"
+      },
+      "example": "Analysiere Google AI Mode Ergebnisse für 'artificial intelligence trends'. Prüfe AI Overviews, generative Antworten und KI-generierte Inhalte. Identifiziere Trends und Anpassungsstrategien für AI-Content."
+    }
+  },
+  "workflow_examples": {
+    "complete_serp_audit": {
+      "description": "Vollständiger SERP-Audit Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "serp_google_languages",
+          "description": "Verfügbare Sprachen prüfen",
+          "parameters": {}
+        },
+        {
+          "step": 2,
+          "action": "serp_google_locations",
+          "description": "Verfügbare Standorte prüfen",
+          "parameters": {}
+        },
+        {
+          "step": 3,
+          "action": "serp_google_organic_live_advanced",
+          "description": "Google Organic SERP analysieren",
+          "parameters": {
+            "keyword": "seo tools",
+            "location_name": "Germany",
+            "language_code": "de",
+            "device": "desktop",
+            "depth": 20
+          }
+        },
+        {
+          "step": 4,
+          "action": "serp_google_autocomplete_live_advanced",
+          "description": "Autocomplete-Vorschläge analysieren",
+          "parameters": {
+            "keyword": "seo",
+            "location_name": "Germany",
+            "language_code": "de",
+            "depth": 10
+          }
+        },
+        {
+          "step": 5,
+          "action": "serp_bing_organic_live_advanced",
+          "description": "Bing Organic SERP vergleichen",
+          "parameters": {
+            "keyword": "seo tools",
+            "location_name": "Germany",
+            "language_code": "de",
+            "device": "desktop",
+            "depth": 20
+          }
+        }
+      ]
+    },
+    "keyword_research_workflow": {
+      "description": "Keyword-Recherche Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "serp_google_autocomplete_live_advanced",
+          "description": "Autocomplete-Vorschläge sammeln",
+          "parameters": {
+            "keyword": "digital marketing",
+            "location_name": "Germany",
+            "language_code": "de",
+            "depth": 50
+          }
+        },
+        {
+          "step": 2,
+          "action": "serp_google_organic_live_advanced",
+          "description": "SERP für Haupt-Keywords analysieren",
+          "parameters": {
+            "keyword": "digital marketing",
+            "location_name": "Germany",
+            "language_code": "de",
+            "depth": 20
+          }
+        },
+        {
+          "step": 3,
+          "action": "serp_google_ai_mode_live_advanced",
+          "description": "AI Mode Ergebnisse prüfen",
+          "parameters": {
+            "keyword": "digital marketing trends",
+            "location_name": "Germany",
+            "language_code": "de",
+            "depth": 10
+          }
+        }
+      ]
+    },
+    "local_seo_workflow": {
+      "description": "Lokale SEO-Analyse Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "serp_google_locations",
+          "description": "Verfügbare Standorte prüfen",
+          "parameters": {}
+        },
+        {
+          "step": 2,
+          "action": "serp_google_organic_live_advanced",
+          "description": "Google Organic lokale Ergebnisse",
+          "parameters": {
+            "keyword": "restaurant berlin",
+            "location_name": "Berlin, Germany",
+            "language_code": "de",
+            "device": "mobile",
+            "depth": 20
+          }
+        },
+        {
+          "step": 3,
+          "action": "serp_bing_local_pack_live_advanced",
+          "description": "Bing Local Pack analysieren",
+          "parameters": {
+            "keyword": "restaurant berlin",
+            "location_name": "Berlin, Germany",
+            "language_code": "de",
+            "radius": 10,
+            "category": "restaurants",
+            "rating_min": 4.0
+          }
+        }
+      ]
+    }
+  },
+  "best_practices": {
+    "cost_optimization": [
+      "Verwende kostenlose Languages/Locations Endpoints für Setup",
+      "Begrenze depth-Parameter für erste Analysen",
+      "Nutze task_post für Batch-Analysen statt einzelne LIVE-Calls",
+      "Verwende calculate_rectangles nur wenn nötig"
+    ],
+    "performance_tips": [
+      "Starte mit kleineren depth-Werten (10-20)",
+      "Verwende task_post für große Keyword-Listen",
+      "Kombiniere verschiedene SERP-Endpoints für vollständige Insights",
+      "Nutze filters und spezifische Parameter für relevante Daten"
+    ],
+    "error_handling": [
+      "Prüfe immer den status_code in Antworten",
+      "Verwende tasks_ready für Task-Status-Überwachung",
+      "Implementiere Retry-Logic für fehlgeschlagene Requests",
+      "Validiere Parameter vor API-Calls"
+    ],
+    "seo_optimization": [
+      "Kombiniere Google und Bing für vollständige SERP-Insights",
+      "Analysiere sowohl Desktop als auch Mobile",
+      "Verwende Autocomplete für Keyword-Ideen",
+      "Prüfe AI Mode für zukunftsträchtige Content-Strategien"
+    ]
+  },
+  "common_use_cases": {
+    "serp_monitoring": {
+      "description": "Kontinuierliche SERP-Überwachung",
+      "endpoints": ["serp_google_organic_live_advanced", "serp_bing_organic_live_advanced", "serp_google_organic_task_post"],
+      "key_metrics": ["Ranking-Positionen", "SERP-Features", "Konkurrenz-Changes", "Performance-Trends"]
+    },
+    "competitor_analysis": {
+      "description": "Umfassende Konkurrenz-Analyse",
+      "endpoints": ["serp_google_organic_live_advanced", "serp_google_ads_search", "serp_google_autocomplete_live_advanced"],
+      "key_metrics": ["Konkurrenz-Rankings", "Ad-Strategien", "Keyword-Portfolios", "Content-Strategien"]
+    },
+    "keyword_research": {
+      "description": "Erweiterte Keyword-Recherche",
+      "endpoints": ["serp_google_autocomplete_live_advanced", "serp_google_ai_mode_live_advanced", "serp_google_organic_live_advanced"],
+      "key_metrics": ["Keyword-Ideen", "SERP-Features", "Content-Opportunities", "Trend-Analysen"]
+    },
+    "local_seo": {
+      "description": "Lokale SEO-Optimierung",
+      "endpoints": ["serp_google_organic_live_advanced", "serp_bing_local_pack_live_advanced", "serp_google_locations"],
+      "key_metrics": ["Local Pack Rankings", "Business-Listings", "Lokale Keywords", "Geografische Performance"]
+    },
+    "content_strategy": {
+      "description": "Content-Strategie und -Optimierung",
+      "endpoints": ["serp_google_ai_mode_live_advanced", "serp_youtube_organic_live_advanced", "serp_google_dataset_search_live_advanced"],
+      "key_metrics": ["AI Content Trends", "Video-Performance", "Dataset-Verfügbarkeit", "Content-Gaps"]
+    }
+  },
+  "response_formats": {
+    "success_response": {
+      "structure": {
+        "version": "string (API Version)",
+        "status_code": "integer (20000 = success)",
+        "status_message": "string (Status Message)",
+        "time": "string (Execution Time)",
+        "cost": "number (API Cost in Credits)",
+        "tasks_count": "integer (Number of Tasks)",
+        "tasks_error": "integer (Number of Errors)",
+        "tasks": "array (Task Results)"
+      },
+      "example": {
+        "version": "0.1.20250922",
+        "status_code": 20000,
+        "status_message": "Ok.",
+        "time": "0.2315 sec.",
+        "cost": 0.001,
+        "tasks_count": 1,
+        "tasks_error": 0,
+        "tasks": []
+      }
+    },
+    "error_response": {
+      "structure": {
+        "status_code": "integer (4xxxx/5xxxx = error)",
+        "status_message": "string (Error Message)",
+        "time": "string (Execution Time)",
+        "cost": "number (API Cost)"
+      },
+      "common_errors": {
+        "40000": "Bad Request - Invalid parameters",
+        "40100": "Unauthorized - Invalid credentials",
+        "40400": "Not Found - Task ID not found",
+        "42900": "Rate Limit Exceeded",
+        "50000": "Internal Server Error"
+      }
+    }
+  },
+  "integration_tips": {
+    "custom_gpt": [
+      "Verwende spezifische Parameter in Prompts",
+      "Erkläre SERP-Features und deren Bedeutung",
+      "Gib konkrete Beispiele für jeden Endpoint",
+      "Erwähne Kosten-Implications für LIVE Endpoints"
+    ],
+    "automation": [
+      "Implementiere Task-Management für Batch-Analysen",
+      "Verwende tasks_ready für Status-Überwachung",
+      "Cache Languages/Locations für Performance",
+      "Monitor API-Usage und Costs"
+    ],
+    "reporting": [
+      "Kombiniere verschiedene SERP-Endpoints für vollständige Reports",
+      "Verwende depth-Parameter für Datenmenge-Kontrolle",
+      "Erstelle vergleichende Analysen zwischen Suchmaschinen",
+      "Exportiere große Datensätze über Task-System"
+    ]
+  }
+}

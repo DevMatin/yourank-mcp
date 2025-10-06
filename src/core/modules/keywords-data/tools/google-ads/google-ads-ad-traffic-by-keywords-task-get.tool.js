@@ -11,7 +11,7 @@ export class GoogleAdsAdTrafficByKeywordsTaskGetTool extends BaseTool {
   }
 
   getDescription() {
-    return 'Get results of a completed Google Ads ad traffic by keywords task.';
+    return 'Get results of a completed Google Ads ad traffic by keywords task by task ID.';
   }
 
   getParams() {
@@ -20,7 +20,8 @@ export class GoogleAdsAdTrafficByKeywordsTaskGetTool extends BaseTool {
       properties: {
         id: {
           type: 'string',
-          description: 'Task ID to retrieve results for'
+          description: 'Task ID (UUID format)',
+          example: '00000000-0000-0000-0000-000000000000'
         }
       },
       required: ['id']
@@ -31,4 +32,3 @@ export class GoogleAdsAdTrafficByKeywordsTaskGetTool extends BaseTool {
     return await this.client.get(`/v3/keywords_data/google_ads/ad_traffic_by_keywords/task_get/${params.id}`);
   }
 }
-

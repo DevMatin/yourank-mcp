@@ -97,7 +97,8 @@
       "keyword": "seo",
       "location_name": "Germany",
       "language_code": "de",
-      "device": "desktop"
+      "device": "desktop",
+      "depth": 10
     }
   }
 }

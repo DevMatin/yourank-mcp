@@ -17,15 +17,16 @@ export class SerpBingLocalPackLiveAdvancedTool extends BaseTool {
 
   getParams(): z.ZodRawShape {
     return {
-      keyword: z.string().describe("Search keyword"),
+      keyword: z.string().describe("Search keyword for local businesses"),
       location_name: z.string().optional().describe("Location name (e.g., 'United States')"),
       location_code: z.number().optional().describe("Location code"),
       language_code: z.string().optional().describe("Language code (e.g., 'en')"),
       device: z.enum(['desktop', 'mobile']).optional().describe("Device type"),
-      depth: z.number().optional().describe("Number of results to retrieve (10-700)"),
-      include_answer_box: z.boolean().optional().describe("Include answer box content"),
-      include_people_also_ask: z.boolean().optional().describe("Include people also ask content"),
-      include_related_searches: z.boolean().optional().describe("Include related searches"),
+      depth: z.number().min(1).max(700).optional().default(20).describe("Number of local pack results to retrieve"),
+      radius: z.number().min(1).max(500).optional().describe("Search radius in kilometers"),
+      category: z.string().optional().describe("Business category filter (e.g., 'restaurants', 'hotels')"),
+      price_level: z.number().min(1).max(4).optional().describe("Price level filter (1-4)"),
+      rating_min: z.number().min(1).max(5).optional().describe("Minimum rating filter (1-5)")
     };
   }
 
@@ -50,14 +51,17 @@ export class SerpBingLocalPackLiveAdvancedTool extends BaseTool {
       if (params.depth) {
         requestData.depth = params.depth;
       }
-      if (params.include_answer_box !== undefined) {
-        requestData.include_answer_box = params.include_answer_box;
+      if (params.radius) {
+        requestData.radius = params.radius;
       }
-      if (params.include_people_also_ask !== undefined) {
-        requestData.include_people_also_ask = params.include_people_also_ask;
+      if (params.category) {
+        requestData.category = params.category;
       }
-      if (params.include_related_searches !== undefined) {
-        requestData.include_related_searches = params.include_related_searches;
+      if (params.price_level) {
+        requestData.price_level = params.price_level;
+      }
+      if (params.rating_min) {
+        requestData.rating_min = params.rating_min;
       }
 
       const response = await this.dataForSEOClient.makeRequest('/v3/serp/bing/local_pack/live/advanced', 'POST', [requestData]);
