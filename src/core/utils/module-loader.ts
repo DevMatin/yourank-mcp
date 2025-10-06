@@ -1,5 +1,5 @@
 import { DataForSEOClient } from '../client/dataforseo.client.js';
-import { SerpApiModule } from '../modules/serp/serp-api.module.js';
+import { SerpApiModule } from '../modules/serp/serp-api.module.ts';
 import { KeywordsDataApiModule } from '../modules/keywords-data/keywords-data-api.module.js';
 import { OnPageApiModule } from '../modules/onpage/onpage-api.module.js';
 import { DataForSEOLabsApi } from '../modules/dataforseo-labs/dataforseo-labs-api.module.js';
@@ -19,6 +19,7 @@ import { MerchantApiModule } from '../modules/merchant/merchant-api.module.js';
 import { GoogleShoppingApiModule } from '../modules/google-shopping/google-shopping-api.module.js';
 import { AiOptimizationApiModule } from '../modules/ai-optimization/ai-optimization-api.module.js';
 import { AppDataModule } from '../modules/app-data/app-data.module.js';
+import { DatabasesApiModule } from '../modules/databases/databases-api.module.js';
 
 export class ModuleLoaderService {
   static loadModules(dataForSEOClient: DataForSEOClient, enabledModules: EnabledModules): BaseModule[] {
@@ -86,6 +87,9 @@ export class ModuleLoaderService {
     }
     if(isModuleEnabled('APP_DATA', enabledModules)) {
       modules.push(new AppDataModule(dataForSEOClient));
+    }
+    if(isModuleEnabled('DATABASES', enabledModules)) {
+      modules.push(new DatabasesApiModule(dataForSEOClient));
     }
 
     return modules;

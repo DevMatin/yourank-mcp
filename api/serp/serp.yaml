@@ -1,21 +1,5 @@
-# SERP APIs wurden in separate Dateien aufgeteilt für bessere Organisation:
-# - serp-allgemein.yaml: Allgemeine SERP APIs (id_list, errors, screenshot, ai_summary, tasks_ready)
-# - serp-google.yaml: Google SERP APIs (organic, ai_mode, images, search_by_image, jobs, autocomplete, dataset_search, dataset_info)
-# - serp-bing.yaml: Bing SERP APIs (organic, local_pack)
-# - serp-youtube.yaml: YouTube SERP APIs (video_info, video_subtitles, video_comments)
+# SERP APIs - Alle APIs in einer Datei für bessere Wartung
 # - serp-komponenten.yaml: Alle Schema-Definitionen für SERP APIs
-
-# Allgemeine SERP APIs
-$ref: './serp-allgemein.yaml'
-
-# Google SERP APIs  
-$ref: './serp-google.yaml'
-
-# Bing SERP APIs
-$ref: './serp-bing.yaml'
-
-# YouTube SERP APIs
-$ref: './serp-youtube.yaml'
   /v3/serp/errors:
     post:
       tags:

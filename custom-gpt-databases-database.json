@@ -1,0 +1,877 @@
+{
+  "meta": {
+    "title": "DataForSEO Databases API - Custom GPT Datenbank",
+    "version": "1.0.0",
+    "description": "Vollständige Datenbank für Custom GPT Prompts mit allen 21 Database-Tools, korrigierten Parametern und Anwendungsfällen für umfassende SEO-Datenbank-Analysen",
+    "last_updated": "2025-01-06",
+    "total_endpoints": 21,
+    "total_database_types": 9,
+    "implementation_status": "Vollständig implementiert mit allen DataForSEO Databases",
+    "database_coverage": {
+      "google_databases": "✅ 4 Tools (SERP Advanced/Regular, Keywords, Unified Search)",
+      "google_historical": "✅ 3 Tools (SERP Historical, Keywords Historical, Unified Historical)",
+      "bing_databases": "✅ 3 Tools (SERP, Keywords, Unified Search)",
+      "amazon": "✅ 1 Tool (Products Database)",
+      "google_play": "✅ 2 Tools (SERPs, Listings)",
+      "app_store": "✅ 2 Tools (SERPs, Listings)",
+      "backlinks": "✅ 1 Tool (Backlink Summary)",
+      "business_listings": "✅ 1 Tool (Business Listings)",
+      "whois": "✅ 1 Tool (Whois Domains)"
+    }
+  },
+  "api_overview": {
+    "base_url": "https://yourank-mcp.vercel.app",
+    "authentication": "Basic Auth",
+    "content_type": "application/json",
+    "rate_limits": {
+      "database_queries": "2000 requests/minute",
+      "pagination": "Max 1000 results per query",
+      "filters": "Complex filtering supported"
+    },
+    "cost_info": {
+      "note": "DataForSEO Credits erforderlich für Database-Zugriff",
+      "database_types": {
+        "google_databases": "Premium - Hochwertige SERP und Keyword-Daten",
+        "google_historical": "Premium - Historische Daten seit 2019/2021",
+        "bing_databases": "Standard - Bing SERP und Keyword-Daten",
+        "amazon": "Standard - Amazon Produktdaten",
+        "app_stores": "Standard - App Store und Google Play Daten",
+        "backlinks": "Premium - Umfassende Backlink-Analysen",
+        "business_listings": "Standard - Business-Listings und POI-Daten",
+        "whois": "Standard - Domain-Informationen und Whois-Daten"
+      }
+    }
+  },
+  "databases": {
+    "google_databases": {
+      "description": "Google SERP und Keywords Databases - Die umfassendsten SEO-Datenbanken",
+      "tools": {
+        "serps_advanced": {
+          "purpose": "Google Advanced SERP Database mit allen SERP-Elementen",
+          "endpoint": "/v3/databases/google/serps_advanced",
+          "description": "Enthält alle Arten von SERP-Elementen: organische und bezahlte Ergebnisse, Featured Snippets, Knowledge Graphs, Top Stories und mehr mit Page Rank und Domain Rank Metriken",
+          "key_features": [
+            "Vollständige SERP-Elemente",
+            "Page Rank und Domain Rank",
+            "Featured Snippets",
+            "Knowledge Graphs",
+            "Top Stories",
+            "Local Pack Ergebnisse"
+          ],
+          "use_cases": [
+            "Umfassende SERP-Analyse",
+            "Ranking-Faktor-Analyse",
+            "SERP-Feature-Tracking",
+            "Konkurrenz-SERP-Analyse",
+            "SEO-Performance-Messung"
+          ],
+          "example_prompts": [
+            "Analysiere die Google Advanced SERP Database für 'seo tools' in Deutschland",
+            "Zeige mir alle SERP-Features für 'digital marketing' mit Page Rank Daten",
+            "Prüfe die Knowledge Graph Ergebnisse für 'artificial intelligence'",
+            "Analysiere Featured Snippets und Top Stories für 'e-commerce solutions'"
+          ]
+        },
+        "serps_regular": {
+          "purpose": "Google Regular SERP Database mit Standard-Ergebnissen",
+          "endpoint": "/v3/databases/google/serps_regular",
+          "description": "Enthält Standard organische und bezahlte Suchergebnisse sowie Featured Snippets mit genauen Keyword-Metriken",
+          "key_features": [
+            "Standard SERP-Ergebnisse",
+            "Organische Rankings",
+            "Bezahlte Anzeigen",
+            "Featured Snippets",
+            "Keyword-Metriken"
+          ],
+          "use_cases": [
+            "Standard SERP-Analyse",
+            "Ranking-Position-Tracking",
+            "PPC-Konkurrenz-Analyse",
+            "Keyword-Performance-Messung"
+          ],
+          "example_prompts": [
+            "Analysiere die Google Regular SERP Database für 'seo tools'",
+            "Zeige mir die Standard-Rankings für 'digital marketing'",
+            "Prüfe die bezahlten Anzeigen für 'e-commerce solutions'"
+          ]
+        },
+        "keywords": {
+          "purpose": "Google Keywords Database mit Milliarden von Suchbegriffen",
+          "endpoint": "/v3/databases/google/keywords",
+          "description": "Umfasst Milliarden von Suchbegriffen angereichert mit Google Ads-Daten: Suchvolumen, Wettbewerb, CPC und mehr",
+          "key_features": [
+            "Milliarden von Keywords",
+            "Google Ads-Daten",
+            "Suchvolumen-Historie",
+            "CPC-Metriken",
+            "Wettbewerbs-Level",
+            "Keyword-Trends"
+          ],
+          "use_cases": [
+            "Keyword-Recherche",
+            "Suchvolumen-Analyse",
+            "CPC-Optimierung",
+            "Wettbewerbs-Analyse",
+            "Keyword-Trend-Tracking"
+          ],
+          "example_prompts": [
+            "Finde Keywords mit hohem Suchvolumen für 'seo'",
+            "Analysiere CPC-Daten für 'digital marketing' Keywords",
+            "Zeige mir Keywords mit niedrigem Wettbewerb für 'e-commerce'",
+            "Prüfe Keyword-Trends für 'artificial intelligence'"
+          ]
+        },
+        "unified_search": {
+          "purpose": "Google Unified Search Database - Kombination aus SERP und Keywords",
+          "endpoint": "/v3/databases/google/unified_search",
+          "description": "Kombiniert Advanced Google SERP Database und Google Keyword Database mit Millionen von SERPs und Milliarden von Suchbegriffen",
+          "key_features": [
+            "Kombinierte SERP und Keyword-Daten",
+            "Millionen von SERPs",
+            "Milliarden von Keywords",
+            "Vollständige SEO-Insights",
+            "Cross-Referenz-Daten"
+          ],
+          "use_cases": [
+            "Umfassende SEO-Analyse",
+            "Keyword-SERP-Korrelation",
+            "Vollständige SEO-Insights",
+            "Cross-Database-Analysen"
+          ],
+          "example_prompts": [
+            "Führe eine umfassende SEO-Analyse für 'seo tools' durch",
+            "Kombiniere SERP und Keyword-Daten für 'digital marketing'",
+            "Analysiere die Korrelation zwischen Keywords und SERP-Positionen"
+          ]
+        }
+      }
+    },
+    "google_historical": {
+      "description": "Google Historical Databases - Historische Daten seit 2019/2021",
+      "tools": {
+        "serps_historical": {
+          "purpose": "Google Historical SERP Database mit monatlichen Snapshots",
+          "endpoint": "/v3/databases/google_historical/serps",
+          "description": "Enthält Millionen von monatlichen Google SERP-Snapshots mit genauen Keyword-Metriken und strukturierten Daten zu allen SERP-Elementen ab 2021-08-01",
+          "key_features": [
+            "Monatliche SERP-Snapshots",
+            "Historische Daten ab 2021-08-01",
+            "Strukturierte SERP-Daten",
+            "Page Rank und Domain Rank",
+            "Zeitreihen-Analysen"
+          ],
+          "use_cases": [
+            "SERP-Trend-Analyse",
+            "Ranking-Historie-Tracking",
+            "SERP-Feature-Evolution",
+            "Langzeit-SEO-Performance",
+            "Historische Konkurrenz-Analyse"
+          ],
+          "example_prompts": [
+            "Analysiere die SERP-Historie für 'seo tools' seit 2021",
+            "Zeige mir die Entwicklung der Rankings für 'digital marketing'",
+            "Prüfe die SERP-Feature-Evolution für 'e-commerce'",
+            "Analysiere die langfristige SEO-Performance für 'artificial intelligence'"
+          ]
+        },
+        "keywords_historical": {
+          "purpose": "Google Historical Keywords Database seit 2019",
+          "endpoint": "/v3/databases/google_historical/keywords",
+          "description": "Bietet Milliarden von Keywords angereichert mit historischen Keyword-Daten seit Anfang 2019 inklusive Suchvolumen-Trends und Performance-Metriken",
+          "key_features": [
+            "Historische Daten seit 2019",
+            "Suchvolumen-Trends",
+            "Performance-Metriken",
+            "Keyword-Evolution",
+            "Langzeit-Trends"
+          ],
+          "use_cases": [
+            "Keyword-Trend-Analyse",
+            "Suchvolumen-Historie",
+            "Keyword-Performance-Tracking",
+            "Langzeit-Keyword-Strategien",
+            "Saisonale Trend-Analyse"
+          ],
+          "example_prompts": [
+            "Analysiere Keyword-Trends für 'seo' seit 2019",
+            "Zeige mir die Suchvolumen-Entwicklung für 'digital marketing'",
+            "Prüfe saisonale Trends für 'e-commerce' Keywords",
+            "Analysiere die Keyword-Evolution für 'artificial intelligence'"
+          ]
+        },
+        "unified_historical": {
+          "purpose": "Google Historical Unified Search Database",
+          "endpoint": "/v3/databases/google_historical/unified_search",
+          "description": "Kombiniert Historical Google SERP und Historical Google Keyword Databases mit Millionen von monatlichen SERP-Snapshots und Milliarden von Keywords mit historischen Daten ab 2021-08-01",
+          "key_features": [
+            "Kombinierte historische Daten",
+            "Monatliche SERP-Snapshots",
+            "Milliarden historischer Keywords",
+            "Vollständige historische Insights",
+            "Cross-Database-Historie"
+          ],
+          "use_cases": [
+            "Umfassende historische SEO-Analyse",
+            "Langzeit-SEO-Performance",
+            "Historische Keyword-SERP-Korrelation",
+            "Vollständige SEO-Evolution"
+          ],
+          "example_prompts": [
+            "Führe eine umfassende historische SEO-Analyse für 'seo tools' durch",
+            "Analysiere die langfristige SEO-Evolution für 'digital marketing'",
+            "Kombiniere historische SERP und Keyword-Daten für 'e-commerce'"
+          ]
+        }
+      }
+    },
+    "bing_databases": {
+      "description": "Bing Databases - Alternative Suchmaschinen-Daten",
+      "tools": {
+        "serps": {
+          "purpose": "Bing Advanced SERP Database",
+          "endpoint": "/v3/databases/bing/serps_advanced",
+          "description": "Umfasst Millionen von Bing-Suchergebnisseiten mit erweiterten SERP-Features wie Featured Snippets, Knowledge Graphs und mehr",
+          "key_features": [
+            "Bing SERP-Ergebnisse",
+            "Featured Snippets",
+            "Knowledge Graphs",
+            "Alternative Rankings",
+            "Bing-spezifische Features"
+          ],
+          "use_cases": [
+            "Bing-Ranking-Analyse",
+            "Alternative SERP-Insights",
+            "Multi-Engine-Vergleiche",
+            "Bing-spezifische SEO"
+          ],
+          "example_prompts": [
+            "Analysiere Bing-Rankings für 'seo tools'",
+            "Vergleiche Google und Bing SERPs für 'digital marketing'",
+            "Prüfe Bing-spezifische SERP-Features für 'e-commerce'"
+          ]
+        },
+        "keywords": {
+          "purpose": "Bing Keywords Database",
+          "endpoint": "/v3/databases/bing/keywords",
+          "description": "Umfasst Millionen von Suchbegriffen angereichert mit Bing Ads-Daten: Suchvolumen-Historie, aktuelles Suchvolumen und mehr",
+          "key_features": [
+            "Bing Keywords",
+            "Bing Ads-Daten",
+            "Suchvolumen-Historie",
+            "Bing-spezifische Metriken",
+            "Alternative Keyword-Daten"
+          ],
+          "use_cases": [
+            "Bing Keyword-Recherche",
+            "Bing Ads-Optimierung",
+            "Alternative Keyword-Daten",
+            "Multi-Engine-Keyword-Analyse"
+          ],
+          "example_prompts": [
+            "Finde Bing-Keywords für 'seo tools'",
+            "Analysiere Bing Ads-Daten für 'digital marketing'",
+            "Vergleiche Google und Bing Keyword-Daten"
+          ]
+        },
+        "unified_search": {
+          "purpose": "Bing Unified Search Database",
+          "endpoint": "/v3/databases/bing/unified_search",
+          "description": "Kombiniert Advanced Bing SERP Database und Bing Keyword Database mit Millionen von Bing-Suchergebnisseiten und Suchbegriffen",
+          "key_features": [
+            "Kombinierte Bing-Daten",
+            "Vollständige Bing-Insights",
+            "SERP und Keyword-Kombination",
+            "Bing-spezifische Analysen"
+          ],
+          "use_cases": [
+            "Umfassende Bing-Analyse",
+            "Bing SEO-Optimierung",
+            "Alternative Suchmaschinen-Strategien"
+          ],
+          "example_prompts": [
+            "Führe eine umfassende Bing-Analyse für 'seo tools' durch",
+            "Kombiniere Bing SERP und Keyword-Daten für 'digital marketing'"
+          ]
+        }
+      }
+    },
+    "amazon": {
+      "description": "Amazon Products Database - E-Commerce-Daten",
+      "tools": {
+        "products": {
+          "purpose": "Amazon Products Database",
+          "endpoint": "/v3/databases/amazon/products",
+          "description": "Enthält Daten zu Keywords und Produktlistings, die für sie ranken, inklusive Titel, Beschreibung, Preis, Bewertung, Lieferinformationen und Ranking-Position",
+          "key_features": [
+            "Amazon Produktdaten",
+            "Keyword-Rankings",
+            "Preis-Informationen",
+            "Bewertungen",
+            "Lieferinformationen",
+            "Produkt-Performance"
+          ],
+          "use_cases": [
+            "Amazon SEO-Analyse",
+            "Produkt-Ranking-Tracking",
+            "E-Commerce-Konkurrenz-Analyse",
+            "Amazon Keyword-Recherche",
+            "Produkt-Performance-Analyse"
+          ],
+          "example_prompts": [
+            "Analysiere Amazon-Produktrankings für 'wireless headphones'",
+            "Finde hochrankende Produkte für 'fitness tracker'",
+            "Prüfe Preis-Trends für 'smartphone cases'",
+            "Analysiere Bewertungen für 'laptop bags'"
+          ]
+        }
+      }
+    },
+    "google_play": {
+      "description": "Google Play Databases - App-Markt-Daten",
+      "tools": {
+        "serps": {
+          "purpose": "Google Play SERPs Database",
+          "endpoint": "/v3/databases/google_play/serps",
+          "description": "Umfasst vollständige Google Play-Suchergebnisseiten für Millionen von Keywords mit App-Daten inklusive App-ID, Icon, Bewertungen, Rating, Preis und Keyword-Suchvolumen",
+          "key_features": [
+            "Google Play SERPs",
+            "App-Daten",
+            "Keyword-Suchvolumen",
+            "App-Rankings",
+            "Bewertungen und Ratings"
+          ],
+          "use_cases": [
+            "App Store SEO",
+            "App-Ranking-Analyse",
+            "Google Play Keyword-Recherche",
+            "App-Markt-Analyse"
+          ],
+          "example_prompts": [
+            "Analysiere Google Play-Rankings für 'fitness apps'",
+            "Finde hochrankende Apps für 'photo editing'",
+            "Prüfe App-Bewertungen für 'productivity tools'"
+          ]
+        },
+        "listings": {
+          "purpose": "Google Play Listings Database",
+          "endpoint": "/v3/databases/google_play/listings",
+          "description": "Umfasst über eine Million Google Play-Anwendungen mit App-Daten inklusive App-ID, Icon, Bewertungen, Rating, Bilder, Anzahl der Installationen, Preis und mehr",
+          "key_features": [
+            "Über eine Million Apps",
+            "Vollständige App-Daten",
+            "Installations-Zahlen",
+            "App-Metadaten",
+            "Preis-Informationen"
+          ],
+          "use_cases": [
+            "App-Markt-Analyse",
+            "App-Performance-Tracking",
+            "Konkurrenz-App-Analyse",
+            "App-Entwicklungs-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere die Top-Apps in der Kategorie 'productivity'",
+            "Finde Apps mit hohen Installations-Zahlen für 'gaming'",
+            "Prüfe App-Preise für 'education' Apps"
+          ]
+        }
+      }
+    },
+    "app_store": {
+      "description": "App Store Databases - iOS App-Markt-Daten",
+      "tools": {
+        "serps": {
+          "purpose": "App Store SERPs Database",
+          "endpoint": "/v3/databases/app_store/serps",
+          "description": "Bietet vollständige App Store-Suchergebnisseiten für Millionen von Keywords mit App-Daten inklusive App-ID, Icon, Bewertungen, Rating, Preis und Keyword-Suchvolumen",
+          "key_features": [
+            "App Store SERPs",
+            "iOS App-Daten",
+            "Keyword-Suchvolumen",
+            "App-Rankings",
+            "iOS-spezifische Metriken"
+          ],
+          "use_cases": [
+            "iOS App Store SEO",
+            "App Store-Ranking-Analyse",
+            "iOS Keyword-Recherche",
+            "iOS App-Markt-Analyse"
+          ],
+          "example_prompts": [
+            "Analysiere App Store-Rankings für 'fitness apps'",
+            "Finde hochrankende iOS-Apps für 'photo editing'",
+            "Prüfe App Store-Bewertungen für 'productivity tools'"
+          ]
+        },
+        "listings": {
+          "purpose": "App Store Listings Database",
+          "endpoint": "/v3/databases/app_store/listings",
+          "description": "Bietet über eine Million App Store-Anwendungen mit App-Daten inklusive App-ID, Icon, Beschreibung, Bewertungen, Rating, Bilder und mehr",
+          "key_features": [
+            "Über eine Million iOS-Apps",
+            "Vollständige iOS App-Daten",
+            "App-Beschreibungen",
+            "iOS-spezifische Metriken",
+            "App Store-Metadaten"
+          ],
+          "use_cases": [
+            "iOS App-Markt-Analyse",
+            "iOS App-Performance-Tracking",
+            "iOS Konkurrenz-App-Analyse",
+            "iOS App-Entwicklungs-Insights"
+          ],
+          "example_prompts": [
+            "Analysiere die Top-iOS-Apps in der Kategorie 'productivity'",
+            "Finde iOS-Apps mit hohen Bewertungen für 'gaming'",
+            "Prüfe iOS App-Beschreibungen für 'education' Apps"
+          ]
+        }
+      }
+    },
+    "backlinks": {
+      "description": "Backlink Summary Database - Linkbuilding-Daten",
+      "tools": {
+        "summary": {
+          "purpose": "Backlink Summary Database",
+          "endpoint": "/v3/databases/backlinks/summary",
+          "description": "Bietet Backlink-Daten und verwandte Metriken für Millionen von Domains inklusive eingehende Links, Referring Domains, Referring Pages, neue & verlorene Backlinks und Backlink-Spam-Score",
+          "key_features": [
+            "Backlink-Profile",
+            "Referring Domains",
+            "Referring Pages",
+            "Backlink-Spam-Score",
+            "Neue & verlorene Backlinks",
+            "Domain-Autorität-Metriken"
+          ],
+          "use_cases": [
+            "Backlink-Analyse",
+            "Linkbuilding-Strategien",
+            "Domain-Autorität-Bewertung",
+            "Konkurrenz-Backlink-Analyse",
+            "Spam-Score-Bewertung"
+          ],
+          "example_prompts": [
+            "Analysiere das Backlink-Profil für 'example.com'",
+            "Finde Domains mit hoher Backlink-Autorität für 'seo'",
+            "Prüfe den Spam-Score für 'competitor.com'",
+            "Analysiere neue und verlorene Backlinks für 'mydomain.com'"
+          ]
+        }
+      }
+    },
+    "business_listings": {
+      "description": "Business Listings Database - Lokale Business-Daten",
+      "tools": {
+        "search": {
+          "purpose": "Business Listings Database",
+          "endpoint": "/v3/databases/business_listings/search",
+          "description": "Umfasst Millionen von Point-of-Interest (POI) Datensätzen mit öffentlichen Details von Geschäftseinheiten inklusive Service-Beschreibung, Adresse, Telefon, Domain, Bewertung, Arbeitszeiten und beliebte Zeiten",
+          "key_features": [
+            "Millionen von POI-Datensätzen",
+            "Business-Details",
+            "Kontakt-Informationen",
+            "Bewertungen",
+            "Arbeitszeiten",
+            "Beliebte Zeiten"
+          ],
+          "use_cases": [
+            "Lokale SEO-Analyse",
+            "Business-Listings-Management",
+            "Konkurrenz-Business-Analyse",
+            "Lokale Markt-Analyse",
+            "POI-Daten-Analyse"
+          ],
+          "example_prompts": [
+            "Finde Restaurants in Berlin mit hohen Bewertungen",
+            "Analysiere Business-Listings für 'coffee shops' in München",
+            "Prüfe Kontakt-Informationen für 'dentists' in Hamburg",
+            "Analysiere Arbeitszeiten für 'gyms' in Köln"
+          ]
+        }
+      }
+    },
+    "whois": {
+      "description": "Whois Domains Database - Domain-Informationen",
+      "tools": {
+        "domains": {
+          "purpose": "Whois Domains Database",
+          "endpoint": "/v3/databases/whois/overview",
+          "description": "Bietet vollständigen Zugriff auf strukturierte Whois- und Suchsichtbarkeits-Daten für Millionen von Domains inklusive Timeline, Updates, Status und Suchsichtbarkeits-Metriken",
+          "key_features": [
+            "Strukturierte Whois-Daten",
+            "Domain-Timeline",
+            "Registrierungs-Informationen",
+            "Suchsichtbarkeits-Metriken",
+            "Domain-Status",
+            "TLD-Analysen"
+          ],
+          "use_cases": [
+            "Domain-Analyse",
+            "Whois-Recherche",
+            "Domain-Status-Tracking",
+            "TLD-Analyse",
+            "Domain-Entwicklung-Tracking"
+          ],
+          "example_prompts": [
+            "Analysiere Whois-Daten für 'example.com'",
+            "Finde Domains mit hoher Suchsichtbarkeit für 'seo'",
+            "Prüfe Domain-Status für 'competitor.com'",
+            "Analysiere TLD-Verteilung für 'marketing' Domains"
+          ]
+        }
+      }
+    }
+  },
+  "common_parameters": {
+    "location_name": {
+      "type": "string",
+      "description": "Standortname für Datenbank-Suche",
+      "examples": ["Germany", "United States", "United Kingdom", "France"],
+      "use_cases": ["Geografische Analysen", "Lokale Datenbank-Suchen", "Standort-spezifische Ergebnisse"]
+    },
+    "location_code": {
+      "type": "integer",
+      "description": "Numerischer Standortcode (Alternative zu location_name)",
+      "examples": [2276, 2840, 2826, 2250],
+      "use_cases": ["Präzise Standort-Angabe", "API-Optimierung", "Automatisierte Analysen"]
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Sprachcode für Datenbank-Suche",
+      "examples": ["en", "de", "fr", "es", "it"],
+      "use_cases": ["Sprach-spezifische Analysen", "Lokalisierung", "Internationale Datenbank-Suchen"]
+    },
+    "keyword": {
+      "type": "string",
+      "description": "Suchbegriff für Datenbank-Suche",
+      "examples": ["seo tools", "digital marketing", "e-commerce solutions"],
+      "use_cases": ["Keyword-basierte Suchen", "SEO-Analysen", "Content-Recherche"]
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain für Datenbank-Suche",
+      "examples": ["example.com", "competitor.com", "mydomain.de"],
+      "use_cases": ["Domain-Analysen", "Konkurrenz-Analysen", "Backlink-Recherche"]
+    },
+    "filters": {
+      "type": "array",
+      "description": "Array von Filterbedingungen für Datenbank-Suche",
+      "examples": [
+        ["search_volume", ">", 1000],
+        ["cpc", "<", 5.0],
+        ["rating", ">=", 4.0]
+      ],
+      "use_cases": ["Erweiterte Filterung", "Präzise Suchen", "Datenbank-Optimierung"]
+    },
+    "order_by": {
+      "type": "array",
+      "description": "Array von Feldern zur Sortierung der Ergebnisse",
+      "examples": [
+        ["search_volume", "desc"],
+        ["cpc", "asc"],
+        ["rating", "desc"]
+      ],
+      "use_cases": ["Ergebnis-Sortierung", "Priorisierung", "Datenbank-Organisation"]
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Anzahl der zurückzugebenden Ergebnisse",
+      "default": 100,
+      "min": 1,
+      "max": 1000,
+      "use_cases": ["Ergebnis-Limitierung", "Performance-Optimierung", "Datenmenge-Kontrolle"]
+    },
+    "offset": {
+      "type": "integer",
+      "description": "Offset für Pagination",
+      "default": 0,
+      "min": 0,
+      "use_cases": ["Pagination", "Große Datensätze", "Batch-Verarbeitung"]
+    }
+  },
+  "prompt_templates": {
+    "comprehensive_database_analysis": {
+      "template": "Führe eine umfassende Datenbank-Analyse für '{keyword}' durch. Verwende {database_type} Database mit {location_name} Standort und {language_code} Sprache. Analysiere {limit} Ergebnisse und identifiziere die wichtigsten Insights und Trends.",
+      "variables": {
+        "keyword": "Suchbegriff",
+        "database_type": "Datenbank-Typ (z.B. 'Google Advanced SERP', 'Google Keywords', 'Amazon Products')",
+        "location_name": "Standort",
+        "language_code": "Sprache",
+        "limit": "Anzahl Ergebnisse"
+      },
+      "example": "Führe eine umfassende Datenbank-Analyse für 'seo tools' durch. Verwende Google Advanced SERP Database mit Germany Standort und de Sprache. Analysiere 100 Ergebnisse und identifiziere die wichtigsten Insights und Trends."
+    },
+    "historical_trend_analysis": {
+      "template": "Analysiere historische Trends für '{keyword}' seit {date_from}. Verwende {historical_database} Database und identifiziere Entwicklungstrends, saisonale Muster und langfristige Veränderungen in den Daten.",
+      "variables": {
+        "keyword": "Suchbegriff",
+        "date_from": "Startdatum (YYYY-MM-DD)",
+        "historical_database": "Historische Datenbank (z.B. 'Google Historical SERP', 'Google Historical Keywords')"
+      },
+      "example": "Analysiere historische Trends für 'digital marketing' seit 2021-01-01. Verwende Google Historical Keywords Database und identifiziere Entwicklungstrends, saisonale Muster und langfristige Veränderungen in den Daten."
+    },
+    "competitor_database_analysis": {
+      "template": "Analysiere Konkurrenz-Daten für '{domain}' in der {database_type} Database. Identifiziere Ranking-Positionen, Performance-Metriken und Konkurrenz-Insights für relevante Keywords und Bereiche.",
+      "variables": {
+        "domain": "Domain",
+        "database_type": "Datenbank-Typ"
+      },
+      "example": "Analysiere Konkurrenz-Daten für 'competitor.com' in der Google Advanced SERP Database. Identifiziere Ranking-Positionen, Performance-Metriken und Konkurrenz-Insights für relevante Keywords und Bereiche."
+    },
+    "app_market_analysis": {
+      "template": "Führe eine App-Markt-Analyse für '{app_category}' durch. Verwende {app_database} Database und analysiere Top-Apps, Bewertungen, Preise und Markt-Trends in der Kategorie.",
+      "variables": {
+        "app_category": "App-Kategorie",
+        "app_database": "App-Datenbank (z.B. 'Google Play Listings', 'App Store Listings')"
+      },
+      "example": "Führe eine App-Markt-Analyse für 'productivity' durch. Verwende Google Play Listings Database und analysiere Top-Apps, Bewertungen, Preise und Markt-Trends in der Kategorie."
+    },
+    "backlink_profile_analysis": {
+      "template": "Analysiere das Backlink-Profil für '{domain}' in der Backlink Summary Database. Identifiziere Referring Domains, Spam-Score, neue und verlorene Backlinks sowie Domain-Autorität-Metriken.",
+      "variables": {
+        "domain": "Domain"
+      },
+      "example": "Analysiere das Backlink-Profil für 'example.com' in der Backlink Summary Database. Identifiziere Referring Domains, Spam-Score, neue und verlorene Backlinks sowie Domain-Autorität-Metriken."
+    }
+  },
+  "workflow_examples": {
+    "complete_seo_database_audit": {
+      "description": "Vollständiger SEO-Datenbank-Audit Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "databases_google_serps_advanced",
+          "description": "Google Advanced SERP Database analysieren",
+          "parameters": {
+            "keyword": "seo tools",
+            "location_name": "Germany",
+            "language_code": "de",
+            "limit": 100
+          }
+        },
+        {
+          "step": 2,
+          "action": "databases_google_keywords",
+          "description": "Google Keywords Database durchsuchen",
+          "parameters": {
+            "keyword_part": "seo",
+            "search_volume_min": 1000,
+            "location_name": "Germany",
+            "limit": 100
+          }
+        },
+        {
+          "step": 3,
+          "action": "databases_google_historical_serps",
+          "description": "Historische SERP-Daten analysieren",
+          "parameters": {
+            "keyword": "seo tools",
+            "date_from": "2021-01-01",
+            "location_name": "Germany",
+            "limit": 50
+          }
+        },
+        {
+          "step": 4,
+          "action": "databases_backlink_summary",
+          "description": "Backlink-Profil analysieren",
+          "parameters": {
+            "domain": "competitor.com",
+            "limit": 100
+          }
+        }
+      ]
+    },
+    "app_market_research_workflow": {
+      "description": "App-Markt-Recherche Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "databases_google_play_serps",
+          "description": "Google Play SERPs analysieren",
+          "parameters": {
+            "keyword": "fitness apps",
+            "location_name": "Germany",
+            "limit": 100
+          }
+        },
+        {
+          "step": 2,
+          "action": "databases_google_play_listings",
+          "description": "Google Play Listings durchsuchen",
+          "parameters": {
+            "category": "health_and_fitness",
+            "rating_min": 4.0,
+            "limit": 100
+          }
+        },
+        {
+          "step": 3,
+          "action": "databases_app_store_serps",
+          "description": "App Store SERPs vergleichen",
+          "parameters": {
+            "keyword": "fitness apps",
+            "location_name": "Germany",
+            "limit": 100
+          }
+        }
+      ]
+    },
+    "ecommerce_analysis_workflow": {
+      "description": "E-Commerce-Analyse Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "action": "databases_amazon_products",
+          "description": "Amazon Produktdaten analysieren",
+          "parameters": {
+            "keyword": "wireless headphones",
+            "rating_min": 4.0,
+            "price_max": 200,
+            "limit": 100
+          }
+        },
+        {
+          "step": 2,
+          "action": "databases_google_keywords",
+          "description": "E-Commerce Keywords recherchieren",
+          "parameters": {
+            "keyword_part": "headphones",
+            "search_volume_min": 500,
+            "location_name": "Germany",
+            "limit": 100
+          }
+        }
+      ]
+    }
+  },
+  "best_practices": {
+    "database_selection": [
+      "Verwende Google Advanced SERP für umfassende SERP-Analysen",
+      "Nutze Google Keywords für detaillierte Keyword-Recherche",
+      "Verwende Historical Databases für Trend-Analysen",
+      "Kombiniere verschiedene Datenbanken für vollständige Insights"
+    ],
+    "parameter_optimization": [
+      "Verwende location_code statt location_name für bessere Performance",
+      "Setze angemessene limit-Werte (100-500 für erste Analysen)",
+      "Nutze filters für präzise Suchergebnisse",
+      "Verwende order_by für relevante Ergebnis-Sortierung"
+    ],
+    "cost_optimization": [
+      "Starte mit kleineren limit-Werten für erste Tests",
+      "Nutze spezifische filters um irrelevante Daten zu vermeiden",
+      "Kombiniere verwandte Suchen in einem Request",
+      "Cache häufig verwendete Datenbank-Abfragen"
+    ],
+    "data_analysis": [
+      "Vergleiche verschiedene Datenbanken für vollständige Insights",
+      "Analysiere historische Trends für langfristige Strategien",
+      "Kombiniere SERP und Keyword-Daten für umfassende Analysen",
+      "Nutze Cross-Database-Korrelationen für tiefere Einblicke"
+    ]
+  },
+  "common_use_cases": {
+    "seo_research": {
+      "description": "Umfassende SEO-Recherche und -Analyse",
+      "databases": ["Google Advanced SERP", "Google Keywords", "Google Historical"],
+      "key_metrics": ["Ranking-Positionen", "Suchvolumen", "CPC", "Wettbewerb", "Trends"]
+    },
+    "competitor_analysis": {
+      "description": "Detaillierte Konkurrenz-Analyse",
+      "databases": ["Google Advanced SERP", "Backlink Summary", "Whois Domains"],
+      "key_metrics": ["Konkurrenz-Rankings", "Backlink-Profile", "Domain-Autorität", "SERP-Features"]
+    },
+    "app_market_research": {
+      "description": "App-Markt-Recherche und -Analyse",
+      "databases": ["Google Play SERPs", "Google Play Listings", "App Store SERPs", "App Store Listings"],
+      "key_metrics": ["App-Rankings", "Bewertungen", "Installations-Zahlen", "Preise", "Kategorien"]
+    },
+    "ecommerce_analysis": {
+      "description": "E-Commerce und Produkt-Analyse",
+      "databases": ["Amazon Products", "Google Keywords", "Google SERP"],
+      "key_metrics": ["Produkt-Rankings", "Preise", "Bewertungen", "Keyword-Performance"]
+    },
+    "local_business_analysis": {
+      "description": "Lokale Business- und SEO-Analyse",
+      "databases": ["Business Listings", "Google SERP", "Google Keywords"],
+      "key_metrics": ["Business-Listings", "Lokale Rankings", "Bewertungen", "Kontakt-Informationen"]
+    },
+    "domain_research": {
+      "description": "Domain- und Whois-Recherche",
+      "databases": ["Whois Domains", "Backlink Summary", "Google SERP"],
+      "key_metrics": ["Domain-Status", "Registrierungs-Informationen", "Backlink-Profile", "Suchsichtbarkeit"]
+    }
+  },
+  "response_formats": {
+    "success_response": {
+      "structure": {
+        "version": "string (API Version)",
+        "status_code": "integer (20000 = success)",
+        "status_message": "string (Status Message)",
+        "time": "string (Execution Time)",
+        "cost": "number (API Cost in Credits)",
+        "tasks_count": "integer (Number of Tasks)",
+        "tasks_error": "integer (Number of Errors)",
+        "tasks": "array (Task Results with Database Data)"
+      },
+      "example": {
+        "version": "0.1.20250922",
+        "status_code": 20000,
+        "status_message": "Ok.",
+        "time": "0.4521 sec.",
+        "cost": 0.005,
+        "tasks_count": 1,
+        "tasks_error": 0,
+        "tasks": [
+          {
+            "id": "12345",
+            "status_code": 20000,
+            "status_message": "Ok.",
+            "time": "0.4521 sec.",
+            "cost": 0.005,
+            "result_count": 100,
+            "path": ["v3", "databases", "google", "serps_advanced"],
+            "data": {},
+            "result": []
+          }
+        ]
+      }
+    },
+    "error_response": {
+      "structure": {
+        "status_code": "integer (4xxxx/5xxxx = error)",
+        "status_message": "string (Error Message)",
+        "time": "string (Execution Time)",
+        "cost": "number (API Cost)"
+      },
+      "common_errors": {
+        "40000": "Bad Request - Invalid parameters",
+        "40100": "Unauthorized - Invalid credentials",
+        "40400": "Not Found - Database not found",
+        "42900": "Rate Limit Exceeded",
+        "50000": "Internal Server Error"
+      }
+    }
+  },
+  "integration_tips": {
+    "custom_gpt": [
+      "Verwende spezifische Datenbank-Parameter in Prompts",
+      "Erkläre die verschiedenen Datenbank-Typen und deren Verwendung",
+      "Gib konkrete Beispiele für jeden Datenbank-Endpoint",
+      "Erwähne Kosten-Implications für Database-Zugriff"
+    ],
+    "automation": [
+      "Implementiere Pagination für große Datensätze",
+      "Verwende filters für effiziente Datenbank-Abfragen",
+      "Cache häufig verwendete Datenbank-Ergebnisse",
+      "Monitor API-Usage und Database-Kosten"
+    ],
+    "reporting": [
+      "Kombiniere verschiedene Datenbanken für vollständige Reports",
+      "Verwende historische Daten für Trend-Analysen",
+      "Erstelle vergleichende Analysen zwischen Datenbanken",
+      "Exportiere große Datensätze über Pagination"
+    ]
+  }
+}

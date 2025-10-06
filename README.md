@@ -11,10 +11,7 @@ mcp-server-typescript/
 │   │   ├── 📁 client/              # DataForSEO API-Client
 │   │   ├── 📁 config/              # Konfiguration & Tool-Definitionen
 │   │   ├── 📁 modules/             # Alle API-Module (MCP-Tools)
-│   │   │   ├── 📁 serp-google/     # Google SERP APIs
-│   │   │   ├── 📁 serp-bing/       # Bing SERP APIs
-│   │   │   ├── 📁 serp-youtube/    # YouTube SERP APIs
-│   │   │   ├── 📁 serp-allgemein/  # Allgemeine SERP APIs
+│   │   │   ├── 📁 serp/            # Alle SERP APIs (Google, Bing, YouTube, etc.)
 │   │   │   ├── 📁 keywords-data/   # Keyword-Daten APIs
 │   │   │   ├── 📁 onpage/          # On-Page SEO APIs
 │   │   │   ├── 📁 domain-analytics/ # Domain-Analyse APIs

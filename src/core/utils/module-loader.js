@@ -1,4 +1,4 @@
-import { SerpApiModule } from '../modules/serp/serp-api.module.js';
+import { SerpApiModule } from '../modules/serp/serp-api.module.ts';
 import { KeywordsDataApiModule } from '../modules/keywords-data/keywords-data-api.module.js';
 import { OnPageApiModule } from '../modules/onpage/onpage-api.module.js';
 import { DataForSEOLabsApi } from '../modules/dataforseo-labs/dataforseo-labs-api.module.js';

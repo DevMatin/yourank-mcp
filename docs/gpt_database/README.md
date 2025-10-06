@@ -1,11 +1,11 @@
 # 🚀 DataForSEO MCP Server - ChatGPT Prompt Engineer Database
 
 ## 🎯 **Ziel dieser Hauptdatenbank**
-Diese **zentrale Wissensdatenbank** dient als **vollständige Referenz** für ChatGPT als Prompt Engineer, um präzise und effektive Prompts für alle **11 DataForSEO API Schemas** zu erstellen. Hier findest du alle verfügbaren APIs, ihre Verwendungszwecke und intelligente Auswahl-Logik.
+Diese **zentrale Wissensdatenbank** dient als **vollständige Referenz** für ChatGPT als Prompt Engineer, um präzise und effektive Prompts für alle **12 DataForSEO API Schemas** zu erstellen. Hier findest du alle verfügbaren APIs, ihre Verwendungszwecke und intelligente Auswahl-Logik.
 
 ---
 
-## 📚 **Verfügbare API Schemas & Guides (11 Gesamt)**
+## 📚 **Verfügbare API Schemas & Guides (12 Gesamt)**
 
 ### **1. 📱 App Data API** 
 - **Zweck**: App Store & Google Play Analyse

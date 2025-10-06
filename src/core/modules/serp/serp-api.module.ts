@@ -2,78 +2,78 @@ import { BaseModule, ToolDefinition } from '../base.module.js';
 import { z } from 'zod';
 
 // Google Organic Tools
-import { SerpOrganicLiveAdvancedTool } from './tools/serp-organic-live-advanced.tool.js';
-import { SerpOrganicLocationsListTool } from './tools/serp-organic-locations-list.tool.js';
-import { SerpGoogleOrganicTaskPostTool } from './tools/serp-google-organic-task-post.tool.js';
-import { SerpGoogleOrganicTasksReadyTool } from './tools/serp-google-organic-tasks-ready.tool.js';
-import { SerpGoogleOrganicTaskGetAdvancedTool } from './tools/serp-google-organic-task-get-advanced.tool.js';
-import { SerpGoogleOrganicTaskGetRegularTool } from './tools/serp-google-organic-task-get-regular.tool.js';
-import { SerpGoogleOrganicTaskGetHtmlTool } from './tools/serp-google-organic-task-get-html.tool.js';
-import { SerpGoogleOrganicLiveHtmlTool } from './tools/serp-google-organic-live-html.tool.js';
-import { SerpGoogleOrganicLiveRegularTool } from './tools/serp-google-organic-live-regular.tool.js';
+import { SerpOrganicLiveAdvancedTool } from './tools/serp-organic-live-advanced.tool.ts';
+import { SerpOrganicLocationsListTool } from './tools/serp-organic-locations-list.tool.ts';
+import { SerpGoogleOrganicTaskPostTool } from './tools/serp-google-organic-task-post.tool.ts';
+import { SerpGoogleOrganicTasksReadyTool } from './tools/serp-google-organic-tasks-ready.tool.ts';
+import { SerpGoogleOrganicTaskGetAdvancedTool } from './tools/serp-google-organic-task-get-advanced.tool.ts';
+import { SerpGoogleOrganicTaskGetRegularTool } from './tools/serp-google-organic-task-get-regular.tool.ts';
+import { SerpGoogleOrganicTaskGetHtmlTool } from './tools/serp-google-organic-task-get-html.tool.ts';
+import { SerpGoogleOrganicLiveHtmlTool } from './tools/serp-google-organic-live-html.tool.ts';
+import { SerpGoogleOrganicLiveRegularTool } from './tools/serp-google-organic-live-regular.tool.ts';
 
 // Google AI Mode Tools
-import { SerpGoogleAiModeLanguagesTool } from './tools/serp-google-ai-mode-languages.tool.js';
-import { SerpGoogleAiModeLiveAdvancedTool } from './tools/serp-google-ai-mode-live-advanced.tool.js';
+import { SerpGoogleAiModeLanguagesTool } from './tools/serp-google-ai-mode-languages.tool.ts';
+import { SerpGoogleAiModeLiveAdvancedTool } from './tools/serp-google-ai-mode-live-advanced.tool.ts';
 
 // Google Languages Tool
-import { SerpGoogleLanguagesTool } from './tools/serp-google-languages.tool.js';
+import { SerpGoogleLanguagesTool } from './tools/serp-google-languages.tool.ts';
 
 // Google Maps Tools
-import { SerpGoogleMapsLiveAdvancedTool } from './tools/serp-google-maps-live-advanced.tool.js';
+import { SerpGoogleMapsLiveAdvancedTool } from './tools/serp-google-maps-live-advanced.tool.ts';
 
 // Google Local Finder Tools
-import { SerpGoogleLocalFinderLiveAdvancedTool } from './tools/serp-google-local-finder-live-advanced.tool.js';
+import { SerpGoogleLocalFinderLiveAdvancedTool } from './tools/serp-google-local-finder-live-advanced.tool.ts';
 
 // Google News Tools
-import { SerpGoogleNewsLiveAdvancedTool } from './tools/serp-google-news-live-advanced.tool.js';
+import { SerpGoogleNewsLiveAdvancedTool } from './tools/serp-google-news-live-advanced.tool.ts';
 
 // Google Events Tools
-import { SerpGoogleEventsLiveAdvancedTool } from './tools/serp-google-events-live-advanced.tool.js';
+import { SerpGoogleEventsLiveAdvancedTool } from './tools/serp-google-events-live-advanced.tool.ts';
 
 // Google Images Tools
-import { SerpGoogleImagesLiveAdvancedTool } from './tools/serp-google-images-live-advanced.tool.js';
+import { SerpGoogleImagesLiveAdvancedTool } from './tools/serp-google-images-live-advanced.tool.ts';
 
 // Google Search by Image Tools
-import { SerpGoogleSearchByImageLiveAdvancedTool } from './tools/serp-google-search-by-image-live-advanced.tool.js';
+import { SerpGoogleSearchByImageLiveAdvancedTool } from './tools/serp-google-search-by-image-live-advanced.tool.ts';
 
 // Google Jobs Tools
-import { SerpGoogleJobsLiveAdvancedTool } from './tools/serp-google-jobs-live-advanced.tool.js';
+import { SerpGoogleJobsLiveAdvancedTool } from './tools/serp-google-jobs-live-advanced.tool.ts';
 
 // Google Autocomplete Tools
-import { SerpGoogleAutocompleteLiveAdvancedTool } from './tools/serp-google-autocomplete-live-advanced.tool.js';
+import { SerpGoogleAutocompleteLiveAdvancedTool } from './tools/serp-google-autocomplete-live-advanced.tool.ts';
 
 // Google Dataset Search Tools
-import { SerpGoogleDatasetSearchLiveAdvancedTool } from './tools/serp-google-dataset-search-live-advanced.tool.js';
+import { SerpGoogleDatasetSearchLiveAdvancedTool } from './tools/serp-google-dataset-search-live-advanced.tool.ts';
 
 // Google Dataset Info Tools
-import { SerpGoogleDatasetInfoLiveAdvancedTool } from './tools/serp-google-dataset-info-live-advanced.tool.js';
+import { SerpGoogleDatasetInfoLiveAdvancedTool } from './tools/serp-google-dataset-info-live-advanced.tool.ts';
 
 // Google Ads Tools
-import { SerpGoogleAdsAdvertisersLiveAdvancedTool } from './tools/serp-google-ads-advertisers-live-advanced.tool.js';
-import { SerpGoogleAdsSearchLiveAdvancedTool } from './tools/serp-google-ads-search-live-advanced.tool.js';
+import { SerpGoogleAdsAdvertisersLiveAdvancedTool } from './tools/serp-google-ads-advertisers-live-advanced.tool.ts';
+import { SerpGoogleAdsSearchLiveAdvancedTool } from './tools/serp-google-ads-search-live-advanced.tool.ts';
 
 // Bing Tools
-import { SerpBingOrganicLiveAdvancedTool } from './tools/serp-bing-organic-live-advanced.tool.js';
-import { SerpBingLocalPackLiveAdvancedTool } from './tools/serp-bing-local-pack-live-advanced.tool.js';
-import { SerpBingLocationsTool } from './tools/serp-bing-locations.tool.js';
-import { SerpBingLanguagesTool } from './tools/serp-bing-languages.tool.js';
+import { SerpBingOrganicLiveAdvancedTool } from './tools/serp-bing-organic-live-advanced.tool.ts';
+import { SerpBingLocalPackLiveAdvancedTool } from './tools/serp-bing-local-pack-live-advanced.tool.ts';
+import { SerpBingLocationsTool } from './tools/serp-bing-locations.tool.ts';
+import { SerpBingLanguagesTool } from './tools/serp-bing-languages.tool.ts';
 
 // YouTube Tools
-import { SerpYoutubeLocationsListTool } from './tools/serp-youtube-locations-list.tool.js';
-import { SerpYoutubeOrganicLiveAdvancedTool } from './tools/serp-youtube-organic-live-advanced.tool.js';
-import { SerpYoutubeVideoInfoLiveAdvancedTool } from './tools/serp-youtube-video-info-live-advanced.tool.js';
-import { SerpYoutubeVideoCommentsLiveAdvancedTool } from './tools/serp-youtube-video-comments-live-advanced-tool.js';
-import { SerpYoutubeVideoSubtitlesLiveAdvancedTool } from './tools/serp-youtube-video-subtitles-live-advanced-tool.js';
+import { SerpYoutubeLocationsListTool } from './tools/serp-youtube-locations-list.tool.ts';
+import { SerpYoutubeOrganicLiveAdvancedTool } from './tools/serp-youtube-organic-live-advanced.tool.ts';
+import { SerpYoutubeVideoInfoLiveAdvancedTool } from './tools/serp-youtube-video-info-live-advanced.tool.ts';
+import { SerpYoutubeVideoCommentsLiveAdvancedTool } from './tools/serp-youtube-video-comments-live-advanced-tool.ts';
+import { SerpYoutubeVideoSubtitlesLiveAdvancedTool } from './tools/serp-youtube-video-subtitles-live-advanced-tool.ts';
 
 // Yahoo Tools
-import { SerpYahooOrganicLiveAdvancedTool } from './tools/serp-yahoo-organic-live-advanced.tool.js';
+import { SerpYahooOrganicLiveAdvancedTool } from './tools/serp-yahoo-organic-live-advanced.tool.ts';
 
 // General SERP Tools
-import { SerpIdListTool } from './tools/serp-id-list.tool.js';
-import { SerpErrorsTool } from './tools/serp-errors.tool.js';
-import { SerpScreenshotTool } from './tools/serp-screenshot.tool.js';
-import { SerpAiSummaryTool } from './tools/serp-ai-summary.tool.js';
+import { SerpIdListTool } from './tools/serp-id-list.tool.ts';
+import { SerpErrorsTool } from './tools/serp-errors.tool.ts';
+import { SerpScreenshotTool } from './tools/serp-screenshot.tool.ts';
+import { SerpAiSummaryTool } from './tools/serp-ai-summary.tool.ts';
 
 export class SerpApiModule extends BaseModule {
   getTools(): Record<string, ToolDefinition> {

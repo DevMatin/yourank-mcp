@@ -1,0 +1,889 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Databases API",
+    "version": "1.0.0",
+    "description": "Comprehensive access to DataForSEO Databases including Google SERP & Keywords, Bing Databases, Amazon Products, App Store data, Backlinks, Business Listings, and Whois information"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "DataForSEO MCP Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "DatabaseRequest": {
+        "type": "object",
+        "properties": {
+          "location_name": {
+            "type": "string",
+            "description": "Location name (e.g., 'Germany', 'United States')"
+          },
+          "location_code": {
+            "type": "integer",
+            "description": "Location code (alternative to location_name)"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Language code (e.g., 'en', 'de')"
+          },
+          "keyword": {
+            "type": "string",
+            "description": "Keyword to search"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Domain to search"
+          },
+          "filters": {
+            "type": "array",
+            "items": {},
+            "description": "Array of filter conditions"
+          },
+          "order_by": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of fields to order results by"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 100,
+            "description": "Number of results to return"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Offset for pagination"
+          }
+        }
+      },
+      "GoogleSerpRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DatabaseRequest"
+          }
+        ]
+      },
+      "GoogleKeywordsRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DatabaseRequest"
+          }
+        ],
+        "properties": {
+          "keyword_part": {
+            "type": "string",
+            "description": "Partial keyword to search for"
+          },
+          "search_volume_min": {
+            "type": "integer",
+            "description": "Minimum search volume filter"
+          },
+          "search_volume_max": {
+            "type": "integer",
+            "description": "Maximum search volume filter"
+          },
+          "cpc_min": {
+            "type": "number",
+            "description": "Minimum CPC filter"
+          },
+          "cpc_max": {
+            "type": "number",
+            "description": "Maximum CPC filter"
+          },
+          "competition_min": {
+            "type": "number",
+            "description": "Minimum competition level filter"
+          },
+          "competition_max": {
+            "type": "number",
+            "description": "Maximum competition level filter"
+          }
+        }
+      },
+      "HistoricalRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DatabaseRequest"
+          }
+        ],
+        "properties": {
+          "date_from": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date for historical data (YYYY-MM-DD)"
+          },
+          "date_to": {
+            "type": "string",
+            "format": "date",
+            "description": "End date for historical data (YYYY-MM-DD)"
+          }
+        }
+      },
+      "AmazonRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DatabaseRequest"
+          }
+        ],
+        "properties": {
+          "product_title": {
+            "type": "string",
+            "description": "Product title to search for"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product category filter"
+          },
+          "price_min": {
+            "type": "number",
+            "description": "Minimum price filter"
+          },
+          "price_max": {
+            "type": "number",
+            "description": "Maximum price filter"
+          },
+          "rating_min": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Minimum rating filter (1-5)"
+          },
+          "rating_max": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Maximum rating filter (1-5)"
+          },
+          "reviews_min": {
+            "type": "integer",
+            "description": "Minimum number of reviews filter"
+          }
+        }
+      },
+      "AppStoreRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DatabaseRequest"
+          }
+        ],
+        "properties": {
+          "app_name": {
+            "type": "string",
+            "description": "App name to search for"
+          },
+          "app_id": {
+            "type": "string",
+            "description": "App ID to search for"
+          },
+          "category": {
+            "type": "string",
+            "description": "App category filter"
+          },
+          "rating_min": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Minimum rating filter (1-5)"
+          },
+          "rating_max": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Maximum rating filter (1-5)"
+          },
+          "reviews_min": {
+            "type": "integer",
+            "description": "Minimum number of reviews filter"
+          },
+          "price_min": {
+            "type": "number",
+            "description": "Minimum price filter"
+          },
+          "price_max": {
+            "type": "number",
+            "description": "Maximum price filter"
+          },
+          "search_volume_min": {
+            "type": "integer",
+            "description": "Minimum search volume filter"
+          },
+          "search_volume_max": {
+            "type": "integer",
+            "description": "Maximum search volume filter"
+          }
+        }
+      },
+      "BacklinkRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Domain to search for"
+          },
+          "domain_part": {
+            "type": "string",
+            "description": "Partial domain to search for"
+          },
+          "backlinks_min": {
+            "type": "integer",
+            "description": "Minimum number of backlinks filter"
+          },
+          "backlinks_max": {
+            "type": "integer",
+            "description": "Maximum number of backlinks filter"
+          },
+          "referring_domains_min": {
+            "type": "integer",
+            "description": "Minimum number of referring domains filter"
+          },
+          "referring_domains_max": {
+            "type": "integer",
+            "description": "Maximum number of referring domains filter"
+          },
+          "spam_score_min": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Minimum spam score filter (0-100)"
+          },
+          "spam_score_max": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Maximum spam score filter (0-100)"
+          },
+          "filters": {
+            "type": "array",
+            "items": {},
+            "description": "Array of filter conditions"
+          },
+          "order_by": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of fields to order results by"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 100,
+            "description": "Number of results to return"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Offset for pagination"
+          }
+        }
+      },
+      "BusinessListingsRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DatabaseRequest"
+          }
+        ],
+        "properties": {
+          "business_name": {
+            "type": "string",
+            "description": "Business name to search for"
+          },
+          "category": {
+            "type": "string",
+            "description": "Business category filter"
+          },
+          "rating_min": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Minimum rating filter (1-5)"
+          },
+          "rating_max": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Maximum rating filter (1-5)"
+          },
+          "reviews_min": {
+            "type": "integer",
+            "description": "Minimum number of reviews filter"
+          },
+          "price_level_min": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4,
+            "description": "Minimum price level filter (1-4)"
+          },
+          "price_level_max": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4,
+            "description": "Maximum price level filter (1-4)"
+          },
+          "has_phone": {
+            "type": "boolean",
+            "description": "Filter for businesses with phone numbers"
+          },
+          "has_website": {
+            "type": "boolean",
+            "description": "Filter for businesses with websites"
+          }
+        }
+      },
+      "WhoisRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Domain to search for"
+          },
+          "domain_part": {
+            "type": "string",
+            "description": "Partial domain to search for"
+          },
+          "tld": {
+            "type": "string",
+            "description": "Top-level domain filter (e.g., 'com', 'org', 'de')"
+          },
+          "registrar": {
+            "type": "string",
+            "description": "Domain registrar filter"
+          },
+          "creation_date_from": {
+            "type": "string",
+            "format": "date",
+            "description": "Domain creation date from (YYYY-MM-DD)"
+          },
+          "creation_date_to": {
+            "type": "string",
+            "format": "date",
+            "description": "Domain creation date to (YYYY-MM-DD)"
+          },
+          "expiration_date_from": {
+            "type": "string",
+            "format": "date",
+            "description": "Domain expiration date from (YYYY-MM-DD)"
+          },
+          "expiration_date_to": {
+            "type": "string",
+            "format": "date",
+            "description": "Domain expiration date to (YYYY-MM-DD)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Domain status filter (e.g., 'active', 'expired', 'pending')"
+          },
+          "visibility_score_min": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Minimum visibility score filter (0-100)"
+          },
+          "visibility_score_max": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Maximum visibility score filter (0-100)"
+          },
+          "filters": {
+            "type": "array",
+            "items": {},
+            "description": "Array of filter conditions"
+          },
+          "order_by": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of fields to order results by"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 100,
+            "description": "Number of results to return"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Offset for pagination"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/v3/databases/google/serps_advanced": {
+      "post": {
+        "summary": "Google Advanced SERP Database",
+        "description": "Access Google Advanced SERP Database containing all kinds of SERP elements including organic and paid results, featured snippets, knowledge graphs, top stories, and more with Page Rank and Domain Rank metrics",
+        "operationId": "databases_google_serps_advanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleSerpRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Advanced SERP database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google/serps_regular": {
+      "post": {
+        "summary": "Google Regular SERP Database",
+        "description": "Access Google Regular SERP Database containing standard organic and paid search results and featured snippets along with accurate keyword metrics for relevant search terms",
+        "operationId": "databases_google_serps_regular",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleSerpRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Regular SERP database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google/keywords": {
+      "post": {
+        "summary": "Google Keywords Database",
+        "description": "Access Google Keywords Database encompassing billions of search terms enriched with related Google Ads data including search volume, competition, and CPC metrics",
+        "operationId": "databases_google_keywords",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleKeywordsRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Keywords database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google/unified_search": {
+      "post": {
+        "summary": "Google Unified Search Database",
+        "description": "Access Google Unified Search Database combining Advanced Google SERP Database and Google Keyword Database with millions of SERPs and billions of search terms enriched with Google Ads data",
+        "operationId": "databases_google_unified_search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleSerpRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Unified Search database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google_historical/serps": {
+      "post": {
+        "summary": "Google Historical SERP Database",
+        "description": "Access Google Historical SERP Database containing millions of monthly Google SERP snapshots with accurate keyword metrics and structured data on all SERP elements from 2021-08-01 onwards",
+        "operationId": "databases_google_historical_serps",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/HistoricalRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Historical SERP database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google_historical/keywords": {
+      "post": {
+        "summary": "Google Historical Keywords Database",
+        "description": "Access Google Historical Keywords Database providing billions of keywords enriched with historical keyword data since the beginning of 2019 including search volume trends and performance metrics",
+        "operationId": "databases_google_historical_keywords",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/HistoricalRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Historical Keywords database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google_historical/unified_search": {
+      "post": {
+        "summary": "Google Historical Unified Search Database",
+        "description": "Access Google Historical Unified Search Database combining Historical Google SERP and Historical Google Keyword Databases with millions of monthly SERP snapshots and billions of keywords with historical data from 2021-08-01",
+        "operationId": "databases_google_historical_unified_search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/HistoricalRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Historical Unified Search database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/bing/serps_advanced": {
+      "post": {
+        "summary": "Bing Advanced SERP Database",
+        "description": "Access Advanced Bing SERP Database encompassing millions of Bing search result pages with extra SERP features such as featured snippets, knowledge graphs, and more",
+        "operationId": "databases_bing_serps",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleSerpRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Bing SERP database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/bing/keywords": {
+      "post": {
+        "summary": "Bing Keywords Database",
+        "description": "Access Bing Keywords Database encompassing millions of search terms enriched with related data from Bing Ads including search volume history, current search volume, and more",
+        "operationId": "databases_bing_keywords",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleKeywordsRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Bing Keywords database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/bing/unified_search": {
+      "post": {
+        "summary": "Bing Unified Search Database",
+        "description": "Access Full Bing Database combining Advanced Bing SERP Database and Bing Keyword Database with millions of Bing search result pages and search terms enriched with Bing Ads data",
+        "operationId": "databases_bing_unified_search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GoogleSerpRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Bing Unified Search database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/amazon/products": {
+      "post": {
+        "summary": "Amazon Products Database",
+        "description": "Access Amazon Products Database containing data on keywords and product listings ranking for them, including title, description, price, rating, delivery information, and ranking position",
+        "operationId": "databases_amazon_products",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AmazonRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Amazon Products database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google_play/serps": {
+      "post": {
+        "summary": "Google Play SERPs Database",
+        "description": "Access Google Play SERPs Database encompassing complete Google Play search result pages for millions of keywords with related app data including app ID, icon, reviews count, rating, price, and keyword search volume values",
+        "operationId": "databases_google_play_serps",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppStoreRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Play SERPs database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/google_play/listings": {
+      "post": {
+        "summary": "Google Play Listings Database",
+        "description": "Access Google Play Listings Database encompassing over a million Google Play applications with related app data including app ID, icon, reviews count, rating, images, number of installs, price, and more",
+        "operationId": "databases_google_play_listings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppStoreRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Google Play Listings database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/app_store/serps": {
+      "post": {
+        "summary": "App Store SERPs Database",
+        "description": "Access App Store SERPs Database providing complete App Store search result pages for millions of keywords with related app data including app ID, icon, reviews count, rating, price, and keyword search volume values",
+        "operationId": "databases_app_store_serps",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppStoreRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with App Store SERPs database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/app_store/listings": {
+      "post": {
+        "summary": "App Store Listings Database",
+        "description": "Access App Store Listings Database providing over a million App Store applications with related app data including app ID, icon, description, reviews count, rating, images, and more",
+        "operationId": "databases_app_store_listings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppStoreRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with App Store Listings database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/backlinks/summary": {
+      "post": {
+        "summary": "Backlink Summary Database",
+        "description": "Access Backlink Summary Database providing backlink data and other related metrics for millions of domains including inbound links, referring domains, referring pages, new & lost backlinks, and backlink spam score",
+        "operationId": "databases_backlink_summary",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BacklinkRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Backlink Summary database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/business_listings/search": {
+      "post": {
+        "summary": "Business Listings Database",
+        "description": "Access Business Listings Database encompassing millions of point-of-interest (POI) records with public details of business entities including service description, address, contact phone, domain, rating, work hours and popular hours",
+        "operationId": "databases_business_listings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BusinessListingsRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Business Listings database results"
+          }
+        }
+      }
+    },
+    "/v3/databases/whois/overview": {
+      "post": {
+        "summary": "Whois Domains Database",
+        "description": "Access Whois Domains Database providing full access to structured Whois and search visibility data for millions of domains including timeline, updates, statuses, and search visibility metrics",
+        "operationId": "databases_whois_domains",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/WhoisRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Whois Domains database results"
+          }
+        }
+      }
+    }
+  }
+}
