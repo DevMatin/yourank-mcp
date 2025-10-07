@@ -1303,6 +1303,55 @@ const SERP_ENDPOINTS = {
   // General SERP alternative Namen
   serp_screenshot: "/v3/serp/screenshot",
   serp_ai_summary: "/v3/serp/ai_summary",
+  
+  // Keywords Data alternative Namen (ohne keywords_data_ Prefix)
+  google_ads_search_volume: "/v3/keywords_data/google/search_volume/live",
+  google_ads_search_volume_task_post: "/v3/keywords_data/google/search_volume/task_post",
+  google_ads_search_volume_tasks_ready: "/v3/keywords_data/google/search_volume/tasks_ready",
+  google_ads_search_volume_task_get: "/v3/keywords_data/google/search_volume/task_get",
+  
+  bing_search_volume: "/v3/keywords_data/bing/search_volume/live",
+  bing_search_volume_task_post: "/v3/keywords_data/bing/search_volume/task_post",
+  bing_search_volume_tasks_ready: "/v3/keywords_data/bing/search_volume/tasks_ready",
+  bing_search_volume_task_get: "/v3/keywords_data/bing/search_volume/task_get",
+  
+  google_trends_explore: "/v3/keywords_data/google_trends/explore/live",
+  google_trends_explore_task_post: "/v3/keywords_data/google_trends/explore/task_post",
+  google_trends_explore_tasks_ready: "/v3/keywords_data/google_trends/explore/tasks_ready",
+  google_trends_explore_task_get: "/v3/keywords_data/google_trends/explore/task_get",
+  
+  // Merchant alternative Namen (ohne merchant_ Prefix)
+  google_products_task_post: "/v3/merchant/google/products/task_post",
+  google_products_tasks_ready: "/v3/merchant/google/products/tasks_ready",
+  google_products_task_get_advanced: "/v3/merchant/google/products/task_get/advanced",
+  google_products_task_get_html: "/v3/merchant/google/products/task_get/html",
+  
+  amazon_products_task_post: "/v3/merchant/amazon/products/task_post",
+  amazon_products_tasks_ready: "/v3/merchant/amazon/products/tasks_ready",
+  amazon_products_task_get_advanced: "/v3/merchant/amazon/products/task_get/advanced",
+  amazon_products_task_get_html: "/v3/merchant/amazon/products/task_get/html",
+  
+  // Backlinks alternative Namen (ohne backlinks_ Prefix)
+  backlinks_summary: "/v3/backlinks/summary/live",
+  backlinks_backlinks: "/v3/backlinks/backlinks/live",
+  backlinks_anchors: "/v3/backlinks/anchors/live",
+  backlinks_history: "/v3/backlinks/history/live",
+  backlinks_domain_pages: "/v3/backlinks/domain_pages/live",
+  backlinks_referring_domains: "/v3/backlinks/referring_domains/live",
+  
+  // Domain Analytics alternative Namen (ohne domain_analytics_ Prefix)
+  technologies_summary: "/v3/domain_analytics/technologies/technologies_summary/live",
+  technologies_aggregation: "/v3/domain_analytics/technologies/aggregation_technologies/live",
+  technology_stats: "/v3/domain_analytics/technologies/technology_stats/live",
+  
+  // Content Analysis alternative Namen (ohne content_analysis_ Prefix)
+  content_search: "/v3/content_analysis/search/live",
+  content_summary: "/v3/content_analysis/summary/live",
+  sentiment_analysis: "/v3/content_analysis/sentiment_analysis/live",
+  rating_distribution: "/v3/content_analysis/rating_distribution/live",
+  
+  // OnPage alternative Namen (ohne on_page_ Prefix)
+  lighthouse_audits: "/v3/on_page/lighthouse/audits",
 
   // Bing SERP Tools - Organic
   serp_bing_locations: "/v3/serp/bing/locations",
@@ -1366,6 +1415,15 @@ const SERP_ENDPOINTS = {
     "/v3/serp/youtube/video_comments/tasks_ready",
   serp_youtube_video_comments_task_get_advanced:
     "/v3/serp/youtube/video_comments/task_get/advanced",
+
+  // Yahoo SERP Tools - Organic
+  serp_yahoo_organic_live_advanced: "/v3/serp/yahoo/organic/live/advanced",
+
+  // Fehlende wichtige SERP Endpoints hinzufügen
+  serp_google_search_by_image_live_advanced: "/v3/serp/google/search_by_image/live/advanced",
+  serp_google_jobs_live_advanced: "/v3/serp/google/jobs/live/advanced",
+  serp_youtube_organic_live_advanced: "/v3/serp/youtube/organic/live/advanced",
+  serp_organic_live_advanced: "/v3/serp/google/organic/live/advanced", // Generic organic endpoint
 };
 
 // Combine all endpoints
