@@ -32,6 +32,66 @@ function calculateOptimalDepth(keyword: string): number {
   return 5;
 }
 
+// Location-Code Mapping für deutsche Städte (DataForSEO Google Maps API)
+function getLocationCodeForGermanCity(locationName: string): number | null {
+  const locationLower = locationName.toLowerCase();
+  
+  // Bekannte deutsche Städte mit ihren DataForSEO location_codes
+  const germanCityCodes: Record<string, number> = {
+    'hamburg': 20232,
+    'hamburg,germany': 20232,
+    'köln': 20233,
+    'cologne': 20233,
+    'cologne,germany': 20233,
+    'köln,germany': 20233,
+    'berlin': 20234,
+    'berlin,germany': 20234,
+    'münchen': 20235,
+    'munich': 20235,
+    'münchen,germany': 20235,
+    'munich,germany': 20235,
+    'frankfurt': 20236,
+    'frankfurt,germany': 20236,
+    'stuttgart': 20237,
+    'stuttgart,germany': 20237,
+    'düsseldorf': 20238,
+    'duesseldorf': 20238,
+    'düsseldorf,germany': 20238,
+    'duesseldorf,germany': 20238,
+    'dortmund': 20239,
+    'dortmund,germany': 20239,
+    'essen': 20240,
+    'essen,germany': 20240,
+    'leipzig': 20241,
+    'leipzig,germany': 20241,
+    'bremen': 20242,
+    'bremen,germany': 20242,
+    'dresden': 20243,
+    'dresden,germany': 20243,
+    'hannover': 20244,
+    'hannover,germany': 20244,
+    'nürnberg': 20245,
+    'nuernberg': 20245,
+    'nürnberg,germany': 20245,
+    'nuernberg,germany': 20245,
+    'germany': 20232, // Fallback zu Hamburg
+  };
+  
+  // Direkte Suche
+  if (germanCityCodes[locationLower]) {
+    return germanCityCodes[locationLower];
+  }
+  
+  // Suche nach Teilstrings
+  for (const [city, code] of Object.entries(germanCityCodes)) {
+    if (locationLower.includes(city) || city.includes(locationLower)) {
+      return code;
+    }
+  }
+  
+  return null;
+}
+
 interface BlobMeta {
   storage: string;
   results_url: string;
@@ -1769,12 +1829,13 @@ async function handleMcpRequest(req: Request, res: Response): Promise<void> {
             },
           ];
         } else if (apiName.includes("google_maps") || apiName.includes("serp_google_maps")) {
-          // Google Maps API - Intelligente Response-Optimierung
-          const mapsParams = {
+          // Google Maps API - Intelligente Response-Optimierung mit location_code
+          const locationName = normalizeLocationName(
+            arguments_.location_name || arguments_.location
+          );
+          
+          const mapsParams: any = {
             ...baseParams,
-            location_name: normalizeLocationName(
-              arguments_.location_name || arguments_.location
-            ),
             language_code: arguments_.language_code || "de",
             depth: arguments_.depth || calculateOptimalDepth(arguments_.keyword), // Intelligente Depth-Berechnung
             device: arguments_.device || "desktop",
@@ -1783,9 +1844,27 @@ async function handleMcpRequest(req: Request, res: Response): Promise<void> {
             limit: arguments_.limit || 10,
           };
 
+          // Google Maps API benötigt location_code statt location_name
+          if (arguments_.location_code) {
+            mapsParams.location_code = arguments_.location_code;
+          } else if (arguments_.location_coordinate) {
+            mapsParams.location_coordinate = arguments_.location_coordinate;
+          } else {
+            // Konvertiere location_name zu location_code für deutsche Städte
+            const locationCode = getLocationCodeForGermanCity(locationName);
+            if (locationCode) {
+              mapsParams.location_code = locationCode;
+              console.log(`🗺️ MCP Handler: Converted location_name "${locationName}" to location_code: ${locationCode}`);
+            } else {
+              // Fallback: Verwende location_name (kann fehlschlagen)
+              mapsParams.location_name = locationName;
+              console.log(`⚠️ MCP Handler: No location_code found for "${locationName}", using location_name as fallback`);
+            }
+          }
+
           // AI Mode Endpoints unterstützen KEIN language_name - nur language_code
           if (!apiName.includes("ai_mode")) {
-            (mapsParams as any).language_name = arguments_.language_name;
+            mapsParams.language_name = arguments_.language_name;
           }
 
           requestData = [mapsParams];
@@ -4004,16 +4083,36 @@ app.post("/v3/serp/google/maps/live/advanced", async (req, res) => {
     const endpoint = "/v3/serp/google/maps/live/advanced";
     let requestData = Array.isArray(req.body) ? req.body : [req.body];
     
-    // Optimiere Request-Parameter für Maps
+    // Optimiere Request-Parameter für Maps - Google Maps API benötigt location_code statt location_name
     requestData = requestData.map((item: any) => {
-      const optimizedItem = {
+      const locationName = normalizeLocationName(item.location_name || item.location || "Germany");
+      
+      // Google Maps API benötigt location_code statt location_name
+      const optimizedItem: any = {
         keyword: item.keyword,
-        location_name: normalizeLocationName(item.location_name || item.location || "Germany"),
         language_code: item.language_code || "de",
         device: item.device || "desktop",
         os: item.os || "windows",
         depth: item.depth || calculateOptimalDepth(item.keyword || ""),
       };
+      
+      // Versuche location_code zu finden oder verwende location_coordinate
+      if (item.location_code) {
+        optimizedItem.location_code = item.location_code;
+      } else if (item.location_coordinate) {
+        optimizedItem.location_coordinate = item.location_coordinate;
+      } else {
+        // Konvertiere location_name zu location_code für deutsche Städte
+        const locationCode = getLocationCodeForGermanCity(locationName);
+        if (locationCode) {
+          optimizedItem.location_code = locationCode;
+          console.log(`🗺️ Converted location_name "${locationName}" to location_code: ${locationCode}`);
+        } else {
+          // Fallback: Verwende location_name (kann fehlschlagen)
+          optimizedItem.location_name = locationName;
+          console.log(`⚠️ No location_code found for "${locationName}", using location_name as fallback`);
+        }
+      }
       
       console.log("🗺️ Optimized request data:", optimizedItem);
       return optimizedItem;
