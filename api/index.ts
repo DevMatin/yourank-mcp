@@ -7,6 +7,31 @@ import { put } from "@vercel/blob";
 const app = express();
 app.use(express.json());
 
+// Intelligente Depth-Berechnung für Google Maps API
+function calculateOptimalDepth(keyword: string): number {
+  if (!keyword) return 5; // Standard für leere Keywords
+  
+  const keywordLower = keyword.toLowerCase();
+  
+  // Sehr spezifische Keywords (Restaurant-Namen, Adressen) - niedrige Depth
+  if (keywordLower.includes('restaurant') && keywordLower.includes('hamburg')) {
+    return 3; // Sehr spezifisch
+  }
+  
+  // Generische Keywords (nur "Pizza") - höhere Depth
+  if (keywordLower === 'pizza' || keywordLower === 'restaurant' || keywordLower === 'essen') {
+    return 8; // Generisch, mehr Ergebnisse
+  }
+  
+  // Mittlere Spezifität - mittlere Depth
+  if (keywordLower.includes('pizza') || keywordLower.includes('italienisch') || keywordLower.includes('asiatisch')) {
+    return 5; // Mittlere Spezifität
+  }
+  
+  // Standard-Depth für unbekannte Keywords
+  return 5;
+}
+
 interface BlobMeta {
   storage: string;
   results_url: string;
@@ -1743,6 +1768,27 @@ async function handleMcpRequest(req: Request, res: Response): Promise<void> {
               limit: arguments_.limit || 100,
             },
           ];
+        } else if (apiName.includes("google_maps") || apiName.includes("serp_google_maps")) {
+          // Google Maps API - Intelligente Response-Optimierung
+          const mapsParams = {
+            ...baseParams,
+            location_name: normalizeLocationName(
+              arguments_.location_name || arguments_.location
+            ),
+            language_code: arguments_.language_code || "de",
+            depth: arguments_.depth || calculateOptimalDepth(arguments_.keyword), // Intelligente Depth-Berechnung
+            device: arguments_.device || "desktop",
+            os: arguments_.os || "windows",
+            // Maps-spezifische Parameter
+            limit: arguments_.limit || 10,
+          };
+
+          // AI Mode Endpoints unterstützen KEIN language_name - nur language_code
+          if (!apiName.includes("ai_mode")) {
+            (mapsParams as any).language_name = arguments_.language_name;
+          }
+
+          requestData = [mapsParams];
         } else {
           // SERP, Content Analysis, OnPage, Backlinks APIs (Standard)
           const standardParams = {
@@ -1833,6 +1879,85 @@ async function handleMcpRequest(req: Request, res: Response): Promise<void> {
           httpMethod
         );
         if (dataforseoResponse.status === 200) {
+          // Intelligente Response-Behandlung für Google Maps API
+          if (apiName.includes("google_maps") || apiName.includes("serp_google_maps")) {
+            let responseBody = dataforseoResponse.body;
+            const jsonString = JSON.stringify(responseBody);
+            
+            // Google Maps Response-Optimierung
+            if (jsonString.length > 30000) { // 30KB Limit für Maps (aggressiver)
+              console.log(`🗺️ Google Maps Response zu groß (${jsonString.length} bytes), optimiere...`);
+              
+              // Erstelle optimierte Maps-Response
+              const optimizedResponse = {
+                status_code: responseBody.status_code || 200,
+                api_type: "google_maps_live_advanced",
+                keyword: arguments_.keyword,
+                location: arguments_.location_name || arguments_.location,
+                pagination: {
+                  total_results: responseBody.tasks?.[0]?.result?.[0]?.items?.length || 0,
+                  returned_results: Math.min(10, responseBody.tasks?.[0]?.result?.[0]?.items?.length || 0),
+                  truncated: true,
+                  message: "Response wurde auf Top 10 Ergebnisse optimiert für bessere Performance"
+                },
+                restaurants: [],
+                summary: {
+                  total_found: responseBody.tasks?.[0]?.result?.[0]?.items?.length || 0,
+                  average_rating: 0,
+                  price_ranges: {},
+                  cuisines: []
+                },
+                blob_storage: null as BlobMeta | null
+              };
+
+              // Extrahiere Top 10 Restaurants mit wichtigen Infos
+              const items = responseBody.tasks?.[0]?.result?.[0]?.items || [];
+              const topItems = items.slice(0, 10);
+              
+              optimizedResponse.restaurants = topItems.map((item: any) => ({
+                title: item.title || "N/A",
+                rating: item.rating || null,
+                reviews_count: item.reviews_count || null,
+                price_level: item.price_level || null,
+                address: item.address || "N/A",
+                phone: item.phone || null,
+                website: item.website || null,
+                place_id: item.place_id || null,
+                coordinates: item.coordinates || null,
+                working_hours: item.working_hours || null,
+                photos: item.photos?.slice(0, 3) || [], // Nur erste 3 Fotos
+                description: item.description || null
+              }));
+
+              // Berechne Summary-Statistiken
+              const ratings = topItems.filter((item: any) => item.rating).map((item: any) => item.rating);
+              if (ratings.length > 0) {
+                optimizedResponse.summary.average_rating = ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length;
+              }
+
+              // Versuche Blob-Storage für vollständige Daten
+              try {
+                const blobMeta = await uploadToBlobAndMeta("google-maps", responseBody, {
+                  keyword: arguments_.keyword,
+                  location: arguments_.location_name || arguments_.location,
+                  type: "google_maps_results",
+                  size_bytes: jsonString.length,
+                });
+                optimizedResponse.blob_storage = blobMeta;
+              } catch (e) {
+                console.log("Blob-Storage für Maps fehlgeschlagen:", e);
+              }
+
+              res.json({
+                jsonrpc: "2.0",
+                result: optimizedResponse,
+                id: req.body?.id || null,
+              });
+              return;
+            }
+          }
+
+          // Standard Response für andere APIs
           res.json({
             jsonrpc: "2.0",
             result: dataforseoResponse.body,
