@@ -1276,6 +1276,33 @@ const SERP_ENDPOINTS = {
   google_autocomplete_live_advanced: "/v3/serp/google/autocomplete/live/advanced",
   bing_organic_live_advanced: "/v3/serp/bing/organic/live/advanced",
   youtube_organic_live_advanced: "/v3/serp/youtube/organic/live/advanced",
+  
+  // Fehlende wichtige API-Namen hinzufügen
+  google_ai_mode_live_advanced: "/v3/serp/google/ai_mode/live/advanced",
+  google_local_finder_live_advanced: "/v3/serp/google/local_finder/live/advanced",
+  google_events_live_advanced: "/v3/serp/google/events/live/advanced",
+  google_search_by_image_live_advanced: "/v3/serp/google/search_by_image/live/advanced",
+  google_jobs_live_advanced: "/v3/serp/google/jobs/live/advanced",
+  google_dataset_search_live_advanced: "/v3/serp/google/dataset_search/live/advanced",
+  google_dataset_info_live_advanced: "/v3/serp/google/dataset_info/live/advanced",
+  google_ads_advertisers_live_advanced: "/v3/serp/google/ads_advertisers/live/advanced",
+  
+  // Bing alternative Namen
+  bing_organic_live: "/v3/serp/bing/organic/live",
+  bing_local_pack_live: "/v3/serp/bing/local_pack/live",
+  
+  // YouTube alternative Namen
+  youtube_organic_live: "/v3/serp/youtube/organic/live",
+  youtube_video_info_live_advanced: "/v3/serp/youtube/video_info/live/advanced",
+  youtube_video_comments_live_advanced: "/v3/serp/youtube/video_comments/live/advanced",
+  youtube_video_subtitles_live_advanced: "/v3/serp/youtube/video_subtitles/live/advanced",
+  
+  // Yahoo alternative Namen
+  yahoo_organic_live_advanced: "/v3/serp/yahoo/organic/live/advanced",
+  
+  // General SERP alternative Namen
+  serp_screenshot: "/v3/serp/screenshot",
+  serp_ai_summary: "/v3/serp/ai_summary",
 
   // Bing SERP Tools - Organic
   serp_bing_locations: "/v3/serp/bing/locations",
