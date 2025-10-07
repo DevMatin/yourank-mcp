@@ -3995,6 +3995,131 @@ app.post("/v3/serp/ai_summary", async (req, res) => {
   }
 });
 
+// Google Maps Live Advanced - Intelligente Response-Optimierung
+app.post("/v3/serp/google/maps/live/advanced", async (req, res) => {
+  try {
+    console.log("🗺️ Google Maps Live Advanced Route called!");
+    console.log("🗺️ Request body:", JSON.stringify(req.body, null, 2));
+
+    const endpoint = "/v3/serp/google/maps/live/advanced";
+    let requestData = Array.isArray(req.body) ? req.body : [req.body];
+    
+    // Optimiere Request-Parameter für Maps
+    requestData = requestData.map((item: any) => {
+      const optimizedItem = {
+        keyword: item.keyword,
+        location_name: normalizeLocationName(item.location_name || item.location || "Germany"),
+        language_code: item.language_code || "de",
+        device: item.device || "desktop",
+        os: item.os || "windows",
+        depth: item.depth || calculateOptimalDepth(item.keyword || ""),
+      };
+      
+      console.log("🗺️ Optimized request data:", optimizedItem);
+      return optimizedItem;
+    });
+
+    const dataforseoResponse = await makeDataForSEORequest(
+      endpoint,
+      requestData,
+      "POST"
+    );
+
+    if (dataforseoResponse.status === 200) {
+      let responseBody = dataforseoResponse.body;
+      const jsonString = JSON.stringify(responseBody);
+      
+      console.log(`🗺️ Google Maps Response size: ${jsonString.length} bytes`);
+      
+      // Intelligente Response-Optimierung für Maps
+      if (jsonString.length > 30000) { // 30KB Limit für Maps
+        console.log(`🗺️ Google Maps Response zu groß (${jsonString.length} bytes), optimiere...`);
+        
+        // Erstelle optimierte Maps-Response
+        const optimizedResponse = {
+          status_code: responseBody.status_code || 200,
+          api_type: "google_maps_live_advanced",
+          keyword: requestData[0]?.keyword,
+          location: requestData[0]?.location_name,
+          pagination: {
+            total_results: responseBody.tasks?.[0]?.result?.[0]?.items?.length || 0,
+            returned_results: Math.min(10, responseBody.tasks?.[0]?.result?.[0]?.items?.length || 0),
+            truncated: true,
+            message: "Response wurde auf Top 10 Ergebnisse optimiert für bessere Performance"
+          },
+          restaurants: [],
+          summary: {
+            total_found: responseBody.tasks?.[0]?.result?.[0]?.items?.length || 0,
+            average_rating: 0,
+            price_ranges: {},
+            cuisines: []
+          },
+          blob_storage: null as BlobMeta | null
+        };
+
+        // Extrahiere Top 10 Restaurants mit wichtigen Infos
+        const items = responseBody.tasks?.[0]?.result?.[0]?.items || [];
+        const topItems = items.slice(0, 10);
+        
+        optimizedResponse.restaurants = topItems.map((item: any) => ({
+          title: item.title || "N/A",
+          rating: item.rating || null,
+          reviews_count: item.reviews_count || null,
+          price_level: item.price_level || null,
+          address: item.address || "N/A",
+          phone: item.phone || null,
+          website: item.website || null,
+          place_id: item.place_id || null,
+          coordinates: item.coordinates || null,
+          working_hours: item.working_hours || null,
+          photos: item.photos?.slice(0, 3) || [], // Nur erste 3 Fotos
+          description: item.description || null
+        }));
+
+        // Berechne Summary-Statistiken
+        const ratings = topItems.filter((item: any) => item.rating).map((item: any) => item.rating);
+        if (ratings.length > 0) {
+          optimizedResponse.summary.average_rating = ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length;
+        }
+
+        // Versuche Blob-Storage für vollständige Daten
+        try {
+          const blobMeta = await uploadToBlobAndMeta("google-maps", responseBody, {
+            keyword: requestData[0]?.keyword,
+            location: requestData[0]?.location_name,
+            type: "google_maps_results",
+            size_bytes: jsonString.length,
+          });
+          optimizedResponse.blob_storage = blobMeta;
+        } catch (e) {
+          console.log("Blob-Storage für Maps fehlgeschlagen:", e);
+        }
+
+        console.log("🗺️ Optimized response created with", optimizedResponse.restaurants.length, "restaurants");
+        res.json(optimizedResponse);
+        return;
+      }
+
+      // Standard Response für kleine Daten
+      console.log("🗺️ Standard response (size OK)");
+      res.json(responseBody);
+    } else {
+      console.error("🗺️ DataForSEO API Error:", {
+        status: dataforseoResponse.status,
+        body: dataforseoResponse.body,
+        endpoint: endpoint,
+        requestData: requestData,
+      });
+      res
+        .status(dataforseoResponse.status)
+        .json({ error: "DataForSEO API returned an error" });
+    }
+  } catch (error: unknown) {
+    console.error("🗺️ Error in Google Maps Live Advanced route:", error);
+    res.status(500).json({ error: "Internal server error: " + (error instanceof Error ? error.message : String(error)) });
+  }
+});
+
 app.get("/v3/serp/:engine/locations/:country?", async (req, res) => {
   try {
     const { engine, country } = req.params;
