@@ -17,7 +17,8 @@ export class SerpGoogleAdsSearchLiveAdvancedTool extends BaseTool {
 
   getParams(): z.ZodRawShape {
     return {
-      keyword: z.string().describe("Search keyword for ads"),
+      advertiser_id: z.string().optional().describe("Advertiser ID to search for ads"),
+      target: z.string().optional().describe("Target domain to search for ads"),
       location_name: z.string().optional().describe("Location name (e.g., 'United States')"),
       location_code: z.number().optional().describe("Location code"),
       language_code: z.string().optional().describe("Language code (e.g., 'en')"),
@@ -28,10 +29,14 @@ export class SerpGoogleAdsSearchLiveAdvancedTool extends BaseTool {
 
   async handle(params: any): Promise<any> {
     try {
-      const requestData: any = {
-        keyword: params.keyword
-      };
+      const requestData: any = {};
       
+      if (params.advertiser_id) {
+        requestData.advertiser_id = params.advertiser_id;
+      }
+      if (params.target) {
+        requestData.target = params.target;
+      }
       if (params.location_name) {
         requestData.location_name = params.location_name;
       }
