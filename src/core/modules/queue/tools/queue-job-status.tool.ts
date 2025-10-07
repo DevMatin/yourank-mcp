@@ -46,8 +46,8 @@ export class QueueJobStatusTool extends BaseTool {
       };
 
       // Include response data only if job is completed
-      if (job.status === 'completed' && job.response_data) {
-        response['response_data'] = job.response_data;
+      if (job.status === 'completed' && (job as any).response_data) {
+        (response as any)['response_data'] = (job as any).response_data;
       }
 
       return this.formatResponse(response);

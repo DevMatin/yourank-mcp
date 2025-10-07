@@ -63,8 +63,8 @@ import { SerpBingLanguagesTool } from './tools/serp-bing-languages.tool.js';
 import { SerpYoutubeLocationsListTool } from './tools/serp-youtube-locations-list.tool.js';
 import { SerpYoutubeOrganicLiveAdvancedTool } from './tools/serp-youtube-organic-live-advanced.tool.js';
 import { SerpYoutubeVideoInfoLiveAdvancedTool } from './tools/serp-youtube-video-info-live-advanced.tool.js';
-import { SerpYoutubeVideoCommentsLiveAdvancedTool } from './tools/serp-youtube-video-comments-live-advanced-tool.js';
-import { SerpYoutubeVideoSubtitlesLiveAdvancedTool } from './tools/serp-youtube-video-subtitles-live-advanced-tool.js';
+import { SerpYoutubeVideoCommentsLiveAdvancedTool } from './tools/serp-youtube-video-comments-live-advanced.tool.js';
+import { SerpYoutubeVideoSubtitlesLiveAdvancedTool } from './tools/serp-youtube-video-subtitles-live-advanced.tool.js';
 
 // Yahoo Tools
 import { SerpYahooOrganicLiveAdvancedTool } from './tools/serp-yahoo-organic-live-advanced.tool.js';

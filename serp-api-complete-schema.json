@@ -1,0 +1,1800 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO SERP APIs - Gruppiert & Optimiert",
+    "description": "DataForSEO SERP API mit den wichtigsten Endpunkten in logischen Gruppen (max 30 Operationen)",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "🆓 Server Status",
+        "description": "Zeigt den aktuellen Server-Status, verfügbare APIs und System-Informationen an",
+        "operationId": "getServerStatus",
+        "responses": {
+          "200": {
+            "description": "Server-Status und API-Übersicht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/languages": {
+      "get": {
+        "summary": "🆓 Google SERP Sprachen",
+        "description": "Gibt eine Liste aller verfügbaren Sprachen für Google SERP-Analysen zurück (128 Sprachen)",
+        "operationId": "getSerpGoogleLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller verfügbaren Sprachen (128 Sprachen)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations": {
+      "get": {
+        "summary": "🆓 Google SERP Standorte (weltweit)",
+        "description": "Gibt eine Liste aller verfügbaren Standorte für Google SERP-Analysen weltweit zurück (>2000 Standorte)",
+        "operationId": "getSerpGoogleLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller verfügbaren Standorte (>2000 Standorte)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/locations/DE": {
+      "get": {
+        "summary": "🆓 Google SERP Standorte Deutschland",
+        "description": "Gibt eine Liste aller deutschen Standorte für Google SERP-Analysen zurück (>100 deutsche Städte)",
+        "operationId": "getSerpGoogleLocationsDE",
+        "responses": {
+          "200": {
+            "description": "Deutsche Standorte (>100 deutsche Städte)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/languages": {
+      "get": {
+        "summary": "🆓 Bing SERP Sprachen",
+        "description": "Gibt eine Liste aller verfügbaren Sprachen für Bing SERP-Analysen zurück",
+        "operationId": "getSerpBingLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller Bing-Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/locations": {
+      "get": {
+        "summary": "🆓 Bing SERP Standorte",
+        "description": "Gibt eine Liste aller verfügbaren Standorte für Bing SERP-Analysen zurück",
+        "operationId": "getSerpBingLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller Bing-Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/youtube/languages": {
+      "get": {
+        "summary": "🆓 YouTube SERP Sprachen",
+        "description": "Gibt eine Liste aller verfügbaren Sprachen für YouTube SERP-Analysen zurück",
+        "operationId": "getSerpYouTubeLanguages",
+        "responses": {
+          "200": {
+            "description": "Liste aller YouTube-Sprachen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/youtube/locations": {
+      "get": {
+        "summary": "🆓 YouTube SERP Standorte",
+        "description": "Gibt eine Liste aller verfügbaren Standorte für YouTube SERP-Analysen zurück",
+        "operationId": "getSerpYouTubeLocations",
+        "responses": {
+          "200": {
+            "description": "Liste aller YouTube-Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/jobs/locations": {
+      "get": {
+        "summary": "🆓 Google Jobs verfügbare Standorte",
+        "description": "Gibt eine Liste aller verfügbaren Standorte für Google Jobs SERP-Analysen zurück",
+        "operationId": "getSerpGoogleJobsLocations",
+        "responses": {
+          "200": {
+            "description": "Google Jobs Standorte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataForSEOResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/organic/live": {
+      "post": {
+        "summary": "🔍 Google Organic SERP LIVE",
+        "description": "Führt eine Google SERP-Analyse in Echtzeit durch und gibt organische Suchergebnisse, Ranking-Positionen und SERP-Features zurück",
+        "operationId": "postSerpGoogleOrganicLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLiveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/organic/live/advanced": {
+      "post": {
+        "summary": "🔍 Google Organic SERP LIVE Advanced",
+        "description": "Führt eine erweiterte Google SERP-Analyse durch mit detaillierten Ranking-Daten, Element-Positionen, Snippets und erweiterten Metadaten",
+        "operationId": "postSerpGoogleOrganicLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLiveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erweiterte SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/ai_mode/live/advanced": {
+      "post": {
+        "summary": "🤖 Google AI Mode SERP LIVE Advanced",
+        "description": "Analysiert Google AI Overviews und generative KI-Antworten. Gibt AI-generierte Zusammenfassungen, Quellen-Referenzen und KI-basierte SERP-Features zurück",
+        "operationId": "postSerpGoogleAiModeLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "keyword"
+                ],
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für AI Overview Analyse",
+                    "example": "artificial intelligence trends"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standort für die Suche (nur US, UK, India unterstützt)",
+                    "default": "United States",
+                    "example": "United States"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile"
+                    ],
+                    "default": "desktop",
+                    "description": "Gerätetyp für die Analyse"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 10,
+                    "description": "Anzahl der zu analysierenden Suchergebnisse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AI Mode SERP-Analyse mit KI-generierten Antworten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/maps/live/advanced": {
+      "post": {
+        "summary": "🗺️ Google Maps SERP LIVE Advanced",
+        "description": "Analysiert Google Maps Suchergebnisse und lokale Businesses. Gibt lokale Unternehmen, Bewertungen, Öffnungszeiten und Kontaktdaten zurück",
+        "operationId": "postSerpGoogleMapsLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpMapsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Maps SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/local_finder/live/advanced": {
+      "post": {
+        "summary": "📍 Google Local Finder SERP LIVE Advanced",
+        "description": "Analysiert Google 'Near me' Suchen und lokale Unternehmen. Gibt lokale Business-Listings, Entfernungen und lokale SEO-Rankings zurück",
+        "operationId": "postSerpGoogleLocalFinderLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLocalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Local Finder SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/news/live/advanced": {
+      "post": {
+        "summary": "📰 Google News SERP LIVE Advanced",
+        "description": "Analysiert Google News Suchergebnisse und Nachrichten-Rankings. Gibt aktuelle Nachrichten, Quellen, Veröffentlichungszeiten und News-Trends zurück",
+        "operationId": "postSerpGoogleNewsLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpNewsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google News SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/images/live/advanced": {
+      "post": {
+        "summary": "🖼️ Google Images SERP LIVE Advanced",
+        "description": "Analysiert Google Bildersuche Ergebnisse und Bild-Rankings. Gibt Bild-Rankings, Alt-Texte, Bildquellen und visuelle SEO-Metriken zurück",
+        "operationId": "postSerpGoogleImagesLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpImagesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Images SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/autocomplete/live/advanced": {
+      "post": {
+        "summary": "💡 Google Autocomplete LIVE Advanced",
+        "description": "Analysiert Google Suchvorschläge und Autocomplete-Daten. Gibt Keyword-Vorschläge, Suchtrends und verwandte Suchbegriffe zurück",
+        "operationId": "postSerpGoogleAutocompleteLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpAutocompleteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Autocomplete Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/dataset_search/live/advanced": {
+      "post": {
+        "summary": "📊 Google Dataset Search LIVE Advanced",
+        "description": "Analysiert Google Dataset Search Ergebnisse. Gibt verfügbare Datasets, Datenquellen, Metadaten und Forschungsdaten für wissenschaftliche und datengetriebene Analysen zurück",
+        "operationId": "postSerpGoogleDatasetSearchLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpDatasetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Dataset Search Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/organic/live/advanced": {
+      "post": {
+        "summary": "🔍 Bing Organic SERP LIVE Advanced",
+        "description": "Führt eine erweiterte Bing SERP-Analyse durch mit detaillierten Daten. Gibt Bing-spezifische SERP-Features, Ranking-Positionen und Suchtrends zurück",
+        "operationId": "postSerpBingOrganicLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLiveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erweiterte Bing SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/bing/local_pack/live": {
+      "post": {
+        "summary": "📍 Bing Local Pack SERP LIVE",
+        "description": "Analysiert Bing lokale Suchergebnisse und Business-Listings. Gibt lokale Unternehmen, Bewertungen und lokale SEO-Rankings in Bing zurück",
+        "operationId": "postSerpBingLocalPackLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLocalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bing Local Pack Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/youtube/organic/live": {
+      "post": {
+        "summary": "🎥 YouTube Organic SERP LIVE",
+        "description": "Analysiert YouTube Suchergebnisse und Video-Rankings. Gibt Video-Rankings, Metadaten, View-Counts und YouTube SEO-Metriken zurück",
+        "operationId": "postSerpYouTubeOrganicLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpYouTubeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "YouTube SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/youtube/video_info/live/advanced": {
+      "post": {
+        "summary": "🎬 YouTube Video Info LIVE Advanced",
+        "description": "Analysiert detaillierte YouTube Video-Informationen, Metadaten und Statistiken. Gibt Video-Details, Engagement-Metriken, Kommentare und Performance-Daten zurück",
+        "operationId": "postSerpYouTubeVideoInfoLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpYouTubeVideoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "YouTube Video Info Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/jobs/live/advanced": {
+      "post": {
+        "summary": "💼 Google Jobs SERP LIVE Advanced",
+        "description": "Analysiert Google Jobs Suchergebnisse und Stellenanzeigen. Gibt Job-Listings, Unternehmen, Gehaltsangaben und Job-Trends zurück",
+        "operationId": "postSerpGoogleJobsLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpJobsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Jobs SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/events/live/advanced": {
+      "post": {
+        "summary": "📅 Google Events SERP LIVE Advanced",
+        "description": "Analysiert Google Events Suchergebnisse und Veranstaltungen. Gibt Events, Termine, Orte und Event-Details zurück",
+        "operationId": "postSerpGoogleEventsLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpEventsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Events SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/google/search_by_image/live/advanced": {
+      "post": {
+        "summary": "🔍 Google Search by Image LIVE Advanced",
+        "description": "Analysiert Google Reverse Image Search Ergebnisse. Gibt ähnliche Bilder, Bildquellen und visuelle Suchtrends zurück",
+        "operationId": "postSerpGoogleSearchByImageLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpSearchByImageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Search by Image Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/yahoo/organic/live/advanced": {
+      "post": {
+        "summary": "🔍 Yahoo Organic SERP LIVE Advanced",
+        "description": "Analysiert Yahoo Suchergebnisse und Ranking-Positionen. Gibt Yahoo-spezifische SERP-Features und Suchtrends zurück",
+        "operationId": "postSerpYahooOrganicLiveAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpLiveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yahoo SERP-Analyse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpLiveAdvancedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/screenshot": {
+      "post": {
+        "summary": "📸 SERP Screenshot",
+        "description": "Erstellt einen Screenshot einer SERP-Seite. Gibt die visuelle Darstellung der Suchergebnisse als Base64-kodiertes Bild zurück",
+        "operationId": "postSerpScreenshot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpScreenshotRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SERP Screenshot erfolgreich erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpScreenshotResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/serp/ai_summary": {
+      "post": {
+        "summary": "🤖 SERP AI Summary",
+        "description": "Generiert eine KI-basierte Zusammenfassung von SERP-Ergebnissen. Gibt intelligente Insights, Trends und Analysen aus SERP-Daten zurück",
+        "operationId": "postSerpAiSummary",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerpAiSummaryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AI Summary erfolgreich generiert",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SerpAiSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SerpLiveRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für SERP-Analyse",
+            "example": "seo tools"
+          },
+          "location_name": {
+            "type": "string",
+            "description": "Standort für die Suche (Format: Stadt,Bundesland,Land)",
+            "default": "Germany",
+            "example": "Munich,Bavaria,Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "description": "Sprachcode (ISO 639-1)",
+            "default": "de",
+            "example": "de"
+          },
+          "device": {
+            "type": "string",
+            "enum": [
+              "desktop",
+              "mobile"
+            ],
+            "default": "desktop",
+            "description": "Gerätetyp für die Analyse"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Anzahl der zu analysierenden Suchergebnisse"
+          },
+          "calculate_rectangles": {
+            "type": "boolean",
+            "default": false,
+            "description": "Element-Positionen auf der Seite berechnen (nur Advanced)"
+          },
+          "browser_screen_width": {
+            "type": "integer",
+            "default": 1920,
+            "description": "Browser-Bildschirmbreite in Pixeln (nur Advanced)"
+          },
+          "browser_screen_height": {
+            "type": "integer",
+            "default": 1080,
+            "description": "Browser-Bildschirmhöhe in Pixeln (nur Advanced)"
+          }
+        }
+      },
+      "SerpMapsRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für Maps-Suche",
+            "example": "restaurant berlin"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Berlin,Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "device": {
+            "type": "string",
+            "enum": [
+              "desktop",
+              "mobile"
+            ],
+            "default": "desktop"
+          }
+        }
+      },
+      "SerpLocalRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für lokale Suche",
+            "example": "pizza near me"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Berlin,Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          }
+        }
+      },
+      "SerpNewsRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für News-Suche",
+            "example": "artificial intelligence news"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "hour",
+              "day",
+              "week",
+              "month",
+              "year"
+            ],
+            "description": "Zeitbereich für News-Ergebnisse"
+          }
+        }
+      },
+      "SerpImagesRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für Bildersuche",
+            "example": "seo infographic"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "image_type": {
+            "type": "string",
+            "enum": [
+              "clipart",
+              "face",
+              "lineart",
+              "news",
+              "photo"
+            ],
+            "description": "Art der Bilder"
+          }
+        }
+      },
+      "SerpAutocompleteRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Partial keyword für Autocomplete",
+            "example": "seo to"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          }
+        }
+      },
+      "SerpDatasetRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für Dataset-Suche",
+            "example": "climate change data"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 10,
+            "description": "Anzahl der Dataset-Ergebnisse"
+          }
+        }
+      },
+      "SerpYouTubeRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für YouTube-Suche",
+            "example": "seo tutorial"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "Anzahl der Video-Ergebnisse"
+          }
+        }
+      },
+      "SerpYouTubeVideoRequest": {
+        "type": "object",
+        "required": [
+          "video_id"
+        ],
+        "properties": {
+          "video_id": {
+            "type": "string",
+            "description": "YouTube Video ID",
+            "example": "dQw4w9WgXcQ"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          }
+        }
+      },
+      "SerpJobsRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für Job-Suche",
+            "example": "software engineer"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Berlin,Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "employment_type": {
+            "type": "string",
+            "enum": [
+              "full_time",
+              "part_time",
+              "contract",
+              "internship"
+            ],
+            "description": "Art der Beschäftigung"
+          }
+        }
+      },
+      "SerpEventsRequest": {
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Suchbegriff für Event-Suche",
+            "example": "tech conference"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Berlin,Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          },
+          "date_from": {
+            "type": "string",
+            "format": "date",
+            "description": "Startdatum für Events (YYYY-MM-DD)"
+          },
+          "date_to": {
+            "type": "string",
+            "format": "date",
+            "description": "Enddatum für Events (YYYY-MM-DD)"
+          }
+        }
+      },
+      "SerpSearchByImageRequest": {
+        "type": "object",
+        "required": [
+          "image_url"
+        ],
+        "properties": {
+          "image_url": {
+            "type": "string",
+            "description": "URL des Bildes für Reverse Image Search",
+            "example": "https://example.com/image.jpg"
+          },
+          "location_name": {
+            "type": "string",
+            "default": "Germany",
+            "example": "Germany"
+          },
+          "language_code": {
+            "type": "string",
+            "default": "de",
+            "example": "de"
+          }
+        }
+      },
+      "SerpScreenshotRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL der SERP-Seite für Screenshot",
+            "example": "https://www.google.com/search?q=seo+tools"
+          },
+          "viewport_width": {
+            "type": "integer",
+            "default": 1920,
+            "description": "Viewport-Breite für Screenshot"
+          },
+          "viewport_height": {
+            "type": "integer",
+            "default": 1080,
+            "description": "Viewport-Höhe für Screenshot"
+          }
+        }
+      },
+      "SerpAiSummaryRequest": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task ID von vorheriger SERP-Anfrage",
+            "example": "09231503-1064-0099-0000-c6eb19dc8746"
+          },
+          "summary_type": {
+            "type": "string",
+            "enum": [
+              "trends",
+              "insights",
+              "competitors",
+              "keywords"
+            ],
+            "default": "trends",
+            "description": "Art der AI-Zusammenfassung"
+          }
+        }
+      },
+      "SerpLiveResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API Version",
+            "example": "0.1.20250922"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "Status Code (20000 = Erfolg)",
+            "example": 20000
+          },
+          "status_message": {
+            "type": "string",
+            "description": "Status Nachricht",
+            "example": "Ok."
+          },
+          "time": {
+            "type": "string",
+            "description": "Ausführungszeit",
+            "example": "0.2315 sec."
+          },
+          "cost": {
+            "type": "number",
+            "description": "Kosten in Credits",
+            "example": 0.001
+          },
+          "tasks_count": {
+            "type": "integer",
+            "example": 1
+          },
+          "tasks_error": {
+            "type": "integer",
+            "example": 0
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "09231503-1064-0099-0000-c6eb19dc8746"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 20000
+                },
+                "status_message": {
+                  "type": "string",
+                  "example": "Ok."
+                },
+                "time": {
+                  "type": "string",
+                  "example": "0.1956 sec."
+                },
+                "cost": {
+                  "type": "number",
+                  "example": 0.001
+                },
+                "result_count": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "example": "seo tools"
+                      },
+                      "location_code": {
+                        "type": "integer",
+                        "example": 2276
+                      },
+                      "language_code": {
+                        "type": "string",
+                        "example": "de"
+                      },
+                      "total_count": {
+                        "type": "integer",
+                        "description": "Gesamtanzahl Suchergebnisse",
+                        "example": 8940000
+                      },
+                      "items_count": {
+                        "type": "integer",
+                        "description": "Anzahl zurückgegebener Items",
+                        "example": 10
+                      },
+                      "items": {
+                        "type": "array",
+                        "description": "SERP Items (organische Ergebnisse, Ads, Features)",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Art des SERP-Elements",
+                              "example": "organic"
+                            },
+                            "rank_group": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "rank_absolute": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "position": {
+                              "type": "string",
+                              "example": "left"
+                            },
+                            "domain": {
+                              "type": "string",
+                              "example": "semrush.com"
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "Best SEO Tools in 2024 (Free and Paid) - Semrush"
+                            },
+                            "url": {
+                              "type": "string",
+                              "example": "https://www.semrush.com/blog/seo-tools/"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Find the best SEO tools to improve your website's search engine rankings..."
+                            },
+                            "breadcrumb": {
+                              "type": "string",
+                              "example": "www.semrush.com › blog › seo-tools"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SerpLiveAdvancedResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SerpLiveResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "tasks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "rectangle": {
+                                  "type": "object",
+                                  "description": "Element-Position auf der Seite (nur wenn calculate_rectangles=true)",
+                                  "properties": {
+                                    "x": {
+                                      "type": "integer",
+                                      "example": 134
+                                    },
+                                    "y": {
+                                      "type": "integer",
+                                      "example": 256
+                                    },
+                                    "width": {
+                                      "type": "integer",
+                                      "example": 438
+                                    },
+                                    "height": {
+                                      "type": "integer",
+                                      "example": 95
+                                    }
+                                  }
+                                },
+                                "snippet": {
+                                  "type": "string",
+                                  "description": "Ausführlicher Snippet-Text",
+                                  "example": "Find the best SEO tools to improve your website's search engine rankings. Compare free and paid options..."
+                                },
+                                "highlighted": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "Hervorgehobene Keywords",
+                                  "example": [
+                                    "SEO",
+                                    "tools"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SerpScreenshotResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "example": "0.1.20250922"
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 20000
+          },
+          "status_message": {
+            "type": "string",
+            "example": "Ok."
+          },
+          "time": {
+            "type": "string",
+            "example": "2.1456 sec."
+          },
+          "cost": {
+            "type": "number",
+            "example": 0.002
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "09231503-1064-0099-0000-c6eb19dc8746"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 20000
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "screenshot": {
+                        "type": "string",
+                        "description": "Base64-kodiertes Screenshot-Bild",
+                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+                      },
+                      "url": {
+                        "type": "string",
+                        "example": "https://www.google.com/search?q=seo+tools"
+                      },
+                      "viewport_width": {
+                        "type": "integer",
+                        "example": 1920
+                      },
+                      "viewport_height": {
+                        "type": "integer",
+                        "example": 1080
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SerpAiSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "example": "0.1.20250922"
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 20000
+          },
+          "status_message": {
+            "type": "string",
+            "example": "Ok."
+          },
+          "time": {
+            "type": "string",
+            "example": "1.5234 sec."
+          },
+          "cost": {
+            "type": "number",
+            "example": 0.005
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "09231503-1064-0099-0000-c6eb19dc8746"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 20000
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "summary": {
+                        "type": "string",
+                        "description": "KI-generierte Zusammenfassung",
+                        "example": "Die SERP-Analyse zeigt, dass SEO-Tools ein stark umkämpftes Marktsegment sind..."
+                      },
+                      "key_insights": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Wichtige Erkenntnisse",
+                        "example": [
+                          "Semrush dominiert die Top-Positionen",
+                          "Kostenlose Tools haben hohe Sichtbarkeit",
+                          "Video-Content wird bevorzugt"
+                        ]
+                      },
+                      "trends": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "trend": {
+                              "type": "string",
+                              "example": "AI-basierte SEO-Tools"
+                            },
+                            "relevance": {
+                              "type": "number",
+                              "example": 0.85
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DataForSEOResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "API Version",
+            "example": "0.1.20250922"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "Status Code (20000 = Success)",
+            "example": 20000
+          },
+          "status_message": {
+            "type": "string",
+            "description": "Status Message",
+            "example": "Ok."
+          },
+          "time": {
+            "type": "string",
+            "description": "Ausführungszeit",
+            "example": "0.0502 sec."
+          },
+          "cost": {
+            "type": "number",
+            "description": "API-Kosten",
+            "example": 0
+          },
+          "tasks_count": {
+            "type": "integer",
+            "description": "Anzahl Tasks",
+            "example": 1
+          },
+          "tasks_error": {
+            "type": "integer",
+            "description": "Anzahl Task-Errors",
+            "example": 0
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Task ID",
+                  "example": "09231325-1064-0099-0000-9c215999b63b"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 20000
+                },
+                "status_message": {
+                  "type": "string",
+                  "example": "Ok."
+                },
+                "time": {
+                  "type": "string",
+                  "example": "0.0001 sec."
+                },
+                "cost": {
+                  "type": "number",
+                  "example": 0
+                },
+                "result_count": {
+                  "type": "integer",
+                  "description": "Anzahl Ergebnisse",
+                  "example": 128
+                },
+                "path": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "v3",
+                    "serp",
+                    "google",
+                    "languages"
+                  ]
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "api": {
+                      "type": "string",
+                      "example": "serp"
+                    },
+                    "function": {
+                      "type": "string",
+                      "example": "languages"
+                    },
+                    "se": {
+                      "type": "string",
+                      "example": "google"
+                    }
+                  }
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "description": "Sprache",
+                        "properties": {
+                          "language_name": {
+                            "type": "string",
+                            "description": "Sprachname",
+                            "example": "German"
+                          },
+                          "language_code": {
+                            "type": "string",
+                            "description": "Sprachcode (z.B. 'de', 'en')",
+                            "example": "de"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "description": "Standort",
+                        "properties": {
+                          "location_code": {
+                            "type": "integer",
+                            "description": "Standortcode",
+                            "example": 2276
+                          },
+                          "location_name": {
+                            "type": "string",
+                            "description": "Standortname",
+                            "example": "Germany"
+                          },
+                          "location_code_parent": {
+                            "type": "integer",
+                            "description": "Parent Location Code",
+                            "example": null
+                          },
+                          "country_iso_code": {
+                            "type": "string",
+                            "description": "Ländercode (z.B. 'DE', 'US')",
+                            "example": "DE"
+                          },
+                          "location_type": {
+                            "type": "string",
+                            "description": "Standorttyp (z.B. 'Country', 'City')",
+                            "example": "Country"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "description": "Ergebnis-Array"
+                }
+              }
+            },
+            "description": "Tasks Array"
+          }
+        }
+      },
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "healthy"
+          },
+          "server": {
+            "type": "string",
+            "example": "dataforseo-mcp-server"
+          },
+          "version": {
+            "type": "string",
+            "example": "2.7.2"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-23T10:20:30.123Z"
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "/http",
+              "/mcp"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "DataForSEO MCP Server is running on Vercel! 🚀"
+          },
+          "deployment": {
+            "type": "string",
+            "example": "successful"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "on_page_instant_pages",
+              "real_dataforseo_integration",
+              "all_30_onpage_apis",
+              "all_25_backlinks_apis",
+              "serp_google_organic_live",
+              "serp_google_locations"
+            ]
+          },
+          "available_apis": {
+            "type": "object",
+            "properties": {
+              "serp": {
+                "type": "integer",
+                "description": "Anzahl SERP APIs",
+                "example": 45
+              },
+              "onpage": {
+                "type": "integer",
+                "description": "Anzahl OnPage APIs",
+                "example": 30
+              },
+              "backlinks": {
+                "type": "integer",
+                "description": "Anzahl Backlinks APIs",
+                "example": 25
+              },
+              "total": {
+                "type": "integer",
+                "description": "Gesamtanzahl APIs",
+                "example": 200
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

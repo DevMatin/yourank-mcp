@@ -1,27 +1,26 @@
 import { z } from 'zod';
 
-// Define available module names - Erweitert um alle 11 APIs
+// Define available module names - Synchronized with actual implemented modules
 export const AVAILABLE_MODULES = [
   'SERP', 
   'KEYWORDS_DATA', 
   'ONPAGE', 
   'DATAFORSEO_LABS', 
   'BACKLINKS', 
-  'GOOGLE_BUSINESS',     // Getrennt: Google Business Data
-  'TRUSTPILOT',          // Getrennt: Trustpilot Reviews & Search
-  'TRIPADVISOR',         // Getrennt: TripAdvisor Business Data
-  'GOOGLE_MAPS',         // Getrennt: Google Maps Business Listings
-  'SOCIAL_MEDIA',        // Getrennt: Social Media APIs
-  'BUSINESS_UTILITIES',  // Getrennt: Business Data Utilities
+  'GOOGLE_BUSINESS',     // Part of BusinessDataApiModule
+  'TRUSTPILOT',          // Part of BusinessDataApiModule
+  'TRIPADVISOR',         // Part of BusinessDataApiModule
+  'GOOGLE_MAPS',         // Part of BusinessDataApiModule
+  'SOCIAL_MEDIA',        // Part of BusinessDataApiModule
+  'BUSINESS_UTILITIES',  // Part of BusinessDataApiModule
   'DOMAIN_ANALYTICS', 
   'CONTENT_ANALYSIS',
-  'CONTENT_GENERATION',  // Neue API
-  'MERCHANT',            // Neue API
-  'GOOGLE_SHOPPING',     // Neue API
-  'AI_OPTIMIZATION',     // Neue API
-  'APP_DATA',            // App Data APIs
-  'DATABASES',           // Databases API
-  'QUEUE'                // Queue Management System
+  'CONTENT_GENERATION',
+  'MERCHANT',
+  'AI_OPTIMIZATION',
+  'APP_DATA',
+  'DATABASES',
+  'QUEUE'
 ] as const;
 export type ModuleName = typeof AVAILABLE_MODULES[number];
 

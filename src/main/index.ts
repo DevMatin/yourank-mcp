@@ -1,13 +1,14 @@
 #!/usr/bin/env node
+import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
-import { EnabledModulesSchema, isModuleEnabled, defaultEnabledModules } from '../core/config/modules.config';
-import { BaseModule, ToolDefinition } from '../core/modules/base.module';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
+import { EnabledModulesSchema, isModuleEnabled, defaultEnabledModules } from '../core/config/modules.config.js';
+import { BaseModule, ToolDefinition } from '../core/modules/base.module.js';
 import { z } from 'zod';
-import { ModuleLoaderService } from "../core/utils/module-loader";
-import { initializeFieldConfiguration } from '../core/config/field-configuration';
-import { name, version } from '../core/utils/version';
+import { ModuleLoaderService } from "../core/utils/module-loader.js";
+import { initializeFieldConfiguration } from '../core/config/field-configuration.js';
+import { name, version } from '../core/utils/version.js';
 
 // Initialize field configuration if provided
 initializeFieldConfiguration();
@@ -35,26 +36,7 @@ const enabledModules = EnabledModulesSchema.parse(process.env.ENABLED_MODULES);
 const modules: BaseModule[] = ModuleLoaderService.loadModules(dataForSEOClient, enabledModules);
 console.error('Modules initialized');
 
-// Explicitly add Content Analysis Module if not already loaded
-let contentAnalysisModuleLoaded = false;
-for (const module of modules) {
-  if (module.constructor.name === 'ContentAnalysisApiModule') {
-    contentAnalysisModuleLoaded = true;
-    break;
-  }
-}
-
-if (!contentAnalysisModuleLoaded && isModuleEnabled('CONTENT_ANALYSIS', enabledModules)) {
-  console.error('Explicitly loading Content Analysis Module...');
-  try {
-    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module');
-    const contentAnalysisModule = new ContentAnalysisApiModule(dataForSEOClient);
-    modules.push(contentAnalysisModule);
-    console.error('Content Analysis Module loaded explicitly');
-  } catch (error) {
-    console.error('Failed to load Content Analysis Module:', error);
-  }
-}
+// Content Analysis Module is already loaded by ModuleLoaderService
 
 // Register tools from modules
 function registerModuleTools() {

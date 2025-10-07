@@ -15,6 +15,8 @@ import { MerchantApiModule } from '../modules/merchant/merchant-api.module.js';
 import { AiOptimizationApiModule } from '../modules/ai-optimization/ai-optimization-api.module.js';
 import { AppDataModule } from '../modules/app-data/app-data.module.js';
 import { DatabasesApiModule } from '../modules/databases/databases-api.module.js';
+import { BusinessDataApiModule } from '../modules/business-data-api/business-data-api.module.js';
+import { QueueModule } from '../modules/queue/queue.module.js';
 
 export class ModuleLoaderService {
   static loadModules(dataForSEOClient: DataForSEOClient, enabledModules: EnabledModules): BaseModule[] {
@@ -40,11 +42,15 @@ export class ModuleLoaderService {
     if (isModuleEnabled('BACKLINKS', enabledModules)) {
       modules.push(new BacklinksApiModule(dataForSEOClient));
     }
-    // Removed: GOOGLE_BUSINESS module - functionality moved to business-data-api
-    // Removed: TRUSTPILOT and TRIPADVISOR modules - they don't exist
-    // Removed: GOOGLE_MAPS module - functionality moved to business-data-api
-    // Removed: SOCIAL_MEDIA module - functionality moved to business-data-api
-    // Removed: BUSINESS_UTILITIES module - it doesn't exist
+    // Business Data API Module (includes Google Business, Trustpilot, TripAdvisor, Social Media, etc.)
+    if (isModuleEnabled('GOOGLE_BUSINESS', enabledModules) || 
+        isModuleEnabled('TRUSTPILOT', enabledModules) || 
+        isModuleEnabled('TRIPADVISOR', enabledModules) || 
+        isModuleEnabled('GOOGLE_MAPS', enabledModules) || 
+        isModuleEnabled('SOCIAL_MEDIA', enabledModules) || 
+        isModuleEnabled('BUSINESS_UTILITIES', enabledModules)) {
+      modules.push(new BusinessDataApiModule(dataForSEOClient));
+    }
     if (isModuleEnabled('DOMAIN_ANALYTICS', enabledModules)) {
       modules.push(new DomainAnalyticsApiModule(dataForSEOClient));
     }
@@ -70,6 +76,9 @@ export class ModuleLoaderService {
     }
     if(isModuleEnabled('DATABASES', enabledModules)) {
       modules.push(new DatabasesApiModule(dataForSEOClient));
+    }
+    if(isModuleEnabled('QUEUE', enabledModules)) {
+      modules.push(new QueueModule(dataForSEOClient));
     }
 
     return modules;

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Request as ExpressRequest, Response, NextFunction } from 'express';
 import { randomUUID } from "node:crypto";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

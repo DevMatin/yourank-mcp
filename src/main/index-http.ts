@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
 import { SerpApiModule } from '../core/modules/serp/serp-api.module';

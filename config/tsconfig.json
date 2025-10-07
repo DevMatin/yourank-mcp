@@ -4,8 +4,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "outDir": "../build",
-    "rootDir": "../src",
-    "strict": false,
+    "rootDir": "..",
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -16,7 +16,8 @@
     "noEmit": false
   },
   "include": [
-    "../src/**/*.ts"
+    "../src/**/*.ts",
+    "../api/**/*.ts"
   ],
   "exclude": [
     "../node_modules",
