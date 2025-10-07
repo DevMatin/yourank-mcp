@@ -6930,5 +6930,73 @@ app.get("/mcp", (req, res) => {
   });
 });
 
+// Favicon Routes - Serve favicon files directly
+app.get("/favicon.ico", (req, res) => {
+  res.setHeader('Content-Type', 'image/x-icon');
+  res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+  res.send(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+    <rect width="16" height="16" fill="#2563eb" rx="3"/>
+    <text x="8" y="12" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="white">M</text>
+  </svg>`);
+});
+
+app.get("/favicon-16x16.png", (req, res) => {
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+  res.send(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+    <rect width="16" height="16" fill="#2563eb" rx="3"/>
+    <text x="8" y="12" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="white">M</text>
+  </svg>`);
+});
+
+app.get("/favicon-32x32.png", (req, res) => {
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+  res.send(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+    <rect width="32" height="32" fill="#2563eb" rx="6"/>
+    <text x="16" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">M</text>
+  </svg>`);
+});
+
+app.get("/apple-touch-icon.png", (req, res) => {
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+  res.send(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+    <rect width="180" height="180" fill="#2563eb" rx="20"/>
+    <text x="90" y="115" font-family="Arial, sans-serif" font-size="100" font-weight="bold" text-anchor="middle" fill="white">M</text>
+  </svg>`);
+});
+
+app.get("/site.webmanifest", (req, res) => {
+  res.setHeader('Content-Type', 'application/manifest+json');
+  res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+  res.json({
+    "name": "MCP Server Admin",
+    "short_name": "MCP Admin",
+    "description": "Admin Frontend für DataForSEO MCP Server",
+    "icons": [
+      {
+        "src": "/favicon-16x16.png",
+        "sizes": "16x16",
+        "type": "image/png"
+      },
+      {
+        "src": "/favicon-32x32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+      },
+      {
+        "src": "/apple-touch-icon.png",
+        "sizes": "180x180",
+        "type": "image/png"
+      }
+    ],
+    "theme_color": "#2563eb",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "start_url": "/"
+  });
+});
+
 // Export for Vercel
 export default app;
