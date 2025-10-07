@@ -1259,6 +1259,23 @@ const SERP_ENDPOINTS = {
   serp_google_ads_search_tasks_ready: "/v3/serp/google/ads_search/tasks_ready",
   serp_google_ads_search_task_get_advanced:
     "/v3/serp/google/ads_search/task_get/advanced",
+  
+  // Alternative API-Namen für bessere Kompatibilität
+  google_ads_search_live_advanced: "/v3/serp/google/ads_search/live/advanced",
+  google_ads_search_locations: "/v3/serp/google/ads_search/locations",
+  google_ads_search_task_post: "/v3/serp/google/ads_search/task_post",
+  google_ads_search_tasks_ready: "/v3/serp/google/ads_search/tasks_ready",
+  google_ads_search_task_get_advanced: "/v3/serp/google/ads_search/task_get/advanced",
+  
+  // Weitere alternative API-Namen für häufige Endpoints
+  google_organic_live_advanced: "/v3/serp/google/organic/live/advanced",
+  google_organic_live: "/v3/serp/google/organic/live",
+  google_maps_live_advanced: "/v3/serp/google/maps/live/advanced",
+  google_news_live_advanced: "/v3/serp/google/news/live/advanced",
+  google_images_live_advanced: "/v3/serp/google/images/live/advanced",
+  google_autocomplete_live_advanced: "/v3/serp/google/autocomplete/live/advanced",
+  bing_organic_live_advanced: "/v3/serp/bing/organic/live/advanced",
+  youtube_organic_live_advanced: "/v3/serp/youtube/organic/live/advanced",
 
   // Bing SERP Tools - Organic
   serp_bing_locations: "/v3/serp/bing/locations",
