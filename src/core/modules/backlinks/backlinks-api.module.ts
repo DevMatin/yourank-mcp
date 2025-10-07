@@ -1,5 +1,5 @@
-import { DataForSEOClient } from '../../client/dataforseo.client.js';
-import { BaseModule, ToolDefinition } from '../base.module.js';
+import { DataForSEOClient } from '../../client/dataforseo.client';
+import { BaseModule, ToolDefinition } from '../base.module';
 import * as BacklinksTools from './tools/index.js';
 
 export class BacklinksApiModule extends BaseModule {

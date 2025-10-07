@@ -1,5 +1,5 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
-import { DataForSEOClient } from '../../client/dataforseo.client.js';
+import { BaseModule, ToolDefinition } from '../base.module';
+import { DataForSEOClient } from '../../client/dataforseo.client';
 
 // Import queue-specific tools
 import { QueueJobCreateTool } from './tools/queue-job-create.tool.js';

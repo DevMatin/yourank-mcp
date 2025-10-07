@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
-import { EnabledModulesSchema, isModuleEnabled, defaultEnabledModules } from '../core/config/modules.config.js';
-import { BaseModule, ToolDefinition } from '../core/modules/base.module.js';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
+import { EnabledModulesSchema, isModuleEnabled, defaultEnabledModules } from '../core/config/modules.config';
+import { BaseModule, ToolDefinition } from '../core/modules/base.module';
 import { z } from 'zod';
-import { ModuleLoaderService } from "../core/utils/module-loader.js";
-import { initializeFieldConfiguration } from '../core/config/field-configuration.js';
-import { name, version } from '../core/utils/version.js';
+import { ModuleLoaderService } from "../core/utils/module-loader";
+import { initializeFieldConfiguration } from '../core/config/field-configuration';
+import { name, version } from '../core/utils/version';
 
 // Initialize field configuration if provided
 initializeFieldConfiguration();
@@ -47,7 +47,7 @@ for (const module of modules) {
 if (!contentAnalysisModuleLoaded && isModuleEnabled('CONTENT_ANALYSIS', enabledModules)) {
   console.error('Explicitly loading Content Analysis Module...');
   try {
-    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module.ts');
+    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module');
     const contentAnalysisModule = new ContentAnalysisApiModule(dataForSEOClient);
     modules.push(contentAnalysisModule);
     console.error('Content Analysis Module loaded explicitly');

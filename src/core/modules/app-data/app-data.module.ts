@@ -1,4 +1,4 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
+import { BaseModule, ToolDefinition } from '../base.module';
 import { z } from 'zod';
 
 // App Data Core Tools

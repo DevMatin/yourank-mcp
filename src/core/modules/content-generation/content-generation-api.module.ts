@@ -1,5 +1,5 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
-import * as ContentGenerationTools from './tools/index.ts';
+import { BaseModule, ToolDefinition } from '../base.module';
+import * as ContentGenerationTools from './tools/index.js';
 
 export class ContentGenerationApiModule extends BaseModule {
   getTools(): Record<string, ToolDefinition> {

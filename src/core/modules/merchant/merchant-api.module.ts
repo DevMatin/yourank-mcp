@@ -1,4 +1,4 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
+import { BaseModule, ToolDefinition } from '../base.module';
 import * as MerchantTools from './tools/index.js';
 
 export class MerchantApiModule extends BaseModule {

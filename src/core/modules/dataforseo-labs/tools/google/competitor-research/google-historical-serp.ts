@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../../../client/dataforseo.client.js';
-import { BaseTool, DataForSEOFullResponse, DataForSEOResponse } from '../../../../base.tool.js';
-import { defaultGlobalToolConfig } from '../../../../../config/global.tool.js';
+import { DataForSEOClient } from '../../../../../client/dataforseo.client';
+import { BaseTool, DataForSEOFullResponse, DataForSEOResponse } from '../../../../base.tool';
+import { defaultGlobalToolConfig } from '../../../../../config/global.tool';
 
 export class GoogleHistoricalSERP extends BaseTool {
   constructor(private client: DataForSEOClient) {

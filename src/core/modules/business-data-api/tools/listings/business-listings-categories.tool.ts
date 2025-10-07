@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
-import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client';
+import { BaseTool } from '../../../base.tool';
 
 export class BusinessListingsCategoriesTool extends BaseTool {
   constructor(private client: DataForSEOClient) {

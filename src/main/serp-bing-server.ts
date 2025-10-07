@@ -3,8 +3,8 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
-import { SerpBingApiModule } from '../core/modules/serp-bing/serp-bing-api.module.js';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
+import { SerpApiModule } from '../core/modules/serp/serp-api.module.js';
 
 const server = new Server(
   {
@@ -26,7 +26,7 @@ const dataForSEOClient = new DataForSEOClient({
 });
 
 // Initialize Bing SERP module
-const serpBingModule = new SerpBingApiModule(dataForSEOClient);
+const serpBingModule = new SerpApiModule(dataForSEOClient);
 const tools = serpBingModule.getTools();
 
 // List tools handler

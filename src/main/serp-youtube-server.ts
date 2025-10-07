@@ -3,8 +3,8 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
-import { SerpYoutubeApiModule } from '../core/modules/serp-youtube/serp-youtube-api.module.js';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
+import { SerpApiModule } from '../core/modules/serp/serp-api.module.js';
 
 const server = new Server(
   {
@@ -26,7 +26,7 @@ const dataForSEOClient = new DataForSEOClient({
 });
 
 // Initialize YouTube SERP module
-const serpYoutubeModule = new SerpYoutubeApiModule(dataForSEOClient);
+const serpYoutubeModule = new SerpApiModule(dataForSEOClient);
 const tools = serpYoutubeModule.getTools();
 
 // List tools handler

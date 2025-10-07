@@ -1,4 +1,4 @@
-import { BaseModule } from '../base.module.js';
+import { BaseModule } from '../base.module';
 import * as AiOptimizationTools from './tools/index.js';
 
 export class AiOptimizationApiModule extends BaseModule {

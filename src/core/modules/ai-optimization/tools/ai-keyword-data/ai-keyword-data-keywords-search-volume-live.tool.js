@@ -1,6 +1,6 @@
 
-import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
-import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client';
+import { BaseTool } from '../../../base.tool';
 
 export class AiKeywordDataKeywordsSearchVolumeLiveTool extends BaseTool {
   constructor(client) {

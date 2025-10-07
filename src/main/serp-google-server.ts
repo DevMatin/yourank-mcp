@@ -3,8 +3,8 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
-import { SerpGoogleApiModule } from '../core/modules/serp-google/serp-google-api.module.js';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
+import { SerpApiModule } from '../core/modules/serp/serp-api.module.js';
 
 const server = new Server(
   {
@@ -26,7 +26,7 @@ const dataForSEOClient = new DataForSEOClient({
 });
 
 // Initialize Google SERP module
-const serpGoogleModule = new SerpGoogleApiModule(dataForSEOClient);
+const serpGoogleModule = new SerpApiModule(dataForSEOClient);
 const tools = serpGoogleModule.getTools();
 
 // List tools handler

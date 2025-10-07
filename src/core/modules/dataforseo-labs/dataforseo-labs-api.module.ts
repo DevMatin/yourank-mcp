@@ -1,5 +1,5 @@
-import { DataForSEOClient } from '../../client/dataforseo.client.js';
-import { BaseModule, ToolDefinition } from '../base.module.js';
+import { DataForSEOClient } from '../../client/dataforseo.client';
+import { BaseModule, ToolDefinition } from '../base.module';
 import { GoogleDomainCompetitorsTool } from './tools/google/competitor-research/google-domain-competitors.tool.js';
 import { GoogleDomainRankOverviewTool } from './tools/google/competitor-research/google-domain-rank-overview.tool.js';
 import { GoogleKeywordsIdeasTool } from './tools/google/keyword-research/google-keywords-ideas.tool.js';

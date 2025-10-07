@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
-import { defaultGlobalToolConfig } from '../../../../config/global.tool.js';
-import { filterFields, parseFieldPaths } from '../../../../utils/field-filter.js';
-import { FieldConfigurationManager } from '../../../../config/field-configuration.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client';
+import { defaultGlobalToolConfig } from '../../../../config/global.tool';
+import { filterFields, parseFieldPaths } from '../../../../utils/field-filter';
+import { FieldConfigurationManager } from '../../../../config/field-configuration';
 
 export interface DataForSEOFullResponse {
   version: string;

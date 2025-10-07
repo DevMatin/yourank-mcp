@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../../../client/dataforseo.client.js';
-import { BaseTool } from './base.tool.js';
-import { mapArrayToNumberedKeys } from '../../../../../utils/map-array-to-numbered-keys.js';
+import { DataForSEOClient } from '../../../../../client/dataforseo.client';
+import { BaseTool } from './base.tool';
+import { mapArrayToNumberedKeys } from '../../../../../utils/map-array-to-numbered-keys';
 
 export class GooglePageIntersectionsTool extends BaseTool {
   constructor(private client: DataForSEOClient) {

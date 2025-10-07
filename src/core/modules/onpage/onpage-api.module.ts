@@ -1,4 +1,4 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
+import { BaseModule, ToolDefinition } from '../base.module';
 import * as OnPageTools from './tools/index.js';
 
 export class OnPageApiModule extends BaseModule {

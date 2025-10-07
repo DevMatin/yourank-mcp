@@ -1,10 +1,10 @@
 import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from 'zod';
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
-import { EnabledModulesSchema } from '../core/config/modules.config.js';
-import { BaseModule, ToolDefinition } from '../core/modules/base.module.js';
-import { ModuleLoaderService } from '../core/utils/module-loader.js';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
+import { EnabledModulesSchema } from '../core/config/modules.config';
+import { BaseModule, ToolDefinition } from '../core/modules/base.module';
+import { ModuleLoaderService } from '../core/utils/module-loader';
 import { version, name } from './version.worker.js';
 
 /**

@@ -1,5 +1,12 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
-import * as KeywordsDataTools from './tools/index.js';
+import { BaseModule, ToolDefinition } from '../base.module';
+import * as KeywordsDataTools from './tools/index';
+
+// Import barrel exports for better organization
+import * as GoogleAdsTools from './tools/google-ads/index';
+import * as BingTools from './tools/bing/index';
+import * as GoogleTrendsTools from './tools/google-trends/index';
+import * as ClickstreamTools from './tools/clickstream/index';
+import * as DataForSeoTrendsTools from './tools/dataforseo-trends/index';
 
 // Interface for tool instances to ensure they have the required methods
 interface ToolInstance {
@@ -19,11 +26,14 @@ export class KeywordsDataApiModule extends BaseModule {
 
       // Google Ads Tools
       new KeywordsDataTools.GoogleAdsSearchVolumeTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleAdsStatusTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleAdsLocationsTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleAdsLanguagesTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleAdsKeywordsForSiteTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForSiteLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleAdsKeywordsForKeywordsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleAdsKeywordsForKeywordsLiveTool(this.dataForSEOClient) as ToolInstance,
 
       // Google Ads Task-based Tools
       new KeywordsDataTools.GoogleAdsAdTrafficByKeywordsTool(this.dataForSEOClient) as ToolInstance,
@@ -43,6 +53,7 @@ export class KeywordsDataApiModule extends BaseModule {
       // Google Trends Tools
       new KeywordsDataTools.GoogleTrendsCategoriesTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleTrendsExploreTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.GoogleTrendsExploreLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleTrendsLocationsTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleTrendsLanguagesTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.GoogleTrendsExploreTaskPostTool(this.dataForSEOClient) as ToolInstance,
@@ -60,14 +71,17 @@ export class KeywordsDataApiModule extends BaseModule {
       new KeywordsDataTools.BingLocationsTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingLanguagesTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingSearchVolumeTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingSearchVolumeTaskPostTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingSearchVolumeTasksReadyTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingSearchVolumeTaskGetTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForSiteTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForSiteLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForSiteTaskPostTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForSiteTasksReadyTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForSiteTaskGetTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForKeywordsTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.BingKeywordsForKeywordsLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForKeywordsTaskPostTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForKeywordsTasksReadyTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.BingKeywordsForKeywordsTaskGetTool(this.dataForSEOClient) as ToolInstance,
@@ -92,7 +106,7 @@ export class KeywordsDataApiModule extends BaseModule {
       
       // Clickstream Data Tools
       new KeywordsDataTools.ClickstreamDataLocationsAndLanguagesTool(this.dataForSEOClient) as ToolInstance,
-      new KeywordsDataTools.ClickstreamDataDataforseoSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
+      new KeywordsDataTools.ClickstreamDataDataForSEOSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.ClickstreamDataGlobalSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
       new KeywordsDataTools.ClickstreamDataBulkSearchVolumeLiveTool(this.dataForSEOClient) as ToolInstance,
     ];

@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../base.tool';
+import { DataForSEOClient } from '../../../client/dataforseo.client';
 import { queueService } from '../../../services/queue.service.js';
 
 export class QueueJobStatusTool extends BaseTool {

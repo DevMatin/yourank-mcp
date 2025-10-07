@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool';
+import { DataForSEOClient } from '../../../../client/dataforseo.client';
 
 export class GoogleHotelInfoTaskGetTool extends BaseTool {
-  constructor(private dataForSEOClient: DataForSEOClient) {
-    super();
+  constructor(private client: DataForSEOClient) {
+    super(client);
   }
 
   getName(): string {
@@ -22,6 +22,6 @@ export class GoogleHotelInfoTaskGetTool extends BaseTool {
   }
 
   async handle(params: any) {
-    return await this.dataForSEOClient.get(`/v3/business_data/google/hotel_info/task_get/advanced/${params.id}`);
+    return await this.client.makeRequest('/v3/business_data/google/hotel_info/task_get/advanced/${params.id}', 'GET');
   }
 }

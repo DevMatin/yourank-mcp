@@ -1,4 +1,4 @@
-import { defaultGlobalToolConfig } from '../config/global.tool.js';
+import { defaultGlobalToolConfig } from '../config/global.tool';
 
 export class DataForSEOClient {
   private config: DataForSEOConfig;
@@ -19,7 +19,7 @@ export class DataForSEOClient {
       url += '.ai';
     }
     // Import version dynamically to avoid circular dependencies
-    const { version } = await import('../utils/version.js');
+    const { version } = await import('../utils/version');
     
     const headers = {
       'Authorization': this.authHeader,

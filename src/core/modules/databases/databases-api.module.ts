@@ -1,10 +1,10 @@
-import { BaseModule, ToolDefinition } from '../base.module.js';
+import { BaseModule, ToolDefinition } from '../base.module';
 import { z } from 'zod';
 
 // Google Databases Tools
 import { DatabasesGoogleSerpsAdvancedTool } from './tools/google/serps-advanced.tool.js';
 import { DatabasesGoogleSerpsRegularTool } from './tools/google/serps-regular.tool.js';
-import { DatabasesGoogleKeywordsTool } from './tools/google/keywords-database.tool.js';
+import { DatabasesGoogleKeywordsTool } from './tools/google/keywords-database.tool';
 import { DatabasesGoogleUnifiedSearchTool } from './tools/google/unified-search.tool.js';
 
 // Google Historical Databases Tools
@@ -13,20 +13,20 @@ import { DatabasesGoogleHistoricalKeywordsTool } from './tools/google-historical
 import { DatabasesGoogleHistoricalUnifiedSearchTool } from './tools/google-historical/unified-search-historical.tool.js';
 
 // Bing Databases Tools
-import { DatabasesBingSerpsTool } from './tools/bing/serps-database.tool.js';
-import { DatabasesBingKeywordsTool } from './tools/bing/keywords-database.tool.js';
+import { DatabasesBingSerpsTool } from './tools/bing/serps-database.tool';
+import { DatabasesBingKeywordsTool } from './tools/bing/keywords-database.tool';
 import { DatabasesBingUnifiedSearchTool } from './tools/bing/unified-search.tool.js';
 
 // Amazon Databases Tools
-import { DatabasesAmazonProductsTool } from './tools/amazon/products-database.tool.js';
+import { DatabasesAmazonProductsTool } from './tools/amazon/products-database.tool';
 
 // Google Play Databases Tools
-import { DatabasesGooglePlaySerpsTool } from './tools/google-play/serps-database.tool.js';
-import { DatabasesGooglePlayListingsTool } from './tools/google-play/listings-database.tool.js';
+import { DatabasesGooglePlaySerpsTool } from './tools/google-play/serps-database.tool';
+import { DatabasesGooglePlayListingsTool } from './tools/google-play/listings-database.tool';
 
 // App Store Databases Tools
-import { DatabasesAppStoreSerpsTool } from './tools/app-store/serps-database.tool.js';
-import { DatabasesAppStoreListingsTool } from './tools/app-store/listings-database.tool.js';
+import { DatabasesAppStoreSerpsTool } from './tools/app-store/serps-database.tool';
+import { DatabasesAppStoreListingsTool } from './tools/app-store/listings-database.tool';
 
 // Backlinks Databases Tools
 import { DatabasesBacklinkSummaryTool } from './tools/backlinks/backlink-summary.tool.js';

@@ -1,4 +1,4 @@
-import { DataForSEOClient } from '../client/dataforseo.client.js';
+import { DataForSEOClient } from '../client/dataforseo.client';
 import { z } from 'zod';
 
 export interface ToolDefinition {

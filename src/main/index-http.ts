@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client.js';
-import { SerpApiModule } from '../core/modules/serp/serp-api.module.ts';
+import { DataForSEOClient, DataForSEOConfig } from '../core/client/dataforseo.client';
+import { SerpApiModule } from '../core/modules/serp/serp-api.module';
 import { KeywordsDataApiModule } from '../core/modules/keywords-data/keywords-data-api.module.js';
 import { OnPageApiModule } from '../core/modules/onpage/onpage-api.module.js';
 import { DataForSEOLabsApi } from '../core/modules/dataforseo-labs/dataforseo-labs-api.module.js';
-import { EnabledModulesSchema, isModuleEnabled, defaultEnabledModules } from '../core/config/modules.config.js';
-import { BaseModule, ToolDefinition } from '../core/modules/base.module.js';
+import { EnabledModulesSchema, isModuleEnabled, defaultEnabledModules } from '../core/config/modules.config';
+import { BaseModule, ToolDefinition } from '../core/modules/base.module';
 import { z } from 'zod';
 import { BacklinksApiModule } from "../core/modules/backlinks/backlinks-api.module.js";
 import { BusinessDataApiModule } from "../core/modules/business-data-api/business-data-api.module.js";
@@ -15,9 +15,9 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import express, { Request as ExpressRequest, Response, NextFunction } from "express";
 import { randomUUID } from "node:crypto";
 import { GetPromptResult, isInitializeRequest, ReadResourceResult } from "@modelcontextprotocol/sdk/types.js"
-import { name, version } from '../core/utils/version.js';
-import { ModuleLoaderService } from "../core/utils/module-loader.js";
-import { initializeFieldConfiguration } from '../core/config/field-configuration.js';
+import { name, version } from '../core/utils/version';
+import { ModuleLoaderService } from "../core/utils/module-loader";
+import { initializeFieldConfiguration } from '../core/config/field-configuration';
 import { MerchantApiModule } from '../core/modules/merchant/merchant-api.module.js';
 
 // Initialize field configuration if provided
@@ -87,7 +87,7 @@ async function getServer(username: string | undefined, password: string | undefi
   
   // Always add Content Analysis API Module
   try {
-    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module.ts');
+    const { ContentAnalysisApiModule } = await import('../core/modules/content-analysis/content-analysis-api.module');
     const contentAnalysisModule = new ContentAnalysisApiModule(dataForSEOClient);
     modules.push(contentAnalysisModule);
     console.error('Content Analysis Module loaded successfully');

@@ -1,22 +1,17 @@
-import { DataForSEOClient } from '../client/dataforseo.client.js';
-import { SerpApiModule } from '../modules/serp/serp-api.module.ts';
+import { DataForSEOClient } from '../client/dataforseo.client';
+import { SerpApiModule } from '../modules/serp/serp-api.module.js';
 import { KeywordsDataApiModule } from '../modules/keywords-data/keywords-data-api.module.js';
 import { OnPageApiModule } from '../modules/onpage/onpage-api.module.js';
 import { DataForSEOLabsApi } from '../modules/dataforseo-labs/dataforseo-labs-api.module.js';
 import { BacklinksApiModule } from '../modules/backlinks/backlinks-api.module.js';
-import { GoogleBusinessApiModule } from '../modules/google-business-api/google-business-api.module.js';
-import { TrustpilotApiModule } from '../modules/trustpilot-api/trustpilot-api.module.js';
-import { TripadvisorApiModule } from '../modules/tripadvisor-api/tripadvisor-api.module.js';
-import { GoogleMapsApiModule } from '../modules/google-maps-api/google-maps-api.module.js';
-import { SocialMediaApiModule } from '../modules/social-media-api/social-media-api.module.js';
-import { BusinessUtilitiesApiModule } from '../modules/business-utilities-api/business-utilities-api.module.js';
+// Removed: TrustpilotApiModule and TripadvisorApiModule - modules don't exist
+// Removed: BusinessUtilitiesApiModule - module doesn't exist
 import { DomainAnalyticsApiModule } from '../modules/domain-analytics/domain-analytics-api.module.js';
-import { BaseModule } from '../modules/base.module.js';
-import { EnabledModules, isModuleEnabled } from '../config/modules.config.js';
-import { ContentAnalysisApiModule } from '../modules/content-analysis/content-analysis-api.module.ts';
-import { ContentGenerationApiModule } from '../modules/content-generation/content-generation-api.module.ts';
+import { BaseModule } from '../modules/base.module';
+import { EnabledModules, isModuleEnabled } from '../config/modules.config';
+import { ContentAnalysisApiModule } from '../modules/content-analysis/content-analysis-api.module.js';
+import { ContentGenerationApiModule } from '../modules/content-generation/content-generation-api.module.js';
 import { MerchantApiModule } from '../modules/merchant/merchant-api.module.js';
-import { GoogleShoppingApiModule } from '../modules/google-shopping/google-shopping-api.module.js';
 import { AiOptimizationApiModule } from '../modules/ai-optimization/ai-optimization-api.module.js';
 import { AppDataModule } from '../modules/app-data/app-data.module.js';
 import { DatabasesApiModule } from '../modules/databases/databases-api.module.js';
@@ -45,24 +40,11 @@ export class ModuleLoaderService {
     if (isModuleEnabled('BACKLINKS', enabledModules)) {
       modules.push(new BacklinksApiModule(dataForSEOClient));
     }
-    if (isModuleEnabled('GOOGLE_BUSINESS', enabledModules)) {
-      modules.push(new GoogleBusinessApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('TRUSTPILOT', enabledModules)) {
-      modules.push(new TrustpilotApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('TRIPADVISOR', enabledModules)) {
-      modules.push(new TripadvisorApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('GOOGLE_MAPS', enabledModules)) {
-      modules.push(new GoogleMapsApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('SOCIAL_MEDIA', enabledModules)) {
-      modules.push(new SocialMediaApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('BUSINESS_UTILITIES', enabledModules)) {
-      modules.push(new BusinessUtilitiesApiModule(dataForSEOClient));
-    }
+    // Removed: GOOGLE_BUSINESS module - functionality moved to business-data-api
+    // Removed: TRUSTPILOT and TRIPADVISOR modules - they don't exist
+    // Removed: GOOGLE_MAPS module - functionality moved to business-data-api
+    // Removed: SOCIAL_MEDIA module - functionality moved to business-data-api
+    // Removed: BUSINESS_UTILITIES module - it doesn't exist
     if (isModuleEnabled('DOMAIN_ANALYTICS', enabledModules)) {
       modules.push(new DomainAnalyticsApiModule(dataForSEOClient));
     }
@@ -79,9 +61,7 @@ export class ModuleLoaderService {
     if(isModuleEnabled('MERCHANT', enabledModules)) {
       modules.push(new MerchantApiModule(dataForSEOClient));
     }
-    if(isModuleEnabled('GOOGLE_SHOPPING', enabledModules)) {
-      modules.push(new GoogleShoppingApiModule(dataForSEOClient));
-    }
+    // Removed: GOOGLE_SHOPPING module - functionality moved to merchant-api
     if(isModuleEnabled('AI_OPTIMIZATION', enabledModules)) {
       modules.push(new AiOptimizationApiModule(dataForSEOClient));
     }

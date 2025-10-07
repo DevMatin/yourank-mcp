@@ -7,5 +7,5 @@ COPY src/ ./src/
 RUN npm run build
 EXPOSE 3000
 ENV NODE_ENV=production
-ENTRYPOINT ["node", "build/main/main/cli.js"]
+ENTRYPOINT ["node", "build/main/cli.js"]
 CMD ["http"]
