@@ -4234,25 +4234,23 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
     const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' ? 'GET' : 'POST');
 
     if (dataforseoResponse.status === 200) {
-      // Optimiere Lighthouse Live Response für große Datenmengen
-      if (type === 'live') {
-        console.log('🔧 Creating minimal Lighthouse response...');
-        
-        const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
-        if (lighthouse) {
-          const minimalResponse = {
-            perf: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
-            a11y: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
-            seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
-            lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
-            cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000
-          };
-          
-          console.log('✅ Response:', JSON.stringify(minimalResponse).length, 'bytes');
-          return res.json(minimalResponse);
-        }
-      }
-      res.json(dataforseoResponse.body);
+    // Optimiere Lighthouse Live Response für große Datenmengen
+    if (type === 'live') {
+    const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
+    if (lighthouse) {
+      const minimalResponse = {
+        perf: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
+      a11y: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
+    seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
+    lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
+    cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000
+    };
+    
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    return res.send(JSON.stringify(minimalResponse));
+    }
+    }
+    res.json(dataforseoResponse.body);
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }
