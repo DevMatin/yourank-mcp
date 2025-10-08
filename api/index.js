@@ -4236,12 +4236,12 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
     if (dataforseoResponse.status === 200) {
       // Optimiere Lighthouse Live Response für große Datenmengen
       if (type === 'live') {
-        console.log('🔧 Creating compact Lighthouse response...');
+        console.log('🔧 Creating ultra-compact Lighthouse response...');
         
-        // Erstelle eine sehr kompakte Response mit nur den wichtigsten Metriken
+        // Erstelle eine ultra-kompakte Response mit nur den wichtigsten Metriken
         const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
         if (lighthouse) {
-          const compactResponse = {
+          const ultraCompactResponse = {
             status_code: 200,
             url: lighthouse.url || req.body.url,
             scores: {
@@ -4265,8 +4265,8 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
             timestamp: new Date().toISOString()
           };
           
-          console.log('✅ Compact response size:', JSON.stringify(compactResponse).length, 'bytes');
-          res.json(compactResponse);
+          console.log('✅ Ultra-compact response size:', JSON.stringify(ultraCompactResponse).length, 'bytes');
+          res.json(ultraCompactResponse);
         } else {
           res.json(dataforseoResponse.body);
         }
