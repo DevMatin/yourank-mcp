@@ -1,18 +1,18 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
-import { BaseTool } from '../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
 
-export class PagesTool extends BaseTool {
+export class PagesByResourceTool extends BaseTool {
   constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
   getName(): string {
-    return 'pages';
+    return 'pagesbyresource';
   }
 
   getDescription(): string {
-    return "List of crawled pages with on-page check-ups";
+    return "Pages where a specific resource is located";
   }
 
   getParams(): z.ZodRawShape {
@@ -34,7 +34,7 @@ export class PagesTool extends BaseTool {
       if (params.filters !== undefined) requestData.filters = params.filters;
       if (params.order_by !== undefined) requestData.order_by = params.order_by;
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/pages', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/pages_by_resource', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

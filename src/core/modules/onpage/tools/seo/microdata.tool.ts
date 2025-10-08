@@ -1,18 +1,18 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
-import { BaseTool } from '../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
 
-export class WaterfallTool extends BaseTool {
+export class MicrodataTool extends BaseTool {
   constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
   getName(): string {
-    return 'waterfall';
+    return 'microdata';
   }
 
   getDescription(): string {
-    return "Page speed insights and loading time details";
+    return "Validate structured JSON-LD data and Microdata";
   }
 
   getParams(): z.ZodRawShape {
@@ -34,7 +34,7 @@ export class WaterfallTool extends BaseTool {
       if (params.custom_user_agent !== undefined) requestData.custom_user_agent = params.custom_user_agent;
       if (params.accept_language !== undefined) requestData.accept_language = params.accept_language;
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/waterfall', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/microdata', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

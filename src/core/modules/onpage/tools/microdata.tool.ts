@@ -3,8 +3,8 @@ import { DataForSEOClient } from '../../../client/dataforseo.client.js';
 import { BaseTool } from '../../base.tool.js';
 
 export class MicrodataTool extends BaseTool {
-  constructor(private client: DataForSEOClient) {
-    super(client);
+  constructor(dataForSEOClient: DataForSEOClient) {
+    super(dataForSEOClient);
   }
 
   getName(): string {

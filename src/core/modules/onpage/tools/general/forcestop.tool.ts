@@ -2,31 +2,31 @@ import { z } from 'zod';
 import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 import { BaseTool } from '../../../base.tool.js';
 
-export class LighthouseLanguagesTool extends BaseTool {
+export class ForceStopTool extends BaseTool {
   constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
   getName(): string {
-    return 'on_page_lighthouse_languages';
+    return 'forcestop';
   }
 
   getDescription(): string {
-    return "List of supported languages for Lighthouse";
+    return "Force stop the crawl process of websites";
   }
 
   getParams(): z.ZodRawShape {
     return {
-      
+      id: z.string().describe("id")
     };
   }
 
-  async handle(params: {  }): Promise<any> {
+  async handle(params: { id: string }): Promise<any> {
     try {
       const requestData: any = {};
-      
+      requestData.id = params.id;
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/lighthouse/languages', 'GET', [], true);
+      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/force_stop', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

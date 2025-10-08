@@ -1,18 +1,18 @@
 import { z } from 'zod';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
-import { BaseTool } from '../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
 
-export class AvailableFiltersTool extends BaseTool {
+export class TasksReadyTool extends BaseTool {
   constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
   getName(): string {
-    return 'availablefilters';
+    return 'tasksready';
   }
 
   getDescription(): string {
-    return "Available filters and thresholds for OnPage API";
+    return "List of completed tasks";
   }
 
   getParams(): z.ZodRawShape {
@@ -26,7 +26,7 @@ export class AvailableFiltersTool extends BaseTool {
       const requestData: any = {};
       
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/available_filters', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/on_page/tasks_ready', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);
