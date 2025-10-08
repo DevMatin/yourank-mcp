@@ -3710,28 +3710,6 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
   }
 });
 
-// Hilfsfunktion für Audit-Kategorien
-function getAuditCategory(auditId) {
-  if (auditId.includes('first-contentful-paint') || auditId.includes('largest-contentful-paint') || 
-      auditId.includes('speed-index') || auditId.includes('total-blocking-time') || 
-      auditId.includes('interactive') || auditId.includes('cumulative-layout-shift')) {
-    return 'performance';
-  }
-  if (auditId.includes('color-contrast') || auditId.includes('aria') || 
-      auditId.includes('keyboard') || auditId.includes('screen-reader')) {
-    return 'accessibility';
-  }
-  if (auditId.includes('meta') || auditId.includes('canonical') || 
-      auditId.includes('robots') || auditId.includes('structured-data')) {
-    return 'seo';
-  }
-  if (auditId.includes('https') || auditId.includes('csp') || 
-      auditId.includes('xss') || auditId.includes('mixed-content')) {
-    return 'best-practices';
-  }
-  return 'other';
-}
-
 // Additional OnPage API endpoints - direct HTTP access for Custom GPT
 app.post('/v3/on_page/id_list', async (req, res) => {
   try {
