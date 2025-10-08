@@ -333,8 +333,233 @@ function makeDataForSEORequest(endpoint, postData, method = 'POST') {
   });
 }
 
-// OnPage API endpoints mapping
+// Lighthouse Response Optimierung für große Datenmengen
+function optimizeLighthouseResponse(response, params) {
+  try {
+    if (!response || !response.tasks || !response.tasks[0] || !response.tasks[0].result) {
+      return response;
+    }
+
+    const lighthouseResult = response.tasks[0].result[0];
+    if (!lighthouseResult || !lighthouseResult.lighthouse_result) {
+      return response;
+    }
+
+    const lighthouse = lighthouseResult.lighthouse_result;
+    const categories = lighthouse.categories || {};
+    const maxIssues = params.max_issues || 10;
+    const includeDetails = params.include_details || false;
+    
+    // Extrahiere wichtige Scores
+    const scores = {
+      performance: getCategoryScore(categories, 'performance'),
+      accessibility: getCategoryScore(categories, 'accessibility'),
+      seo: getCategoryScore(categories, 'seo'),
+      'best-practices': getCategoryScore(categories, 'best-practices'),
+      pwa: getCategoryScore(categories, 'pwa')
+    };
+
+    // Extrahiere Top-Issues (begrenzt)
+    const topIssues = extractTopIssues(lighthouse, maxIssues);
+
+    // Extrahiere wichtige Performance-Metriken
+    const performanceMetrics = extractKeyMetrics(lighthouse.audits || {});
+
+    // Erstelle optimierte Response
+    const optimizedResponse = {
+      status_code: response.status_code || 200,
+      status_message: response.status_message || "Lighthouse analysis completed",
+      task_id: lighthouseResult.task_id,
+      url: lighthouseResult.url,
+      fetch_time: lighthouseResult.fetch_time,
+      lighthouse_version: lighthouse.lighthouseVersion || "unknown",
+      scores,
+      top_issues: topIssues,
+      performance_metrics: performanceMetrics,
+      audit_summary: createAuditSummary(lighthouse.audits || {}),
+      blob_storage: createBlobStorageInfo(lighthouseResult, response)
+    };
+
+    // Füge detaillierte Informationen nur hinzu, wenn gewünscht
+    if (includeDetails) {
+      optimizedResponse.category_issues = extractCategoryIssues(lighthouse, maxIssues);
+      optimizedResponse.best_practices_audits = extractBestPracticesAudits(lighthouse.audits || {});
+      optimizedResponse.pwa_audits = extractPWAAudits(lighthouse.audits || {});
+    }
+
+    return optimizedResponse;
+  } catch (error) {
+    console.error('Error optimizing Lighthouse response:', error);
+    return response; // Fallback zur ursprünglichen Response
+  }
+}
+
+function getCategoryScore(categories, categoryName) {
+  const category = categories[categoryName];
+  return category ? Math.round(category.score * 100) : 0;
+}
+
+function extractTopIssues(lighthouse, maxIssues) {
+  const issues = [];
+  const audits = lighthouse.audits || {};
+  const categories = lighthouse.categories || {};
+
+  // Sammle alle wichtigen Audits mit niedrigen Scores
+  Object.keys(audits).forEach(auditId => {
+    const audit = audits[auditId];
+    if (audit && audit.score !== null && audit.score < 0.9) {
+      issues.push({
+        id: auditId,
+        title: audit.title || auditId,
+        score: Math.round(audit.score * 100),
+        description: audit.description || '',
+        category: getAuditCategory(auditId, categories),
+        displayValue: audit.displayValue || '',
+        numericValue: audit.numericValue || null,
+        numericUnit: audit.numericUnit || ''
+      });
+    }
+  });
+
+  // Sortiere nach Score (niedrigste zuerst) und begrenze
+  return issues
+    .sort((a, b) => a.score - b.score)
+    .slice(0, maxIssues);
+}
+
+function extractKeyMetrics(audits) {
+  const keyMetrics = [
+    'first-contentful-paint',
+    'largest-contentful-paint',
+    'speed-index',
+    'cumulative-layout-shift',
+    'total-blocking-time',
+    'interactive'
+  ];
+
+  const metrics = {};
+  keyMetrics.forEach(metricId => {
+    const audit = audits[metricId];
+    if (audit) {
+      metrics[metricId] = {
+        score: audit.score ? Math.round(audit.score * 100) : null,
+        displayValue: audit.displayValue || '',
+        numericValue: audit.numericValue || null,
+        numericUnit: audit.numericUnit || ''
+      };
+    }
+  });
+
+  return metrics;
+}
+
+function createAuditSummary(audits) {
+  const totalAudits = Object.keys(audits).length;
+  let passedAudits = 0;
+  let failedAudits = 0;
+  let notApplicable = 0;
+
+  Object.values(audits).forEach(audit => {
+    if (audit.score === null) {
+      notApplicable++;
+    } else if (audit.score >= 0.9) {
+      passedAudits++;
+    } else {
+      failedAudits++;
+    }
+  });
+
+  return {
+    total_audits: totalAudits,
+    passed_audits: passedAudits,
+    failed_audits: failedAudits,
+    not_applicable: notApplicable
+  };
+}
+
+function createBlobStorageInfo(lighthouseResult, response) {
+  const responseSize = JSON.stringify(response).length;
+  
+  if (responseSize > 50000) { // > 50KB
+    return {
+      storage: "vercel_blob",
+      results_url: `https://blob.vercel-storage.com/lighthouse/${Date.now()}`,
+      proxy_url: `https://yourank-mcp.vercel.app/api/proxy/lighthouse/${Date.now()}`,
+      size_bytes: responseSize,
+      expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+    };
+  }
+
+  return null;
+}
+
+function extractCategoryIssues(lighthouse, maxIssues) {
+  const categories = lighthouse.categories || {};
+  const categoryIssues = {};
+
+  Object.keys(categories).forEach(categoryName => {
+    const category = categories[categoryName];
+    if (category && category.auditRefs) {
+      categoryIssues[categoryName] = category.auditRefs
+        .filter(ref => ref.weight > 0)
+        .slice(0, maxIssues)
+        .map(ref => ({
+          id: ref.id,
+          weight: ref.weight,
+          group: ref.group
+        }));
+    }
+  });
+
+  return categoryIssues;
+}
+
+function extractBestPracticesAudits(audits) {
+  const bestPracticesAudits = Object.keys(audits)
+    .filter(auditId => auditId.includes('best-practices') || auditId.includes('security'))
+    .map(auditId => ({
+      id: auditId,
+      title: audits[auditId].title || auditId,
+      score: audits[auditId].score ? Math.round(audits[auditId].score * 100) : null
+    }));
+
+  return bestPracticesAudits.slice(0, 5);
+}
+
+function extractPWAAudits(audits) {
+  const pwaAudits = Object.keys(audits)
+    .filter(auditId => auditId.includes('pwa') || auditId.includes('manifest'))
+    .map(auditId => ({
+      id: auditId,
+      title: audits[auditId].title || auditId,
+      score: audits[auditId].score ? Math.round(audits[auditId].score * 100) : null
+    }));
+
+  return pwaAudits.slice(0, 5);
+}
+
+function getAuditCategory(auditId, categories) {
+  for (const [categoryName, category] of Object.entries(categories)) {
+    if (category && category.auditRefs) {
+      const hasAudit = category.auditRefs.some(ref => ref.id === auditId);
+      if (hasAudit) {
+        return categoryName;
+      }
+    }
+  }
+  return 'unknown';
+}
+
+// OnPage API endpoints mapping - Gruppierte Endpoints
 const ONPAGE_ENDPOINTS = {
+  // Gruppierte OnPage Endpoints (5 Operationen statt 30+ Tools)
+  'onpage_core': '/v3/onpage_core',
+  'onpage_analysis': '/v3/onpage_analysis', 
+  'onpage_content': '/v3/onpage_content',
+  'onpage_lighthouse': '/v3/onpage_lighthouse',
+  'onpage_management': '/v3/onpage_management',
+  
+  // Legacy einzelne Endpoints (für Rückwärtskompatibilität)
   'on_page_instant_pages': '/v3/on_page/instant_pages',
   'on_page_content_parsing': '/v3/on_page/content_parsing',
   'on_page_page_screenshot': '/v3/on_page/page_screenshot',
@@ -4029,9 +4254,15 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
     }
     
     const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, type === 'languages' || type === 'audits' || type === 'versions' || type === 'tasks_ready' || type === 'task_get' ? 'GET' : 'POST');
-    
+
     if (dataforseoResponse.status === 200) {
-      res.json(dataforseoResponse.body);
+      // Optimiere Lighthouse Live Response für große Datenmengen
+      if (type === 'live') {
+        const optimizedResponse = optimizeLighthouseResponse(dataforseoResponse.body, req.body);
+        res.json(optimizedResponse);
+      } else {
+        res.json(dataforseoResponse.body);
+      }
     } else {
       res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
     }
