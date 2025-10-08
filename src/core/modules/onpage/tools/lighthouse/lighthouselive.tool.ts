@@ -108,9 +108,9 @@ export class LighthouseLiveTool extends BaseTool {
 
       // Füge detaillierte Informationen nur hinzu, wenn gewünscht
       if (options.includeDetails) {
-        optimizedResponse.category_issues = this.extractCategoryIssues(lighthouse, options.maxIssues);
-        optimizedResponse.best_practices_audits = this.extractBestPracticesAudits(lighthouse.audits || {});
-        optimizedResponse.pwa_audits = this.extractPWAAudits(lighthouse.audits || {});
+        (optimizedResponse as any).category_issues = this.extractCategoryIssues(lighthouse, options.maxIssues);
+        (optimizedResponse as any).best_practices_audits = this.extractBestPracticesAudits(lighthouse.audits || {});
+        (optimizedResponse as any).pwa_audits = this.extractPWAAudits(lighthouse.audits || {});
       }
 
       return optimizedResponse;

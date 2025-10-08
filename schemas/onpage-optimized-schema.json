@@ -1,0 +1,635 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO OnPage APIs - Optimiert (5 Operationen)",
+    "description": "🚀 Optimierte OnPage APIs mit Response-Limiting für große Datenmengen - 5 Operationen statt 30!",
+    "version": "2.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/onpage_core": {
+      "post": {
+        "summary": "💰 OnPage Kernfunktionen",
+        "description": "⚠️ KOSTENPFLICHTIG: Task erstellen, Zusammenfassung abrufen, fertige Tasks. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["task_post", "summary", "tasks_ready"],
+                    "description": "Art der Operation"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Website (nur für task_post)"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für summary)"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standort",
+                    "default": "United States"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": ["desktop", "mobile"],
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "max_crawl_pages": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "Maximale Anzahl der zu crawlenden Seiten",
+                    "default": 1
+                  },
+                  "max_issues": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Maximale Anzahl der Issues (für summary)",
+                    "default": 20
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "description": "Detaillierte Informationen einschließen",
+                    "default": false
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "task_id": {"type": "string"},
+                    "url": {"type": "string"},
+                    "crawl_progress": {"type": "number"},
+                    "crawl_status": {"type": "string"},
+                    "total_pages_count": {"type": "integer"},
+                    "crawled_pages_count": {"type": "integer"},
+                    "top_issues": {
+                      "type": "array",
+                      "maxItems": 20,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "check_name": {"type": "string"},
+                          "issue_type": {"type": "string"},
+                          "severity": {"type": "string"},
+                          "message": {"type": "string"},
+                          "affected_pages": {"type": "integer"}
+                        }
+                      }
+                    },
+                    "blob_storage": {
+                      "type": "object",
+                      "properties": {
+                        "storage": {"type": "string"},
+                        "results_url": {"type": "string"},
+                        "proxy_url": {"type": "string"},
+                        "size_bytes": {"type": "integer"},
+                        "expires_at": {"type": "string"}
+                      }
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"},
+                          "result": {"type": "array"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {"type": "string"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_analysis": {
+      "post": {
+        "summary": "💰 OnPage Analyse-Tools",
+        "description": "⚠️ KOSTENPFLICHTIG: Seiten, Ressourcen, Links, Duplicate Content, Performance analysieren. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageAnalysis",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["pages", "resources", "links", "duplicate_tags", "duplicate_content", "waterfall", "keyword_density"],
+                    "description": "Art der Analyse"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite (für pages, waterfall, keyword_density)"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  }
+                },
+                "required": ["type", "id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Analyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "total_count": {"type": "integer"},
+                    "results": {
+                      "type": "array",
+                      "maxItems": 1000,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {"type": "string"},
+                          "title": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "issues": {"type": "array"},
+                          "metrics": {"type": "object"}
+                        }
+                      }
+                    },
+                    "blob_storage": {
+                      "type": "object",
+                      "properties": {
+                        "storage": {"type": "string"},
+                        "results_url": {"type": "string"},
+                        "proxy_url": {"type": "string"},
+                        "size_bytes": {"type": "integer"},
+                        "expires_at": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_content": {
+      "post": {
+        "summary": "💰 OnPage Content-Tools",
+        "description": "⚠️ KOSTENPFLICHTIG: HTML, Screenshots, Content-Parsing, Instant Pages. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageContent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["raw_html", "page_screenshot", "content_parsing", "content_parsing_live", "instant_pages"],
+                    "description": "Art der Content-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für raw_html, page_screenshot, content_parsing)"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  },
+                  "screenshot_width": {
+                    "type": "integer",
+                    "minimum": 320,
+                    "maximum": 3840,
+                    "description": "Screenshot-Breite (für page_screenshot)",
+                    "default": 1920
+                  },
+                  "screenshot_height": {
+                    "type": "integer",
+                    "minimum": 240,
+                    "maximum": 2160,
+                    "description": "Screenshot-Höhe (für page_screenshot)",
+                    "default": 1080
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Content-Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "url": {"type": "string"},
+                    "content_type": {"type": "string"},
+                    "content_size": {"type": "integer"},
+                    "screenshot_url": {"type": "string"},
+                    "html_preview": {
+                      "type": "string",
+                      "maxLength": 5000,
+                      "description": "HTML-Vorschau (erste 5000 Zeichen)"
+                    },
+                    "content_summary": {
+                      "type": "object",
+                      "properties": {
+                        "headings": {"type": "array"},
+                        "links": {"type": "array"},
+                        "images": {"type": "array"},
+                        "scripts": {"type": "array"}
+                      }
+                    },
+                    "blob_storage": {
+                      "type": "object",
+                      "properties": {
+                        "storage": {"type": "string"},
+                        "results_url": {"type": "string"},
+                        "proxy_url": {"type": "string"},
+                        "size_bytes": {"type": "integer"},
+                        "expires_at": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_lighthouse": {
+      "post": {
+        "summary": "💰 OnPage Lighthouse-Tools (Optimiert)",
+        "description": "⚠️ KOSTENPFLICHTIG: Lighthouse-Analyse mit optimierten Responses für große Datenmengen. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageLighthouse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["languages", "audits", "versions", "task_post", "tasks_ready", "task_get", "summary", "live"],
+                    "description": "Art der Lighthouse-Operation"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite (für task_post, live)"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, summary)"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "category": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Lighthouse-Kategorien (performance, accessibility, seo, pwa, best-practices)"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Lighthouse-Version"
+                  },
+                  "max_issues": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "description": "Maximale Anzahl der Issues",
+                    "default": 10
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "description": "Detaillierte Audit-Informationen einschließen",
+                    "default": false
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lighthouse-Operation erfolgreich (Optimiert)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "status_message": {"type": "string"},
+                    "task_id": {"type": "string"},
+                    "url": {"type": "string"},
+                    "fetch_time": {"type": "string"},
+                    "lighthouse_version": {"type": "string"},
+                    "scores": {
+                      "type": "object",
+                      "properties": {
+                        "performance": {"type": "number", "minimum": 0, "maximum": 100},
+                        "accessibility": {"type": "number", "minimum": 0, "maximum": 100},
+                        "seo": {"type": "number", "minimum": 0, "maximum": 100},
+                        "best-practices": {"type": "number", "minimum": 0, "maximum": 100},
+                        "pwa": {"type": "number", "minimum": 0, "maximum": 100}
+                      }
+                    },
+                    "top_issues": {
+                      "type": "array",
+                      "maxItems": 50,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "title": {"type": "string"},
+                          "score": {"type": "number"},
+                          "description": {"type": "string"},
+                          "category": {"type": "string"},
+                          "displayValue": {"type": "string"},
+                          "numericValue": {"type": "number"},
+                          "numericUnit": {"type": "string"}
+                        }
+                      }
+                    },
+                    "performance_metrics": {
+                      "type": "object",
+                      "properties": {
+                        "first-contentful-paint": {"type": "object"},
+                        "largest-contentful-paint": {"type": "object"},
+                        "speed-index": {"type": "object"},
+                        "cumulative-layout-shift": {"type": "object"},
+                        "total-blocking-time": {"type": "object"},
+                        "interactive": {"type": "object"}
+                      }
+                    },
+                    "audit_summary": {
+                      "type": "object",
+                      "properties": {
+                        "total_audits": {"type": "integer"},
+                        "passed_audits": {"type": "integer"},
+                        "failed_audits": {"type": "integer"},
+                        "not_applicable": {"type": "integer"}
+                      }
+                    },
+                    "blob_storage": {
+                      "type": "object",
+                      "properties": {
+                        "storage": {"type": "string"},
+                        "results_url": {"type": "string"},
+                        "proxy_url": {"type": "string"},
+                        "size_bytes": {"type": "integer"},
+                        "expires_at": {"type": "string"}
+                      }
+                    },
+                    "category_issues": {
+                      "type": "object",
+                      "properties": {
+                        "performance": {"type": "array"},
+                        "accessibility": {"type": "array"},
+                        "seo": {"type": "array"},
+                        "best-practices": {"type": "array"},
+                        "pwa": {"type": "array"}
+                      }
+                    },
+                    "best_practices_audits": {"type": "array"},
+                    "pwa_audits": {"type": "array"}
+                  }
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Response zu groß - Blob Storage verwendet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "message": {"type": "string"},
+                    "blob_storage": {
+                      "type": "object",
+                      "properties": {
+                        "storage": {"type": "string"},
+                        "results_url": {"type": "string"},
+                        "proxy_url": {"type": "string"},
+                        "size_bytes": {"type": "integer"},
+                        "expires_at": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_management": {
+      "post": {
+        "summary": "💰 OnPage Verwaltung",
+        "description": "⚠️ KOSTENPFLICHTIG: Task-Verwaltung, Fehler, Filter, Redirects, Microdata. Status: Benötigt DataForSEO Credits",
+        "operationId": "onPageManagement",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["id_list", "errors", "force_stop", "available_filters", "pages_by_resource", "redirect_chains", "non_indexable", "microdata"],
+                    "description": "Art der Verwaltungs-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für errors, force_stop, pages_by_resource, redirect_chains, non_indexable, microdata)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Startdatum (YYYY-MM-DD) für id_list, errors"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Enddatum (YYYY-MM-DD) für id_list, errors"
+                  },
+                  "resource_url": {
+                    "type": "string",
+                    "description": "URL der Resource (für pages_by_resource)"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Verwaltung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "total_count": {"type": "integer"},
+                    "results": {
+                      "type": "array",
+                      "maxItems": 1000,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "url": {"type": "string"},
+                          "status": {"type": "string"},
+                          "error_message": {"type": "string"},
+                          "metadata": {"type": "object"}
+                        }
+                      }
+                    },
+                    "blob_storage": {
+                      "type": "object",
+                      "properties": {
+                        "storage": {"type": "string"},
+                        "results_url": {"type": "string"},
+                        "proxy_url": {"type": "string"},
+                        "size_bytes": {"type": "integer"},
+                        "expires_at": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {"type": "string"},
+          "message": {"type": "string"},
+          "timestamp": {"type": "string"}
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {"type": "string"},
+          "message": {"type": "string"},
+          "status_code": {"type": "integer"}
+        }
+      },
+      "BlobStorageInfo": {
+        "type": "object",
+        "properties": {
+          "storage": {"type": "string"},
+          "results_url": {"type": "string"},
+          "proxy_url": {"type": "string"},
+          "size_bytes": {"type": "integer"},
+          "expires_at": {"type": "string"}
+        }
+      }
+    }
+  }
+}
