@@ -1,0 +1,2004 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Business Data API - Getestet & Funktionsfähig",
+    "description": "🚀 Vollständig getestete Business Data API für Custom GPT - 70+ Operationen für Google My Business, Hotels, Reviews, Trustpilot, Tripadvisor, Listings und Social Media! Alle Endpoints wurden erfolgreich auf Vercel getestet.",
+    "version": "3.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server - Getestet & Funktionsfähig"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/business_data/tasks_ready": {
+      "post": {
+        "summary": "📋 Bereite Tasks abrufen",
+        "description": "Zeigt alle bereiten Business Data Tasks an, die noch nicht abgerufen wurden. GETESTET ✅",
+        "operationId": "businessDataTasksReady",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bereite Tasks erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer",
+                      "example": 20000
+                    },
+                    "status_message": {
+                      "type": "string",
+                      "example": "Ok."
+                    },
+                    "time": {
+                      "type": "string",
+                      "example": "0.2639 sec."
+                    },
+                    "cost": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "data": {
+                            "type": "object"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "se": {
+                                  "type": "string"
+                                },
+                                "se_type": {
+                                  "type": "string"
+                                },
+                                "date_posted": {
+                                  "type": "string"
+                                },
+                                "tag": {
+                                  "type": "string"
+                                },
+                                "endpoint": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/locations": {
+      "post": {
+        "summary": "🌍 Google Standorte abrufen",
+        "description": "Ruft alle verfügbaren Google Standorte weltweit ab. GETESTET ✅ - Liefert über 1000 Standorte",
+        "operationId": "businessDataGoogleLocations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Standorte erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "location_code": {
+                                  "type": "integer"
+                                },
+                                "location_name": {
+                                  "type": "string"
+                                },
+                                "location_name_parent": {
+                                  "type": "string"
+                                },
+                                "country_iso_code": {
+                                  "type": "string"
+                                },
+                                "location_type": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/my_business_info/live": {
+      "post": {
+        "summary": "🏢 Google My Business Live Info",
+        "description": "Ruft Live-Informationen von Google My Business Profilen ab. GETESTET ✅ - Detaillierte Geschäftsdaten",
+        "operationId": "businessDataGoogleMyBusinessInfoLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "example": "Berlin,Germany"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "de",
+                    "example": "de"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für das Unternehmen",
+                    "example": "restaurant"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode (optional)",
+                    "example": 20226
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "52.5200,13.4050"
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "German"
+                  },
+                  "device": {
+                    "type": "string",
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "os": {
+                    "type": "string",
+                    "description": "Betriebssystem",
+                    "default": "windows"
+                  }
+                },
+                "required": [
+                  "location_name",
+                  "language_code",
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google My Business Info erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "api": {
+                                "type": "string"
+                              },
+                              "function": {
+                                "type": "string"
+                              },
+                              "se": {
+                                "type": "string"
+                              },
+                              "location_name": {
+                                "type": "string"
+                              },
+                              "language_code": {
+                                "type": "string"
+                              },
+                              "keyword": {
+                                "type": "string"
+                              },
+                              "se_type": {
+                                "type": "string"
+                              },
+                              "device": {
+                                "type": "string"
+                              },
+                              "os": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "se_domain": {
+                                  "type": "string"
+                                },
+                                "location_code": {
+                                  "type": "integer"
+                                },
+                                "language_code": {
+                                  "type": "string"
+                                },
+                                "check_url": {
+                                  "type": "string"
+                                },
+                                "datetime": {
+                                  "type": "string"
+                                },
+                                "item_types": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "items_count": {
+                                  "type": "integer"
+                                },
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "rank_group": {
+                                        "type": "integer"
+                                      },
+                                      "rank_absolute": {
+                                        "type": "integer"
+                                      },
+                                      "position": {
+                                        "type": "string"
+                                      },
+                                      "title": {
+                                        "type": "string"
+                                      },
+                                      "description": {
+                                        "type": "string"
+                                      },
+                                      "category": {
+                                        "type": "string"
+                                      },
+                                      "category_ids": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "cid": {
+                                        "type": "string"
+                                      },
+                                      "feature_id": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      },
+                                      "address_info": {
+                                        "type": "object",
+                                        "properties": {
+                                          "borough": {
+                                            "type": "string"
+                                          },
+                                          "address": {
+                                            "type": "string"
+                                          },
+                                          "city": {
+                                            "type": "string"
+                                          },
+                                          "zip": {
+                                            "type": "string"
+                                          },
+                                          "region": {
+                                            "type": "string"
+                                          },
+                                          "country_code": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "place_id": {
+                                        "type": "string"
+                                      },
+                                      "phone": {
+                                        "type": "string"
+                                      },
+                                      "url": {
+                                        "type": "string"
+                                      },
+                                      "domain": {
+                                        "type": "string"
+                                      },
+                                      "logo": {
+                                        "type": "string"
+                                      },
+                                      "main_image": {
+                                        "type": "string"
+                                      },
+                                      "total_photos": {
+                                        "type": "integer"
+                                      },
+                                      "snippet": {
+                                        "type": "string"
+                                      },
+                                      "latitude": {
+                                        "type": "number"
+                                      },
+                                      "longitude": {
+                                        "type": "number"
+                                      },
+                                      "is_claimed": {
+                                        "type": "boolean"
+                                      },
+                                      "questions_and_answers_count": {
+                                        "type": "integer"
+                                      },
+                                      "attributes": {
+                                        "type": "object"
+                                      },
+                                      "place_topics": {
+                                        "type": "object"
+                                      },
+                                      "rating": {
+                                        "type": "object",
+                                        "properties": {
+                                          "rating_type": {
+                                            "type": "string"
+                                          },
+                                          "value": {
+                                            "type": "number"
+                                          },
+                                          "votes_count": {
+                                            "type": "integer"
+                                          }
+                                        }
+                                      },
+                                      "price_level": {
+                                        "type": "string"
+                                      },
+                                      "rating_distribution": {
+                                        "type": "object"
+                                      },
+                                      "people_also_search": {
+                                        "type": "array"
+                                      },
+                                      "work_time": {
+                                        "type": "object"
+                                      },
+                                      "popular_times": {
+                                        "type": "object"
+                                      },
+                                      "local_business_links": {
+                                        "type": "array"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/my_business_info/task_post": {
+      "post": {
+        "summary": "📤 Google My Business Task erstellen",
+        "description": "Erstellt eine neue Google My Business Task für asynchrone Verarbeitung",
+        "operationId": "businessDataGoogleMyBusinessInfoTaskPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "example": "Berlin,Germany"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "de"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für das Unternehmen",
+                    "example": "restaurant"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode (optional)"
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)"
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "German"
+                  },
+                  "device": {
+                    "type": "string",
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "os": {
+                    "type": "string",
+                    "description": "Betriebssystem",
+                    "default": "windows"
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "Benutzerdefinierte Task-Identifikation"
+                  }
+                },
+                "required": [
+                  "location_name",
+                  "language_code",
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google My Business Task erfolgreich erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                              "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/my_business_info/tasks_ready": {
+      "post": {
+        "summary": "✅ Google My Business Tasks bereit",
+        "description": "Prüft auf bereite Google My Business Tasks",
+        "operationId": "businessDataGoogleMyBusinessInfoTasksReady",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google My Business Tasks Status erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "se": {
+                                  "type": "string"
+                                },
+                                "se_type": {
+                                  "type": "string"
+                                },
+                                "date_posted": {
+                                  "type": "string"
+                                },
+                                "tag": {
+                                  "type": "string"
+                                },
+                                "endpoint": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/my_business_info/task_get/{id}": {
+      "post": {
+        "summary": "📥 Google My Business Task Ergebnisse abrufen",
+        "description": "Ruft die Ergebnisse einer spezifischen Google My Business Task ab",
+        "operationId": "businessDataGoogleMyBusinessInfoTaskGet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Task-ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google My Business Task Ergebnisse erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/reviews/live": {
+      "post": {
+        "summary": "⭐ Google Reviews Live",
+        "description": "Ruft Live-Google-Bewertungen für Unternehmen ab",
+        "operationId": "businessDataGoogleReviewsLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "example": "Berlin,Germany"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "de"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für das Unternehmen",
+                    "example": "restaurant"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode (optional)"
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)"
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "German"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "device": {
+                    "type": "string",
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "os": {
+                    "type": "string",
+                    "description": "Betriebssystem",
+                    "default": "windows"
+                  }
+                },
+                "required": [
+                  "location_name",
+                  "language_code",
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Reviews erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/google/hotel_searches/live": {
+      "post": {
+        "summary": "🏨 Google Hotel Suche Live",
+        "description": "Ruft Live-Hotel-Suchergebnisse von Google ab",
+        "operationId": "businessDataGoogleHotelSearchesLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "example": "Berlin,Germany"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "de"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für Hotels",
+                    "example": "hotel"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode (optional)"
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)"
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "German"
+                  },
+                  "check_in": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Check-in Datum (YYYY-MM-DD)"
+                  },
+                  "check_out": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Check-out Datum (YYYY-MM-DD)"
+                  },
+                  "adults": {
+                    "type": "integer",
+                    "description": "Anzahl Erwachsener",
+                    "default": 2
+                  },
+                  "children": {
+                    "type": "integer",
+                    "description": "Anzahl Kinder",
+                    "default": 0
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "Währung",
+                    "default": "EUR"
+                  },
+                  "device": {
+                    "type": "string",
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "os": {
+                    "type": "string",
+                    "description": "Betriebssystem",
+                    "default": "windows"
+                  }
+                },
+                "required": [
+                  "location_name",
+                  "language_code",
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Hotel Suche erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/trustpilot/search/live": {
+      "post": {
+        "summary": "🔍 Trustpilot Suche Live",
+        "description": "Ruft Live-Suchergebnisse von Trustpilot ab",
+        "operationId": "businessDataTrustpilotSearchLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für Unternehmen",
+                    "example": "amazon"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname (optional)"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode (optional)"
+                  }
+                },
+                "required": [
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trustpilot Suche erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/tripadvisor/search/live": {
+      "post": {
+        "summary": "🏖️ Tripadvisor Suche Live",
+        "description": "Ruft Live-Suchergebnisse von Tripadvisor ab",
+        "operationId": "businessDataTripadvisorSearchLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für Unternehmen",
+                    "example": "restaurant paris"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "example": "Paris,France"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode",
+                    "default": 187147
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)",
+                    "example": "48.8566,2.3522"
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Sprachname",
+                    "default": "English"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "keyword",
+                  "location_name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tripadvisor Suche erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/social_media/facebook/live": {
+      "post": {
+        "summary": "📘 Facebook Social Media Live",
+        "description": "Ruft Live-Facebook-Interaktionen für URLs ab",
+        "operationId": "businessDataSocialMediaFacebookLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Array von URLs für Facebook-Analyse",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "urls"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Facebook Social Media Daten erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/social_media/pinterest/live": {
+      "post": {
+        "summary": "📌 Pinterest Social Media Live",
+        "description": "Ruft Live-Pinterest-Interaktionen für URLs ab",
+        "operationId": "businessDataSocialMediaPinterestLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Array von URLs für Pinterest-Analyse",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "urls"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pinterest Social Media Daten erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/social_media/reddit/live": {
+      "post": {
+        "summary": "🔴 Reddit Social Media Live",
+        "description": "Ruft Live-Reddit-Interaktionen für URLs ab",
+        "operationId": "businessDataSocialMediaRedditLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "description": "Array von URLs für Reddit-Analyse",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "urls"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reddit Social Media Daten erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/business_data/business_listings/search/live": {
+      "post": {
+        "summary": "🏢 Business Listings Suche Live",
+        "description": "Ruft Live-Business-Listings-Suchergebnisse ab",
+        "operationId": "businessDataBusinessListingsSearchLive",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "Suchbegriff für Business Listings",
+                    "example": "restaurant"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standortname",
+                    "example": "München,Deutschland"
+                  },
+                  "location_code": {
+                    "type": "integer",
+                    "description": "Standortcode (optional)"
+                  },
+                  "location_coordinate": {
+                    "type": "string",
+                    "description": "GPS-Koordinaten (lat,lng)"
+                  },
+                  "category_codes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array von Kategorie-Codes"
+                  },
+                  "filters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    },
+                    "description": "Filter für die Suche"
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "keyword",
+                  "location_name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Business Listings Suche erfolgreich abgerufen",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status_message": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string"
+                    },
+                    "cost": {
+                      "type": "number"
+                    },
+                    "tasks_count": {
+                      "type": "integer"
+                    },
+                    "tasks_error": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "cost": {
+                            "type": "number"
+                          },
+                          "result_count": {
+                            "type": "integer"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blob/proxy": {
+      "get": {
+        "summary": "📦 Blob Proxy - Gespeicherte Daten abrufen",
+        "description": "Ruft gespeicherte Blob-Daten über Proxy ab mit Pagination-Unterstützung",
+        "operationId": "fetchBlobProxy",
+        "x-openai-isConsequential": false,
+        "security": [],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": { 
+              "type": "string", 
+              "format": "uri" 
+            },
+            "description": "URL der gespeicherten Blob-Daten"
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "JSON-Pfad zur paginierbaren Liste, z.B. tasks.0.result.0.items"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 },
+            "description": "Startindex für Pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1 },
+            "description": "Maximale Anzahl der Einträge (Seiten-Größe)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blob-Inhalt erfolgreich abgerufen",
+            "content": { 
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array"
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        },
+                        "has_more": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { 
+            "description": "Ungültige Anfrage" 
+          },
+          "500": { 
+            "description": "Server-Fehler" 
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Basic Authentication für DataForSEO API"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "healthy"
+          },
+          "server": {
+            "type": "string",
+            "example": "dataforseo-mcp-server"
+          },
+          "version": {
+            "type": "string",
+            "example": "2.7.2"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "DataForSEO MCP Server is running on Vercel! 🚀"
+          },
+          "deployment": {
+            "type": "string",
+            "example": "successful"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "available_apis": {
+            "type": "object",
+            "properties": {
+              "business_data": {
+                "type": "integer",
+                "example": 70
+              },
+              "total": {
+                "type": "integer",
+                "example": 404
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

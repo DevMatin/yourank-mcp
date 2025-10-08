@@ -49,10 +49,7 @@ possibleConfigPaths.forEach((configPath, index) => {
               if (typeof value === 'string' && (
                 value.includes('dataforseo') || 
                 value.includes('mcp-server-typescript') ||
-                value.includes('build/main') ||
-                value.includes('serp-google') ||
-                value.includes('serp-bing') ||
-                value.includes('serp-youtube')
+                value.includes('build/main')
               )) {
                 console.log(`   🎯 DataForSEO MCP gefunden:`);
                 console.log(`      Key: ${key}`);
@@ -93,9 +90,6 @@ if (foundConfigs === 0) {
 
 console.log('\n🔧 Server-Status Befehle:');
 console.log('   Standard Server:    npm run start');
-console.log('   HTTP Server:        npm run http');  
-console.log('   SERP Google:        npm run serp-google  ❌');
-console.log('   SERP Bing:          npm run serp-bing    ❌');
-console.log('   SERP YouTube:       npm run serp-youtube ❌');
+console.log('   HTTP Server:        npm run http');
 
 console.log('\n✅ Empfehlung: Verwende IMMER den Standard Server (npm run start)');
