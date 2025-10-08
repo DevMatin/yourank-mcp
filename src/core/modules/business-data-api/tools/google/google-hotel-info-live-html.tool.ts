@@ -3,8 +3,8 @@ import { BaseTool } from '../../../base.tool.js';
 import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class GoogleHotelInfoLiveHtmlTool extends BaseTool {
-  constructor(dataForSEOClient: DataForSEOClient) {
-    super(dataForSEOClient);
+  constructor(private client: DataForSEOClient) {
+    super(client);
     
   }
 
@@ -35,6 +35,6 @@ export class GoogleHotelInfoLiveHtmlTool extends BaseTool {
       language_code: params.language_code,
     }];
 
-    return await this.dataForSEOClient.makeRequest('/v3/business_data/google/hotel_info/live/html', 'POST', requestData);
+    return await this.client.makeRequest('/v3/business_data/google/hotel_info/live/html', 'POST', requestData);
   }
 }

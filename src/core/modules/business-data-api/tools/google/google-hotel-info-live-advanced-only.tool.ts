@@ -1,21 +1,21 @@
 import { z } from 'zod';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 import { BaseTool } from '../../../base.tool.js';
 
-export class GoogleHotelInfoLiveAdvancedTool extends BaseTool {
-  constructor(client) {
+export class GoogleHotelInfoLiveAdvancedOnlyTool extends BaseTool {
+  constructor(private client: DataForSEOClient) {
     super(client);
-    this.client = client;
   }
 
-  getName() {
-    return 'business_data_google_hotel_info_live_advanced';
+  getName(): string {
+    return 'business_data_google_hotel_info_live_advanced_only';
   }
 
-  getDescription() {
-    return `Google Hotel Info will provide you with structured data available for a specific hotel entity on the Google Hotels platform: such as service description, location details, rating, amenities, reviews, images, prices, and more.`;
+  getDescription(): string {
+    return `Google Hotel Info will provide you with structured data available for a specific hotel entity on the Google Hotels platform (Advanced format without HTML): such as service description, location details, rating, amenities, reviews, images, prices, and more.`;
   }
 
-  getParams() {
+  getParams(): z.ZodRawShape {
     return {
       hotel_identifier: z.string().describe("hotel identifier (name, address, or URL)"),
       location_code: z.number().optional().describe("location code"),
@@ -23,9 +23,9 @@ export class GoogleHotelInfoLiveAdvancedTool extends BaseTool {
     };
   }
 
-  async handle(params) {
+  async handle(params: any): Promise<any> {
     try {
-      const requestData = {
+      const requestData: any = {
         hotel_identifier: params.hotel_identifier
       };
       

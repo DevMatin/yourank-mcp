@@ -3,8 +3,8 @@ import { BaseTool } from '../../../base.tool.js';
 import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class GoogleQuestionsAndAnswersTaskPostTool extends BaseTool {
-  constructor(dataForSEOClient: DataForSEOClient) {
-    super(dataForSEOClient);
+  constructor(private client: DataForSEOClient) {
+    super(client);
     
   }
 
@@ -47,6 +47,6 @@ export class GoogleQuestionsAndAnswersTaskPostTool extends BaseTool {
       tag: params.tag,
     }];
 
-    return await this.dataForSEOClient.makeRequest('/v3/business_data/google/questions_and_answers/task_post', 'POST', requestData);
+    return await this.client.makeRequest('/v3/business_data/google/questions_and_answers/task_post', 'POST', requestData);
   }
 }

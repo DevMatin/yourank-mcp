@@ -30,3 +30,5 @@ export { GoogleReviewsLiveTool } from './google-reviews-live.tool.js';
 export { GoogleReviewsTaskGetTool } from './google-reviews-task-get.tool.js';
 export { GoogleReviewsTaskPostTool } from './google-reviews-task-post.tool.js';
 export { GoogleReviewsTasksReadyTool } from './google-reviews-tasks-ready.tool.js';
+export { GoogleHotelInfoTaskGetAdvancedTool } from './google-hotel-info-task-get-advanced.tool.js';
+export { GoogleHotelInfoLiveAdvancedOnlyTool } from './google-hotel-info-live-advanced-only.tool.js';

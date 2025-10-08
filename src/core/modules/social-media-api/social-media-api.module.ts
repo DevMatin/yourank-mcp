@@ -8,6 +8,7 @@ export class SocialMediaApiModule extends BaseModule {
       new ApiTools.SocialMediaPinterestLiveTool(this.dataForSEOClient),
       new ApiTools.SocialMediaFacebookLiveTool(this.dataForSEOClient),
       new ApiTools.SocialMediaRedditLiveTool(this.dataForSEOClient),
+      new ApiTools.SocialMediaOverviewTool(this.dataForSEOClient),
     ];
 
     return tools.reduce((acc, tool) => ({

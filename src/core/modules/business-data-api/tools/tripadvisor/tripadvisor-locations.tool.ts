@@ -21,7 +21,7 @@ export class TripadvisorLocationsTool extends BaseTool {
 
   async handle(params: any): Promise<any> {
     try {
-      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/tripadvisor/locations', 'POST', 'GET');
+      const response = await this.client.makeRequest('/v3/business_data/tripadvisor/locations', 'POST', 'GET');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

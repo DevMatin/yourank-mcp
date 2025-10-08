@@ -27,7 +27,7 @@ export class SocialMediaFacebookLiveTool extends BaseTool {
         target: params.target
       };
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/social_media/facebook/live', 'POST', 'POST');
+      const response = await this.client.makeRequest('/v3/business_data/social_media/facebook/live', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

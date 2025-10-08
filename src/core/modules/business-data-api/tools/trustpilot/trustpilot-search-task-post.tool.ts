@@ -3,8 +3,8 @@ import { BaseTool } from '../../../base.tool.js';
 import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class TrustpilotSearchTaskPostTool extends BaseTool {
-  constructor(dataForSEOClient: DataForSEOClient) {
-    super(dataForSEOClient);
+  constructor(private client: DataForSEOClient) {
+    super(client);
     
   }
 
@@ -39,6 +39,6 @@ export class TrustpilotSearchTaskPostTool extends BaseTool {
       tag: params.tag,
     }];
 
-    return await this.dataForSEOClient.makeRequest('/v3/business_data/trustpilot/search/task_post', 'POST', requestData);
+    return await this.client.makeRequest('/v3/business_data/trustpilot/search/task_post', 'POST', requestData);
   }
 }

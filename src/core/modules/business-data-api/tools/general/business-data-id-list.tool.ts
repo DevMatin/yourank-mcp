@@ -33,7 +33,7 @@ export class BusinessDataIdListTool extends BaseTool {
       if (params.date_from) requestData.date_from = params.date_from;
       if (params.date_to) requestData.date_to = params.date_to;
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/id_list', 'POST', 'POST');
+      const response = await this.client.makeRequest('/v3/business_data/id_list', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

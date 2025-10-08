@@ -27,7 +27,7 @@ export class SocialMediaPinterestLiveTool extends BaseTool {
         target: params.target
       };
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/social_media/pinterest/live', 'POST', 'POST');
+      const response = await this.client.makeRequest('/v3/business_data/social_media/pinterest/live', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

@@ -3,8 +3,8 @@ import { BaseTool } from '../../../base.tool.js';
 import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class BusinessDataTasksReadyTool extends BaseTool {
-  constructor(dataForSEOClient: DataForSEOClient) {
-    super(dataForSEOClient);
+  constructor(private client: DataForSEOClient) {
+    super(client);
     
   }
 
@@ -21,6 +21,6 @@ export class BusinessDataTasksReadyTool extends BaseTool {
   }
 
   async handle(params: any) {
-    return await this.dataForSEOClient.makeRequest('/v3/business_data/tasks_ready', 'POST', 'GET');
+    return await this.client.makeRequest('/v3/business_data/tasks_ready', 'POST', 'GET');
   }
 }

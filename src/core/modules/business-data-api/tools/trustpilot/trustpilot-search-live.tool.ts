@@ -32,7 +32,7 @@ export class TrustpilotSearchLiveTool extends BaseTool {
       if (params.limit) requestData.limit = params.limit;
       if (params.offset) requestData.offset = params.offset;
 
-      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/trustpilot/search/live', 'POST', 'POST');
+      const response = await this.client.makeRequest('/v3/business_data/trustpilot/search/live', 'POST', [requestData]);
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);
