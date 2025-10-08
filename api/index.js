@@ -2707,10 +2707,19 @@ app.get('/v3/serp/:engine/languages', async (req, res) => {
 app.post('/v3/serp/:engine/organic/live', async (req, res) => {
   try {
     const { engine } = req.params;
-    const endpoint = `/v3/serp/${engine}/organic/live`;
+    // FIXED: Use the correct DataForSEO endpoint that actually exists
+    const endpoint = `/v3/serp/${engine}/organic/live/advanced`;
     const requestData = Array.isArray(req.body) ? req.body : [req.body];
     
-    const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
+    // Apply German defaults for direct API calls
+    const processedRequestData = requestData.map(item => ({
+      location_name: normalizeLocationName(item.location_name || item.location || 'Germany'),
+      language_code: item.language_code || 'de',
+      depth: item.depth || 3,
+      ...item
+    }));
+    
+    const dataforseoResponse = await makeDataForSEORequest(endpoint, processedRequestData, 'POST');
     
     if (dataforseoResponse.status === 200) {
       res.json(dataforseoResponse.body);
