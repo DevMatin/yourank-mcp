@@ -36,7 +36,7 @@ export class TripadvisorReviewsLiveTool extends BaseTool {
       if (params.limit) requestData.limit = params.limit;
       if (params.offset) requestData.offset = params.offset;
 
-      const response = await this.client.makeRequest('/v3/business_data/tripadvisor/reviews/live', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/tripadvisor/reviews/live', 'POST', 'POST');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

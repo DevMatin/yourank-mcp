@@ -58,7 +58,7 @@ Please, keep in mind that filters are associated with a certain object in the re
     }
 
     // Fetch fresh data
-    const response = await this.client.makeRequest('/v3/business_data/business_listings/available_filters', 'GET', null, true) as DataForSEOFullResponse;
+    const response = await this.dataForSEOClient.makeRequest('/v3/business_data/business_listings/available_filters', 'POST', 'GET', null) as DataForSEOFullResponse;
     this.validateResponseFull(response);
 
     // Transform the response into our cache format

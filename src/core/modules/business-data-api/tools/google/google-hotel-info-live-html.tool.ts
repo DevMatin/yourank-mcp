@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class GoogleHotelInfoLiveHtmlTool extends BaseTool {
-  constructor(private dataForSEOClient: DataForSEOClient) {
-    super();
+  constructor(dataForSEOClient: DataForSEOClient) {
+    super(dataForSEOClient);
+    
   }
 
   getName(): string {
@@ -34,6 +35,6 @@ export class GoogleHotelInfoLiveHtmlTool extends BaseTool {
       language_code: params.language_code,
     }];
 
-    return await this.dataForSEOClient.post('/v3/business_data/google/hotel_info/live/html', requestData);
+    return await this.dataForSEOClient.makeRequest('/v3/business_data/google/hotel_info/live/html', 'POST', requestData);
   }
 }

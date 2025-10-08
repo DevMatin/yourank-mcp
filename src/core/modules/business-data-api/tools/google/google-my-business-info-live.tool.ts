@@ -40,7 +40,7 @@ export class GoogleMyBusinessInfoLiveTool extends BaseTool {
       if (params.language_code) requestData.language_code = params.language_code;
       if (params.tag) requestData.tag = params.tag;
 
-      const response = await this.client.makeRequest('/v3/business_data/google/my_business_info/live', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/google/my_business_info/live', 'POST', 'POST');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

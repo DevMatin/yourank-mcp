@@ -32,7 +32,7 @@ export class GoogleHotelInfoLiveAdvancedTool extends BaseTool {
       if (params.location_code) requestData.location_code = params.location_code;
       if (params.language_code) requestData.language_code = params.language_code;
 
-      const response = await this.client.makeRequest('/v3/business_data/google/hotel_info/live/advanced', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/google/hotel_info/live/advanced', 'POST', 'POST');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

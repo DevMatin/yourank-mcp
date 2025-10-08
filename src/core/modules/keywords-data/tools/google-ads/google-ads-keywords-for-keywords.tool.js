@@ -24,31 +24,31 @@ export class GoogleAdsKeywordsForKeywordsTool extends BaseTool {
       },
       location_name: {
         type: 'string',
-        nullable: true,
+        nullable,
         default: 'United States',
         description: 'Full name of the location (e.g., "United Kingdom")'
       },
       language_code: {
         type: 'string',
-        nullable: true,
+        nullable,
         default: 'en',
         description: 'Language two-letter ISO code (e.g., "en")'
       },
       search_partners: {
         type: 'boolean',
-        nullable: true,
-        default: false,
+        nullable,
+        default,
         description: 'Include search partners'
       },
       include_serp_info: {
         type: 'boolean',
-        nullable: true,
-        default: false,
+        nullable,
+        default,
         description: 'Include SERP information (deaktiviert für bessere Performance)'
       },
       limit_results: {
         type: 'number',
-        nullable: true,
+        nullable,
         default: 10,
         description: 'Anzahl der zurückgegebenen Ergebnisse (max 50)'
       }
@@ -63,11 +63,11 @@ export class GoogleAdsKeywordsForKeywordsTool extends BaseTool {
         : [params.keywords];
 
       const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/google_ads/keywords_for_keywords/live', 'POST', [{
-        keywords: limitedKeywords,
+        keywords,
         location_name: params.location_name,
         language_code: params.language_code,
         search_partners: params.search_partners,
-        include_serp_info: false, // Deaktiviere SERP Info für kleinere Response
+        include_serp_info, // Deaktiviere SERP Info für kleinere Response
       }]);
       return this.validateAndFormatResponse(response);
     } catch (error) {

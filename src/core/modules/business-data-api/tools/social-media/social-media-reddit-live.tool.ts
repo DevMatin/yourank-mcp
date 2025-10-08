@@ -27,7 +27,7 @@ export class SocialMediaRedditLiveTool extends BaseTool {
         target: params.target
       };
 
-      const response = await this.client.makeRequest('/v3/business_data/social_media/reddit/live', 'POST', [requestData]);
+      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/social_media/reddit/live', 'POST', 'POST');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

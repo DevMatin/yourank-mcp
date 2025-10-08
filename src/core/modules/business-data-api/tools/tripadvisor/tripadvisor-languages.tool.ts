@@ -21,7 +21,7 @@ export class TripadvisorLanguagesTool extends BaseTool {
 
   async handle(params: any): Promise<any> {
     try {
-      const response = await this.client.makeRequest('/v3/business_data/tripadvisor/languages', 'GET');
+      const response = await this.dataForSEOClient.makeRequest('/v3/business_data/tripadvisor/languages', 'POST', 'GET');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

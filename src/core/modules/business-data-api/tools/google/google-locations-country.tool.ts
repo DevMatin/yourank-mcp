@@ -23,7 +23,7 @@ export class GoogleLocationsCountryTool extends BaseTool {
 
   async handle(params: any): Promise<any> {
     try {
-      const response = await this.client.makeRequest(`/v3/business_data/google/locations/${params.country}`, 'GET');
+      const response = await this.dataForSEOClient.makeRequest(`/v3/business_data/google/locations/${params.country}`, 'POST', 'GET');
       return this.validateAndFormatResponse(response);
     } catch (error) {
       return this.formatErrorResponse(error);

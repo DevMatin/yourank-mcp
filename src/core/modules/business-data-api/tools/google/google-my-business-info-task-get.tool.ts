@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class GoogleMyBusinessInfoTaskGetTool extends BaseTool {
-  constructor(private dataForSEOClient: DataForSEOClient) {
-    super();
+  constructor(dataForSEOClient: DataForSEOClient) {
+    super(dataForSEOClient);
+    
   }
 
   getName(): string {
@@ -22,6 +23,6 @@ export class GoogleMyBusinessInfoTaskGetTool extends BaseTool {
   }
 
   async handle(params: any) {
-    return await this.dataForSEOClient.get(`/v3/business_data/google/my_business_info/task_get/${params.id}`);
+    return await this.dataForSEOClient.makeRequest(`/v3/business_data/google/my_business_info/task_get/${params.id}`, 'POST', 'GET');
   }
 }

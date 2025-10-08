@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class GoogleQuestionsAndAnswersTaskPostTool extends BaseTool {
-  constructor(private dataForSEOClient: DataForSEOClient) {
-    super();
+  constructor(dataForSEOClient: DataForSEOClient) {
+    super(dataForSEOClient);
+    
   }
 
   getName(): string {
@@ -46,6 +47,6 @@ export class GoogleQuestionsAndAnswersTaskPostTool extends BaseTool {
       tag: params.tag,
     }];
 
-    return await this.dataForSEOClient.post('/v3/business_data/google/questions_and_answers/task_post', requestData);
+    return await this.dataForSEOClient.makeRequest('/v3/business_data/google/questions_and_answers/task_post', 'POST', requestData);
   }
 }

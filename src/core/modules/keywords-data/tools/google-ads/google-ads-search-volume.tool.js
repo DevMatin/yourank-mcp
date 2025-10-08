@@ -33,8 +33,7 @@ optional field`),
             const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/google_ads/search_volume/live', 'POST', [{
                     location_name: params.location_name || 'United States',
                     language_code: params.language_code || 'en',
-                    keywords: limitedKeywords,
-                }]);
+                    keywords);
             return this.validateAndFormatResponse(response);
         }
         catch (error) {
