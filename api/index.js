@@ -4426,13 +4426,11 @@ app.post('/v3/keywords_google_ads', async (req, res) => {
         switch (type) {
             case 'search_volume_live':
                 endpoint = '/v3/keywords_data/google/search_volume/live';
-                // Ultra-aggressive Limitierung: Nur 1 Keyword
-                const limitedSearchKeywords = Array.isArray(keywords) ? keywords.slice(0, 1) : [keywords];
                 requestData = [{
-                    keywords: limitedSearchKeywords,
+                    keywords: keywords,
                     location_name: location_name || 'United States',
-                    language_code: language_code || 'en'
-                    // Entferne device für minimale Response
+                    language_code: language_code || 'en',
+                    device: device || 'desktop'
                 }];
                 break;
 
