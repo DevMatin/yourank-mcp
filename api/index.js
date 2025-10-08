@@ -4236,8 +4236,50 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
     if (dataforseoResponse.status === 200) {
       // Optimiere Lighthouse Live Response für große Datenmengen
       if (type === 'live') {
-        const optimizedResponse = optimizeLighthouseResponse(dataforseoResponse.body, req.body);
-        res.json(optimizedResponse);
+        console.log('🔧 Optimizing Lighthouse response...');
+        
+        // Erstelle eine sehr einfache, begrenzte Response
+        const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
+        if (lighthouse) {
+          const optimizedResponse = {
+            status_code: 200,
+            url: lighthouse.url || req.body.url,
+            scores: {
+              performance: lighthouse.categories?.performance?.score || 0,
+              accessibility: lighthouse.categories?.accessibility?.score || 0,
+              seo: lighthouse.categories?.seo?.score || 0,
+              'best-practices': lighthouse.categories?.['best-practices']?.score || 0,
+              pwa: lighthouse.categories?.pwa?.score || 0
+            },
+            top_issues: Object.values(lighthouse.audits || {})
+              .filter(audit => audit.score === 0)
+              .slice(0, 3)
+              .map(audit => ({
+                id: audit.id,
+                title: audit.title,
+                score: audit.score,
+                description: audit.description?.substring(0, 200) + '...',
+                category: getAuditCategory(audit.id)
+              })),
+            performance_metrics: {
+              'first-contentful-paint': lighthouse.audits?.['first-contentful-paint']?.displayValue || 'N/A',
+              'largest-contentful-paint': lighthouse.audits?.['largest-contentful-paint']?.displayValue || 'N/A',
+              'speed-index': lighthouse.audits?.['speed-index']?.displayValue || 'N/A',
+              'total-blocking-time': lighthouse.audits?.['total-blocking-time']?.displayValue || 'N/A'
+            },
+            audit_summary: {
+              total_audits: Object.keys(lighthouse.audits || {}).length,
+              passed_audits: Object.values(lighthouse.audits || {}).filter(a => a.score === 1).length,
+              failed_audits: Object.values(lighthouse.audits || {}).filter(a => a.score === 0).length
+            },
+            _message: "Optimized response - only essential metrics included"
+          };
+          
+          console.log('✅ Optimized response size:', JSON.stringify(optimizedResponse).length, 'bytes');
+          res.json(optimizedResponse);
+        } else {
+          res.json(dataforseoResponse.body);
+        }
       } else {
         res.json(dataforseoResponse.body);
       }
