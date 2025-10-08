@@ -4240,29 +4240,15 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         
         const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
         if (lighthouse) {
-          // Sammle nur die kritischsten Audits (Score < 0.5)
-          const criticalAudits = Object.entries(lighthouse.audits || {})
-            .filter(([_, audit]) => (audit.score || 1) < 0.5 && audit.title)
-            .slice(0, 5)
-            .map(([id, audit]) => `${id}: ${audit.score * 100}%`);
-          
           const minimalResponse = {
-            url: lighthouse.url || req.body.url,
-            scores: {
-              perf: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
-              a11y: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
-              seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100)
-            },
-            metrics: {
-              lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
-              cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000,
-              fcp: Math.round(lighthouse.audits?.['first-contentful-paint']?.numericValue || 0)
-            },
-            critical: criticalAudits,
-            time: new Date().toISOString().split('T')[0]
+            perf: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
+            a11y: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
+            seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
+            lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
+            cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000
           };
           
-          console.log('✅ Minimal response size:', JSON.stringify(minimalResponse).length, 'bytes');
+          console.log('✅ Response:', JSON.stringify(minimalResponse).length, 'bytes');
           return res.json(minimalResponse);
         }
       }
