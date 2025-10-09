@@ -4246,7 +4246,17 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         if (dataforseoResponse.status === 200) {
             // Optimiere Lighthouse Live Response IMMER für große Datenmengen
             if (type === 'live') {
+                console.log('🔍 Processing live lighthouse response...');
+                console.log('📦 Response structure:', {
+                    hasTasks: !!dataforseoResponse.body.tasks,
+                    tasksLength: dataforseoResponse.body.tasks?.length,
+                    hasResult: !!dataforseoResponse.body.tasks?.[0]?.result,
+                    resultLength: dataforseoResponse.body.tasks?.[0]?.result?.length
+                });
+                
                 const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
+                console.log('🔍 Lighthouse result found:', !!lighthouse);
+                
                 if (lighthouse) {
                     // Wenn summary_only=false explizit gesetzt ist, gib volle Daten zurück
                     if (summary_only === false) {
@@ -4255,6 +4265,7 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
                     }
 
                     // Standard: Optimierte Response
+                    console.log('✅ Creating optimized lighthouse response...');
                     const optimizedResponse = {
                         status_code: 200,
                         url: url,
