@@ -4704,7 +4704,7 @@ app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
         if (location_name && location_name !== 'United States') {
             console.log(`🔧 Converting location_name "${location_name}" to location_code...`);
             try {
-                const locationsResponse = await makeDataForSEORequest('/v3/keywords_data/google/locations', null, 'GET');
+                const locationsResponse = await makeDataForSEORequest('/v3/dataforseo_trends/locations', null, 'GET');
                 if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
                     const locations = locationsResponse.body.tasks[0].result;
                     let matchingLocation = locations.find(loc =>
@@ -4724,20 +4724,18 @@ app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
 
         switch (type) {
             case 'demography_live':
-                endpoint = '/v3/keywords_data/dataforseo_trends/demography/live';
+                endpoint = '/v3/dataforseo_trends/demography/live';
                 requestData = [{
                     keywords,
-                    location_code: location_code,
-                    language_code: language_code || 'en'
+                    location_code: location_code
                 }];
                 break;
 
             case 'merged_data_live':
-                endpoint = '/v3/keywords_data/dataforseo_trends/merged_data/live';
+                endpoint = '/v3/dataforseo_trends/merged_data/live';
                 requestData = [{
                     keywords,
-                    location_code: location_code,
-                    language_code: language_code || 'en'
+                    location_code: location_code
                 }];
                 break;
 
