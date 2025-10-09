@@ -1,18 +1,18 @@
 import { any, z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
-export class ContentAnalysisSummaryTool extends BaseTool {
+export class ContentAnalysisPhraseTrendsTool extends BaseTool {
   constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
   getName(): string {
-    return 'content_analysis_summary';
+    return 'content_analysis_phrase_trends';
   }
 
   getDescription(): string {
-    return `This endpoint will provide you with an overview of citation data available for the target keyword`;
+    return `This endpoint will provide you with data on all citations of the target keyword for the indicated date range`;
   }
 
   getParams(): z.ZodRawShape {
@@ -54,34 +54,29 @@ export class ContentAnalysisSummaryTool extends BaseTool {
         "or",
         ["content_info.text_category","has",10994]]`
       ),
-      positive_connotation_threshold: z.number()
-        .describe(`positive connotation threshold
-          specified as the probability index threshold for positive sentiment related to the citation content
-          if you specify this field, connotation_types object in the response will only contain data on citations with positive sentiment probability more than or equal to the specified value`).min(0).max(1).optional().default(0.4),
-      sentiments_connotation_threshold: z.number()
-        .describe(`sentiment connotation threshold
-specified as the probability index threshold for sentiment connotations related to the citation content
-if you specify this field, sentiment_connotations object in the response will only contain data on citations where the
-probability per each sentiment is more than or equal to the specified value`)
-        .min(0).max(1).optional().default(0.4),
+      date_from: z.string().describe(`starting date of the time range
+        date format: "yyyy-mm-dd"`),
+      date_to: z.string().describe(`ending date of the time range
+        date format: "yyyy-mm-dd"`).optional(),
+      date_group: z.enum(['day', 'week', 'month']).default('month').describe(`date grouping type`).optional(),
       internal_list_limit: z.number().min(1).max(20).default(1)
         .describe(
           `maximum number of elements within internal arrays
           you can use this field to limit the number of elements within the following arrays`)
         .optional(),
-
     };
   }
 
   async handle(params: any): Promise<any> {
     try {
-      const response = await this.dataForSEOClient.makeRequest('/v3/content_analysis/summary/live', 'POST', [{
+      const response = await this.dataForSEOClient.makeRequest('/v3/content_analysis/phrase_trends/live', 'POST', [{
         keyword: params.keyword,
         keyword_fields: params.keyword_fields,
         page_type: params.page_type,
         initial_dataset_filters: this.formatFilters(params.initial_dataset_filters),
-        positive_connotation_threshold: params.positive_connotation_threshold,
-        sentiments_connotation_threshold: params.sentiments_connotation_threshold,
+        date_from: params.date_from,
+        date_to: params.date_to,
+        date_group: params.date_group,
         internal_list_limit: params.internal_list_limit
       }]);
       return this.validateAndFormatResponse(response);

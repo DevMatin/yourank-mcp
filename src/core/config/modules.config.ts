@@ -10,9 +10,7 @@ export const AVAILABLE_MODULES = [
   'GOOGLE_BUSINESS',     // Getrennt: Google Business Data
   'TRUSTPILOT',          // Getrennt: Trustpilot Reviews & Search
   'TRIPADVISOR',         // Getrennt: TripAdvisor Business Data
-  'GOOGLE_MAPS',         // Getrennt: Google Maps Business Listings
   'SOCIAL_MEDIA',        // Getrennt: Social Media APIs
-  'BUSINESS_UTILITIES',  // Getrennt: Business Data Utilities
   'DOMAIN_ANALYTICS', 
   'CONTENT_ANALYSIS',
   'CONTENT_GENERATION',  // Neue API

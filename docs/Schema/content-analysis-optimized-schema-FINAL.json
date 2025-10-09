@@ -1,0 +1,1002 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Content Analysis APIs - Vollständig Optimiert",
+    "description": "🚀 Vollständig optimierte Content Analysis APIs für Custom GPT - Intelligente Parameter, Fehlerbehandlung & Best Practices!",
+    "version": "3.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/content_analysis_core": {
+      "post": {
+        "summary": "📊 Content Analysis Kernfunktionen",
+        "description": "Verwaltung von Content Analysis Tasks: Liste aller Task-IDs abrufen, Fehler-Analyse durchführen, Task-Historie anzeigen. Ermöglicht Überwachung und Verwaltung aller Content Analysis API-Aktivitäten.",
+        "operationId": "contentAnalysisCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "id_list",
+                      "errors"
+                    ],
+                    "description": "Art der Kern-Operation"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Startdatum (YYYY-MM-DD) - Standard: Letzte 30 Tage",
+                    "default": "2024-11-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "Enddatum (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content Analysis Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "❌ Fehler: Ungültige Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid date format. Use YYYY-MM-DD"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_analysis_base": {
+      "post": {
+        "summary": "📊 Content Analysis Basis-Daten",
+        "description": "Content Analysis Basis-Endpoints: Verfügbare Filter abrufen, Standorte und Sprachen auflisten, Kategorien anzeigen. Bietet grundlegende Metadaten für Content Analysis Operationen.",
+        "operationId": "contentAnalysisBase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "available_filters",
+                      "locations",
+                      "languages",
+                      "categories"
+                    ],
+                    "description": "Art der Basis-Operation"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content Analysis Basis-Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "filters": {
+                                  "type": "object",
+                                  "description": "Available filters for content analysis"
+                                },
+                                "locations": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "location_code": {
+                                        "type": "integer"
+                                      },
+                                      "location_name": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "description": "Available locations"
+                                },
+                                "languages": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "language_code": {
+                                        "type": "string"
+                                      },
+                                      "language_name": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "description": "Available languages"
+                                },
+                                "categories": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "category_id": {
+                                        "type": "integer"
+                                      },
+                                      "category_name": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "description": "Available categories"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_analysis_search": {
+      "post": {
+        "summary": "📊 Content Analysis Suche",
+        "description": "Content Analysis Suche und Zusammenfassung: Detaillierte Zitationsdaten für Keywords abrufen, Content-Übersichten erstellen, Keyword-Performance analysieren. Bietet umfassende Content-Analyse für SEO und Content-Marketing.",
+        "operationId": "contentAnalysisSearch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "search_live",
+                      "summary_live"
+                    ],
+                    "description": "Art der Such-Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Target keyword for analysis",
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "pattern": "^[a-zA-Z0-9\\s-]+$"
+                  },
+                  "keyword_fields": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "description": "Filter by title field"
+                      },
+                      "main_title": {
+                        "type": "string",
+                        "description": "Filter by main title field"
+                      },
+                      "previous_title": {
+                        "type": "string",
+                        "description": "Filter by previous title field"
+                      },
+                      "snippet": {
+                        "type": "string",
+                        "description": "Filter by snippet field"
+                      }
+                    },
+                    "description": "Target keyword fields and keywords"
+                  },
+                  "page_type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "ecommerce",
+                        "news",
+                        "blogs",
+                        "message-boards",
+                        "organization"
+                      ]
+                    },
+                    "description": "Target page types",
+                    "maxItems": 5
+                  },
+                  "search_mode": {
+                    "type": "string",
+                    "enum": [
+                      "as_is",
+                      "one_per_domain"
+                    ],
+                    "description": "Results grouping type",
+                    "default": "as_is"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Maximum number of results to return",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 10
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "description": "Offset in the results array",
+                    "minimum": 0,
+                    "default": 0
+                  },
+                  "filters": {
+                    "type": "array",
+                    "description": "Array of results filtering parameters",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "description": "Filter expression"
+                    }
+                  },
+                  "order_by": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Results sorting rules",
+                    "maxItems": 3
+                  },
+                  "positive_connotation_threshold": {
+                    "type": "number",
+                    "description": "Positive connotation threshold (0-1)",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0.4
+                  },
+                  "sentiments_connotation_threshold": {
+                    "type": "number",
+                    "description": "Sentiment connotation threshold (0-1)",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0.4
+                  },
+                  "internal_list_limit": {
+                    "type": "integer",
+                    "description": "Maximum number of elements within internal arrays",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content Analysis Suche erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string",
+                                  "description": "Analyzed keyword"
+                                },
+                                "content_info": {
+                                  "type": "object",
+                                  "properties": {
+                                    "sentiment_connotations": {
+                                      "type": "object",
+                                      "description": "Sentiment analysis data"
+                                    },
+                                    "connotation_types": {
+                                      "type": "object",
+                                      "description": "Connotation types"
+                                    },
+                                    "text_category": {
+                                      "type": "integer",
+                                      "description": "Text category ID"
+                                    }
+                                  }
+                                },
+                                "keyword_data": {
+                                  "type": "object",
+                                  "properties": {
+                                    "keyword_info": {
+                                      "type": "object",
+                                      "properties": {
+                                        "cpc": {
+                                          "type": "number",
+                                          "description": "Cost per click"
+                                        },
+                                        "search_volume": {
+                                          "type": "integer",
+                                          "description": "Monthly search volume"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "domain": {
+                                  "type": "string",
+                                  "description": "Domain name"
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "description": "Page title"
+                                },
+                                "snippet": {
+                                  "type": "string",
+                                  "description": "Page snippet"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "❌ Fehler: Ungültige Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Missing required parameter: keyword"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_analysis_sentiment": {
+      "post": {
+        "summary": "📊 Content Analysis Sentiment",
+        "description": "Content Analysis Sentiment und Bewertungen: Sentiment-Analyse für Keywords durchführen, Bewertungsverteilungen analysieren, emotionale Connotations messen. Bietet detaillierte Sentiment-Insights für Content-Strategien.",
+        "operationId": "contentAnalysisSentiment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "sentiment_analysis_live",
+                      "rating_distribution_live"
+                    ],
+                    "description": "Art der Sentiment-Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Target keyword for sentiment analysis",
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "pattern": "^[a-zA-Z0-9\\s-]+$"
+                  },
+                  "keyword_fields": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "main_title": {
+                        "type": "string"
+                      },
+                      "previous_title": {
+                        "type": "string"
+                      },
+                      "snippet": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "Target keyword fields"
+                  },
+                  "page_type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "ecommerce",
+                        "news",
+                        "blogs",
+                        "message-boards",
+                        "organization"
+                      ]
+                    },
+                    "description": "Target page types"
+                  },
+                  "filters": {
+                    "type": "array",
+                    "description": "Array of filtering parameters",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "description": "Filter expression"
+                    }
+                  },
+                  "positive_connotation_threshold": {
+                    "type": "number",
+                    "description": "Positive connotation threshold (0-1)",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0.4
+                  },
+                  "sentiments_connotation_threshold": {
+                    "type": "number",
+                    "description": "Sentiment connotation threshold (0-1)",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0.4
+                  },
+                  "internal_list_limit": {
+                    "type": "integer",
+                    "description": "Maximum number of elements within internal arrays",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "keyword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content Analysis Sentiment erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "sentiment_analysis": {
+                                  "type": "object",
+                                  "properties": {
+                                    "sentiment_connotations": {
+                                      "type": "object",
+                                      "properties": {
+                                        "anger": {
+                                          "type": "number"
+                                        },
+                                        "joy": {
+                                          "type": "number"
+                                        },
+                                        "fear": {
+                                          "type": "number"
+                                        },
+                                        "sadness": {
+                                          "type": "number"
+                                        },
+                                        "surprise": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    },
+                                    "connotation_types": {
+                                      "type": "object",
+                                      "properties": {
+                                        "positive": {
+                                          "type": "number"
+                                        },
+                                        "negative": {
+                                          "type": "number"
+                                        },
+                                        "neutral": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "rating_distribution": {
+                                  "type": "object",
+                                  "properties": {
+                                    "rating_1": {
+                                      "type": "integer"
+                                    },
+                                    "rating_2": {
+                                      "type": "integer"
+                                    },
+                                    "rating_3": {
+                                      "type": "integer"
+                                    },
+                                    "rating_4": {
+                                      "type": "integer"
+                                    },
+                                    "rating_5": {
+                                      "type": "integer"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_analysis_trends": {
+      "post": {
+        "summary": "📊 Content Analysis Trends",
+        "description": "Content Analysis Trends und Kategorien: Phrase-Trends über Zeit verfolgen, Kategorie-Trends analysieren, zeitbasierte Content-Performance messen. Bietet detaillierte Trend-Insights für Content-Strategien und Marktanalyse.",
+        "operationId": "contentAnalysisTrends",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "phrase_trends_live",
+                      "category_trends_live"
+                    ],
+                    "description": "Art der Trends-Operation"
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "description": "Target keyword for trend analysis",
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "pattern": "^[a-zA-Z0-9\\s-]+$"
+                  },
+                  "keyword_fields": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "main_title": {
+                        "type": "string"
+                      },
+                      "previous_title": {
+                        "type": "string"
+                      },
+                      "snippet": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "Target keyword fields"
+                  },
+                  "page_type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "ecommerce",
+                        "news",
+                        "blogs",
+                        "message-boards",
+                        "organization"
+                      ]
+                    },
+                    "description": "Target page types"
+                  },
+                  "filters": {
+                    "type": "array",
+                    "description": "Array of filtering parameters",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "description": "Filter expression"
+                    }
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Starting date of the time range (YYYY-MM-DD)",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "Ending date of the time range (YYYY-MM-DD)",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_group": {
+                    "type": "string",
+                    "enum": [
+                      "day",
+                      "week",
+                      "month"
+                    ],
+                    "description": "Date grouping type",
+                    "default": "month"
+                  },
+                  "internal_list_limit": {
+                    "type": "integer",
+                    "description": "Maximum number of elements within internal arrays",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "keyword",
+                  "date_from"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content Analysis Trends erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "phrase_trends": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "date": {
+                                        "type": "string"
+                                      },
+                                      "citations_count": {
+                                        "type": "integer"
+                                      },
+                                      "sentiment_score": {
+                                        "type": "number"
+                                      }
+                                    }
+                                  }
+                                },
+                                "category_trends": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "category_id": {
+                                        "type": "integer"
+                                      },
+                                      "category_name": {
+                                        "type": "string"
+                                      },
+                                      "trend_data": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "date": {
+                                              "type": "string"
+                                            },
+                                            "citations_count": {
+                                              "type": "integer"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "x-best-practices": {
+    "date_ranges": {
+      "trend_analysis": {
+        "description": "Für aussagekräftige Content-Trend-Analysen",
+        "recommended_range": "12 Monate",
+        "date_from": "2023-12-19",
+        "date_to": "2024-12-19"
+      },
+      "sentiment_analysis": {
+        "description": "Für detaillierte Sentiment-Analysen",
+        "recommended_range": "6 Monate",
+        "date_from": "2024-06-19",
+        "date_to": "2024-12-19"
+      },
+      "quick_analysis": {
+        "description": "Für schnelle aktuelle Content-Analysen",
+        "recommended_range": "3 Monate",
+        "date_from": "2024-09-19",
+        "date_to": "2024-12-19"
+      }
+    },
+    "error_handling": {
+      "common_errors": {
+        "400": "Prüfe Parameter-Format (YYYY-MM-DD für Daten, gültige Keywords)",
+        "404": "Keyword nicht gefunden oder keine Daten verfügbar",
+        "405": "API temporär nicht verfügbar - verwende alternative Endpoints",
+        "429": "Rate Limit erreicht - warte 1 Minute"
+      },
+      "content_analysis_specific": {
+        "description": "Content Analysis spezifische Fehlerbehandlung",
+        "no_data_found": "Keyword hat keine verfügbaren Zitationsdaten",
+        "threshold_too_high": "Sentiment-Threshold zu hoch - reduziere Werte",
+        "date_range_too_large": "Datumsbereich zu groß - begrenze auf 24 Monate"
+      }
+    },
+    "parameter_optimization": {
+      "germany_analysis": {
+        "page_type": ["ecommerce", "blogs"],
+        "sentiment_threshold": 0.3,
+        "description": "Standard-Parameter für deutsche Content-Analysen"
+      },
+      "us_analysis": {
+        "page_type": ["ecommerce", "news", "blogs"],
+        "sentiment_threshold": 0.4,
+        "description": "Standard-Parameter für US-Content-Analysen"
+      },
+      "ecommerce_focus": {
+        "page_type": ["ecommerce"],
+        "search_mode": "one_per_domain",
+        "description": "Für E-Commerce-spezifische Content-Analysen"
+      }
+    },
+    "workflow_recommendations": {
+      "complete_content_analysis": [
+        "1. Content Analysis Search (Basis-Zitationsdaten)",
+        "2. Content Analysis Summary (Übersicht)",
+        "3. Content Analysis Sentiment (Emotionale Analyse)",
+        "4. Content Analysis Trends (Zeitliche Entwicklung)"
+      ],
+      "competitor_content_analysis": [
+        "1. Content Analysis Search (Konkurrenz-Keywords)",
+        "2. Content Analysis Sentiment (Sentiment-Vergleich)",
+        "3. Content Analysis Trends (Trend-Vergleich)"
+      ],
+      "content_strategy_development": [
+        "1. Content Analysis Base (Verfügbare Kategorien)",
+        "2. Content Analysis Search (Keyword-Performance)",
+        "3. Content Analysis Trends (Trend-Identifikation)",
+        "4. Content Analysis Sentiment (Emotionale Optimierung)"
+      ]
+    },
+    "performance_tips": {
+      "keyword_optimization": {
+        "max_length": "255 Zeichen pro Keyword",
+        "min_length": "3 Zeichen pro Keyword",
+        "allowed_chars": "Buchstaben, Zahlen, Leerzeichen, Bindestriche",
+        "forbidden_chars": "UTF-Symbole, Emojis, Sonderzeichen"
+      },
+      "filter_optimization": {
+        "max_filters": "8 Filter pro Request",
+        "use_page_types": "Begrenze auf relevante Page-Types",
+        "use_search_mode": "one_per_domain für bessere Ergebnisse",
+        "optimize_thresholds": "Angepasste Sentiment-Thresholds verwenden"
+      },
+      "response_optimization": {
+        "limit_results": "Begrenze auf 10-50 Ergebnisse pro Request",
+        "use_offset": "Für Pagination bei großen Datensätzen",
+        "internal_list_limit": "Begrenze interne Arrays auf 1-5 Elemente",
+        "cache_results": "Speichere Ergebnisse für wiederholte Analysen"
+      },
+      "cost_optimization": {
+        "start_small": "Beginne mit wenigen Keywords",
+        "use_filters": "Begrenze Ergebnisse mit Filtern",
+        "monitor_usage": "Überwache API-Usage und Costs",
+        "optimize_thresholds": "Verwende angepasste Thresholds"
+      }
+    },
+    "content_analysis_specific": {
+      "sentiment_thresholds": {
+        "conservative": {
+          "positive_connotation": 0.6,
+          "sentiments_connotation": 0.6,
+          "description": "Für präzise Sentiment-Analysen"
+        },
+        "balanced": {
+          "positive_connotation": 0.4,
+          "sentiments_connotation": 0.4,
+          "description": "Standard-Thresholds für ausgewogene Analysen"
+        },
+        "inclusive": {
+          "positive_connotation": 0.2,
+          "sentiments_connotation": 0.2,
+          "description": "Für umfassende Sentiment-Erfassung"
+        }
+      },
+      "page_type_recommendations": {
+        "ecommerce": "Für Produkt- und Verkaufsanalysen",
+        "news": "Für Nachrichten und aktuelle Themen",
+        "blogs": "Für Blog-Content und Meinungen",
+        "message-boards": "Für Community-Diskussionen",
+        "organization": "Für Unternehmens-Content"
+      },
+      "trend_analysis_tips": {
+        "date_grouping": "Verwende 'month' für langfristige Trends",
+        "minimum_period": "Mindestens 3 Monate für aussagekräftige Trends",
+        "maximum_period": "Maximal 24 Monate für aktuelle Relevanz",
+        "internal_limits": "Begrenze auf 1-3 Elemente für bessere Performance"
+      }
+    }
+  }
+}

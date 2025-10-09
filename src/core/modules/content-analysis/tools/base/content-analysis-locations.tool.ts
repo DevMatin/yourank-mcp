@@ -1,24 +1,25 @@
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { z } from 'zod';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
 export class ContentAnalysisLocationsTool extends BaseTool {
-  constructor(dataForSEOClient) {
+  constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
-  getName() {
+  getName(): string {
     return 'content_analysis_locations';
   }
 
-  getDescription() {
+  getDescription(): string {
     return 'You will receive the list of locations by this API call.';
   }
 
-  getParams() {
+  getParams(): z.ZodRawShape {
     return {};
   }
 
-  async handle(params) {
+  async handle(params: any): Promise<any> {
     try {
       const response = await this.dataForSEOClient.makeRequest('/v3/content_analysis/locations', 'GET');
       return this.validateAndFormatResponse(response);

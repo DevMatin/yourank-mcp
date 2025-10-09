@@ -7,9 +7,7 @@ import { BacklinksApiModule } from '../modules/backlinks/backlinks-api.module.js
 import { GoogleBusinessApiModule } from '../modules/google-business-api/google-business-api.module.js';
 import { TrustpilotApiModule } from '../modules/trustpilot-api/trustpilot-api.module.js';
 import { TripadvisorApiModule } from '../modules/tripadvisor-api/tripadvisor-api.module.js';
-import { GoogleMapsApiModule } from '../modules/google-maps-api/google-maps-api.module.js';
 import { SocialMediaApiModule } from '../modules/social-media-api/social-media-api.module.js';
-import { BusinessUtilitiesApiModule } from '../modules/business-utilities-api/business-utilities-api.module.js';
 import { DomainAnalyticsApiModule } from '../modules/domain-analytics/domain-analytics-api.module.js';
 import { BaseModule } from '../modules/base.module.js';
 import { EnabledModules, isModuleEnabled } from '../config/modules.config.js';
@@ -53,14 +51,8 @@ export class ModuleLoaderService {
     if (isModuleEnabled('TRIPADVISOR', enabledModules)) {
       modules.push(new TripadvisorApiModule(dataForSEOClient));
     }
-    if (isModuleEnabled('GOOGLE_MAPS', enabledModules)) {
-      modules.push(new GoogleMapsApiModule(dataForSEOClient));
-    }
     if (isModuleEnabled('SOCIAL_MEDIA', enabledModules)) {
       modules.push(new SocialMediaApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('BUSINESS_UTILITIES', enabledModules)) {
-      modules.push(new BusinessUtilitiesApiModule(dataForSEOClient));
     }
     if (isModuleEnabled('DOMAIN_ANALYTICS', enabledModules)) {
       modules.push(new DomainAnalyticsApiModule(dataForSEOClient));

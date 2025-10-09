@@ -1,21 +1,32 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
-import * as ContentAnalysisTools from './tools/index.js';
+
+// Import all Content Analysis tools using barrel exports
+import * as BaseTools from './tools/base/index.js';
+import * as SearchTools from './tools/search/index.js';
+import * as SentimentTools from './tools/sentiment/index.js';
+import * as TrendsTools from './tools/trends/index.js';
 
 export class ContentAnalysisApiModule extends BaseModule {
   getTools(): Record<string, ToolDefinition> {
-    // Erstelle Instanzen aller verfügbaren Content Analysis Tools
     const tools = [
-      new ContentAnalysisTools.ContentAnalysisSearchTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisSummaryTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisPhraseTrendsTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisIdListTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisAvailableFiltersTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisLocationsTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisLanguagesTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisCategoriesTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisSentimentAnalysisTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisRatingDistributionTool(this.dataForSEOClient),
-      new ContentAnalysisTools.ContentAnalysisCategoryTrendsTool(this.dataForSEOClient),
+      // Base Content Analysis Tools
+      new BaseTools.ContentAnalysisIdListTool(this.dataForSEOClient),
+      new BaseTools.ContentAnalysisAvailableFiltersTool(this.dataForSEOClient),
+      new BaseTools.ContentAnalysisLocationsTool(this.dataForSEOClient),
+      new BaseTools.ContentAnalysisLanguagesTool(this.dataForSEOClient),
+      new BaseTools.ContentAnalysisCategoriesTool(this.dataForSEOClient),
+
+      // Search Content Analysis Tools
+      new SearchTools.ContentAnalysisSearchTool(this.dataForSEOClient),
+      new SearchTools.ContentAnalysisSummaryTool(this.dataForSEOClient),
+
+      // Sentiment Content Analysis Tools
+      new SentimentTools.ContentAnalysisSentimentAnalysisTool(this.dataForSEOClient),
+      new SentimentTools.ContentAnalysisRatingDistributionTool(this.dataForSEOClient),
+
+      // Trends Content Analysis Tools
+      new TrendsTools.ContentAnalysisPhraseTrendsTool(this.dataForSEOClient),
+      new TrendsTools.ContentAnalysisCategoryTrendsTool(this.dataForSEOClient),
     ];
 
     return tools.reduce((acc, tool) => ({

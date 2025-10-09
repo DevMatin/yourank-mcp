@@ -1,18 +1,18 @@
 import { z } from 'zod';
-import { BaseTool } from '../../base.tool.js';
-import { DataForSEOClient } from '../../../client/dataforseo.client.js';
+import { BaseTool } from '../../../base.tool.js';
+import { DataForSEOClient } from '../../../../client/dataforseo.client.js';
 
-export class ContentAnalysisSentimentAnalysisTool extends BaseTool {
+export class ContentAnalysisRatingDistributionTool extends BaseTool {
   constructor(dataForSEOClient: DataForSEOClient) {
     super(dataForSEOClient);
   }
 
   getName(): string {
-    return 'content_analysis_sentiment_analysis';
+    return 'content_analysis_rating_distribution';
   }
 
   getDescription(): string {
-    return 'This endpoint will provide you with sentiment analysis data for the citations available for the target keyword.';
+    return 'This endpoint will provide you with rating distribution data for the keyword and other parameters specified in the request.';
   }
 
   getParams(): z.ZodRawShape {
@@ -32,7 +32,7 @@ export class ContentAnalysisSentimentAnalysisTool extends BaseTool {
 
   async handle(params: any): Promise<any> {
     try {
-      const response = await this.dataForSEOClient.makeRequest('/v3/content_analysis/sentiment_analysis/live', 'POST', [{
+      const response = await this.dataForSEOClient.makeRequest('/v3/content_analysis/rating_distribution/live', 'POST', [{
         keyword: params.keyword,
         location_code: params.location_code,
         language_code: params.language_code,
