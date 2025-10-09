@@ -4699,35 +4699,12 @@ app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
         let endpoint;
         let requestData;
 
-        // Convert location_name to location_code for DataForSEO Trends API
-        let location_code = 2840; // Default: United States
-        if (location_name && location_name !== 'United States') {
-            console.log(`🔧 Converting location_name "${location_name}" to location_code...`);
-            try {
-                const locationsResponse = await makeDataForSEORequest('/v3/keywords_data/google/locations', null, 'GET');
-                if (locationsResponse.status === 200 && locationsResponse.body.tasks && locationsResponse.body.tasks[0].result) {
-                    const locations = locationsResponse.body.tasks[0].result;
-                    let matchingLocation = locations.find(loc =>
-                        loc.location_name && loc.location_name.toLowerCase().includes(location_name.toLowerCase())
-                    );
-                    if (matchingLocation) {
-                        location_code = matchingLocation.location_code;
-                        console.log(`✅ Found location_code: ${location_code} for "${location_name}"`);
-                    } else {
-                        console.log(`⚠️ No matching location found for "${location_name}", using default: ${location_code}`);
-                    }
-                }
-            } catch (error) {
-                console.log(`⚠️ Error converting location, using default: ${location_code}`);
-            }
-        }
-
         switch (type) {
             case 'demography_live':
                 endpoint = '/v3/keywords_data/dataforseo_trends/demography/live';
                 requestData = [{
                     keywords,
-                    location_code: location_code,
+                    location_name: location_name || 'United States',
                     language_code: language_code || 'en'
                 }];
                 break;
@@ -4736,7 +4713,7 @@ app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
                 endpoint = '/v3/keywords_data/dataforseo_trends/merged_data/live';
                 requestData = [{
                     keywords,
-                    location_code: location_code,
+                    location_name: location_name || 'United States',
                     language_code: language_code || 'en'
                 }];
                 break;
@@ -4745,21 +4722,12 @@ app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
                 return res.status(400).json({ error: `Unsupported type: ${type}` });
         }
 
-        console.log('🔧 DataForSEO Trends Request Data:', JSON.stringify(requestData, null, 2));
-
         const dataforseoResponse = await makeDataForSEORequest(endpoint, requestData, 'POST');
 
         if (dataforseoResponse.status === 200) {
             res.json(dataforseoResponse.body);
         } else {
-            console.error('DataForSEO Trends API Error:', {
-                status: dataforseoResponse.status,
-                body: dataforseoResponse.body
-            });
-            res.status(dataforseoResponse.status).json({ 
-                error: 'DataForSEO API returned an error',
-                details: dataforseoResponse.body
-            });
+            res.status(dataforseoResponse.status).json({ error: 'DataForSEO API returned an error' });
         }
     } catch (error) {
         console.error('Error in Keywords DataForSEO Trends route:', error);

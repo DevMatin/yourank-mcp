@@ -1,0 +1,1764 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Keywords Data APIs - Vollständig Optimiert",
+    "description": "🚀 Vollständig optimierte Keywords Data APIs für Custom GPT - Intelligente Parameter, Fehlerbehandlung & Best Practices!",
+    "version": "3.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/keywords_core": {
+      "post": {
+        "summary": "💰 Keywords Kernfunktionen",
+        "description": "Verwaltung von Keywords Data Tasks: Liste aller Task-IDs abrufen, Fehler-Analyse durchführen, Task-Historie anzeigen. Ermöglicht Überwachung und Verwaltung aller Keywords Data API-Aktivitäten.",
+        "operationId": "keywordsCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "id_list",
+                      "errors"
+                    ],
+                    "description": "Art der Kern-Operation"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Startdatum (YYYY-MM-DD) - Standard: Letzte 30 Tage",
+                    "default": "2024-11-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "Enddatum (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "status_code": {
+                            "type": "integer"
+                          },
+                          "status_message": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "❌ Fehler: Ungültige Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid date format. Use YYYY-MM-DD"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_google_ads": {
+      "post": {
+        "summary": "💰 Google Ads Keywords",
+        "description": "Google Ads Keyword-Analyse: Suchvolumen-Daten abrufen, Keywords für Websites finden, verwandte Keywords entdecken, Ad-Traffic-Schätzungen erhalten. Bietet umfassende Google Ads-basierte Keyword-Insights für SEO und PPC-Planung.",
+        "operationId": "keywordsGoogleAds",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "keywords_for_site_task_post",
+                      "keywords_for_site_tasks_ready",
+                      "keywords_for_site_task_get",
+                      "keywords_for_site_live",
+                      "keywords_for_keywords_task_post",
+                      "keywords_for_keywords_tasks_ready",
+                      "keywords_for_keywords_task_get",
+                      "keywords_for_keywords_live",
+                      "search_volume_task_post",
+                      "search_volume_tasks_ready",
+                      "search_volume_task_get",
+                      "search_volume_live",
+                      "ad_traffic_by_keywords_task_post",
+                      "ad_traffic_by_keywords_tasks_ready",
+                      "ad_traffic_by_keywords_task_get",
+                      "ad_traffic_by_keywords_live"
+                    ],
+                    "description": "Art der Google Ads Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "minLength": 3,
+                      "pattern": "^[a-zA-Z0-9\\s-]+$"
+                    },
+                    "description": "Array of keywords to analyze (max 1000, max 80 chars each, max 10 words each)",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Target website URL (für keywords_for_site)",
+                    "pattern": "^(https?://)?[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(/.*)?$",
+                    "maxLength": 255
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name - Standard: United States",
+                    "default": "United States",
+                    "enum": [
+                      "United States",
+                      "Germany",
+                      "United Kingdom",
+                      "France",
+                      "Canada",
+                      "Australia",
+                      "Japan",
+                      "Brazil",
+                      "India",
+                      "Spain",
+                      "Italy",
+                      "Netherlands",
+                      "Sweden",
+                      "Norway",
+                      "Denmark",
+                      "Finland",
+                      "Austria",
+                      "Switzerland",
+                      "Belgium",
+                      "Poland"
+                    ]
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code - Standard: en",
+                    "default": "en",
+                    "enum": [
+                      "en",
+                      "de",
+                      "fr",
+                      "es",
+                      "it",
+                      "pt",
+                      "nl",
+                      "sv",
+                      "no",
+                      "da",
+                      "fi",
+                      "pl",
+                      "ja",
+                      "ko",
+                      "zh",
+                      "ar",
+                      "ru",
+                      "tr",
+                      "hi",
+                      "th"
+                    ]
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type - Standard: desktop",
+                    "default": "desktop"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)",
+                    "pattern": "^[a-f0-9-]{36}$"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD) - Standard: Letzte 12 Monate",
+                    "default": "2023-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "keywords_for_site"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "target"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(keywords_for_keywords|search_volume|ad_traffic)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "keywords"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(task_get|tasks_ready)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Ads Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "API Version"
+                    },
+                    "status_code": {
+                      "type": "integer",
+                      "description": "HTTP Status Code"
+                    },
+                    "status_message": {
+                      "type": "string",
+                      "description": "Status Message"
+                    },
+                    "time": {
+                      "type": "string",
+                      "description": "Processing Time"
+                    },
+                    "cost": {
+                      "type": "number",
+                      "description": "API Cost"
+                    },
+                    "tasks_count": {
+                      "type": "integer",
+                      "description": "Number of Tasks"
+                    },
+                    "tasks_error": {
+                      "type": "integer",
+                      "description": "Number of Task Errors"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Task ID"
+                          },
+                          "status_code": {
+                            "type": "integer",
+                            "description": "Task Status Code"
+                          },
+                          "status_message": {
+                            "type": "string",
+                            "description": "Task Status Message"
+                          },
+                          "time": {
+                            "type": "string",
+                            "description": "Task Processing Time"
+                          },
+                          "cost": {
+                            "type": "number",
+                            "description": "Task Cost"
+                          },
+                          "result_count": {
+                            "type": "integer",
+                            "description": "Number of Results"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "API Path"
+                          },
+                          "data": {
+                            "type": "object",
+                            "description": "Request Data"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string",
+                                  "description": "Keyword"
+                                },
+                                "location_code": {
+                                  "type": "integer",
+                                  "description": "Location Code"
+                                },
+                                "language_code": {
+                                  "type": "string",
+                                  "description": "Language Code"
+                                },
+                                "search_partners": {
+                                  "type": "boolean",
+                                  "description": "Search Partners Included"
+                                },
+                                "competition": {
+                                  "type": "number",
+                                  "description": "Competition Level (0-1)"
+                                },
+                                "cpc": {
+                                  "type": "number",
+                                  "description": "Cost Per Click"
+                                },
+                                "search_volume": {
+                                  "type": "integer",
+                                  "description": "Monthly Search Volume"
+                                },
+                                "categories": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "Keyword Categories"
+                                },
+                                "monthly_searches": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "year": {
+                                        "type": "integer",
+                                        "description": "Year"
+                                      },
+                                      "month": {
+                                        "type": "integer",
+                                        "description": "Month"
+                                      },
+                                      "search_volume": {
+                                        "type": "integer",
+                                        "description": "Monthly Search Volume"
+                                      }
+                                    }
+                                  },
+                                  "description": "Historical Monthly Search Data"
+                                }
+                              }
+                            },
+                            "description": "Keyword Results"
+                          }
+                        }
+                      },
+                      "description": "Task Results"
+                    },
+                    "_truncated": {
+                      "type": "boolean",
+                      "description": "Response was truncated due to size limits"
+                    },
+                    "_message": {
+                      "type": "string",
+                      "description": "Truncation message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "❌ Fehler: Ungültige Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Missing required parameter: keywords for this operation type"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "❌ Fehler: Task nicht gefunden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Task ID not found or expired"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "❌ Fehler: Rate Limit erreicht",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Rate limit exceeded. Please wait before retrying."
+                    },
+                    "retry_after": {
+                      "type": "integer",
+                      "description": "Seconds to wait before retry"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_google_trends": {
+      "post": {
+        "summary": "💰 Google Trends Keywords",
+        "description": "Google Trends Keyword-Analyse: Trend-Entwicklung über Zeit verfolgen, demografische Aufschlüsselung der Keyword-Popularität, saisonale Muster identifizieren. Bietet detaillierte Trend-Insights für Keyword-Strategien und Marktanalyse.",
+        "operationId": "keywordsGoogleTrends",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "explore_task_post",
+                      "explore_tasks_ready",
+                      "explore_task_get",
+                      "explore_live",
+                      "demography_task_post",
+                      "demography_tasks_ready",
+                      "demography_task_get",
+                      "demography_live",
+                      "merged_data_live"
+                    ],
+                    "description": "Art der Google Trends Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "minLength": 3,
+                      "pattern": "^[a-zA-Z0-9\\s-]+$"
+                    },
+                    "description": "Array of keywords to analyze (max 1000, max 80 chars each)",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name - Standard: United States",
+                    "default": "United States",
+                    "enum": [
+                      "United States",
+                      "Germany",
+                      "United Kingdom",
+                      "France",
+                      "Canada",
+                      "Australia",
+                      "Japan",
+                      "Brazil",
+                      "India",
+                      "Spain",
+                      "Italy",
+                      "Netherlands",
+                      "Sweden",
+                      "Norway",
+                      "Denmark",
+                      "Finland",
+                      "Austria",
+                      "Switzerland",
+                      "Belgium",
+                      "Poland"
+                    ]
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code - Standard: en",
+                    "default": "en",
+                    "enum": [
+                      "en",
+                      "de",
+                      "fr",
+                      "es",
+                      "it",
+                      "pt",
+                      "nl",
+                      "sv",
+                      "no",
+                      "da",
+                      "fi",
+                      "pl",
+                      "ja",
+                      "ko",
+                      "zh",
+                      "ar",
+                      "ru",
+                      "tr",
+                      "hi",
+                      "th"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)",
+                    "pattern": "^[a-f0-9-]{36}$"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD) - Standard: Letzte 12 Monate für Trends",
+                    "default": "2023-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(explore|demography|merged_data)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "keywords"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(task_get|tasks_ready)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google Trends Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "trends_data": {
+                                  "type": "object"
+                                },
+                                "demography": {
+                                  "type": "object"
+                                },
+                                "merged_data": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "❌ Fehler: Ungültige Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Missing required parameter: keywords for this operation type"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_dataforseo_trends": {
+      "post": {
+        "summary": "💰 DataForSEO Trends",
+        "description": "DataForSEO eigene Trends-Daten: Erweiterte demografische Keyword-Analyse, kombinierte Trend-Daten mit allen Metriken, präzise Trend-Insights. Bietet hochwertige Trend-Daten für professionelle Keyword-Analysen.\n\n🔧 FEHLERBEHANDLUNG: Bei API-Fehlern verwende Google Trends als Fallback!",
+        "operationId": "keywordsDataForSeoTrends",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "demography_live",
+                      "merged_data_live"
+                    ],
+                    "description": "Art der DataForSEO Trends Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "minLength": 3,
+                      "pattern": "^[a-zA-Z0-9\\s-]+$"
+                    },
+                    "description": "Array of keywords to analyze (max 1000, max 80 chars each)",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name - Standard: United States",
+                    "default": "United States",
+                    "enum": [
+                      "United States",
+                      "Germany",
+                      "United Kingdom",
+                      "France",
+                      "Canada",
+                      "Australia",
+                      "Japan",
+                      "Brazil",
+                      "India",
+                      "Spain",
+                      "Italy",
+                      "Netherlands",
+                      "Sweden",
+                      "Norway",
+                      "Denmark",
+                      "Finland",
+                      "Austria",
+                      "Switzerland",
+                      "Belgium",
+                      "Poland"
+                    ]
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code - Standard: en",
+                    "default": "en",
+                    "enum": [
+                      "en",
+                      "de",
+                      "fr",
+                      "es",
+                      "it",
+                      "pt",
+                      "nl",
+                      "sv",
+                      "no",
+                      "da",
+                      "fi",
+                      "pl",
+                      "ja",
+                      "ko",
+                      "zh",
+                      "ar",
+                      "ru",
+                      "tr",
+                      "hi",
+                      "th"
+                    ]
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD) - Standard: Letzte 12 Monate",
+                    "default": "2023-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type",
+                  "keywords"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "DataForSEO Trends Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "demography": {
+                                  "type": "object"
+                                },
+                                "merged_data": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "❌ Fehler: Ungültige Parameter (z.B. 'language_name' statt 'language_code')",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid Field: 'language_name'. Use 'language_code' instead."
+                    },
+                    "fallback_suggestion": {
+                      "type": "string",
+                      "example": "Try using Google Trends endpoint as fallback for similar data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "❌ Fehler: API-Limit oder temporärer Fehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "API temporarily unavailable"
+                    },
+                    "fallback_suggestion": {
+                      "type": "string",
+                      "example": "Use Google Trends endpoint for similar trend analysis"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_bing": {
+      "post": {
+        "summary": "💰 Bing Keywords",
+        "description": "Bing Keyword-Analyse: Bing-Suchvolumen-Daten abrufen, Keywords für Websites finden, Bing-Keyword-Vorschläge erhalten. Bietet alternative Suchvolumen-Daten und Keyword-Insights für Multi-Platform-SEO-Strategien.",
+        "operationId": "keywordsBing",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "search_volume_task_post",
+                      "search_volume_tasks_ready",
+                      "search_volume_task_get",
+                      "search_volume_live",
+                      "keywords_for_site_task_post",
+                      "keywords_for_site_tasks_ready",
+                      "keywords_for_site_task_get",
+                      "keywords_for_site_live",
+                      "keywords_for_keywords_task_post",
+                      "keywords_for_keywords_tasks_ready",
+                      "keywords_for_keywords_task_get",
+                      "keywords_for_keywords_live"
+                    ],
+                    "description": "Art der Bing Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "minLength": 3,
+                      "pattern": "^[a-zA-Z0-9\\s-]+$"
+                    },
+                    "description": "Array of keywords to analyze (max 200 für Bing, max 80 chars each)",
+                    "maxItems": 200,
+                    "minItems": 1
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Target website URL (für keywords_for_site)",
+                    "pattern": "^(https?://)?[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(/.*)?$",
+                    "maxLength": 255
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name - Standard: United States",
+                    "default": "United States",
+                    "enum": [
+                      "United States",
+                      "Germany",
+                      "United Kingdom",
+                      "France",
+                      "Canada",
+                      "Australia",
+                      "Japan",
+                      "Brazil",
+                      "India",
+                      "Spain",
+                      "Italy",
+                      "Netherlands",
+                      "Sweden",
+                      "Norway",
+                      "Denmark",
+                      "Finland",
+                      "Austria",
+                      "Switzerland",
+                      "Belgium",
+                      "Poland"
+                    ]
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code - Standard: en",
+                    "default": "en",
+                    "enum": [
+                      "en",
+                      "de",
+                      "fr",
+                      "es",
+                      "it",
+                      "pt",
+                      "nl",
+                      "sv",
+                      "no",
+                      "da",
+                      "fi",
+                      "pl",
+                      "ja",
+                      "ko",
+                      "zh",
+                      "ar",
+                      "ru",
+                      "tr",
+                      "hi",
+                      "th"
+                    ]
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type - Standard: desktop",
+                    "default": "desktop"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)",
+                    "pattern": "^[a-f0-9-]{36}$"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD) - Standard: Letzte 12 Monate",
+                    "default": "2023-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "keywords_for_site"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "target"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(keywords_for_keywords|search_volume)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "keywords"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(task_get|tasks_ready)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bing Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "search_volume": {
+                                  "type": "integer"
+                                },
+                                "competition": {
+                                  "type": "string"
+                                },
+                                "cpc": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_bing_advanced": {
+      "post": {
+        "summary": "💰 Bing Advanced Keywords",
+        "description": "Bing Advanced Keyword-Analyse: Zielgruppen-Größe schätzen, Keyword-Performance analysieren, historische Suchvolumen-Daten abrufen. Bietet erweiterte Bing-Insights für professionelle PPC-Kampagnen und Audience-Targeting.",
+        "operationId": "keywordsBingAdvanced",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "audience_estimation_job_functions_live",
+                      "audience_estimation_industries_live",
+                      "keyword_performance_task_post",
+                      "keyword_performance_tasks_ready",
+                      "keyword_performance_task_get",
+                      "keyword_performance_live",
+                      "search_volume_history_task_post",
+                      "search_volume_history_tasks_ready",
+                      "search_volume_history_task_get",
+                      "search_volume_history_live"
+                    ],
+                    "description": "Art der Bing Advanced Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "minLength": 3,
+                      "pattern": "^[a-zA-Z0-9\\s-]+$"
+                    },
+                    "description": "Array of keywords to analyze (max 1000, max 80 chars each)",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name - Standard: United States",
+                    "default": "United States",
+                    "enum": [
+                      "United States",
+                      "Germany",
+                      "United Kingdom",
+                      "France",
+                      "Canada",
+                      "Australia",
+                      "Japan",
+                      "Brazil",
+                      "India",
+                      "Spain",
+                      "Italy",
+                      "Netherlands",
+                      "Sweden",
+                      "Norway",
+                      "Denmark",
+                      "Finland",
+                      "Austria",
+                      "Switzerland",
+                      "Belgium",
+                      "Poland"
+                    ]
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code - Standard: en",
+                    "default": "en",
+                    "enum": [
+                      "en",
+                      "de",
+                      "fr",
+                      "es",
+                      "it",
+                      "pt",
+                      "nl",
+                      "sv",
+                      "no",
+                      "da",
+                      "fi",
+                      "pl",
+                      "ja",
+                      "ko",
+                      "zh",
+                      "ar",
+                      "ru",
+                      "tr",
+                      "hi",
+                      "th"
+                    ]
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type - Standard: desktop",
+                    "default": "desktop"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, tasks_ready)",
+                    "pattern": "^[a-f0-9-]{36}$"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD) - Standard: Letzte 12 Monate",
+                    "default": "2023-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(audience_estimation|keyword_performance|search_volume_history)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "keywords"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "(task_get|tasks_ready)"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bing Advanced Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "audience_estimation": {
+                                  "type": "object"
+                                },
+                                "performance": {
+                                  "type": "object"
+                                },
+                                "search_volume_history": {
+                                  "type": "array"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_clickstream": {
+      "post": {
+        "summary": "💰 Clickstream Keywords",
+        "description": "Clickstream-basierte Keyword-Analyse: Erweiterte Suchvolumen-Daten mit Clickstream-Insights, geografische Verteilung analysieren, globale Keyword-Trends verfolgen. Bietet präzise Clickstream-Metriken für professionelle Keyword-Recherche.",
+        "operationId": "keywordsClickstream",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "locations_and_languages_live",
+                      "dataforseo_search_volume_live"
+                    ],
+                    "description": "Art der Clickstream Operation"
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 80,
+                      "minLength": 3,
+                      "pattern": "^[a-zA-Z0-9\\s-]+$"
+                    },
+                    "description": "Array of keywords to analyze (max 1000, max 80 chars each)",
+                    "maxItems": 1000,
+                    "minItems": 1
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Location name - Standard: United States",
+                    "default": "United States",
+                    "enum": [
+                      "United States",
+                      "Germany",
+                      "United Kingdom",
+                      "France",
+                      "Canada",
+                      "Australia",
+                      "Japan",
+                      "Brazil",
+                      "India",
+                      "Spain",
+                      "Italy",
+                      "Netherlands",
+                      "Sweden",
+                      "Norway",
+                      "Denmark",
+                      "Finland",
+                      "Austria",
+                      "Switzerland",
+                      "Belgium",
+                      "Poland"
+                    ]
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Language code - Standard: en",
+                    "default": "en",
+                    "enum": [
+                      "en",
+                      "de",
+                      "fr",
+                      "es",
+                      "it",
+                      "pt",
+                      "nl",
+                      "sv",
+                      "no",
+                      "da",
+                      "fi",
+                      "pl",
+                      "ja",
+                      "ko",
+                      "zh",
+                      "ar",
+                      "ru",
+                      "tr",
+                      "hi",
+                      "th"
+                    ]
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": [
+                      "desktop",
+                      "mobile",
+                      "tablet"
+                    ],
+                    "description": "Device type - Standard: desktop",
+                    "default": "desktop"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Start date (YYYY-MM-DD) - Standard: Letzte 12 Monate",
+                    "default": "2023-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "End date (YYYY-MM-DD) - Standard: Heute",
+                    "default": "2024-12-19",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "pattern": "dataforseo_search_volume"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "keywords"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Clickstream Keywords Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "keyword": {
+                                  "type": "string"
+                                },
+                                "clickstream_data": {
+                                  "type": "object"
+                                },
+                                "locations": {
+                                  "type": "array"
+                                },
+                                "languages": {
+                                  "type": "array"
+                                },
+                                "search_volume": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/keywords_management": {
+      "post": {
+        "summary": "💰 Keywords Verwaltung",
+        "description": "Keywords Data Task-Verwaltung: Laufende Tasks stoppen, verfügbare Filter anzeigen, Task-Status überwachen. Ermöglicht effiziente Verwaltung und Kontrolle aller Keywords Data API-Operationen.",
+        "operationId": "keywordsManagement",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "force_stop",
+                      "available_filters"
+                    ],
+                    "description": "Art der Verwaltungs-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für force_stop)",
+                    "pattern": "^[a-f0-9-]{36}$"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "const": "force_stop"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords Verwaltung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "object",
+                            "properties": {
+                              "force_stop": {
+                                "type": "object"
+                              },
+                              "filters": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "x-best-practices": {
+    "date_ranges": {
+      "trend_analysis": {
+        "description": "Für aussagekräftige Trend-Analysen",
+        "recommended_range": "12 Monate",
+        "date_from": "2023-12-19",
+        "date_to": "2024-12-19"
+      },
+      "seasonal_analysis": {
+        "description": "Für saisonale Muster-Erkennung",
+        "recommended_range": "24 Monate",
+        "date_from": "2022-12-19",
+        "date_to": "2024-12-19"
+      },
+      "quick_analysis": {
+        "description": "Für schnelle aktuelle Analysen",
+        "recommended_range": "3 Monate",
+        "date_from": "2024-09-19",
+        "date_to": "2024-12-19"
+      }
+    },
+    "error_handling": {
+      "dataforseo_trends_fallback": {
+        "description": "Bei DataForSEO Trends Fehlern",
+        "fallback_endpoint": "/v3/keywords_google_trends",
+        "fallback_type": "explore_live",
+        "reason": "Google Trends bietet ähnliche Trend-Daten"
+      },
+      "common_errors": {
+        "400": "Prüfe Parameter-Format (YYYY-MM-DD für Daten, UUID für Task-IDs)",
+        "404": "Task-ID nicht gefunden oder abgelaufen",
+        "405": "API temporär nicht verfügbar - verwende Fallback-Endpoint",
+        "429": "Rate Limit erreicht - warte 1 Minute"
+      },
+      "approval_errors": {
+        "description": "Bei 'The requested action requires approval' Fehlern",
+        "retry_mechanism": "Automatischer Retry nach 2-5 Sekunden",
+        "max_retries": 3,
+        "fallback": "Verwende alternative Endpoints oder reduzierte Parameter"
+      }
+    },
+    "parameter_optimization": {
+      "germany_analysis": {
+        "location_name": "Germany",
+        "language_code": "de",
+        "device": "desktop",
+        "description": "Standard-Parameter für deutsche Analysen"
+      },
+      "us_analysis": {
+        "location_name": "United States",
+        "language_code": "en",
+        "device": "desktop",
+        "description": "Standard-Parameter für US-Analysen"
+      },
+      "mobile_analysis": {
+        "device": "mobile",
+        "description": "Für mobile-spezifische Keyword-Analysen"
+      }
+    },
+    "workflow_recommendations": {
+      "complete_keyword_research": [
+        "1. Google Ads Search Volume (Basis-Daten)",
+        "2. Google Ads Keywords for Keywords (Erweiterung)",
+        "3. Google Trends Explore (Trend-Analyse)",
+        "4. DataForSEO Trends (falls verfügbar, sonst Google Trends)"
+      ],
+      "competitor_analysis": [
+        "1. Google Ads Keywords for Site (Konkurrenz-Keywords)",
+        "2. Google Ads Search Volume (Volumen-Analyse)",
+        "3. Bing Keywords for Site (Alternative Perspektive)"
+      ],
+      "trend_monitoring": [
+        "1. Google Trends Explore (Haupt-Trends)",
+        "2. DataForSEO Trends Merged Data (Erweiterte Insights)",
+        "3. Bing Search Volume History (Historische Daten)"
+      ]
+    },
+    "performance_tips": {
+      "keyword_limits": {
+        "google_ads": "Max 1000 Keywords pro Request",
+        "bing": "Max 200 Keywords pro Request",
+        "google_trends": "Max 1000 Keywords pro Request",
+        "dataforseo_trends": "Max 1000 Keywords pro Request",
+        "clickstream": "Max 1000 Keywords pro Request"
+      },
+      "keyword_validation": {
+        "max_length": "80 Zeichen pro Keyword",
+        "min_length": "3 Zeichen pro Keyword",
+        "max_words": "10 Wörter pro Keyword-Phrase",
+        "allowed_chars": "Buchstaben, Zahlen, Leerzeichen, Bindestriche",
+        "forbidden_chars": "UTF-Symbole, Emojis, Sonderzeichen"
+      },
+      "task_management": {
+        "use_live_endpoints": "Für schnelle Einzelanalysen",
+        "use_task_endpoints": "Für große Keyword-Listen",
+        "check_task_status": "Mit tasks_ready vor task_get",
+        "handle_timeouts": "Tasks können bis zu 30 Minuten dauern"
+      },
+      "cost_optimization": {
+        "start_small": "Beginne mit wenigen Keywords",
+        "use_filters": "Begrenze Ergebnisse mit Filtern",
+        "cache_results": "Speichere Ergebnisse für wiederholte Analysen",
+        "monitor_usage": "Überwache API-Usage und Costs"
+      },
+      "response_optimization": {
+        "size_limit": "50KB Response-Größe",
+        "truncation": "Automatische Begrenzung bei großen Responses",
+        "result_limit": "Max 3 Ergebnisse pro Task bei Truncation",
+        "keyword_data_limit": "Max 3 Keyword-Daten pro Ergebnis"
+      }
+    }
+  }
+}
