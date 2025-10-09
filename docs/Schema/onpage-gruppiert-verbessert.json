@@ -1,0 +1,1045 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO OnPage APIs - Gruppiert & Optimiert",
+    "description": "🚀 Moderne gruppierte OnPage APIs für Custom GPT - 5 Operationen statt 30! Vollständige SEO-Analyse mit erweiterten Parametern und optimierten Responses für bessere Performance.",
+    "version": "2.2.0"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "Vercel Production Server"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/v3/onpage_core": {
+      "post": {
+        "summary": "🔧 OnPage Kernfunktionen",
+        "description": "Task erstellen, Zusammenfassung abrufen, fertige Tasks verwalten. Startet Website-Crawls und verwaltet OnPage-Analyse-Tasks.",
+        "operationId": "onPageCore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["task_post", "summary", "tasks_ready"],
+                    "description": "Art der Operation"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Website (nur für task_post)"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für summary)"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "location_name": {
+                    "type": "string",
+                    "description": "Standort",
+                    "default": "United States"
+                  },
+                  "device": {
+                    "type": "string",
+                    "enum": ["desktop", "mobile"],
+                    "description": "Gerätetyp",
+                    "default": "desktop"
+                  },
+                  "max_crawl_pages": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "Maximale Anzahl der zu crawlenden Seiten",
+                    "default": 1
+                  },
+                  "max_issues": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Maximale Anzahl der Issues (für summary)",
+                    "default": 20
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "description": "Detaillierte Informationen einschließen",
+                    "default": false
+                  },
+                  "validate_micromarkup": {
+                    "type": "boolean",
+                    "description": "Microdata-Validierung aktivieren",
+                    "default": false
+                  },
+                  "enable_javascript": {
+                    "type": "boolean",
+                    "description": "JavaScript-Rendering aktivieren",
+                    "default": false
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Kernfunktion erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "task_id": {"type": "string"},
+                    "url": {"type": "string"},
+                    "crawl_progress": {"type": "number"},
+                    "crawl_status": {"type": "string"},
+                    "total_pages_count": {"type": "integer"},
+                    "crawled_pages_count": {"type": "integer"},
+                    "summary": {
+                      "type": "object",
+                      "properties": {
+                        "total_issues": {"type": "integer"},
+                        "critical_issues": {"type": "integer"},
+                        "warning_issues": {"type": "integer"},
+                        "info_issues": {"type": "integer"},
+                        "performance_score": {"type": "number"},
+                        "seo_score": {"type": "number"}
+                      }
+                    },
+                    "blob_storage": {
+                      "$ref": "#/components/schemas/BlobStorageInfo"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status_code": {"type": "integer"},
+                          "status_message": {"type": "string"},
+                          "result": {"type": "array"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Interner Serverfehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_analysis": {
+      "post": {
+        "summary": "📊 OnPage Analyse-Tools",
+        "description": "Seiten, Ressourcen, Links, Duplicate Content und Performance analysieren. Detaillierte SEO-Analyse mit Pagination und Filteroptionen.",
+        "operationId": "onPageAnalysis",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["pages", "resources", "links", "duplicate_tags", "duplicate_content", "waterfall", "keyword_density"],
+                    "description": "Art der Analyse"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite (für pages, waterfall, keyword_density)"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 10
+                  },
+                  "filters": {
+                    "type": "array",
+                    "items": {"type": "object"},
+                    "description": "Filter für Ergebnisse"
+                  },
+                  "summary_only": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Kompakte Response für Token-Optimierung"
+                  },
+                  "page": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "Seitennummer für Pagination"
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Ergebnisse pro Seite"
+                  }
+                },
+                "required": ["type", "id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Analyse erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "analysis_type": {"type": "string"},
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {"type": "integer"},
+                        "per_page": {"type": "integer"},
+                        "total_items": {"type": "integer"},
+                        "total_pages": {"type": "integer"},
+                        "has_next": {"type": "boolean"},
+                        "has_prev": {"type": "boolean"}
+                      }
+                    },
+                    "summary": {
+                      "type": "object",
+                      "properties": {
+                        "pages_count": {"type": "integer"},
+                        "resources_count": {"type": "integer"},
+                        "links_count": {"type": "integer"},
+                        "duplicate_issues": {"type": "integer"},
+                        "performance_score": {"type": "number"}
+                      }
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {"type": "string"},
+                          "title": {"type": "string"},
+                          "score": {"type": "number"},
+                          "issues": {"type": "integer"},
+                          "status": {"type": "string"}
+                        }
+                      }
+                    },
+                    "blob_storage": {
+                      "$ref": "#/components/schemas/BlobStorageInfo"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "pages": {"type": "array"},
+                                "resources": {"type": "array"},
+                                "links": {"type": "array"},
+                                "duplicate_tags": {"type": "array"},
+                                "duplicate_content": {"type": "array"},
+                                "waterfall": {"type": "array"},
+                                "keyword_density": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Interner Serverfehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_content": {
+      "post": {
+        "summary": "📄 OnPage Content-Tools",
+        "description": "HTML-Quellcode, Screenshots, Content-Parsing und Instant Pages analysieren. Content-Extraktion mit JavaScript-Rendering und Custom-User-Agent-Unterstützung.",
+        "operationId": "onPageContent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["raw_html", "page_screenshot", "content_parsing", "content_parsing_live", "instant_pages"],
+                    "description": "Art der Content-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für raw_html, page_screenshot, content_parsing)"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 5
+                  },
+                  "screenshot_width": {
+                    "type": "integer",
+                    "description": "Screenshot-Breite (für page_screenshot)",
+                    "default": 1920
+                  },
+                  "screenshot_height": {
+                    "type": "integer",
+                    "description": "Screenshot-Höhe (für page_screenshot)",
+                    "default": 1080
+                  },
+                  "summary_only": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Kompakte Response"
+                  },
+                  "page": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "Seitennummer für Pagination"
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "default": 5,
+                    "description": "Ergebnisse pro Seite"
+                  },
+                  "enable_javascript": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "JavaScript-Rendering aktivieren"
+                  },
+                  "custom_js": {
+                    "type": "string",
+                    "description": "Custom JavaScript Code"
+                  },
+                  "custom_user_agent": {
+                    "type": "string",
+                    "description": "Custom User-Agent Header"
+                  },
+                  "accept_language": {
+                    "type": "string",
+                    "description": "Language Header für Website-Zugriff"
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Content-Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "content_type": {"type": "string"},
+                    "url": {"type": "string"},
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {"type": "integer"},
+                        "per_page": {"type": "integer"},
+                        "total_items": {"type": "integer"},
+                        "total_pages": {"type": "integer"},
+                        "has_next": {"type": "boolean"},
+                        "has_prev": {"type": "boolean"}
+                      }
+                    },
+                    "summary": {
+                      "type": "object",
+                      "properties": {
+                        "title": {"type": "string"},
+                        "meta_description": {"type": "string"},
+                        "headings_count": {"type": "integer"},
+                        "links_count": {"type": "integer"},
+                        "images_count": {"type": "integer"},
+                        "word_count": {"type": "integer"}
+                      }
+                    },
+                    "preview": {
+                      "type": "object",
+                      "properties": {
+                        "html_preview": {"type": "string"},
+                        "screenshot_url": {"type": "string"},
+                        "content_preview": {"type": "string"}
+                      }
+                    },
+                    "blob_storage": {
+                      "$ref": "#/components/schemas/BlobStorageInfo"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "raw_html": {"type": "string"},
+                                "screenshot": {"type": "string"},
+                                "content": {"type": "object"},
+                                "links": {"type": "array"},
+                                "headings": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Interner Serverfehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_lighthouse": {
+      "post": {
+        "summary": "⚡ OnPage Lighthouse-Tools",
+        "description": "Lighthouse-Analyse für Performance, Accessibility, SEO, PWA und Best Practices. Google Lighthouse-basierte Web-Performance-Analyse mit detaillierten Scores und Optimierungsvorschlägen.",
+        "operationId": "onPageLighthouse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["languages", "audits", "versions", "task_post", "tasks_ready", "task_get", "summary", "live"],
+                    "description": "Art der Lighthouse-Operation"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL der zu analysierenden Seite (für task_post, live)"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für task_get, summary)"
+                  },
+                  "language_code": {
+                    "type": "string",
+                    "description": "Sprachcode",
+                    "default": "en"
+                  },
+                  "language_name": {
+                    "type": "string",
+                    "description": "Lighthouse-Sprache",
+                    "default": "English"
+                  },
+                  "for_mobile": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Mobile Emulation aktivieren"
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["performance", "accessibility", "seo", "pwa", "best-practices"]
+                    },
+                    "description": "Lighthouse-Kategorien"
+                  },
+                  "audits": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Spezifische Audits"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Lighthouse-Version"
+                  },
+                  "tag": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "description": "Benutzerdefinierte Task-ID"
+                  },
+                  "max_issues": {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Maximale Anzahl der Issues"
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Detaillierte Audit-Informationen"
+                  },
+                  "summary_only": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Kompakte Response für Token-Optimierung (nur Scores und Top-Issues)"
+                  },
+                  "max_audits": {
+                    "type": "integer",
+                    "default": 5,
+                    "minimum": 1,
+                    "maximum": 20,
+                    "description": "Maximale Anzahl der Top-Issues (nur wenn summary_only=true)"
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lighthouse-Operation erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "status_message": {"type": "string"},
+                    "task_id": {"type": "string"},
+                    "url": {"type": "string"},
+                    "fetch_time": {"type": "string"},
+                    "lighthouse_version": {"type": "string"},
+                    "scores": {
+                      "type": "object",
+                      "properties": {
+                        "performance": {"type": "number"},
+                        "accessibility": {"type": "number"},
+                        "seo": {"type": "number"},
+                        "best-practices": {"type": "number"},
+                        "pwa": {"type": "number"}
+                      }
+                    },
+                    "performance_metrics": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "score": {"type": "number"},
+                          "displayValue": {"type": "string"},
+                          "numericValue": {"type": "number"},
+                          "numericUnit": {"type": "string"}
+                        }
+                      }
+                    },
+                    "top_issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "title": {"type": "string"},
+                          "score": {"type": "number"},
+                          "description": {"type": "string"},
+                          "category": {"type": "string"},
+                          "displayValue": {"type": "string"},
+                          "numericValue": {"type": "number"},
+                          "numericUnit": {"type": "string"}
+                        }
+                      }
+                    },
+                    "category_issues": {
+                      "type": "object",
+                      "properties": {
+                        "performance": {"type": "array"},
+                        "accessibility": {"type": "array"},
+                        "seo": {"type": "array"},
+                        "best-practices": {"type": "array"},
+                        "pwa": {"type": "array"}
+                      }
+                    },
+                    "best_practices_audits": {"type": "array"},
+                    "pwa_audits": {"type": "array"},
+                    "audit_summary": {
+                      "type": "object",
+                      "properties": {
+                        "total_audits": {"type": "integer"},
+                        "passed_audits": {"type": "integer"},
+                        "failed_audits": {"type": "integer"},
+                        "not_applicable": {"type": "integer"}
+                      }
+                    },
+                    "blob_storage": {
+                      "$ref": "#/components/schemas/BlobStorageInfo"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "lighthouse_result": {"type": "object"},
+                                "categories": {"type": "object"},
+                                "audits": {"type": "object"},
+                                "languages": {"type": "array"},
+                                "versions": {"type": "array"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Interner Serverfehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/onpage_management": {
+      "post": {
+        "summary": "⚙️ OnPage Verwaltung",
+        "description": "Task-Verwaltung, Fehlerbehandlung, Filter, Redirect-Chains und Microdata-Validierung. Verwaltungstools für OnPage-Analyse-Tasks und erweiterte SEO-Diagnostik.",
+        "operationId": "onPageManagement",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["id_list", "errors", "force_stop", "available_filters", "pages_by_resource", "redirect_chains", "non_indexable", "microdata"],
+                    "description": "Art der Verwaltungs-Operation"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Task ID (für errors, force_stop, pages_by_resource, redirect_chains, non_indexable, microdata)"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Startdatum (YYYY-MM-DD) für id_list, errors"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Enddatum (YYYY-MM-DD) für id_list, errors"
+                  },
+                  "resource_url": {
+                    "type": "string",
+                    "description": "URL der Resource (für pages_by_resource)"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Anzahl der Ergebnisse",
+                    "default": 100
+                  },
+                  "summary_only": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Kompakte Response"
+                  },
+                  "page": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "Seitennummer für Pagination"
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Ergebnisse pro Seite"
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OnPage Verwaltung erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {"type": "integer"},
+                    "management_type": {"type": "string"},
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {"type": "integer"},
+                        "per_page": {"type": "integer"},
+                        "total_items": {"type": "integer"},
+                        "total_pages": {"type": "integer"},
+                        "has_next": {"type": "boolean"},
+                        "has_prev": {"type": "boolean"}
+                      }
+                    },
+                    "summary": {
+                      "type": "object",
+                      "properties": {
+                        "total_tasks": {"type": "integer"},
+                        "completed_tasks": {"type": "integer"},
+                        "failed_tasks": {"type": "integer"},
+                        "pending_tasks": {"type": "integer"}
+                      }
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "status": {"type": "string"},
+                          "created_at": {"type": "string"},
+                          "completed_at": {"type": "string"},
+                          "error_message": {"type": "string"}
+                        }
+                      }
+                    },
+                    "blob_storage": {
+                      "$ref": "#/components/schemas/BlobStorageInfo"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "result": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id_list": {"type": "array"},
+                                "errors": {"type": "array"},
+                                "force_stop": {"type": "object"},
+                                "filters": {"type": "object"},
+                                "pages_by_resource": {"type": "array"},
+                                "redirect_chains": {"type": "array"},
+                                "non_indexable": {"type": "array"},
+                                "microdata": {"type": "object"}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Interner Serverfehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ServerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {"type": "string"},
+          "message": {"type": "string"},
+          "timestamp": {"type": "string"},
+          "version": {"type": "string"},
+          "endpoints_count": {"type": "integer"}
+        }
+      },
+      "OnPageTaskResponse": {
+        "type": "object",
+        "properties": {
+          "task_id": {"type": "string"},
+          "status": {"type": "string"},
+          "progress": {"type": "number"},
+          "estimated_completion": {"type": "string"},
+          "crawl_settings": {"type": "object"}
+        }
+      },
+      "BlobStorageInfo": {
+        "type": "object",
+        "properties": {
+          "storage": {"type": "string"},
+          "results_url": {"type": "string"},
+          "proxy_url": {"type": "string"},
+          "size_bytes": {"type": "integer"},
+          "expires_at": {"type": "string"}
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {"type": "string"},
+          "status_code": {"type": "integer"},
+          "status_message": {"type": "string"},
+          "details": {"type": "object"},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "request_id": {"type": "string"}
+        }
+      },
+      "PaginationInfo": {
+        "type": "object",
+        "properties": {
+          "current_page": {"type": "integer"},
+          "per_page": {"type": "integer"},
+          "total_items": {"type": "integer"},
+          "total_pages": {"type": "integer"},
+          "has_next": {"type": "boolean"},
+          "has_prev": {"type": "boolean"}
+        }
+      },
+      "AnalysisSummary": {
+        "type": "object",
+        "properties": {
+          "pages_count": {"type": "integer"},
+          "resources_count": {"type": "integer"},
+          "links_count": {"type": "integer"},
+          "duplicate_issues": {"type": "integer"},
+          "performance_score": {"type": "number"},
+          "seo_score": {"type": "number"},
+          "total_issues": {"type": "integer"},
+          "critical_issues": {"type": "integer"},
+          "warning_issues": {"type": "integer"},
+          "info_issues": {"type": "integer"}
+        }
+      },
+      "LighthouseScores": {
+        "type": "object",
+        "properties": {
+          "performance": {"type": "number"},
+          "accessibility": {"type": "number"},
+          "seo": {"type": "number"},
+          "best-practices": {"type": "number"},
+          "pwa": {"type": "number"}
+        }
+      },
+      "PerformanceMetrics": {
+        "type": "object",
+        "properties": {
+          "first-contentful-paint": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "displayValue": {"type": "string"},
+              "numericValue": {"type": "number"},
+              "numericUnit": {"type": "string"}
+            }
+          },
+          "largest-contentful-paint": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "displayValue": {"type": "string"},
+              "numericValue": {"type": "number"},
+              "numericUnit": {"type": "string"}
+            }
+          },
+          "speed-index": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "displayValue": {"type": "string"},
+              "numericValue": {"type": "number"},
+              "numericUnit": {"type": "string"}
+            }
+          },
+          "cumulative-layout-shift": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "displayValue": {"type": "string"},
+              "numericValue": {"type": "number"},
+              "numericUnit": {"type": "string"}
+            }
+          },
+          "total-blocking-time": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "displayValue": {"type": "string"},
+              "numericValue": {"type": "number"},
+              "numericUnit": {"type": "string"}
+            }
+          },
+          "interactive": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "displayValue": {"type": "string"},
+              "numericValue": {"type": "number"},
+              "numericUnit": {"type": "string"}
+            }
+          }
+        },
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "score": {"type": "number"},
+            "displayValue": {"type": "string"},
+            "numericValue": {"type": "number"},
+            "numericUnit": {"type": "string"}
+          }
+        }
+      },
+      "LighthouseIssue": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "score": {"type": "number"},
+          "description": {"type": "string"},
+          "category": {"type": "string"},
+          "displayValue": {"type": "string"},
+          "numericValue": {"type": "number"},
+          "numericUnit": {"type": "string"}
+        }
+      },
+      "AuditSummary": {
+        "type": "object",
+        "properties": {
+          "total_audits": {"type": "integer"},
+          "passed_audits": {"type": "integer"},
+          "failed_audits": {"type": "integer"},
+          "not_applicable": {"type": "integer"}
+        }
+      }
+    }
+  }
+}

@@ -538,6 +538,33 @@ function extractPWAAudits(audits) {
     return pwaAudits.slice(0, 5);
 }
 
+function extractTopIssues(lighthouse, maxIssues = 5) {
+    const audits = lighthouse.audits || {};
+    const topIssues = [];
+
+    // Sammle alle Failed/Warning Audits mit Scores < 1
+    Object.keys(audits).forEach(auditId => {
+        const audit = audits[auditId];
+        if (audit && audit.score !== null && audit.score < 0.9) {
+            topIssues.push({
+                id: auditId,
+                title: audit.title || auditId,
+                score: Math.round(audit.score * 100),
+                description: audit.description || '',
+                displayValue: audit.displayValue || '',
+                numericValue: audit.numericValue || null,
+                numericUnit: audit.numericUnit || '',
+                scoreDisplayMode: audit.scoreDisplayMode || 'binary'
+            });
+        }
+    });
+
+    // Sortiere nach Score (niedrigste zuerst) und limitiere
+    return topIssues
+        .sort((a, b) => a.score - b.score)
+        .slice(0, maxIssues);
+}
+
 function getAuditCategory(auditId, categories) {
     for (const [categoryName, category] of Object.entries(categories)) {
         if (category && category.auditRefs) {
@@ -3429,7 +3456,7 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
 
         if (dataforseoResponse.status !== 200) {
             console.log(`❌ DataForSEO API error: ${dataforseoResponse.status}`);
-            return res.status(dataforseoResponse.status).json({ 
+            return res.status(dataforseoResponse.status).json({
                 error: 'DataForSEO API returned an error',
                 status: dataforseoResponse.status,
                 task_id: id
@@ -3450,57 +3477,57 @@ app.get('/v3/on_page/lighthouse/summary/:id', async (req, res) => {
                     hasTask: !!task,
                     hasResult: !!result,
                     hasLighthouse: !!lighthouse,
-                        hasCategories: !!lighthouse?.categories,
-                        taskKeys: task ? Object.keys(task) : null,
-                        resultKeys: result ? Object.keys(result) : null,
-                        dataStructure: JSON.stringify(lighthouseData, null, 2).substring(0, 1000)
-                    }
-                });
-            }
+                    hasCategories: !!lighthouse?.categories,
+                    taskKeys: task ? Object.keys(task) : null,
+                    resultKeys: result ? Object.keys(result) : null,
+                    dataStructure: JSON.stringify(lighthouseData, null, 2).substring(0, 1000)
+                }
+            });
+        }
 
-            console.log('✅ Found lighthouse data in result object');
+        console.log('✅ Found lighthouse data in result object');
 
-            // Kompakte Summary Response - nur wichtigste Metriken
-            const compactSummary = {
-                task_id: id,
-                url: result?.url || task?.data?.url,
-                timestamp: new Date().toISOString(),
-                scores: {
-                    performance: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
-                    accessibility: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
-                    seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
-                    'best-practices': Math.round((lighthouse.categories?.['best-practices']?.score || 0) * 100)
-                },
-                core_metrics: {
-                    lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
-                    cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000,
-                    fid: Math.round(lighthouse.audits?.['max-potential-fid']?.numericValue || 0)
-                },
-                top_issues: []
-            };
+        // Kompakte Summary Response - nur wichtigste Metriken
+        const compactSummary = {
+            task_id: id,
+            url: result?.url || task?.data?.url,
+            timestamp: new Date().toISOString(),
+            scores: {
+                performance: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
+                accessibility: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
+                seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
+                'best-practices': Math.round((lighthouse.categories?.['best-practices']?.score || 0) * 100)
+            },
+            core_metrics: {
+                lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
+                cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000,
+                fid: Math.round(lighthouse.audits?.['max-potential-fid']?.numericValue || 0)
+            },
+            top_issues: []
+        };
 
-            // Top 5 kritische Issues extrahieren
-            if (lighthouse.audits) {
-                const issues = [];
-                Object.entries(lighthouse.audits).forEach(([auditId, audit]) => {
-                    if (audit.score !== null && audit.score < 0.9) {
-                        issues.push({
-                            id: auditId,
-                            title: audit.title,
-                            score: Math.round(audit.score * 100),
-                            category: getAuditCategory(auditId)
-                        });
-                    }
-                });
-                
-                // Sortiere nach Score (schlechteste zuerst) und nimm Top 5
-                issues.sort((a, b) => a.score - b.score);
-                compactSummary.top_issues = issues.slice(0, 5);
-            }
+        // Top 5 kritische Issues extrahieren
+        if (lighthouse.audits) {
+            const issues = [];
+            Object.entries(lighthouse.audits).forEach(([auditId, audit]) => {
+                if (audit.score !== null && audit.score < 0.9) {
+                    issues.push({
+                        id: auditId,
+                        title: audit.title,
+                        score: Math.round(audit.score * 100),
+                        category: getAuditCategory(auditId)
+                    });
+                }
+            });
 
-            console.log('📊 Returning compact lighthouse summary');
-            res.setHeader('Content-Type', 'application/json; charset=utf-8');
-            return res.json(compactSummary);
+            // Sortiere nach Score (schlechteste zuerst) und nimm Top 5
+            issues.sort((a, b) => a.score - b.score);
+            compactSummary.top_issues = issues.slice(0, 5);
+        }
+
+        console.log('📊 Returning compact lighthouse summary');
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        return res.json(compactSummary);
 
     } catch (error) {
         console.error('Error in Lighthouse summary route:', error);
@@ -4151,7 +4178,7 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
         console.log('🚀 OnPage Lighthouse Route called!');
         console.log('🚀 Request body:', JSON.stringify(req.body, null, 2));
 
-        const { type, url, id, language_code = 'en', category = [], version } = req.body;
+        const { type, url, id, language_code = 'en', category = [], version, summary_only = true, max_audits = 5 } = req.body;
 
         let endpoint;
         let requestData;
@@ -4245,19 +4272,34 @@ app.post('/v3/onpage_lighthouse', async (req, res) => {
 
         if (dataforseoResponse.status === 200) {
             // Optimiere Lighthouse Live Response für große Datenmengen
-            if (type === 'live') {
+            if (type === 'live' && summary_only) {
                 const lighthouse = dataforseoResponse.body.tasks?.[0]?.result?.[0]?.lighthouse_result;
                 if (lighthouse) {
-                    const minimalResponse = {
-                        perf: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
-                        a11y: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
-                        seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
-                        lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
-                        cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000
+                    const optimizedResponse = {
+                        status_code: 200,
+                        url: url,
+                        scores: {
+                            performance: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
+                            accessibility: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
+                            seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
+                            best_practices: Math.round((lighthouse.categories?.['best-practices']?.score || 0) * 100),
+                            pwa: Math.round((lighthouse.categories?.pwa?.score || 0) * 100)
+                        },
+                        metrics: {
+                            lcp: Math.round(lighthouse.audits?.['largest-contentful-paint']?.numericValue || 0),
+                            fid: Math.round(lighthouse.audits?.['max-potential-fid']?.numericValue || 0),
+                            cls: Math.round((lighthouse.audits?.['cumulative-layout-shift']?.numericValue || 0) * 1000) / 1000,
+                            fcp: Math.round(lighthouse.audits?.['first-contentful-paint']?.numericValue || 0),
+                            tti: Math.round(lighthouse.audits?.['interactive']?.numericValue || 0),
+                            tbt: Math.round(lighthouse.audits?.['total-blocking-time']?.numericValue || 0),
+                            speed_index: Math.round(lighthouse.audits?.['speed-index']?.numericValue || 0)
+                        },
+                        top_issues: extractTopIssues(lighthouse, max_audits),
+                        blob_storage: createBlobStorageInfo(lighthouse, dataforseoResponse.body)
                     };
 
                     res.setHeader('Content-Type', 'application/json; charset=utf-8');
-                    return res.send(JSON.stringify(minimalResponse));
+                    return res.json(optimizedResponse);
                 }
             }
             res.json(dataforseoResponse.body);
@@ -4754,7 +4796,7 @@ app.post('/v3/keywords_dataforseo_trends', async (req, res) => {
                 status: dataforseoResponse.status,
                 body: dataforseoResponse.body
             });
-            res.status(dataforseoResponse.status).json({ 
+            res.status(dataforseoResponse.status).json({
                 error: 'DataForSEO API returned an error',
                 details: dataforseoResponse.body
             });
