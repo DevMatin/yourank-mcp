@@ -538,33 +538,6 @@ function extractPWAAudits(audits) {
     return pwaAudits.slice(0, 5);
 }
 
-function extractTopIssues(lighthouse, maxIssues = 5) {
-    const audits = lighthouse.audits || {};
-    const topIssues = [];
-
-    // Sammle alle Failed/Warning Audits mit Scores < 1
-    Object.keys(audits).forEach(auditId => {
-        const audit = audits[auditId];
-        if (audit && audit.score !== null && audit.score < 0.9) {
-            topIssues.push({
-                id: auditId,
-                title: audit.title || auditId,
-                score: Math.round(audit.score * 100),
-                description: audit.description || '',
-                displayValue: audit.displayValue || '',
-                numericValue: audit.numericValue || null,
-                numericUnit: audit.numericUnit || '',
-                scoreDisplayMode: audit.scoreDisplayMode || 'binary'
-            });
-        }
-    });
-
-    // Sortiere nach Score (niedrigste zuerst) und limitiere
-    return topIssues
-        .sort((a, b) => a.score - b.score)
-        .slice(0, maxIssues);
-}
-
 function getAuditCategory(auditId, categories) {
     for (const [categoryName, category] of Object.entries(categories)) {
         if (category && category.auditRefs) {
