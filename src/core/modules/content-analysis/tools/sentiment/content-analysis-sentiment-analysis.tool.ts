@@ -18,6 +18,7 @@ export class ContentAnalysisSentimentAnalysisTool extends BaseTool {
   getParams(): z.ZodRawShape {
     return {
       keyword: z.string().describe('target keyword'),
+      page_type: z.array(z.string()).optional().describe('page types to analyze'),
       location_code: z.number().optional().describe('location code'),
       language_code: z.string().optional().describe('language code'),
       search_partners: z.boolean().optional().describe('search partners'),
@@ -34,6 +35,7 @@ export class ContentAnalysisSentimentAnalysisTool extends BaseTool {
     try {
       const response = await this.dataForSEOClient.makeRequest('/v3/content_analysis/sentiment_analysis/live', 'POST', [{
         keyword: params.keyword,
+        page_type: params.page_type,
         location_code: params.location_code,
         language_code: params.language_code,
         search_partners: params.search_partners,
