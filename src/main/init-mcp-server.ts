@@ -90,7 +90,7 @@ export function initMcpServer(username: string | undefined, password: string | u
   });
 
   // Add tools/call method handler
-  server.setRequestHandler('tools/call', async (request) => {
+  server.setRequestHandler('tools/call', async (request: any) => {
     const { name, arguments: args } = request.params as { name: string; arguments: any };
     
     if (!allTools[name]) {

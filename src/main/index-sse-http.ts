@@ -147,7 +147,7 @@ function getServer(username: string | undefined, password: string | undefined): 
   });
 
   // Add tools/call method handler
-  server.setRequestHandler('tools/call', async (request) => {
+  server.setRequestHandler('tools/call', async (request: any) => {
     const { name, arguments: args } = request.params as { name: string; arguments: any };
     
     if (!allTools[name]) {
