@@ -59,4 +59,5 @@ max value: 700`)
       return this.formatErrorResponse(error);
     }
   }
-}
+} 
+

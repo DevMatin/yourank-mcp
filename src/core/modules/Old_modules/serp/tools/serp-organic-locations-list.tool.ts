@@ -46,4 +46,4 @@ export class SerpOrganicLocationsListTool extends BaseTool {
       return this.formatErrorResponse(error);
     }
   }
-} 
+}

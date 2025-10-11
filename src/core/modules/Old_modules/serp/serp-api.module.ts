@@ -47,4 +47,4 @@ export class SerpApiModule extends BaseModule {
       },
     }), {});
   }
-} 
+}

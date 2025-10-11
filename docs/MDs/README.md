@@ -81,7 +81,6 @@ mcp-server-typescript/
 ├── 📁 build/                        # Kompilierte Dateien (wird generiert)
 ├── 📄 package.json                  # Projekt-Konfiguration
 ├── 📄 vercel.json                   # Vercel-Deployment-Konfiguration
-└── 📄 Dockerfile                    # Docker-Container-Konfiguration
 ```
 
 ## 🚀 Schnellstart
@@ -225,14 +224,6 @@ node fix-js-files.js
 vercel --prod
 ```
 
-### Docker
-```bash
-# Docker-Container bauen
-docker build -t mcp-server-typescript .
-
-# Container starten
-docker run -p 3000:3000 mcp-server-typescript
-```
 
 ### Cloudflare Workers
 ```bash

@@ -23,4 +23,4 @@ export class AiOptimizationApiModule extends BaseModule {
     getPrompts(): Record<string, PromptDefinition> {
       return {};
     }
-} 
+}

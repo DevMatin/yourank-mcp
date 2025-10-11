@@ -1,4 +1,4 @@
-import { any, z } from 'zod';
+import { z } from 'zod';
 import { BaseTool } from '../../base.tool.js';
 import { DataForSEOClient } from '../../../client/dataforseo.client.js';
 

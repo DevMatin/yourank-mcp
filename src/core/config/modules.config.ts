@@ -17,11 +17,7 @@ export const AVAILABLE_MODULES = [
   'MERCHANT',
   'GOOGLE_SHOPPING',
   'APP_DATA',
-  'QUEUE',
-  'GOOGLE_BUSINESS',
-  'TRUSTPILOT',
-  'TRIPADVISOR',
-  'SOCIAL_MEDIA'
+  'GOOGLE_BUSINESS'
 ] as const;
 export type ModuleName = typeof AVAILABLE_MODULES[number];
 

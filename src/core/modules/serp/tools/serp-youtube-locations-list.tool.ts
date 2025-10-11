@@ -46,4 +46,4 @@ export class SerpYoutubeLocationsListTool extends BaseTool {
       return this.formatErrorResponse(error);
     }
   }
-}
+} 

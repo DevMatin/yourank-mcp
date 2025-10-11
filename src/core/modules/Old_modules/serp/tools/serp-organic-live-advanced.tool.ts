@@ -62,4 +62,4 @@ default value: desktop`),
       return this.formatErrorResponse(error);
     }
   }
-} 
+}

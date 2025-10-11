@@ -17,9 +17,6 @@ import { MerchantApiModule } from '../modules/merchant/merchant-api.module.js';
 import { GoogleShoppingApiModule } from '../modules/google-shopping/google-shopping-api.module.js';
 import { AppDataModule } from '../modules/app-data/app-data.module.js';
 import { GoogleBusinessApiModule } from '../modules/google-business-api/google-business-api.module.js';
-import { TrustpilotApiModule } from '../modules/trustpilot-api/trustpilot-api.module.js';
-import { TripadvisorApiModule } from '../modules/tripadvisor-api/tripadvisor-api.module.js';
-import { SocialMediaApiModule } from '../modules/social-media-api/social-media-api.module.js';
 
 export class ModuleLoaderService {
   static loadModules(dataForSEOClient: DataForSEOClient, enabledModules: EnabledModules): BaseModule[] {
@@ -69,15 +66,6 @@ export class ModuleLoaderService {
     }
     if (isModuleEnabled('GOOGLE_BUSINESS', enabledModules)) {
       modules.push(new GoogleBusinessApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('TRUSTPILOT', enabledModules)) {
-      modules.push(new TrustpilotApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('TRIPADVISOR', enabledModules)) {
-      modules.push(new TripadvisorApiModule(dataForSEOClient));
-    }
-    if (isModuleEnabled('SOCIAL_MEDIA', enabledModules)) {
-      modules.push(new SocialMediaApiModule(dataForSEOClient));
     }
 
     return modules;
