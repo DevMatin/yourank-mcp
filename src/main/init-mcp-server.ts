@@ -25,11 +25,19 @@ export function initMcpServer(username: string | undefined, password: string | u
   
   const enabledPrompts = process.env.ENABLED_PROMPTS?.split(',').map(name => name.trim()) || [];
 
+  // Store tools for tools/call method
+  const allTools: Record<string, ToolDefinition> = {};
+
   modules.forEach(module => {
     const tools = module.getTools();
     Object.entries(tools).forEach(([name, tool]) => {
       const typedTool = tool as ToolDefinition;
       const schema = z.object(typedTool.params);
+      
+      // Store tool for tools/call method
+      allTools[name] = typedTool;
+      
+      // Register with old method for compatibility
       server.tool(name, typedTool.description, schema.shape, typedTool.handler);
     });
 
@@ -44,6 +52,57 @@ export function initMcpServer(username: string | undefined, password: string | u
         argsSchema: prompt.params,
       }, prompt.handler);
     });
+  });
+
+  // Add tools/list method handler
+  server.setRequestHandler('tools/list', async () => {
+    const toolsList = Object.entries(allTools).map(([name, tool]) => ({
+      name,
+      description: tool.description,
+      inputSchema: {
+        type: 'object',
+        properties: Object.fromEntries(
+          Object.entries(tool.params).map(([key, schema]) => [
+            key,
+            {
+              type: schema._def.typeName === 'ZodString' ? 'string' : 
+                    schema._def.typeName === 'ZodNumber' ? 'number' :
+                    schema._def.typeName === 'ZodBoolean' ? 'boolean' :
+                    schema._def.typeName === 'ZodArray' ? 'array' :
+                    schema._def.typeName === 'ZodNullable' ? 
+                      (schema._def.innerType._def.typeName === 'ZodString' ? 'string' : 'string') :
+                    'string',
+              description: schema.description || '',
+              ...(schema._def.defaultValue && { default: schema._def.defaultValue() }),
+              ...(schema._def.typeName === 'ZodArray' && { items: { type: 'string' } }),
+              ...(schema._def.typeName === 'ZodEnum' && { enum: schema._def.values }),
+            }
+          ])
+        ),
+        required: Object.keys(tool.params).filter(key => {
+          const schema = tool.params[key];
+          return !schema.isOptional() && !schema._def.defaultValue;
+        })
+      }
+    }));
+
+    return { tools: toolsList };
+  });
+
+  // Add tools/call method handler
+  server.setRequestHandler('tools/call', async (request) => {
+    const { name, arguments: args } = request.params as { name: string; arguments: any };
+    
+    if (!allTools[name]) {
+      throw new Error(`Tool '${name}' not found`);
+    }
+
+    try {
+      const result = await allTools[name].handler(args);
+      return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+    } catch (error) {
+      throw new Error(`Tool execution failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   });
 
   return server;

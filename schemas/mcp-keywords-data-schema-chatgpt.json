@@ -1,0 +1,730 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataForSEO Keywords Data API - MCP Server für ChatGPT",
+    "description": "🚀 MCP-kompatible Keywords Data API für ChatGPT - Direkte Tool-Integration ohne REST-Endpoints!",
+    "version": "1.0.0",
+    "contact": {
+      "name": "DataForSEO MCP Server",
+      "url": "https://yourank-mcp.vercel.app"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app",
+      "description": "MCP Server für ChatGPT Integration"
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/mcp": {
+      "post": {
+        "summary": "MCP JSON-RPC Endpoint",
+        "description": "Zentraler MCP Endpoint für alle Keywords Data API Aufrufe. ChatGPT kommuniziert über JSON-RPC mit diesem Endpoint.",
+        "operationId": "mcpCall",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "enum": ["2.0"],
+                    "description": "JSON-RPC Version"
+                  },
+                  "id": {
+                    "type": ["string", "number", "null"],
+                    "description": "Request ID"
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "tools/call",
+                      "tools/list",
+                      "initialize"
+                    ],
+                    "description": "MCP Method"
+                  },
+                  "params": {
+                    "type": "object",
+                    "description": "Method parameters"
+                  }
+                },
+                "required": ["jsonrpc", "method"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "MCP Response erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": ["string", "number", "null"]
+                    },
+                    "result": {
+                      "type": "object"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "DataForSEO Credentials für MCP Server"
+      }
+    },
+    "schemas": {
+      "KeywordsDataTools": {
+        "type": "object",
+        "properties": {
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "enum": [
+                    "keywords_data_google_ads_search_volume",
+                    "keywords_data_google_trends_explore",
+                    "keywords_data_google_trends_categories",
+                    "keywords_data_dataforseo_trends_explore",
+                    "keywords_data_dataforseo_trends_demography",
+                    "keywords_data_dataforseo_trends_subregion_interests"
+                  ]
+                },
+                "description": {
+                  "type": "string"
+                },
+                "inputSchema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "GoogleAdsSearchVolumeParams": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of keywords to get search volume for",
+            "minItems": 1,
+            "maxItems": 1000
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Full name of the location (e.g., 'United Kingdom', 'Germany')",
+            "examples": ["United States", "Germany", "United Kingdom", "France"]
+          },
+          "language_code": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Language two-letter ISO code (e.g., 'en', 'de')",
+            "examples": ["en", "de", "fr", "es", "it"]
+          }
+        },
+        "required": ["keywords"]
+      },
+      "GoogleTrendsExploreParams": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 2
+            },
+            "description": "Keywords to analyze (max 5 keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Full name of the location",
+            "examples": ["United States", "Germany", "United Kingdom"]
+          },
+          "language_code": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Language two-letter ISO code",
+            "examples": ["en", "de", "fr"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "youtube", "images", "froogle"],
+            "default": "web",
+            "description": "Google trends type"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Starting date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "examples": ["2023-01-01", "2024-01-15"]
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Ending date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "examples": ["2024-12-31", "2024-01-31"]
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_hour",
+              "past_4_hours", 
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Preset time ranges"
+          },
+          "item_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "google_trends_graph",
+                "google_trends_map",
+                "google_trends_topics_list",
+                "google_trends_queries_list"
+              ]
+            },
+            "default": ["google_trends_graph"],
+            "description": "Types of items returned"
+          },
+          "category_code": {
+            "type": "integer",
+            "nullable": true,
+            "default": null,
+            "description": "Google trends search category code"
+          }
+        },
+        "required": ["keywords"]
+      },
+      "DataForSeoTrendsExploreParams": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords to analyze (max 5 keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Full name of the location",
+            "examples": ["United States", "Germany", "United Kingdom"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "ecommerce"],
+            "default": "web",
+            "description": "DataForSEO trends type"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Starting date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Ending date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Preset time ranges"
+          }
+        },
+        "required": ["keywords"]
+      },
+      "DataForSeoTrendsDemographyParams": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords to analyze (max 5 keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Full name of the location",
+            "examples": ["United States", "Germany", "United Kingdom"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "ecommerce"],
+            "default": "web",
+            "description": "DataForSEO trends type"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Starting date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Ending date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Preset time ranges"
+          }
+        },
+        "required": ["keywords"]
+      },
+      "DataForSeoTrendsSubregionParams": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords to analyze (max 5 keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Full name of the location",
+            "examples": ["United States", "Germany", "United Kingdom"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "ecommerce"],
+            "default": "web",
+            "description": "DataForSEO trends type"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Starting date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Ending date (YYYY-MM-DD format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Preset time ranges"
+          }
+        },
+        "required": ["keywords"]
+      }
+    }
+  },
+  "x-mcp-tools": {
+    "keywords_data_google_ads_search_volume": {
+      "name": "keywords_data_google_ads_search_volume",
+      "description": "💰 Google Ads Suchvolumen-Daten abrufen - Erhalten Sie präzise Suchvolumen-Daten für Ihre Keywords direkt von Google Ads. Perfekt für SEO-Analysen und Keyword-Recherche.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array von Keywords für Suchvolumen-Analyse (max 1000 Keywords)",
+            "minItems": 1,
+            "maxItems": 1000
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Vollständiger Name des Standorts (z.B. 'Deutschland', 'United States')",
+            "examples": ["Deutschland", "United States", "United Kingdom", "France"]
+          },
+          "language_code": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Zwei-Buchstaben ISO-Sprachcode (z.B. 'de', 'en')",
+            "examples": ["de", "en", "fr", "es", "it"]
+          }
+        },
+        "required": ["keywords"]
+      }
+    },
+    "keywords_data_google_trends_explore": {
+      "name": "keywords_data_google_trends_explore",
+      "description": "📈 Google Trends Keyword-Analyse - Erkunden Sie Keyword-Popularität und Trends über Zeit mit Google Trends Daten. Ideal für Trend-Analysen und saisonale Muster.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 2
+            },
+            "description": "Keywords für Trend-Analyse (max 5 Keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Vollständiger Name des Standorts",
+            "examples": ["Deutschland", "United States", "United Kingdom"]
+          },
+          "language_code": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Zwei-Buchstaben ISO-Sprachcode",
+            "examples": ["de", "en", "fr"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "youtube", "images", "froogle"],
+            "default": "web",
+            "description": "Google Trends Typ"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Startdatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "examples": ["2023-01-01", "2024-01-15"]
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Enddatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "examples": ["2024-12-31", "2024-01-31"]
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_hour",
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Vordefinierte Zeiträume"
+          },
+          "item_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "google_trends_graph",
+                "google_trends_map",
+                "google_trends_topics_list",
+                "google_trends_queries_list"
+              ]
+            },
+            "default": ["google_trends_graph"],
+            "description": "Arten der zurückgegebenen Elemente"
+          },
+          "category_code": {
+            "type": "integer",
+            "nullable": true,
+            "default": null,
+            "description": "Google Trends Suchkategorie-Code"
+          }
+        },
+        "required": ["keywords"]
+      }
+    },
+    "keywords_data_google_trends_categories": {
+      "name": "keywords_data_google_trends_categories",
+      "description": "📂 Google Trends Kategorien abrufen - Erhalten Sie eine Liste aller verfügbaren Google Trends Kategorien für präzise Trend-Analysen.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    "keywords_data_dataforseo_trends_explore": {
+      "name": "keywords_data_dataforseo_trends_explore",
+      "description": "🔍 DataForSEO Trends Keyword-Analyse - Erweiterte Trend-Daten von DataForSEO für professionelle Keyword-Analysen mit höherer Präzision.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords für Trend-Analyse (max 5 Keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Vollständiger Name des Standorts",
+            "examples": ["Deutschland", "United States", "United Kingdom"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "ecommerce"],
+            "default": "web",
+            "description": "DataForSEO Trends Typ"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Startdatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Enddatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Vordefinierte Zeiträume"
+          }
+        },
+        "required": ["keywords"]
+      }
+    },
+    "keywords_data_dataforseo_trends_demography": {
+      "name": "keywords_data_dataforseo_trends_demography",
+      "description": "👥 DataForSEO Trends Demografie-Analyse - Erhalten Sie demografische Aufschlüsselung (nach Alter und Geschlecht) der Keyword-Popularität für präzise Zielgruppen-Analysen.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords für Demografie-Analyse (max 5 Keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Vollständiger Name des Standorts",
+            "examples": ["Deutschland", "United States", "United Kingdom"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "ecommerce"],
+            "default": "web",
+            "description": "DataForSEO Trends Typ"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Startdatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Enddatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Vordefinierte Zeiträume"
+          }
+        },
+        "required": ["keywords"]
+      }
+    },
+    "keywords_data_dataforseo_trends_subregion_interests": {
+      "name": "keywords_data_dataforseo_trends_subregion_interests",
+      "description": "🗺️ DataForSEO Trends Subregion-Analyse - Erhalten Sie standortspezifische Keyword-Popularitätsdaten für geografische SEO-Strategien und lokale Marktanalysen.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords für Subregion-Analyse (max 5 Keywords)",
+            "minItems": 1,
+            "maxItems": 5
+          },
+          "location_name": {
+            "type": "string",
+            "nullable": true,
+            "default": null,
+            "description": "Vollständiger Name des Standorts",
+            "examples": ["Deutschland", "United States", "United Kingdom"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["web", "news", "ecommerce"],
+            "default": "web",
+            "description": "DataForSEO Trends Typ"
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Startdatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "date_to": {
+            "type": "string",
+            "description": "Enddatum (YYYY-MM-DD Format)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "time_range": {
+            "type": "string",
+            "enum": [
+              "past_4_hours",
+              "past_day",
+              "past_7_days",
+              "past_30_days",
+              "past_90_days",
+              "past_12_months",
+              "past_5_years"
+            ],
+            "default": "past_7_days",
+            "description": "Vordefinierte Zeiträume"
+          }
+        },
+        "required": ["keywords"]
+      }
+    }
+  },
+  "x-chatgpt-integration": {
+    "description": "ChatGPT Integration Guide für MCP Server",
+    "setup": {
+      "step1": "Fügen Sie den MCP Server zu ChatGPT hinzu",
+      "step2": "Verwenden Sie die Server-URL: https://yourank-mcp.vercel.app",
+      "step3": "Konfigurieren Sie Basic Auth mit Ihren DataForSEO Credentials",
+      "step4": "ChatGPT kann dann direkt die Tools über MCP JSON-RPC aufrufen"
+    },
+    "example_usage": {
+      "search_volume": "Frage ChatGPT: 'Analysiere das Suchvolumen für die Keywords: SEO, Marketing, Content'",
+      "trends": "Frage ChatGPT: 'Zeige mir die Google Trends für das Keyword: KI'",
+      "demography": "Frage ChatGPT: 'Analysiere die demografische Verteilung für das Keyword: E-Commerce'"
+    },
+    "best_practices": {
+      "keywords_limit": "Verwenden Sie max 5 Keywords für Trends-Analysen, max 1000 für Suchvolumen",
+      "location": "Spezifizieren Sie location_name für lokale Analysen (z.B. 'Deutschland')",
+      "time_ranges": "Verwenden Sie time_range für schnelle Analysen oder date_from/date_to für präzise Zeiträume",
+      "error_handling": "Bei Fehlern versucht ChatGPT automatisch alternative Parameter oder Tools"
+    }
+  }
+}
