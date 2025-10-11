@@ -29,7 +29,7 @@ export class QueueJobStatusTool extends BaseTool {
         return this.formatErrorResponse(new Error(`Job with ID ${params.job_id} not found`));
       }
 
-      const response = {
+      const response: any = {
         job_id: job.id,
         status: job.status,
         job_type: job.job_type,

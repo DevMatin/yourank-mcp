@@ -1,4 +1,5 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
+import { PromptDefinition } from '../prompt-definition.js';
 import { DataForSEOClient } from '../../client/dataforseo.client.js';
 
 // Import queue-specific tools
@@ -47,5 +48,9 @@ export class QueueModule extends BaseModule {
     };
 
     return tools;
+  }
+
+  getPrompts(): Record<string, PromptDefinition> {
+    return {};
   }
 }

@@ -1,4 +1,5 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
+import { PromptDefinition } from '../prompt-definition.js';
 import { z } from 'zod';
 
 // App Data Core Tools
@@ -59,5 +60,9 @@ export class AppDataModule extends BaseModule {
         handler: (params: any) => tool.handle(params),
       },
     }), {});
+  }
+
+  getPrompts(): Record<string, PromptDefinition> {
+    return {};
   }
 }

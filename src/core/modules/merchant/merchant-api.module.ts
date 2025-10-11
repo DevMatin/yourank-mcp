@@ -1,4 +1,5 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
+import { PromptDefinition } from '../prompt-definition.js';
 import * as MerchantTools from './tools/index.js';
 
 export class MerchantApiModule extends BaseModule {
@@ -61,5 +62,9 @@ export class MerchantApiModule extends BaseModule {
         handler: (params: any) => tool.handle(params),
       },
     }), {});
+  }
+
+  getPrompts(): Record<string, PromptDefinition> {
+    return {};
   }
 } 

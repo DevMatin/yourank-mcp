@@ -1,4 +1,5 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
+import { PromptDefinition } from '../prompt-definition.js';
 import { DataForSEOClient } from '../../client/dataforseo.client.js';
 import { GoogleShoppingSerpTool } from './tools/google-shopping-serp.tool.js';
 import { GoogleShoppingPaidTool } from './tools/google-shopping-paid.tool.js';
@@ -36,5 +37,9 @@ export class GoogleShoppingApiModule extends BaseModule {
         }
       }
     };
+  }
+
+  getPrompts(): Record<string, PromptDefinition> {
+    return {};
   }
 } 

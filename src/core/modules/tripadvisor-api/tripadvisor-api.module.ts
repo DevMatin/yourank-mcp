@@ -1,4 +1,5 @@
 import { BaseModule, ToolDefinition } from '../base.module.js';
+import { PromptDefinition } from '../prompt-definition.js';
 import * as ApiTools from './tools/index.js';
 
 export class TripadvisorApiModule extends BaseModule {
@@ -20,5 +21,9 @@ export class TripadvisorApiModule extends BaseModule {
         handler: (params: any) => tool.handle(params),
       },
     }), {});
+  }
+
+  getPrompts(): Record<string, PromptDefinition> {
+    return {};
   }
 }

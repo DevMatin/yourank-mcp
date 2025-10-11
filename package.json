@@ -1,18 +1,19 @@
 {
   "name": "dataforseo-mcp-server",
-  "version": "2.7.2",
-  "main": "build/main/index.js",
+  "version": "2.7.12",
+  "main": "build/main/main/index.js",
   "type": "module",
   "bin": {
-    "dataforseo-mcp-server": "./build/main/cli.js"
+    "dataforseo-mcp-server": "./build/main/main/cli.js"
   },
   "scripts": {
-    "build": "tsc -p config/tsconfig.json && node -e \"if (require('fs').existsSync('build/main/cli.js')) { require('fs').chmodSync('build/main/cli.js', '755'); }\"",
-    "start": "node build/main/index.js",
+    "build": "tsc && node -e \"require('fs').chmodSync('build/main/main/cli.js', '755')\"",
+    "start": "node build/main/main/index.js",
     "dev": "tsc --watch",
-    "http": "node build/main/index-http.js",
-    "sse": "node build/main/index-sse-http.js",
-    "cli": "node build/main/cli.js",
+    "prepare": "npm run build",
+    "http": "node build/main/main/index-http.js",
+    "sse": "node build/main/main/index-sse-http.js",
+    "cli": "node build/main/main/cli.js",
     "worker:prebuild": "node scripts/generate-worker-version.cjs && wrangler types ./src/worker/worker-configuration.d.ts",
     "worker:build": "npm run worker:prebuild && tsc --project tsconfig.worker.json",
     "worker:dev": "npm run worker:build && wrangler dev",
@@ -46,16 +47,16 @@
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.10.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@vercel/blob": "^0.24.0",
     "@modelcontextprotocol/sdk": "^1.4.0",
-    "@supabase/supabase-js": "^2.46.1",
     "agents": "^0.0.101",
-    "dotenv": "^17.2.1",
     "express": "^4.18.2",
     "wrangler": "^4.24.0",
-    "zod": "^3.23.8"
+    "zod": "^3.25.67",
+    "@vercel/blob": "^0.24.0",
+    "@supabase/supabase-js": "^2.46.1",
+    "dotenv": "^17.2.1"
   }
 }

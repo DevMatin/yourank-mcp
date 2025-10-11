@@ -1,24 +1,27 @@
 import { z } from 'zod';
 
-// Define available module names - Erweitert um alle 11 APIs
+// Define available module names - Update-Version + eigene Module
 export const AVAILABLE_MODULES = [
-  'SERP', 
-  'KEYWORDS_DATA', 
-  'ONPAGE', 
-  'DATAFORSEO_LABS', 
-  'BACKLINKS', 
-  'GOOGLE_BUSINESS',     // Getrennt: Google Business Data
-  'TRUSTPILOT',          // Getrennt: Trustpilot Reviews & Search
-  'TRIPADVISOR',         // Getrennt: TripAdvisor Business Data
-  'SOCIAL_MEDIA',        // Getrennt: Social Media APIs
-  'DOMAIN_ANALYTICS', 
-  'CONTENT_ANALYSIS',
-  'CONTENT_GENERATION',  // Neue API
-  'MERCHANT',            // Neue API
-  'GOOGLE_SHOPPING',     // Neue API
-  'AI_OPTIMIZATION',     // Neue API
-  'APP_DATA',            // App Data APIs
-  'QUEUE'                // Queue Management System
+  'AI_OPTIMIZATION',      // Update-Version
+  'SERP',                 // Update-Version
+  'KEYWORDS_DATA',        // Update-Version
+  'ONPAGE',               // Update-Version
+  'DATAFORSEO_LABS',      // Update-Version
+  'BACKLINKS',            // Update-Version
+  'BUSINESS_DATA',        // Update-Version (nur Listings)
+  'DOMAIN_ANALYTICS',     // Update-Version
+  'CONTENT_ANALYSIS',     // Update-Version
+  
+  // Eigene Module beibehalten:
+  'CONTENT_GENERATION',
+  'MERCHANT',
+  'GOOGLE_SHOPPING',
+  'APP_DATA',
+  'QUEUE',
+  'GOOGLE_BUSINESS',
+  'TRUSTPILOT',
+  'TRIPADVISOR',
+  'SOCIAL_MEDIA'
 ] as const;
 export type ModuleName = typeof AVAILABLE_MODULES[number];
 
