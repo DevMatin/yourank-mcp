@@ -15,7 +15,8 @@ export class DataForSEOClient {
 
   async makeRequest<T>(endpoint: string, method: string = 'POST', body?: any, forceFull: boolean = false): Promise<T> {
     let url = `${this.config.baseUrl || "https://api.dataforseo.com"}${endpoint}`;    
-    if(!defaultGlobalToolConfig.fullResponse && !forceFull){
+    // Only add .ai suffix for specific endpoints that support it
+    if(!defaultGlobalToolConfig.fullResponse && !forceFull && this.shouldUseAiEndpoint(endpoint)){
       url += '.ai';
     }
     // Import version dynamically to avoid circular dependencies
@@ -39,6 +40,22 @@ export class DataForSEOClient {
     }
 
     return response.json();
+  }
+
+  private shouldUseAiEndpoint(endpoint: string): boolean {
+    // Define endpoints that support .ai suffix
+    const aiSupportedEndpoints = [
+      '/v3/serp/google/organic/live',
+      '/v3/serp/google/organic/live/advanced',
+      '/v3/serp/google/organic/live/html',
+      '/v3/serp/google/organic/live/regular',
+      '/v3/serp/google/live',
+      '/v3/serp/google/live/advanced',
+      '/v3/serp/google/live/html',
+      '/v3/serp/google/live/regular'
+    ];
+    
+    return aiSupportedEndpoints.some(aiEndpoint => endpoint.includes(aiEndpoint));
   }
 } 
 

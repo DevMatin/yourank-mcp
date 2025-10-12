@@ -22,21 +22,34 @@ optional field
 in format "Country"
 example:
 United Kingdom`),
-              language_code: z.string().nullable().default(null).describe(`Language two-letter ISO code (e.g., 'en').
+      language_code: z.string().nullable().default(null).describe(`Language two-letter ISO code (e.g., 'en').
 optional field`),
-      keywords: z.array(z.string()).describe("Array of keywords to get search volume for"),
+      keywords: z.array(z.string()).min(1).describe("Array of keywords to get search volume for. Must contain at least one keyword."),
     };
   }
 
   async handle(params: any): Promise<any> {
     try {
-      const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/google_ads/search_volume/live', 'POST', [{
+      // Validate required parameters
+      if (!params.keywords || !Array.isArray(params.keywords) || params.keywords.length === 0) {
+        throw new Error('keywords field is required and must be a non-empty array of strings');
+      }
+
+      // Log the parameters being sent to DataForSEO for debugging
+      console.error('GoogleAdsSearchVolumeTool - Parameters:', JSON.stringify(params, null, 2));
+      
+      const requestPayload = [{
         location_name: params.location_name,
         language_code: params.language_code,
         keywords: params.keywords,
-      }]);
+      }];
+      
+      console.error('GoogleAdsSearchVolumeTool - DataForSEO payload:', JSON.stringify(requestPayload, null, 2));
+      
+      const response = await this.dataForSEOClient.makeRequest('/v3/keywords_data/google_ads/search_volume/live', 'POST', requestPayload);
       return this.validateAndFormatResponse(response);
     } catch (error) {
+      console.error('GoogleAdsSearchVolumeTool - Error:', error);
       return this.formatErrorResponse(error);
     }
   }
