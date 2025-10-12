@@ -1151,6 +1151,48 @@ async function handleMcpRequest(req, res) {
         const { method, params } = req.body;
         console.log('🔧 MCP Request:', { method, params });
 
+        // Handle MCP protocol methods
+        if (method === 'initialize') {
+            return res.json({
+                jsonrpc: "2.0",
+                result: {
+                    protocolVersion: "2024-11-05",
+                    capabilities: {
+                        tools: {},
+                        prompts: {}
+                    },
+                    serverInfo: {
+                        name: "dataforseo-mcp-server",
+                        version: "2.7.12"
+                    }
+                },
+                id: req.body.id
+            });
+        }
+
+        if (method === 'tools/list') {
+            const allTools = [
+                ...Object.keys(SERP_ENDPOINTS).map(name => ({ name, description: `SERP API: ${name}` })),
+                ...Object.keys(KEYWORDS_DATA_ENDPOINTS).map(name => ({ name, description: `Keywords Data API: ${name}` })),
+                ...Object.keys(ONPAGE_ENDPOINTS).map(name => ({ name, description: `On-Page API: ${name}` })),
+                ...Object.keys(BACKLINKS_ENDPOINTS).map(name => ({ name, description: `Backlinks API: ${name}` })),
+                ...Object.keys(BUSINESS_DATA_ENDPOINTS).map(name => ({ name, description: `Business Data API: ${name}` })),
+                ...Object.keys(CONTENT_ANALYSIS_ENDPOINTS).map(name => ({ name, description: `Content Analysis API: ${name}` })),
+                ...Object.keys(CONTENT_GENERATION_ENDPOINTS).map(name => ({ name, description: `Content Generation API: ${name}` })),
+                ...Object.keys(DOMAIN_ANALYTICS_ENDPOINTS).map(name => ({ name, description: `Domain Analytics API: ${name}` })),
+                ...Object.keys(MERCHANT_ENDPOINTS).map(name => ({ name, description: `Merchant API: ${name}` })),
+                ...Object.keys(AI_OPTIMIZATION_ENDPOINTS).map(name => ({ name, description: `AI Optimization API: ${name}` }))
+            ];
+
+            return res.json({
+                jsonrpc: "2.0",
+                result: {
+                    tools: allTools
+                },
+                id: req.body.id
+            });
+        }
+
         // Check if it's a tools/call request OR direct API method call
         if (method === 'tools/call' && params?.name) {
             const apiName = params.name;
