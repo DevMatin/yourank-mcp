@@ -656,7 +656,7 @@ const KEYWORDS_DATA_ENDPOINTS = {
     'keywords_data_errors': '/v3/keywords_data/errors',
 
     // Google Keywords Tools (corrected URLs)
-    'keywords_data_google_ads_search_volume': '/v3/keywords_data/google/search_volume/live',
+    'keywords_data_google_ads_search_volume': '/v3/keywords_data/google_ads/search_volume/live',
     'keywords_data_google_ads_status': '/v3/keywords_data/google/status',
     'keywords_data_google_ads_locations': '/v3/keywords_data/google/locations',
     'keywords_data_google_ads_languages': '/v3/keywords_data/google/languages',
@@ -1443,9 +1443,8 @@ async function handleMcpRequest(req, res) {
                         limit: arguments_.limit || 100
                     }];
                 } else if (apiName.includes('keywords_data_')) {
-                    // Keywords Data APIs
+                    // Keywords Data APIs - Array-Format für DataForSEO
                     requestData = [{
-                        ...baseParams,
                         location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
                         language_code: arguments_.language_code || 'de',
                         keywords: arguments_.keywords,
