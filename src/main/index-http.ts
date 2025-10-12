@@ -98,7 +98,9 @@ async function main() {
 
       await server.connect(transport);
       console.error('handle request');
-      await transport.handleRequest(req , res, req.body);
+      // Extract parameters from JSON-RPC request body
+      const requestParams = req.body.params?.arguments || req.body.params || req.body;
+      await transport.handleRequest(req , res, requestParams);
       console.error('end handle request');
       req.on('close', () => {
         console.error('Request closed');

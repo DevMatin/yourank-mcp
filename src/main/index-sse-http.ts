@@ -182,7 +182,9 @@ const handleMcpRequest = async (req: Request, res: Response) => {
 
       await server.connect(transport);
       console.error('handle request');
-      await transport.handleRequest(req , res, req.body);
+      // Extract parameters from JSON-RPC request body
+      const requestParams = req.body.params?.arguments || req.body.params || req.body;
+      await transport.handleRequest(req , res, requestParams);
       console.error('end handle request');
       req.on('close', () => {
         console.error('Request closed');
@@ -329,7 +331,9 @@ app.post("/messages", basicAuth, async (req: Request, res: Response) => {
   // Update last activity timestamp
   transportData.lastActivity = Date.now();
   
-  await transportData.transport.handlePostMessage(req, res, req.body);
+  // Extract parameters from JSON-RPC request body
+  const requestParams = req.body.params?.arguments || req.body.params || req.body;
+  await transportData.transport.handlePostMessage(req, res, requestParams);
 });
 
 // Start the server
