@@ -155,7 +155,7 @@ const handleMcpRequest = async (req: Request, res: Response) => {
       
     // Handle credentials
       if (!req.username && !req.password) {
-        const envUsername = process.env.DATAFORSEO_USERNAME;
+        const envUsername = process.env.DATAFORSEO_LOGIN || process.env.DATAFORSEO_USERNAME;
         const envPassword = process.env.DATAFORSEO_PASSWORD;
         if (!envUsername || !envPassword) {
           console.error('No DataForSEO credentials provided');
@@ -236,7 +236,7 @@ app.get('/sse', basicAuth, async (req: Request, res: Response) => {
 
   // Handle credentials
   if (!req.username && !req.password) {
-    const envUsername = process.env.DATAFORSEO_USERNAME;
+    const envUsername = process.env.DATAFORSEO_LOGIN || process.env.DATAFORSEO_USERNAME;
     const envPassword = process.env.DATAFORSEO_PASSWORD;
     
     if (!envUsername || !envPassword) {
@@ -290,7 +290,7 @@ app.post("/messages", basicAuth, async (req: Request, res: Response) => {
   
   // Handle credentials
   if (!req.username && !req.password) {
-    const envUsername = process.env.DATAFORSEO_USERNAME;
+    const envUsername = process.env.DATAFORSEO_LOGIN || process.env.DATAFORSEO_USERNAME;
     const envPassword = process.env.DATAFORSEO_PASSWORD;
     
     if (!envUsername || !envPassword) {

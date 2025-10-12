@@ -8,7 +8,7 @@ initializeFieldConfiguration();
 console.error('Starting DataForSEO MCP Server...');
 console.error(`Server name: ${name}, version: ${version}`);
 
-const server = initMcpServer(process.env.DATAFORSEO_USERNAME, process.env.DATAFORSEO_PASSWORD);
+const server = initMcpServer(process.env.DATAFORSEO_LOGIN || process.env.DATAFORSEO_USERNAME, process.env.DATAFORSEO_PASSWORD);
 
 async function main() {
   const transport = new StdioServerTransport(); 

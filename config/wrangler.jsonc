@@ -7,6 +7,7 @@
   "compatibility_flags": ["nodejs_compat"],
   "minify": true,
   "vars": {
+    "DATAFORSEO_LOGIN": "YOUR_LOGIN",
     "DATAFORSEO_USERNAME": "YOUR_LOGIN",
     "DATAFORSEO_PASSWORD": "YOUR_PASSWORD",
     "ENABLED_MODULES": null,

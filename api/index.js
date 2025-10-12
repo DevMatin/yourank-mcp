@@ -24,7 +24,7 @@ async function uploadToBlobAndMeta(prefix, body, meta) {
 }
 
 // DataForSEO Configuration
-const DATAFORSEO_USERNAME = process.env.DATAFORSEO_USERNAME || 'marcos.gonzalez@you-rank.de';
+const DATAFORSEO_USERNAME = process.env.DATAFORSEO_LOGIN || process.env.DATAFORSEO_USERNAME || 'marcos.gonzalez@you-rank.de';
 const DATAFORSEO_PASSWORD = process.env.DATAFORSEO_PASSWORD || '23778ba164190549';
 const DATAFORSEO_BASE_URL = 'https://api.dataforseo.com';
 

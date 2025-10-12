@@ -3,6 +3,7 @@
 // Runtime types generated with workerd@1.20250705.0 2025-07-05 nodejs_compat
 declare namespace Cloudflare {
 	interface Env {
+		DATAFORSEO_LOGIN: "YOUR_LOGIN";
 		DATAFORSEO_USERNAME: "YOUR_LOGIN";
 		DATAFORSEO_PASSWORD: "YOUR_PASSWORD";
 		ENABLED_MODULES: null;
@@ -15,7 +16,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "DATAFORSEO_USERNAME" | "DATAFORSEO_PASSWORD" | "ENABLED_MODULES" | "DATAFORSEO_FULL_RESPONSE">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "DATAFORSEO_LOGIN" | "DATAFORSEO_USERNAME" | "DATAFORSEO_PASSWORD" | "ENABLED_MODULES" | "DATAFORSEO_FULL_RESPONSE">> {}
 }
 
 // Begin runtime types
