@@ -24,10 +24,30 @@ if (isNodeEnvironment) {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
 
-    const packageJsonPath = path.resolve(__dirname, '../../../../package.json');
+    // Try multiple possible locations for package.json
+    const possiblePaths = [
+      path.resolve(process.cwd(), 'package.json'), // Current working directory
+      path.resolve(__dirname, '../../../../package.json'), // Original relative path
+      path.resolve(__dirname, '../../../package.json'), // Alternative relative path
+      path.resolve(__dirname, '../../package.json'), // Another alternative
+      path.resolve(__dirname, '../package.json'), // Closer alternative
+    ];
+
+    let packageJsonPath: string | null = null;
+    for (const possiblePath of possiblePaths) {
+      if (fs.existsSync(possiblePath)) {
+        packageJsonPath = possiblePath;
+        break;
+      }
+    }
+
+    if (packageJsonPath) {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-    packageVersion = packageJson.version || packageVersion;
-    packageName = packageJson.name || packageName;
+      packageVersion = packageJson.version || packageVersion;
+      packageName = packageJson.name || packageName;
+    } else {
+      console.warn('Could not find package.json in any expected location, using default version');
+    }
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.warn('Could not read package.json, using default version:', errorMessage);
