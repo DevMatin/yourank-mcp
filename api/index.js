@@ -1410,6 +1410,16 @@ async function handleMcpRequest(req, res) {
                         search_partners: arguments_.search_partners,
                         limit: arguments_.limit || 100
                     }];
+                } else if (apiName === 'on_page_lighthouse') {
+                    // OnPage Lighthouse API
+                    endpoint = '/v3/on_page/lighthouse/live/json';
+                    requestData = [{
+                        url: arguments_.url,
+                        enable_javascript: arguments_.enable_javascript || true,
+                        custom_js: arguments_.custom_js,
+                        custom_user_agent: arguments_.custom_user_agent,
+                        accept_language: arguments_.accept_language || 'de-DE'
+                    }];
                 } else {
                     // SERP, Content Analysis, OnPage, Backlinks APIs (Standard)
                     const standardParams = {

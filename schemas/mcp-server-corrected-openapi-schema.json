@@ -1,0 +1,169 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MCP Server Gateway",
+    "description": "Gateway zu allen DataForSEO-APIs über MCP Server. Bietet Zugriff auf 200+ Tools: SERP-Analyse, Keyword-Recherche, OnPage-SEO, Backlink-Analyse, Domain-Analytics, Business-Data, Content-Analyse, Content-Generation, Merchant-APIs und AI-Optimization.",
+    "version": "1.0.0",
+    "server": "https://yourank-mcp.vercel.app"
+  },
+  "servers": [
+    {
+      "url": "https://yourank-mcp.vercel.app"
+    }
+  ],
+  "paths": {
+    "/mcp": {
+      "post": {
+        "operationId": "callMcpTool",
+        "summary": "Rufe MCP-Server Tool auf",
+        "description": "Führt einen Tool-Aufruf auf dem MCP-Server aus über JSON-RPC 2.0 Protokoll. KRITISCH: Du MUSST immer das 'arguments' Objekt mitgeben! Verfügbare Tool-Kategorien: SERP (serp_organic_live_advanced, serp_youtube_organic_live_advanced), Keywords (keywords_data_google_ads_search_volume, keywords_data_bing_search_volume), OnPage (on_page_instant_pages, on_page_lighthouse, on_page_content_parsing), Backlinks (backlinks_summary, backlinks_history), Domain Analytics (domain_analytics_technologies_domain_technologies, domain_analytics_whois), Business Data (business_data_google_my_business_info_live), Content Analysis (content_analysis_search), Content Generation (content_generation_generate_text), Merchant (merchant_google_sellers_task_post, merchant_amazon_products_task_post), AI Optimization (ai_optimization_keyword_data_search_volume).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "enum": ["2.0"],
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (immer 2.0)"
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": ["tools/call"],
+                    "default": "tools/call",
+                    "description": "MCP Methode für Tool-Aufrufe"
+                  },
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Tool-Name. Beispiele: keywords_data_google_ads_search_volume (Keyword-Suchvolumen), serp_organic_live_advanced (Google SERP), on_page_lighthouse (Lighthouse-Analyse), backlinks_summary (Backlink-Übersicht), domain_analytics_technologies_domain_technologies (Website-Technologien), business_data_google_my_business_info_live (Google Business Profil)"
+                      },
+                      "arguments": {
+                        "type": "object",
+                        "description": "KRITISCH: Dieses Objekt ist PFLICHT! Tool-spezifische Parameter. Standard-Parameter für Deutschland: location_name: 'Germany', language_code: 'de'. Beispiele: Für Keyword-Recherche: {keywords: ['SEO', 'Marketing'], location_name: 'Germany', language_code: 'de'}. Für SERP: {keyword: 'seo agentur', location_name: 'Germany', language_code: 'de'}. Für OnPage: {url: 'https://example.com'}. Für Keyword-Suchvolumen: {keywords: ['Kaffee', 'Kaffeemaschine'], location_name: 'Germany', language_code: 'de'}. Der MCP-Server validiert alle Argumente automatisch."
+                      }
+                    },
+                    "required": ["name", "arguments"]
+                  },
+                  "id": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Request-ID für JSON-RPC"
+                  }
+                },
+                "required": ["jsonrpc", "method", "params", "id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erfolgreiche MCP-Tool-Antwort im JSON-RPC 2.0 Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string",
+                      "description": "JSON-RPC Version"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "description": "Array mit Tool-Ergebnissen",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "description": "Content-Typ (meist 'text')"
+                              },
+                              "text": {
+                                "type": "string",
+                                "description": "JSON-String mit DataForSEO-Ergebnissen"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "number",
+                      "description": "Request-ID"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Anfrage oder Tool-Parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "number"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server-Fehler",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "number"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
