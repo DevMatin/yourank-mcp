@@ -83,7 +83,7 @@ function getServer(username: string | undefined, password: string | undefined): 
   console.error('DataForSEO client initialized');
   
   // Parse enabled modules from environment
-  const enabledModules = EnabledModulesSchema.parse(process.env.ENABLED_MODULES);
+  const enabledModules = EnabledModulesSchema.parse(process.env.ENABLED_MODULES || '');
   
   // Initialize modules
   const modules: BaseModule[] = ModuleLoaderService.loadModules(dataForSEOClient, enabledModules);
@@ -377,3 +377,6 @@ process.on('SIGINT', async () => {
   console.log('Server shutdown complete');
   process.exit(0);
 });
+
+// Export for Vercel
+export default app;

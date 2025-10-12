@@ -993,9 +993,9 @@ const SERP_ENDPOINTS = {
     // Google SERP Tools - Organic
     'serp_google_locations': '/v3/serp/google/locations',
     'serp_google_languages': '/v3/serp/google/languages',
-    'serp_google_organic_live': '/v3/serp/google/organic/live',
-    'serp_google_organic_live_advanced': '/v3/serp/google/organic/live/advanced',
-    'serp_google_organic_live_html': '/v3/serp/google/organic/live/html',
+    'serp_google_organic_live': '/v3/serp/google/organic/task_post',
+    'serp_google_organic_live_advanced': '/v3/serp/google/organic/task_post',
+    'serp_google_organic_live_html': '/v3/serp/google/organic/task_post',
     'serp_google_organic_task_post': '/v3/serp/google/organic/task_post',
     'serp_google_organic_tasks_ready': '/v3/serp/google/organic/tasks_ready',
     'serp_google_organic_task_get_advanced': '/v3/serp/google/organic/task_get/advanced',
@@ -1381,6 +1381,15 @@ async function handleMcpRequest(req, res) {
                     } else {
                         endpoint = '/v3/business_data/id_list'; // Default
                     }
+                } else if (apiName === 'serp_google_organic_live') {
+                    // Enhanced SERP Google Organic Live with automatic task workflow
+                    if (arguments_.task_id) {
+                        // If task_id provided, get results
+                        endpoint = `/v3/serp/google/organic/task_get/regular/${arguments_.task_id}`;
+                    } else {
+                        // Create new task
+                        endpoint = '/v3/serp/google/organic/task_post';
+                    }
                 } else if (ALL_ENDPOINTS[apiName]) {
                     // Use ALL_ENDPOINTS mapping for known APIs
                     endpoint = ALL_ENDPOINTS[apiName];
@@ -1462,6 +1471,46 @@ async function handleMcpRequest(req, res) {
                         custom_user_agent: arguments_.custom_user_agent,
                         accept_language: arguments_.accept_language || 'de-DE'
                     }];
+                } else if (apiName === 'serp_google_organic_live') {
+                    // Enhanced SERP Google Organic Live parameters
+                    if (arguments_.task_id) {
+                        // Task get request - no additional parameters needed
+                        requestData = null;
+                    } else {
+                        // Task post request - enhanced SERP parameters
+                        const serpParams = {
+                            keyword: arguments_.keyword,
+                            location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
+                            language_code: arguments_.language_code || 'de',
+                            depth: arguments_.depth || 20,
+                            max_crawl_pages: arguments_.max_crawl_pages || 1,
+                            device: arguments_.device || 'desktop',
+                            people_also_ask_click_depth: arguments_.people_also_ask_click_depth || 0,
+                            limit: arguments_.limit || 100,
+                            location_code: arguments_.location_code || 2276,
+                            se_domain: arguments_.se_domain,
+                            se_type: arguments_.se_type,
+                            calculate_rectangles: arguments_.calculate_rectangles || false,
+                            // Browser simulation parameters
+                            browser_language: arguments_.browser_language || 'de',
+                            browser_timezone: arguments_.browser_timezone || 'Europe/Berlin',
+                            browser_accept_language: arguments_.browser_accept_language || 'de-DE,de;q=0.9,en;q=0.8',
+                            browser_user_agent: arguments_.browser_user_agent || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                            browser_platform: arguments_.browser_platform || 'Windows',
+                            browser_javascript: arguments_.browser_javascript !== false,
+                            browser_images: arguments_.browser_images !== false,
+                            browser_css: arguments_.browser_css !== false,
+                            // Advanced parameters
+                            browser_screen_width: arguments_.browser_screen_width || 1920,
+                            browser_screen_height: arguments_.browser_screen_height || 1080,
+                            browser_window_width: arguments_.browser_window_width || 1280,
+                            browser_window_height: arguments_.browser_window_height || 720,
+                            browser_connection_type: arguments_.browser_connection_type || 'broadband',
+                            browser_cookie: arguments_.browser_cookie,
+                            browser_http_referer: arguments_.browser_http_referer
+                        };
+                        requestData = [serpParams];
+                    }
                 } else {
                     // SERP, Content Analysis, OnPage, Backlinks APIs (Standard)
                     const standardParams = {
