@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataForSEO MCP Server</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+        .status {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .endpoints {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .endpoint {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            font-family: monospace;
+        }
+        .method {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        .method.post { background: #2196F3; }
+        .method.get { background: #4CAF50; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 DataForSEO MCP Server</h1>
+        
+        <div class="status">
+            <h2>✅ Server Status: Online</h2>
+            <p>Der DataForSEO MCP Server läuft erfolgreich auf Vercel!</p>
+        </div>
+
+        <div class="endpoints">
+            <h2>🔌 Verfügbare Endpoints</h2>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/mcp</strong> - Hauptendpoint für MCP-Requests
+            </div>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/http</strong> - Alternative für MCP-Requests
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <strong>/sse</strong> - Legacy SSE-Endpoint
+            </div>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/messages</strong> - Legacy Messages-Endpoint
+            </div>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/v3/*</strong> - DataForSEO API-Endpoints
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <strong>/api/blob/proxy</strong> - Blob-Proxy für Ergebnisse
+            </div>
+        </div>
+
+        <div class="status">
+            <h2>📊 Verfügbare Tools</h2>
+            <p>233 DataForSEO APIs für SEO-Analysen, Keyword-Recherche, Backlink-Analyse und mehr.</p>
+        </div>
+
+        <div class="endpoints">
+            <h2>🔧 Integration</h2>
+            <p><strong>Custom GPT URL:</strong> <code>https://yourank-mcp.vercel.app/mcp</code></p>
+            <p><strong>Method:</strong> POST</p>
+            <p><strong>Content-Type:</strong> application/json</p>
+        </div>
+    </div>
+</body>
+</html>
