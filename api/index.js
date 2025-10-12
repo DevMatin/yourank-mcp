@@ -2598,6 +2598,24 @@ app.get('/', (req, res) => {
 app.post('/http', handleMcpRequest);
 app.post('/mcp', handleMcpRequest);
 
+// SSE endpoints for legacy compatibility
+app.get('/sse', async (req, res) => {
+    res.status(200).json({
+        jsonrpc: "2.0",
+        result: {
+            message: "SSE endpoint available. Use POST /messages for requests.",
+            endpoints: ['/http', '/mcp', '/messages']
+        },
+        id: null
+    });
+});
+
+app.post('/messages', async (req, res) => {
+    // Forward to MCP handler
+    req.url = '/mcp';
+    return handleMcpRequest(req, res);
+});
+
 // Blob Proxy: Liefert öffentliche Vercel Blob URLs über die eigene Domain aus
 app.get('/api/blob/proxy', async (req, res) => {
     try {

@@ -1,15 +1,38 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "src/main/index-sse-http.ts",
-      "use": "@vercel/node"
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs20.x"
     }
-  ],
+  },
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/src/main/index-sse-http.ts"
+      "src": "/mcp",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/http", 
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/sse",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/messages",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/v3/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/api/blob/proxy",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/api/cron/cleanup-blobs",
+      "dest": "/api/cron/cleanup-blobs.js"
     }
   ],
   "crons": [
