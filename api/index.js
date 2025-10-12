@@ -1485,7 +1485,7 @@ async function handleMcpRequest(req, res) {
                             depth: arguments_.depth || 20,
                             max_crawl_pages: arguments_.max_crawl_pages || 1,
                             device: arguments_.device || 'desktop',
-                            people_also_ask_click_depth: arguments_.people_also_ask_click_depth || 0,
+                            // people_also_ask_click_depth: arguments_.people_also_ask_click_depth || 0, // Removed - invalid parameter
                             limit: arguments_.limit || 100,
                             location_code: arguments_.location_code || 2276,
                             se_domain: arguments_.se_domain,
@@ -1520,7 +1520,7 @@ async function handleMcpRequest(req, res) {
                         depth: arguments_.depth || 20,
                         max_crawl_pages: arguments_.max_crawl_pages || 1,
                         device: arguments_.device || 'desktop',
-                        people_also_ask_click_depth: arguments_.people_also_ask_click_depth,
+                        // people_also_ask_click_depth: arguments_.people_also_ask_click_depth, // Removed - invalid parameter
                         limit: arguments_.limit || 100,
                         query: arguments_.query,
                         content: arguments_.content,
