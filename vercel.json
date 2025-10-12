@@ -1,31 +1,25 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "src/main/index-sse-http.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/cron/cleanup-blobs.js",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
       "src": "/mcp",
-      "dest": "/src/main/index-sse-http.ts"
+      "dest": "/api/index.js"
     },
     {
       "src": "/http", 
-      "dest": "/src/main/index-sse-http.ts"
+      "dest": "/api/index.js"
     },
     {
       "src": "/sse",
-      "dest": "/src/main/index-sse-http.ts"
+      "dest": "/api/index.js"
     },
     {
       "src": "/messages",
-      "dest": "/src/main/index-sse-http.ts"
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/v3/(.*)",
+      "dest": "/api/index.js"
     },
     {
       "src": "/api/blob/proxy",
