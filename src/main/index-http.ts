@@ -100,6 +100,8 @@ async function main() {
       console.error('handle request');
       // Extract parameters from JSON-RPC request body
       const requestParams = req.body.params?.arguments || req.body.params || req.body;
+      console.error('Original req.body:', JSON.stringify(req.body, null, 2));
+      console.error('Extracted requestParams:', JSON.stringify(requestParams, null, 2));
       await transport.handleRequest(req , res, requestParams);
       console.error('end handle request');
       req.on('close', () => {

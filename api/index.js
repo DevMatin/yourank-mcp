@@ -1444,6 +1444,7 @@ async function handleMcpRequest(req, res) {
                     }];
                 } else if (apiName.includes('keywords_data_')) {
                     // Keywords Data APIs - Array-Format für DataForSEO
+                    console.log('🔧 Keywords Data API Arguments:', JSON.stringify(arguments_, null, 2));
                     requestData = [{
                         location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
                         language_code: arguments_.language_code || 'de',
@@ -1451,6 +1452,7 @@ async function handleMcpRequest(req, res) {
                         site: arguments_.site,
                         limit: arguments_.limit || 100
                     }];
+                    console.log('🔧 Keywords Data API Request Data:', JSON.stringify(requestData, null, 2));
                 } else if (apiName.includes('business_data_')) {
                     // Business Data APIs  
                     requestData = [{
