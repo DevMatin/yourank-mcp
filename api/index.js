@@ -639,9 +639,9 @@ const DOMAIN_ANALYTICS_ENDPOINTS = {
     'domain_analytics_technologies_stats_live': '/v3/domain_analytics/technologies/stats/live',
     'domain_analytics_technologies_domains_by_technology_live': '/v3/domain_analytics/technologies/domains_by_technology/live',
     'domain_analytics_technologies_domains_by_html_terms_live': '/v3/domain_analytics/technologies/domains_by_html_terms/live',
-    'domain_analytics_technologies_domain_technologies_live': '/v3/domain_analytics/technologies/technologies_summary/live',
-    'domain_analytics_technologies_domain_technologies': '/v3/domain_analytics/technologies/technologies_summary/live',
-    'domain_technologies': '/v3/domain_analytics/technologies/technologies_summary/live',
+    'domain_analytics_technologies_domain_technologies_live': '/v3/domain_analytics/technologies/domain_technologies/live',
+    'domain_analytics_technologies_domain_technologies': '/v3/domain_analytics/technologies/domain_technologies/live',
+    'domain_technologies': '/v3/domain_analytics/technologies/domain_technologies/live',
     'domain_technologies_filters': '/v3/domain_analytics/technologies/available_filters',
 
     // WHOIS Tools
@@ -1435,21 +1435,10 @@ async function handleMcpRequest(req, res) {
                         Object.entries(merchantParams).filter(([key, value]) => value !== undefined)
                     )];
                 } else if (apiName.includes('domain_analytics_') || apiName.includes('domain_technologies')) {
-                    // Domain Analytics APIs - minimal Parameter-Set für Domain Technologies
-                    const domainAnalyticsParams = {
+                    // Domain Analytics APIs - korrekte Parameter-Struktur für domain_technologies
+                    requestData = [{
                         domain: arguments_.domain || arguments_.target
-                    };
-                    
-                    // Zusätzliche Parameter nur hinzufügen wenn sie explizit gesetzt sind
-                    if (arguments_.technology) domainAnalyticsParams.technology = arguments_.technology;
-                    if (arguments_.html_terms) domainAnalyticsParams.html_terms = arguments_.html_terms;
-                    if (arguments_.limit) domainAnalyticsParams.limit = arguments_.limit;
-                    if (arguments_.location_name || arguments_.location) {
-                        domainAnalyticsParams.location_name = normalizeLocationName(arguments_.location_name || arguments_.location);
-                    }
-                    if (arguments_.language_code) domainAnalyticsParams.language_code = arguments_.language_code;
-                    
-                    requestData = [domainAnalyticsParams];
+                    }];
                 } else if (apiName.includes('keywords_data_')) {
                     // Keywords Data APIs - Array-Format für DataForSEO
                     console.log('🔧 Keywords Data API Arguments:', JSON.stringify(arguments_, null, 2));
