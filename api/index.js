@@ -1435,9 +1435,8 @@ async function handleMcpRequest(req, res) {
                         Object.entries(merchantParams).filter(([key, value]) => value !== undefined)
                     )];
                 } else if (apiName.includes('domain_analytics_') || apiName.includes('domain_technologies')) {
-                    // Domain Analytics APIs
+                    // Domain Analytics APIs - nur domain Parameter, kein target!
                     requestData = [{
-                        target: arguments_.target || arguments_.domain,
                         domain: arguments_.domain || arguments_.target,
                         technology: arguments_.technology,
                         html_terms: arguments_.html_terms,
