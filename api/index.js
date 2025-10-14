@@ -640,6 +640,7 @@ const DOMAIN_ANALYTICS_ENDPOINTS = {
     'domain_analytics_technologies_domains_by_technology_live': '/v3/domain_analytics/technologies/domains_by_technology/live',
     'domain_analytics_technologies_domains_by_html_terms_live': '/v3/domain_analytics/technologies/domains_by_html_terms/live',
     'domain_analytics_technologies_domain_technologies_live': '/v3/domain_analytics/technologies/domain_technologies/live',
+    'domain_analytics_technologies_domain_technologies': '/v3/domain_analytics/technologies/domain_technologies/live',
     'domain_technologies': '/v3/domain_analytics/technologies/domain_technologies/live',
     'domain_technologies_filters': '/v3/domain_analytics/technologies/available_filters',
 
