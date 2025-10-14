@@ -5405,7 +5405,9 @@ app.all('/v3/*', async (req, res) => {
             apiPath.includes('/ad_url/') ||
             apiPath.includes('/models') ||
             apiPath.includes('/id_list') ||
-            apiPath.includes('/errors');
+            apiPath.includes('/errors') ||
+            apiPath.includes('/domain_analytics/technologies/technologies') ||
+            apiPath.includes('/domain_analytics/technologies/domain_technologies');
 
         const httpMethod = isGetEndpoint ? 'GET' : 'POST';
 
