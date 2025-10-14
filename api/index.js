@@ -1435,20 +1435,21 @@ async function handleMcpRequest(req, res) {
                         Object.entries(merchantParams).filter(([key, value]) => value !== undefined)
                     )];
                 } else if (apiName.includes('domain_analytics_') || apiName.includes('domain_technologies')) {
-                    // Domain Analytics APIs - nur domain Parameter, kein target!
+                    // Domain Analytics APIs - minimal Parameter-Set für Domain Technologies
                     const domainAnalyticsParams = {
-                        domain: arguments_.domain || arguments_.target,
-                        technology: arguments_.technology,
-                        html_terms: arguments_.html_terms,
-                        limit: arguments_.limit || 100,
-                        location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
-                        language_code: arguments_.language_code || 'de'
+                        domain: arguments_.domain || arguments_.target
                     };
                     
-                    // Nur definierte Parameter senden (undefined entfernen)
-                    requestData = [Object.fromEntries(
-                        Object.entries(domainAnalyticsParams).filter(([key, value]) => value !== undefined)
-                    )];
+                    // Zusätzliche Parameter nur hinzufügen wenn sie explizit gesetzt sind
+                    if (arguments_.technology) domainAnalyticsParams.technology = arguments_.technology;
+                    if (arguments_.html_terms) domainAnalyticsParams.html_terms = arguments_.html_terms;
+                    if (arguments_.limit) domainAnalyticsParams.limit = arguments_.limit;
+                    if (arguments_.location_name || arguments_.location) {
+                        domainAnalyticsParams.location_name = normalizeLocationName(arguments_.location_name || arguments_.location);
+                    }
+                    if (arguments_.language_code) domainAnalyticsParams.language_code = arguments_.language_code;
+                    
+                    requestData = [domainAnalyticsParams];
                 } else if (apiName.includes('keywords_data_')) {
                     // Keywords Data APIs - Array-Format für DataForSEO
                     console.log('🔧 Keywords Data API Arguments:', JSON.stringify(arguments_, null, 2));
