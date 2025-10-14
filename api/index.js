@@ -1512,6 +1512,27 @@ async function handleMcpRequest(req, res) {
                         };
                         requestData = [serpParams];
                     }
+                } else if (apiName.includes('content_generation_')) {
+                    // Content Generation APIs - verschiedene Parameter je nach Endpoint
+                    const contentGenParams = {
+                        ...baseParams,
+                        location_name: normalizeLocationName(arguments_.location_name || arguments_.location),
+                        language_code: arguments_.language_code || 'de',
+                        word_count: arguments_.word_count,
+                        tone: arguments_.tone,
+                        limit: arguments_.limit || 100
+                    };
+                    
+                    // Unterscheide zwischen verschiedenen Content Generation Endpoints
+                    if (apiName.includes('generate_text')) {
+                        // generate_text verwendet 'topic' Parameter
+                        contentGenParams.topic = arguments_.text || arguments_.topic;
+                    } else {
+                        // generate verwendet 'text' Parameter
+                        contentGenParams.text = arguments_.text || arguments_.topic;
+                    }
+                    
+                    requestData = [contentGenParams];
                 } else {
                     // SERP, Content Analysis, OnPage, Backlinks APIs (Standard)
                     const standardParams = {
